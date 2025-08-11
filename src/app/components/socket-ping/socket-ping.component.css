@@ -1,0 +1,9 @@
+input {
+  padding: 8px;
+  margin-right: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
