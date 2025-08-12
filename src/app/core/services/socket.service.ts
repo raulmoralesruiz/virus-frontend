@@ -8,10 +8,20 @@ export class SocketService {
   connected = signal(false);
 
   connect() {
-    if (!this.socket) {
-      this.socket = io(environment.socketUrl);
-      this.socket.on('connect', () => this.connected.set(true));
-      this.socket.on('disconnect', () => this.connected.set(false));
+    console.log('Connecting to socket server...');
+
+    if (!this.socket || !this.socket.connected) {
+      this.socket = io(environment.socketUrl, { transports: ['websocket'] });
+
+      this.socket.on('connect', () => {
+        this.connected.set(true);
+        console.log('Connected to socket server');
+      });
+
+      this.socket.on('disconnect', () => {
+        this.connected.set(false);
+        console.log('Disconnected from socket server');
+      });
     }
   }
 
@@ -22,4 +32,8 @@ export class SocketService {
   on = (event: string, callback: (data: any) => void) => {
     this.socket.on(event, callback);
   };
+
+  disconnect() {
+    this.socket.disconnect();
+  }
 }
