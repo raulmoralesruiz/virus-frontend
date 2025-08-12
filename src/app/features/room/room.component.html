@@ -1,0 +1,10 @@
+@if (room()) {
+<h2>Sala: {{ room()?.name }}</h2>
+<ul>
+  @for (player of room()?.players; track player.id) {
+  <li>{{ player.name }}</li>
+  }
+</ul>
+} @else {
+<p>No estás en ninguna sala</p>
+}

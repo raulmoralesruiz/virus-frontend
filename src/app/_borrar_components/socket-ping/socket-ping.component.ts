@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { SocketService } from '../../services/socket.service';
+import { SocketService } from '../../_borrar_services/socket.service';
 
 @Component({
   selector: 'socket-ping',
