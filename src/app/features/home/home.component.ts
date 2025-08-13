@@ -21,11 +21,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.socketService.connect();
+    // this.playerService.loadPlayerFromStorage();
   }
 
   setName(name: string) {
     if (!name.trim()) return;
-    this.playerService.setPlayer(name);
+    this.playerService.createPlayer(name);
     this.router.navigate(['/room-list']);
   }
 }

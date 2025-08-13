@@ -4,6 +4,7 @@ import { RoomService } from '../../core/services/room.service';
 import { PlayerService } from '../../core/services/player.service';
 import { Room } from '../../core/models/room.model';
 import { SocketService } from '../../core/services/socket.service';
+import { Player } from '../../core/models/player.model';
 
 @Component({
   selector: 'app-room-list',
@@ -13,6 +14,7 @@ import { SocketService } from '../../core/services/socket.service';
 })
 export class RoomListComponent {
   rooms!: Signal<Room[]>;
+  player: Signal<Player | null>;
 
   constructor(
     private roomService: RoomService,
@@ -20,25 +22,35 @@ export class RoomListComponent {
     private router: Router,
     private socketService: SocketService
   ) {
-    this.rooms = this.roomService.rooms;
-
     if (!this.socketService.connected()) {
       console.warn('⚠️ No conectado, redirigiendo al Home');
       this.router.navigate(['/']);
     }
+
+    this.rooms = this.roomService.roomList;
+    this.player = this.playerService.player;
   }
 
-  createRoom(name: string) {
-    const player = this.playerService.player();
-    if (!player || !name.trim()) return;
-    this.roomService.createRoom(name, player);
+  createRoom() {
+    if (!this.player()) return;
+    this.roomService.createRoom(this.player()!);
     this.router.navigate(['/room']);
   }
 
   joinRoom(roomId: string) {
-    const player = this.playerService.player();
-    if (!player) return;
-    this.roomService.joinRoom(roomId, player);
+    if (!this.player()) return;
+    this.roomService.joinRoom(roomId, this.player()!);
     this.router.navigate(['/room']);
   }
+
+  // createRoom() {
+  //   if (!this.player()) return;
+  //   this.roomService.createRoom();
+  // }
+
+  // joinRoom(roomId: string) {
+  //   if (!this.player()) return;
+  //   this.roomService.joinRoom(roomId, this.player()!);
+  //   this.router.navigate(['/room']);
+  // }
 }

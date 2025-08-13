@@ -1,7 +1,8 @@
-<h2>Salas disponibles</h2>
+<h2>Jugador: {{ player()?.name }}</h2>
 
-<input #roomName type="text" placeholder="Nombre de sala" />
-<button (click)="createRoom(roomName.value)">Crear sala</button>
+<h2>Salas disponibles</h2>
+<!-- <input #roomName type="text" placeholder="Nombre de sala" /> -->
+<button (click)="createRoom()">Crear sala</button>
 
 @if (rooms().length > 0) {
 <ul>
