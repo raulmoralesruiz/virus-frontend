@@ -1,7 +1,7 @@
-@if (room()) {
-<h2>Sala: {{ room()?.name }}</h2>
+@if (room) {
+<h2>{{ room.name }}</h2>
 <ul>
-  @for (player of room()?.players; track player.id) {
+  @for (player of room.players; track player.id) {
   <li>{{ player.name }}</li>
   }
 </ul>

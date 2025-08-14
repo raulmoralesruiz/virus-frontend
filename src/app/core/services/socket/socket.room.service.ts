@@ -1,11 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { Player } from '../models/player.model';
-import { Room } from '../models/room.model';
+import { Player } from '../../models/player.model';
+import { Room } from '../../models/room.model';
 import { SocketService } from './socket.service';
-import { ROOM_CONSTANTS } from '../constants/room.constants';
+import { ROOM_CONSTANTS } from '../../constants/room.constants';
 
 @Injectable({ providedIn: 'root' })
-export class RoomService {
+export class SocketRoomService {
   roomList = signal<Room[]>([]);
   currentRoom = signal<Room | null>(null);
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PlayerService } from '../../core/services/player.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocketService } from '../../core/services/socket.service';
+import { ApiPlayerService } from '../../core/services/api/api.player.service';
+import { Player } from '../../core/models/player.model';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +11,33 @@ import { SocketService } from '../../core/services/socket.service';
   imports: [],
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    private socketService: SocketService,
-    private playerService: PlayerService,
-    private router: Router
-  ) {
-    // this.socketService.connect();
-  }
+  private apiPlayerService = inject(ApiPlayerService);
+  private router = inject(Router);
 
   ngOnInit() {
-    this.socketService.connect();
-    // this.playerService.loadPlayerFromStorage();
+    const player = this.apiPlayerService.player();
+    if (player) {
+      this.redirectRoomList(player);
+    }
   }
 
   setName(name: string) {
-    if (!name.trim()) return;
-    this.playerService.createPlayer(name);
-    this.router.navigate(['/room-list']);
+    if (!name) return;
+
+    this.apiPlayerService.createPlayer(name).subscribe({
+      next: () => {
+        this.router.navigate(['/room-list']);
+      },
+      error: (err) => {
+        console.error('Error al crear jugador', err);
+      },
+    });
+  }
+
+  redirectRoomList(player: Player) {
+    this.apiPlayerService.getPlayer(player.id).subscribe({
+      next: () => this.router.navigate(['/room-list']),
+      error: () => localStorage.removeItem('player'),
+    });
   }
 }

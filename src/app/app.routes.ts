@@ -4,7 +4,9 @@ import { RoomListComponent } from './features/room-list/room-list.component';
 import { RoomComponent } from './features/room/room.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'room-list', component: RoomListComponent },
-  { path: 'room', component: RoomComponent },
+  // { path: 'room', component: RoomComponent },
+  { path: 'room/:id', component: RoomComponent }, // ruta para una sala concreta
+  { path: '**', redirectTo: 'home' },
 ];

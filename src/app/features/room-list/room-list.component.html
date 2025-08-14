@@ -1,12 +1,11 @@
 <h2>Jugador: {{ player()?.name }}</h2>
 
 <h2>Salas disponibles</h2>
-<!-- <input #roomName type="text" placeholder="Nombre de sala" /> -->
 <button (click)="createRoom()">Crear sala</button>
 
-@if (rooms().length > 0) {
+@if (roomList().length > 0) {
 <ul>
-  @for (room of rooms(); track room.id) {
+  @for (room of roomList(); track room.id) {
   <li>
     {{ room.name }} ({{ room.players.length }} jugadores)
     <button (click)="joinRoom(room.id)">Unirse</button>
