@@ -1,20 +1,31 @@
 // src/app/core/services/room-store.service.ts
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, effect, inject, signal } from '@angular/core';
 import { Room } from '../models/room.model';
 import { Player } from '../models/player.model';
 import { ApiRoomService } from './api/api.room.service';
 import { SocketRoomService } from './socket/socket.room.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class RoomStoreService {
   private api = inject(ApiRoomService);
   private socket = inject(SocketRoomService);
+  private router = inject(Router);
 
   rooms = signal<Room[]>([]);
   currentRoom = signal<Room | null>(null);
 
+  // this.router.navigate(['/room', roomId]);
+
   constructor() {
     this.listenSocketUpdates();
+
+    effect(() => {
+      const room = this.currentRoom();
+      if (room) {
+        this.router.navigate(['/room', room.id]);
+      }
+    });
   }
 
   private listenSocketUpdates() {
@@ -25,13 +36,19 @@ export class RoomStoreService {
     });
   }
 
-  init() {
+  getRooms() {
     // 1️⃣ Cargar desde API
     this.api.getRoomList();
     this.rooms.set(this.api.roomList());
 
     // 2️⃣ Pedir lista actualizada por WS
     this.socket.requestRoomsList();
+  }
+
+  loadRoomById(id: string) {
+    this.api.getRoomById(id).subscribe((room) => {
+      this.currentRoom.set(room);
+    });
   }
 
   createRoom(player: Player) {
