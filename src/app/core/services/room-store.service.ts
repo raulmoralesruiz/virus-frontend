@@ -15,8 +15,6 @@ export class RoomStoreService {
   rooms = signal<Room[]>([]);
   currentRoom = signal<Room | null>(null);
 
-  // this.router.navigate(['/room', roomId]);
-
   constructor() {
     this.listenSocketUpdates();
 

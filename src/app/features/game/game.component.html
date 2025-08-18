@@ -1,0 +1,26 @@
+<!-- Estado público de la partida -->
+@if (publicState()) {
+<h2>Partida</h2>
+<p>Iniciada: {{ publicState()?.startedAt }}</p>
+<p>
+  Mazo: {{ publicState()?.deckCount }} cartas | Descarte:
+  {{ publicState()?.discardCount }}
+</p>
+
+<h3>Jugadores</h3>
+<ul>
+  @for (p of publicState()?.players; track $index) {
+  <li>{{ p.playerId }} - {{ p.handCount }} cartas</li>
+  }
+</ul>
+}
+
+<!-- Mano privada -->
+@if (hand().length) {
+<h3>Tu mano</h3>
+<ul>
+  @for (card of hand(); track $index) {
+  <li>{{ card.kind }} - {{ card.color }}</li>
+  }
+</ul>
+}

@@ -1,10 +1,27 @@
-@if (room()) {
+<!-- @if (room()) {
 <h2>{{ room()!.name }}</h2>
 <ul>
   @for (player of room()!.players; track player.id) {
   <li>{{ player.name }}</li>
   }
 </ul>
+
+<h2>{{ room()!.name }} ({{ room()!.players.length }} jugadores)</h2>
+<button (click)="startGame()">Iniciar partida</button>
+} @else {
+<p>No estás en ninguna sala</p>
+
+} -->
+
+@if (room()) {
+<h2>{{ room()!.name }} ({{ room()!.players.length }} jugadores)</h2>
+<ul>
+  @for (player of room()!.players; track player.id) {
+  <li>{{ player.name }}</li>
+  }
+</ul>
+
+<button (click)="startGame()">Iniciar partida</button>
 } @else {
 <p>No estás en ninguna sala</p>
 }
