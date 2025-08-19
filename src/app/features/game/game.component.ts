@@ -1,7 +1,8 @@
 import { Component, OnInit, Signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
-import { Card, PublicGameState } from '../../core/models/game.model';
+import { Card } from '../../core/models/card.model';
+import { PublicGameState } from '../../core/models/game.model';
 
 @Component({
   selector: 'app-game',

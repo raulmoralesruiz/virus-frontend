@@ -1,34 +1,33 @@
-export enum CardKind {
-  Organ = 'organ',
-  Virus = 'virus',
-  Medicine = 'medicine',
-  Treatment = 'treatment',
-}
+import { Card } from './card.model';
+import { Player } from './player.model';
 
-export enum CardColor {
-  Red = 'red',
-  Green = 'green',
-  Blue = 'blue',
-  Yellow = 'yellow',
-  Multi = 'multi',
-}
-
-export interface Card {
-  id: string;
-  kind: CardKind;
-  color: CardColor;
+export interface PlayerState {
+  player: Player;
+  hand: Card[];
 }
 
 export interface PublicPlayerInfo {
-  playerId: string;
-  handCount: number;
-  organs?: any;
+  player: Player;
+  board: Card[]; // cartas visibles en mesa
+  handCount: number; // solo el número de cartas en mano, no cuáles son
 }
 
 export interface PublicGameState {
   roomId: string;
-  startedAt: string;
   discardCount: number;
   deckCount: number;
   players: PublicPlayerInfo[];
+  startedAt: string;
+}
+
+export interface GameState {
+  roomId: string;
+  deck: Card[];
+  discard: Card[];
+  players: PlayerState[]; // estado privado del servidor (mano real)
+  public: {
+    players: PublicPlayerInfo[]; // lo que ven todos
+  };
+  startedAt: string; // ISO string
+  // futuro: turno actual, fase, etc.
 }

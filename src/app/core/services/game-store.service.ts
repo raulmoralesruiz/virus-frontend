@@ -1,6 +1,5 @@
 import { Injectable, effect, inject } from '@angular/core';
 import { SocketGameService } from '../services/socket/socket.game.service';
-import { PublicGameState, Card } from '../models/game.model';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })

@@ -1,14 +1,12 @@
-// frontend/src/app/core/services/socket/socket.game.service.ts
 import { Injectable, signal, inject } from '@angular/core';
 import { SocketService } from './socket.service';
 import { GAME_CONSTANTS } from '../../constants/game.constants';
-import { PublicGameState, Card } from '../../models/game.model';
-import { Router } from '@angular/router';
+import { Card } from '../../models/card.model';
+import { PublicGameState } from '../../models/game.model';
 
 @Injectable({ providedIn: 'root' })
 export class SocketGameService {
   private socketService = inject(SocketService);
-  // private router = inject(Router);
 
   publicState = signal<PublicGameState | null>(null);
   hand = signal<Card[]>([]);
@@ -23,9 +21,6 @@ export class SocketGameService {
       (state: PublicGameState) => {
         console.log('[SocketGameService] GAME_STARTED', state);
         this.publicState.set(state);
-
-        // // 🚀 Navegamos a la pantalla de la partida
-        // this.router.navigate(['/game', state.roomId]);
       }
     );
 
