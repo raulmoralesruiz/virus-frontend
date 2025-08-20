@@ -19,8 +19,12 @@
 @if (hand()) {
 <h3>Tu mano: {{ hand().length }} cartas</h3>
 <ul>
-  @for (card of hand(); track $index) {
-  <li>{{ card.kind }} - {{ card.color }}</li>
+  @for (card of hand(); track card.id) {
+  <li>
+    {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment') { ({{
+      card.subtype
+    }}) }
+  </li>
   }
 </ul>
 }
