@@ -3,10 +3,12 @@ import { SocketService } from './socket.service';
 import { GAME_CONSTANTS } from '../../constants/game.constants';
 import { Card } from '../../models/card.model';
 import { PublicGameState } from '../../models/game.model';
+import { ApiPlayerService } from '../api/api.player.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketGameService {
   private socketService = inject(SocketService);
+  private apiPlayerService = inject(ApiPlayerService);
 
   publicState = signal<PublicGameState | null>(null);
   hand = signal<Card[]>([]);
@@ -16,6 +18,7 @@ export class SocketGameService {
   }
 
   private registerListeners() {
+    // 🔔 Partida iniciada
     this.socketService.on(
       GAME_CONSTANTS.GAME_STARTED,
       (state: PublicGameState) => {
@@ -24,14 +27,23 @@ export class SocketGameService {
       }
     );
 
+    // 🃏 Mano privada
     this.socketService.on(
       GAME_CONSTANTS.GAME_HAND,
       (data: { roomId: string; playerId: string; hand: Card[] }) => {
         console.log('[SocketGameService] GAME_HAND', data);
-        this.hand.set(data.hand);
+        // this.hand.set(data.hand);
+        const myId = this.apiPlayerService.player()?.id;
+        if (myId && data.playerId === myId) {
+          console.log('[SocketGameService] ✅ Actualizando mi mano', data.hand);
+          this.hand.set(data.hand);
+        } else {
+          console.log('[SocketGameService] ❌ Ignorando mano que no es mía');
+        }
       }
     );
 
+    // 🔄 Estado público en cualquier momento
     this.socketService.on(
       GAME_CONSTANTS.GAME_STATE,
       (state: PublicGameState) => {

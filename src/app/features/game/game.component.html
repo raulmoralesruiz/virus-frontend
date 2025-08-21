@@ -1,7 +1,7 @@
 <!-- Estado público de la partida -->
 @if (publicState()) {
 <h2>Partida</h2>
-<p>Iniciada: {{ publicState()?.startedAt }}</p>
+<p>Iniciada: {{ publicState()?.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
 <p>
   Mazo: {{ publicState()?.deckCount }} cartas | Descarte:
   {{ publicState()?.discardCount }} cartas

@@ -20,12 +20,24 @@ export class SocketService {
     this.socket.on('connect', () => {
       this.connected.set(true);
       console.log('✅ Connected to socket server');
+      this.identifyIfPlayer();
     });
 
     this.socket.on('disconnect', () => {
       this.connected.set(false);
       console.log('❌ Disconnected from socket server');
     });
+  }
+
+  private identifyIfPlayer() {
+    try {
+      const raw = localStorage.getItem('player');
+      if (!raw) return;
+      const p = JSON.parse(raw);
+      if (p?.id) {
+        this.emit('player:identify', { playerId: p.id });
+      }
+    } catch {}
   }
 
   emit(event: string, data?: any) {

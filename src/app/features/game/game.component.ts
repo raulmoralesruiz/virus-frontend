@@ -3,9 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-game',
+  imports: [DatePipe],
   standalone: true,
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
