@@ -2,10 +2,8 @@
 @if (publicState()) {
 <h2>Partida</h2>
 <p>Iniciada: {{ publicState()?.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
-<p>
-  Mazo: {{ publicState()?.deckCount }} cartas | Descarte:
-  {{ publicState()?.discardCount }} cartas
-</p>
+<p>Mazo: {{ publicState()?.deckCount }} cartas</p>
+<p>Descarte: {{ publicState()?.discardCount }} cartas</p>
 
 <h3>Jugadores</h3>
 <ul>
@@ -13,6 +11,13 @@
   <li>{{ p.player.name }} - {{ p.handCount }} cartas</li>
   }
 </ul>
+
+<button (click)="draw()">Robar carta</button>
+}
+
+<!-- Errores -->
+@if (lastError()) {
+<p class="error">⚠️ {{ lastError() }}</p>
 }
 
 <!-- Mano privada -->
@@ -27,4 +32,6 @@
   </li>
   }
 </ul>
+} @else {
+<p>Tu mano: 0 cartas</p>
 }

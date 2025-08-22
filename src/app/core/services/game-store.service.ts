@@ -9,9 +9,10 @@ export class GameStoreService {
 
   // Estado público de la partida (mazo, descarte, jugadores...)
   publicState = this.socketGame.publicState;
-
   // Mano privada del jugador
   hand = this.socketGame.hand;
+  // Info sobre errores
+  lastError = this.socketGame.lastError;
 
   constructor() {
     effect(() => {
@@ -34,5 +35,9 @@ export class GameStoreService {
    */
   getState(roomId: string) {
     this.socketGame.requestGameState(roomId);
+  }
+
+  drawCard(roomId: string) {
+    this.socketGame.drawCard(roomId);
   }
 }
