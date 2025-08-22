@@ -18,19 +18,30 @@ export class GameComponent implements OnInit {
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   hand: Signal<Card[]> = this.gameStore.hand;
+  lastError = this.gameStore.lastError;
+
+  roomId!: string;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
     if (!roomId) return;
 
+    this.roomId = roomId;
     // Pedimos el estado inicial de la partida
     this.gameStore.getState(roomId);
   }
 
   startGame() {
-    const roomId = this.route.snapshot.paramMap.get('id');
-    if (roomId) {
-      this.gameStore.startGame(roomId);
-    }
+    if (this.roomId) this.gameStore.startGame(this.roomId);
+  }
+  // startGame() {
+  //   const roomId = this.route.snapshot.paramMap.get('id');
+  //   if (roomId) {
+  //     this.gameStore.startGame(roomId);
+  //   }
+  // }
+
+  draw() {
+    if (this.roomId) this.gameStore.drawCard(this.roomId);
   }
 }

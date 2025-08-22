@@ -27,3 +27,10 @@ export interface Card {
   color: CardColor;
   subtype?: TreatmentSubtype; // Solo para Treatment
 }
+
+export type DeckConfigItem = {
+  kind: CardKind;
+  color: CardColor;
+  count: number;
+  subtype?: TreatmentSubtype;
+};

@@ -12,6 +12,7 @@ export class SocketGameService {
 
   publicState = signal<PublicGameState | null>(null);
   hand = signal<Card[]>([]);
+  lastError = signal<string | null>(null);
 
   constructor() {
     this.registerListeners();
@@ -51,6 +52,15 @@ export class SocketGameService {
         this.publicState.set(state);
       }
     );
+
+    // Mostrar posibles errores
+    this.socketService.on(
+      GAME_CONSTANTS.GAME_ERROR,
+      (e: { message: string }) => {
+        console.warn('[SocketGameService] GAME_ERROR', e);
+        this.lastError.set(e?.message ?? 'Error desconocido');
+      }
+    );
   }
 
   startGame(roomId: string) {
@@ -63,5 +73,9 @@ export class SocketGameService {
 
   requestGameState(roomId: string) {
     this.socketService.emit(GAME_CONSTANTS.GAME_GET_STATE, { roomId });
+  }
+
+  drawCard(roomId: string) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_DRAW, { roomId });
   }
 }
