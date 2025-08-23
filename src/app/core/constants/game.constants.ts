@@ -8,14 +8,7 @@ export const GAME_CONSTANTS = {
 
   GAME_DRAW: 'game:draw', // cliente solicita robar carta
   GAME_ERROR: 'game:error',
-} as const;
 
-// export const GAME_CONSTANTS = {
-//   GAME_CREATE: 'game:create',
-//   GAME_STARTED: 'game:started',
-//   GAME_STATE: 'game:state',
-//   GAME_DEAL: 'game:deal',
-//   GAME_DRAW: 'game:draw',
-//   GAME_PLAY_CARD: 'game:playCard',
-//   GAME_END: 'game:end',
-// } as const;
+  GAME_END_TURN: 'game:end-turn', // cliente → server
+  GAME_TURN_STARTED: 'game:turn-started', // (opcional) server → clientes; usamos GAME_STATE igualmente
+} as const;

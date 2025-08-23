@@ -59,15 +59,14 @@ export class SocketGameService {
       (e: { message: string }) => {
         console.warn('[SocketGameService] GAME_ERROR', e);
         this.lastError.set(e?.message ?? 'Error desconocido');
+
+        // Limpia el error tras unos segundos
+        setTimeout(() => this.lastError.set(null), 3000);
       }
     );
   }
 
   startGame(roomId: string) {
-    console.log(
-      `[SocketGameService] Emitting ${GAME_CONSTANTS.GAME_START}`,
-      roomId
-    );
     this.socketService.emit(GAME_CONSTANTS.GAME_START, { roomId });
   }
 
@@ -77,5 +76,9 @@ export class SocketGameService {
 
   drawCard(roomId: string) {
     this.socketService.emit(GAME_CONSTANTS.GAME_DRAW, { roomId });
+  }
+
+  endTurn(roomId: string) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_END_TURN, { roomId });
   }
 }

@@ -18,7 +18,10 @@ export class GameComponent implements OnInit {
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   hand: Signal<Card[]> = this.gameStore.hand;
+
   lastError = this.gameStore.lastError;
+  isMyTurn = this.gameStore.isMyTurn;
+  remainingSeconds = this.gameStore.remainingSeconds;
 
   roomId!: string;
 
@@ -34,14 +37,12 @@ export class GameComponent implements OnInit {
   startGame() {
     if (this.roomId) this.gameStore.startGame(this.roomId);
   }
-  // startGame() {
-  //   const roomId = this.route.snapshot.paramMap.get('id');
-  //   if (roomId) {
-  //     this.gameStore.startGame(roomId);
-  //   }
-  // }
 
   draw() {
     if (this.roomId) this.gameStore.drawCard(this.roomId);
+  }
+
+  endTurn() {
+    this.gameStore.endTurn(this.roomId);
   }
 }
