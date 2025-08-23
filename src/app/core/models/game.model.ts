@@ -18,6 +18,8 @@ export interface PublicGameState {
   deckCount: number;
   players: PublicPlayerInfo[];
   startedAt: string;
+  turnIndex: number;
+  turnDeadlineTs: number;
 }
 
 export interface GameState {
@@ -29,5 +31,4 @@ export interface GameState {
     players: PublicPlayerInfo[]; // lo que ven todos
   };
   startedAt: string; // ISO string
-  // futuro: turno actual, fase, etc.
 }

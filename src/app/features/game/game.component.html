@@ -1,18 +1,29 @@
 <!-- Estado público de la partida -->
-@if (publicState()) {
-<h2>Partida</h2>
-<p>Iniciada: {{ publicState()?.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
-<p>Mazo: {{ publicState()?.deckCount }} cartas</p>
-<p>Descarte: {{ publicState()?.discardCount }} cartas</p>
+@if (publicState(); as st) {
+<h2>Partida - Sala {{ st.roomId.substring(0, 6) }}</h2>
+<p>Iniciada: {{ st.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
+<p>Mazo: {{ st.deckCount }} cartas</p>
+<p>Descarte: {{ st.discardCount }} cartas</p>
+
+@let active = st.players[st.turnIndex];
+
+<h3>Turno</h3>
+<p>
+  Turno actual:
+  <strong>{{ active?.player?.name ?? "—" }}</strong>
+  (límite {{ st.turnDeadlineTs | date : "HH:mm:ss" }}) — quedan
+  {{ remainingSeconds() }}s
+</p>
 
 <h3>Jugadores</h3>
 <ul>
-  @for (p of publicState()?.players; track $index) {
+  @for (p of st.players; track p.player.id) {
   <li>{{ p.player.name }} - {{ p.handCount }} cartas</li>
   }
 </ul>
 
-<button (click)="draw()">Robar carta</button>
+<button (click)="draw()" [disabled]="!isMyTurn()">Robar carta</button>
+<button (click)="endTurn()" [disabled]="!isMyTurn()">Finalizar turno</button>
 }
 
 <!-- Errores -->
@@ -21,17 +32,16 @@
 }
 
 <!-- Mano privada -->
-@if (hand()) {
 <h3>Tu mano: {{ hand().length }} cartas</h3>
+@if (hand().length) {
 <ul>
   @for (card of hand(); track card.id) {
   <li>
-    {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment') { ({{
-      card.subtype
-    }}) }
+    {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
+    card.subtype) { ({{ card.subtype }}) }
   </li>
   }
 </ul>
 } @else {
-<p>Tu mano: 0 cartas</p>
+<p>Sin cartas</p>
 }
