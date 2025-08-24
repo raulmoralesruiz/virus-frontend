@@ -18,7 +18,20 @@
 <h3>Jugadores</h3>
 <ul>
   @for (p of st.players; track p.player.id) {
-  <li>{{ p.player.name }} - {{ p.handCount }} cartas</li>
+  <li>
+    <strong>{{ p.player.name }}</strong> - {{ p.handCount }} cartas en mano
+    <br />
+    Órganos en mesa: @if (p.board.length === 0) { — } @else {
+    <ul>
+      @for (card of p.board; track card.id) {
+      <li>
+        {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
+        card.subtype) { ({{ card.subtype }}) }
+      </li>
+      }
+    </ul>
+    }
+  </li>
   }
 </ul>
 
@@ -39,9 +52,38 @@
   <li>
     {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
     card.subtype) { ({{ card.subtype }}) }
+    <!-- <button (click)="playCard(card.id)" [disabled]="!isMyTurn()">Jugar</button> -->
+    <button (click)="selectCardToPlay(card)" [disabled]="!isMyTurn()">
+      Jugar
+    </button>
   </li>
   }
 </ul>
 } @else {
 <p>Sin cartas</p>
+}
+
+<!-- 🔽 UI para seleccionar objetivo si hace falta -->
+@if (selectedCard && isMyTurn()) {
+<div class="target-select">
+  <p>
+    Has seleccionado:
+    <strong>{{ selectedCard.kind }} - {{ selectedCard.color }}</strong>
+  </p>
+
+  @if (targetOptions.length) {
+  <label>Objetivo:</label>
+  <select (change)="onTargetChange($event)">
+    <option value="">-- Selecciona --</option>
+    @for (opt of targetOptions; track opt.organId) {
+    <option [value]="opt.organId + '|' + opt.playerId">
+      {{ opt.label }}
+    </option>
+    }
+  </select>
+  }
+
+  <button (click)="confirmPlayCard()">Confirmar</button>
+  <button (click)="selectedCard = null; selectedTarget = null">Cancelar</button>
+</div>
 }

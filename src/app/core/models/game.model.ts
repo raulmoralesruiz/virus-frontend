@@ -32,3 +32,8 @@ export interface GameState {
   };
   startedAt: string; // ISO string
 }
+
+export interface PlayCardTarget {
+  playerId: string;
+  organId: string;
+}

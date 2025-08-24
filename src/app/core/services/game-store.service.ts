@@ -72,4 +72,26 @@ export class GameStoreService {
   endTurn(roomId: string) {
     this.socketGame.endTurn(roomId);
   }
+
+  // playCard(roomId: string, playerId: string, cardId: string) {
+  //   this.socketGame.playCard(roomId, playerId, cardId);
+  // }
+  playCard(
+    roomId: string,
+    cardId: string,
+    target?: { playerId: string; organId: string }
+  ) {
+    const me = this.apiPlayer.player();
+    if (!me) {
+      console.warn('[GameStore] No player identificado');
+      return;
+    }
+
+    this.socketGame.playCard({
+      roomId,
+      playerId: me.id,
+      cardId,
+      target,
+    });
+  }
 }

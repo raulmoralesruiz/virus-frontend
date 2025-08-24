@@ -83,4 +83,21 @@ export class SocketGameService {
   endTurn(roomId: string) {
     this.socketService.emit(GAME_CONSTANTS.GAME_END_TURN, { roomId });
   }
+
+  // playCard(roomId: string, playerId: string, cardId: string) {
+  //   this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, {
+  //     roomId,
+  //     playerId,
+  //     cardId,
+  //   });
+  // }
+
+  playCard(payload: {
+    roomId: string;
+    playerId: string;
+    cardId: string;
+    target?: { playerId: string; organId: string };
+  }) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, payload);
+  }
 }
