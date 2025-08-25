@@ -1,14 +1,19 @@
 import { Component, OnInit, Signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
-import { Card } from '../../core/models/card.model';
-import { PlayCardTarget, PublicGameState } from '../../core/models/game.model';
-import { DatePipe } from '@angular/common';
+import { Card, CardColor } from '../../core/models/card.model';
+import {
+  OrganOnBoard,
+  PlayCardTarget,
+  PublicGameState,
+  PublicPlayerInfo,
+} from '../../core/models/game.model';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
 
 @Component({
   selector: 'app-game',
-  imports: [DatePipe],
+  imports: [DatePipe, TitleCasePipe],
   standalone: true,
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
@@ -16,6 +21,7 @@ import { ApiPlayerService } from '../../core/services/api/api.player.service';
 export class GameComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private gameStore = inject(GameStoreService);
+  private apiPlayer = inject(ApiPlayerService);
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   hand: Signal<Card[]> = this.gameStore.hand;
@@ -28,6 +34,8 @@ export class GameComponent implements OnInit {
   selectedCard: Card | null = null;
   targetOptions: { label: string; playerId: string; organId: string }[] = [];
   selectedTarget: PlayCardTarget | null = null;
+
+  cardColors = Object.values(CardColor);
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -50,6 +58,14 @@ export class GameComponent implements OnInit {
     this.gameStore.endTurn(this.roomId);
   }
 
+  // Helper para plantilla: obtener el órgano de un jugador por color
+  getOrganByColor(
+    p: PublicPlayerInfo,
+    color: CardColor
+  ): OrganOnBoard | undefined {
+    return p.board.find((o) => o.color === color);
+  }
+
   // Maneja el cambio del <select>
   onTargetChange(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
@@ -62,52 +78,52 @@ export class GameComponent implements OnInit {
   }
 
   selectCardToPlay(card: Card) {
-    if (card.kind === 'virus') {
-      const st = this.publicState();
-      if (!st) return;
+    this.selectedCard = card;
+    this.targetOptions = [];
 
-      this.targetOptions = [];
+    const st = this.publicState();
+    if (!st) return;
+
+    if (card.kind === 'virus' || card.kind === 'medicine') {
+      // construir lista de órganos posibles (de todos los jugadores)
       for (const p of st.players) {
-        for (const c of p.board) {
-          if (c.kind === 'organ') {
-            this.targetOptions.push({
-              label: `${p.player.name} · ${c.id}`,
-              playerId: p.player.id,
-              organId: c.id,
-            });
-          }
+        for (const o of p.board) {
+          this.targetOptions.push({
+            label: `${p.player.name} · ${o.color}`,
+            playerId: p.player.id,
+            organId: o.id,
+          });
         }
       }
-
-      if (this.targetOptions.length === 0) {
-        alert('No hay órganos a los que atacar');
-        return;
-      }
-
-      this.selectedCard = card;
-      this.selectedTarget = null; // aún no elegido
-    } else {
-      // órganos, medicinas...
-      this.playCard(card.id);
     }
   }
 
   confirmPlayCard() {
     if (!this.selectedCard) return;
+    console.log('➡️ confirmPlayCard', {
+      card: this.selectedCard,
+      target: this.selectedTarget,
+    });
 
-    if (this.selectedCard.kind === 'virus') {
-      if (!this.selectedTarget) {
-        alert('Debes seleccionar un objetivo');
-        return;
-      }
-      this.playCard(this.selectedCard.id, this.selectedTarget);
-    } else {
-      this.playCard(this.selectedCard.id);
+    const st = this.publicState();
+    const me = this.apiPlayer.player();
+    if (!st || !me) return;
+
+    if (
+      (this.selectedCard.kind === 'virus' ||
+        this.selectedCard.kind === 'medicine') &&
+      !this.selectedTarget
+    ) {
+      alert('Debes seleccionar un objetivo');
+      return;
     }
+
+    this.playCard(this.selectedCard.id, this.selectedTarget || undefined);
 
     // limpiar selección
     this.selectedCard = null;
     this.selectedTarget = null;
+    this.targetOptions = [];
   }
 
   playCard(cardId: string, target?: { playerId: string; organId: string }) {

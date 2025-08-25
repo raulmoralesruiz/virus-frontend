@@ -15,7 +15,7 @@
   {{ remainingSeconds() }}s
 </p>
 
-<h3>Jugadores</h3>
+<!-- <h3>Jugadores</h3>
 <ul>
   @for (p of st.players; track p.player.id) {
   <li>
@@ -33,7 +33,40 @@
     }
   </li>
   }
-</ul>
+</ul> -->
+<h3>Tablero</h3>
+<div class="players">
+  @for (p of st.players; track p.player.id) {
+  <div class="player">
+    <div class="player-header">
+      <strong>{{ p.player.name }}</strong>
+      <span class="handcount">{{ p.handCount }} en mano</span>
+    </div>
+
+    <div class="board-grid">
+      @for (color of cardColors; track color) {
+      <div class="board-slot">
+        @let organ = getOrganByColor(p, color); @if (organ) {
+        <div class="card organ {{ organ.color }}">
+          <div class="title">{{ organ.color | titlecase }}</div>
+
+          @if (organ.attached.length) {
+          <div class="attachments">
+            @for (a of organ.attached; track a.id) {
+            <span class="chip {{ a.kind }}">{{ a.kind }}</span>
+            }
+          </div>
+          }
+        </div>
+        } @else {
+        <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>
 
 <button (click)="draw()" [disabled]="!isMyTurn()">Robar carta</button>
 <button (click)="endTurn()" [disabled]="!isMyTurn()">Finalizar turno</button>
@@ -52,7 +85,6 @@
   <li>
     {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
     card.subtype) { ({{ card.subtype }}) }
-    <!-- <button (click)="playCard(card.id)" [disabled]="!isMyTurn()">Jugar</button> -->
     <button (click)="selectCardToPlay(card)" [disabled]="!isMyTurn()">
       Jugar
     </button>
