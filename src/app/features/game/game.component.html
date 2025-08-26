@@ -53,7 +53,7 @@
           @if (organ.attached.length) {
           <div class="attachments">
             @for (a of organ.attached; track a.id) {
-            <span class="chip {{ a.kind }}">{{ a.kind }}</span>
+            <span class="chip {{ a.kind }}">{{ a.kind }} - {{ a.color }}</span>
             }
           </div>
           }
