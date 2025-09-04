@@ -1,8 +1,14 @@
 import { Component, OnInit, Signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
-import { Card, CardColor } from '../../core/models/card.model';
 import {
+  Card,
+  CardColor,
+  CardKind,
+  TreatmentSubtype,
+} from '../../core/models/card.model';
+import {
+  AnyPlayTarget,
   OrganOnBoard,
   PlayCardTarget,
   PublicGameState,
@@ -34,8 +40,21 @@ export class GameComponent implements OnInit {
   selectedCard: Card | null = null;
   targetOptions: { label: string; playerId: string; organId: string }[] = [];
   selectedTarget: PlayCardTarget | null = null;
+  selectedTargetA: PlayCardTarget | null = null; // para transplant
+  selectedTargetB: PlayCardTarget | null = null; // para transplant
+
+  contagionAssignments: {
+    fromOrganId: string;
+    toOrganId: string;
+    toPlayerId: string;
+  }[] = [];
+  // test: ContagionTarget | null = null;
 
   cardColors = Object.values(CardColor);
+
+  // referencias públicas a los enums
+  CardKind = CardKind;
+  TreatmentSubtype = TreatmentSubtype;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -66,15 +85,33 @@ export class GameComponent implements OnInit {
     return p.board.find((o) => o.color === color);
   }
 
-  // Maneja el cambio del <select>
-  onTargetChange(event: Event) {
+  onTargetChange(event: Event, which: 'A' | 'B' | 'single' = 'single') {
     const value = (event.target as HTMLSelectElement).value;
     if (!value) {
-      this.selectedTarget = null;
+      if (which === 'A') this.selectedTargetA = null;
+      else if (which === 'B') this.selectedTargetB = null;
+      else this.selectedTarget = null;
+      return;
+    }
+
+    const [organId, playerId] = value.split('|');
+    const target = { organId, playerId };
+
+    if (which === 'A') this.selectedTargetA = target;
+    else if (which === 'B') this.selectedTargetB = target;
+    else this.selectedTarget = target;
+  }
+
+  onContagionTargetChange(event: Event, idx: number) {
+    const value = (event.target as HTMLSelectElement).value;
+    if (!value) {
+      this.contagionAssignments[idx].toOrganId = '';
+      this.contagionAssignments[idx].toPlayerId = '';
       return;
     }
     const [organId, playerId] = value.split('|');
-    this.selectedTarget = { organId, playerId };
+    this.contagionAssignments[idx].toOrganId = organId;
+    this.contagionAssignments[idx].toPlayerId = playerId;
   }
 
   selectCardToPlay(card: Card) {
@@ -84,8 +121,8 @@ export class GameComponent implements OnInit {
     const st = this.publicState();
     if (!st) return;
 
-    if (card.kind === 'virus' || card.kind === 'medicine') {
-      // construir lista de órganos posibles (de todos los jugadores)
+    if (card.kind === CardKind.Virus || card.kind === CardKind.Medicine) {
+      // órganos de todos
       for (const p of st.players) {
         for (const o of p.board) {
           this.targetOptions.push({
@@ -96,37 +133,144 @@ export class GameComponent implements OnInit {
         }
       }
     }
+
+    if (card.kind === CardKind.Treatment) {
+      switch (card.subtype) {
+        case TreatmentSubtype.Transplant:
+        case TreatmentSubtype.OrganThief:
+          for (const p of st.players) {
+            for (const o of p.board) {
+              this.targetOptions.push({
+                label: `${p.player.name} · ${o.color}`,
+                playerId: p.player.id,
+                organId: o.id,
+              });
+            }
+          }
+          break;
+
+        case TreatmentSubtype.MedicalError:
+          for (const p of st.players) {
+            if (p.player.id !== this.apiPlayer.player()?.id) {
+              this.targetOptions.push({
+                label: p.player.name,
+                playerId: p.player.id,
+                organId: '', // no aplica
+              });
+            }
+          }
+          break;
+
+        case TreatmentSubtype.Gloves:
+          // sin target
+          break;
+
+        case TreatmentSubtype.Contagion:
+          this.contagionAssignments = [];
+          const me = this.apiPlayer.player();
+          const self = st.players.find((p) => p.player.id === me?.id);
+          if (!self) return;
+
+          for (const o of self.board) {
+            const virusCount = o.attached.filter(
+              (a) => a.kind === 'virus'
+            ).length;
+            for (let i = 0; i < virusCount; i++) {
+              this.contagionAssignments.push({
+                fromOrganId: o.id,
+                toOrganId: '',
+                toPlayerId: '',
+              });
+            }
+          }
+          break;
+      }
+    }
   }
 
   confirmPlayCard() {
     if (!this.selectedCard) return;
-    console.log('➡️ confirmPlayCard', {
-      card: this.selectedCard,
-      target: this.selectedTarget,
-    });
 
     const st = this.publicState();
     const me = this.apiPlayer.player();
     if (!st || !me) return;
 
-    if (
-      (this.selectedCard.kind === 'virus' ||
-        this.selectedCard.kind === 'medicine') &&
-      !this.selectedTarget
+    let target: any = undefined;
+
+    if (this.selectedCard.kind === CardKind.Treatment) {
+      switch (this.selectedCard.subtype) {
+        case TreatmentSubtype.Transplant:
+          if (!this.selectedTargetA || !this.selectedTargetB) {
+            alert('Debes seleccionar 2 órganos para el trasplante');
+            return;
+          }
+          target = { a: this.selectedTargetA, b: this.selectedTargetB };
+          break;
+
+        case TreatmentSubtype.OrganThief:
+          if (!this.selectedTarget) {
+            alert('Debes seleccionar un órgano');
+            return;
+          }
+          target = this.selectedTarget;
+          break;
+
+        case TreatmentSubtype.MedicalError:
+          if (!this.selectedTarget) {
+            alert('Debes seleccionar un jugador');
+            return;
+          }
+          target = { playerId: this.selectedTarget.playerId };
+          break;
+
+        case TreatmentSubtype.Gloves:
+          // sin target
+          break;
+
+        case TreatmentSubtype.Contagion:
+          if (!this.contagionAssignments.length) {
+            alert('Debes seleccionar los contagios');
+            return;
+          }
+          this.gameStore.playCard(
+            st.roomId,
+            this.selectedCard.id,
+            this.contagionAssignments
+          );
+
+          // limpiar selección
+          this.selectedCard = null;
+          this.selectedTarget = null;
+          this.selectedTargetA = null;
+          this.selectedTargetB = null;
+          this.contagionAssignments = [];
+          this.targetOptions = [];
+          return;
+      }
+    } else if (
+      this.selectedCard.kind === CardKind.Virus ||
+      this.selectedCard.kind === CardKind.Medicine
     ) {
-      alert('Debes seleccionar un objetivo');
-      return;
+      if (!this.selectedTarget) {
+        alert('Debes seleccionar un órgano');
+        return;
+      }
+      target = this.selectedTarget;
     }
 
-    this.playCard(this.selectedCard.id, this.selectedTarget || undefined);
+    this.playCard(this.selectedCard.id, target);
 
     // limpiar selección
     this.selectedCard = null;
     this.selectedTarget = null;
+    this.selectedTargetA = null;
+    this.selectedTargetB = null;
     this.targetOptions = [];
+    this.contagionAssignments = [];
   }
 
-  playCard(cardId: string, target?: { playerId: string; organId: string }) {
+  // playCard(cardId: string, target?: { playerId: string; organId: string }) {
+  playCard(cardId: string, target?: AnyPlayTarget) {
     const st = this.publicState();
     if (!st) return;
 

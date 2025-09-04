@@ -2,7 +2,7 @@ import { Injectable, signal, inject } from '@angular/core';
 import { SocketService } from './socket.service';
 import { GAME_CONSTANTS } from '../../constants/game.constants';
 import { Card } from '../../models/card.model';
-import { PublicGameState } from '../../models/game.model';
+import { AnyPlayTarget, PublicGameState } from '../../models/game.model';
 import { ApiPlayerService } from '../api/api.player.service';
 
 @Injectable({ providedIn: 'root' })
@@ -84,19 +84,11 @@ export class SocketGameService {
     this.socketService.emit(GAME_CONSTANTS.GAME_END_TURN, { roomId });
   }
 
-  // playCard(roomId: string, playerId: string, cardId: string) {
-  //   this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, {
-  //     roomId,
-  //     playerId,
-  //     cardId,
-  //   });
-  // }
-
   playCard(payload: {
     roomId: string;
     playerId: string;
     cardId: string;
-    target?: { playerId: string; organId: string };
+    target?: AnyPlayTarget;
   }) {
     this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, payload);
   }
