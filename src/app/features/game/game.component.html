@@ -15,25 +15,39 @@
   {{ remainingSeconds() }}s
 </p>
 
-<h3>Jugadores</h3>
-<ul>
+<h3>Tablero</h3>
+<div class="players">
   @for (p of st.players; track p.player.id) {
-  <li>
-    <strong>{{ p.player.name }}</strong> - {{ p.handCount }} cartas en mano
-    <br />
-    Órganos en mesa: @if (p.board.length === 0) { — } @else {
-    <ul>
-      @for (card of p.board; track card.id) {
-      <li>
-        {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
-        card.subtype) { ({{ card.subtype }}) }
-      </li>
+  <div class="player">
+    <div class="player-header">
+      <strong>{{ p.player.name }}</strong>
+      <span class="handcount">{{ p.handCount }} en mano</span>
+    </div>
+
+    <div class="board-grid">
+      @for (color of cardColors; track color) {
+      <div class="board-slot">
+        @let organ = getOrganByColor(p, color); @if (organ) {
+        <div class="card organ {{ organ.color }}">
+          <div class="title">{{ organ.color | titlecase }}</div>
+
+          @if (organ.attached.length) {
+          <div class="attachments">
+            @for (a of organ.attached; track a.id) {
+            <span class="chip {{ a.kind }}">{{ a.kind }} - {{ a.color }}</span>
+            }
+          </div>
+          }
+        </div>
+        } @else {
+        <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
+        }
+      </div>
       }
-    </ul>
-    }
-  </li>
+    </div>
+  </div>
   }
-</ul>
+</div>
 
 <button (click)="draw()" [disabled]="!isMyTurn()">Robar carta</button>
 <button (click)="endTurn()" [disabled]="!isMyTurn()">Finalizar turno</button>
@@ -52,7 +66,6 @@
   <li>
     {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
     card.subtype) { ({{ card.subtype }}) }
-    <!-- <button (click)="playCard(card.id)" [disabled]="!isMyTurn()">Jugar</button> -->
     <button (click)="selectCardToPlay(card)" [disabled]="!isMyTurn()">
       Jugar
     </button>
@@ -68,22 +81,76 @@
 <div class="target-select">
   <p>
     Has seleccionado:
-    <strong>{{ selectedCard.kind }} - {{ selectedCard.color }}</strong>
+    <strong>
+      {{ selectedCard.kind }} - {{ selectedCard.color }} @if (selectedCard.kind
+      === CardKind.Treatment && selectedCard.subtype) { ({{
+        selectedCard.subtype
+      }}) }
+    </strong>
   </p>
 
-  @if (targetOptions.length) {
+  <!-- Transplante: dos selects -->
+  @if (selectedCard.kind === CardKind.Treatment && selectedCard.subtype ===
+  TreatmentSubtype.Transplant) {
+  <label>Órgano A:</label>
+  <select (change)="onTargetChange($event, 'A')">
+    <option value="">-- Selecciona --</option>
+    @for (opt of targetOptions; track opt.organId) {
+    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
+    }
+  </select>
+
+  <label>Órgano B:</label>
+  <select (change)="onTargetChange($event, 'B')">
+    <option value="">-- Selecciona --</option>
+    @for (opt of targetOptions; track opt.organId) {
+    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
+    }
+  </select>
+  }
+
+  <!-- Contagion: un select por cada virus trasladable -->
+  @if (selectedCard.kind === CardKind.Treatment && selectedCard.subtype ===
+  TreatmentSubtype.Contagion) {
+  <h4>Asigna cada virus a un órgano libre de otro jugador</h4>
+
+  @for (assignment of contagionAssignments; let i = $index; track i) {
+  <div class="contagion-assignment">
+    <label>Virus desde órgano {{ assignment.fromOrganId }} →</label>
+    <select (change)="onContagionTargetChange($event, i)">
+      <option value="">-- Selecciona destino --</option>
+      @for (p of publicState()?.players; track p.player.id) { @for (o of
+      p.board; track o.id) {
+      <!-- Mostrar solo órganos libres -->
+      @if (!o.attached.length) {
+      <option [value]="o.id + '|' + p.player.id">
+        {{ p.player.name }} · {{ o.color }}
+      </option>
+      } } }
+    </select>
+  </div>
+  } }
+
+  <!-- Otros casos (Virus, Medicina, Ladrón, Error Médico) -->
+  @if (targetOptions.length && !(selectedCard.kind === CardKind.Treatment &&
+  (selectedCard.subtype === TreatmentSubtype.Transplant || selectedCard.subtype
+  === TreatmentSubtype.Contagion))) {
   <label>Objetivo:</label>
   <select (change)="onTargetChange($event)">
     <option value="">-- Selecciona --</option>
     @for (opt of targetOptions; track opt.organId) {
-    <option [value]="opt.organId + '|' + opt.playerId">
-      {{ opt.label }}
-    </option>
+    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
     }
   </select>
   }
 
   <button (click)="confirmPlayCard()">Confirmar</button>
-  <button (click)="selectedCard = null; selectedTarget = null">Cancelar</button>
+  <button
+    (click)="
+      selectedCard = null; selectedTarget = null; contagionAssignments = []
+    "
+  >
+    Cancelar
+  </button>
 </div>
 }

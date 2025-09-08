@@ -1,4 +1,4 @@
-import { Card } from './card.model';
+import { Card, CardColor, CardKind } from './card.model';
 import { Player } from './player.model';
 
 export interface PlayerState {
@@ -8,7 +8,7 @@ export interface PlayerState {
 
 export interface PublicPlayerInfo {
   player: Player;
-  board: Card[]; // cartas visibles en mesa
+  board: OrganOnBoard[]; // cartas visibles en mesa
   handCount: number; // solo el número de cartas en mano, no cuáles son
 }
 
@@ -37,3 +37,32 @@ export interface PlayCardTarget {
   playerId: string;
   organId: string;
 }
+
+export interface TransplantTarget {
+  a: PlayCardTarget;
+  b: PlayCardTarget;
+}
+
+export interface OrganOnBoard {
+  id: string;
+  kind: CardKind.Organ;
+  color: CardColor;
+  attached: Card[]; // virus o medicinas colocadas encima
+}
+
+export interface ContagionTarget {
+  fromOrganId: string; // órgano infectado propio
+  toPlayerId: string; // jugador destino
+  toOrganId: string; // órgano destino
+}
+
+export interface MedicalErrorTarget {
+  playerId: string; // solo jugador
+}
+
+/** Unión de targets posibles que puede enviar el front */
+export type AnyPlayTarget =
+  | PlayCardTarget
+  | TransplantTarget
+  | MedicalErrorTarget
+  | ContagionTarget[];

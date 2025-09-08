@@ -2,6 +2,7 @@ import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { SocketGameService } from '../services/socket/socket.game.service';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from './api/api.player.service';
+import { AnyPlayTarget } from '../models/game.model';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
@@ -73,13 +74,12 @@ export class GameStoreService {
     this.socketGame.endTurn(roomId);
   }
 
-  // playCard(roomId: string, playerId: string, cardId: string) {
-  //   this.socketGame.playCard(roomId, playerId, cardId);
-  // }
+  // admitir target tipo ContagionTarget
   playCard(
     roomId: string,
     cardId: string,
-    target?: { playerId: string; organId: string }
+    target?: AnyPlayTarget
+    // target?: { playerId: string; organId: string }
   ) {
     const me = this.apiPlayer.player();
     if (!me) {
