@@ -40,3 +40,8 @@
 /* Chips por tipo */
 .chip.virus { border-color: #c00; }
 .chip.medicine { border-color: #0a0; }
+
+.selected-to-discard {
+  background: #ffe0e0;
+  border: 2px solid #d33;
+}

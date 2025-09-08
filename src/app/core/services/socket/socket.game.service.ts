@@ -92,4 +92,12 @@ export class SocketGameService {
   }) {
     this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, payload);
   }
+
+  discardCards(payload: {
+    roomId: string;
+    playerId: string;
+    cardIds: string[];
+  }) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_DISCARD, payload);
+  }
 }

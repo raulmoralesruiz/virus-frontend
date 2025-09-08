@@ -94,4 +94,15 @@ export class GameStoreService {
       target,
     });
   }
+
+  discardCards(roomId: string, cardIds: string[]) {
+    const me = this.apiPlayer.player();
+    if (!me) return;
+
+    this.socketGame.discardCards({
+      roomId,
+      playerId: me.id,
+      cardIds,
+    });
+  }
 }

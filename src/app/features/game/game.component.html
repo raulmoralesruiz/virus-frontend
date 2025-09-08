@@ -63,6 +63,38 @@
 @if (hand().length) {
 <ul>
   @for (card of hand(); track card.id) {
+  <li
+    [class.selected-to-discard]="selectedCardsToDiscard.includes(card)"
+    (click)="toggleDiscardSelection(card)"
+  >
+    {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
+    card.subtype) { ({{ card.subtype }}) }
+
+    <!-- Botón para jugar -->
+    <button
+      (click)="selectCardToPlay(card); $event.stopPropagation()"
+      [disabled]="!isMyTurn()"
+    >
+      Jugar
+    </button>
+  </li>
+  }
+</ul>
+
+<!-- Botón para descartar -->
+<button
+  (click)="discardSelectedCards()"
+  [disabled]="!isMyTurn() || selectedCardsToDiscard.length === 0"
+>
+  Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
+</button>
+} @else {
+<p>Sin cartas</p>
+}
+<!-- <h3>Tu mano: {{ hand().length }} cartas</h3>
+@if (hand().length) {
+<ul>
+  @for (card of hand(); track card.id) {
   <li>
     {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
     card.subtype) { ({{ card.subtype }}) }
@@ -74,7 +106,7 @@
 </ul>
 } @else {
 <p>Sin cartas</p>
-}
+} -->
 
 <!-- 🔽 UI para seleccionar objetivo si hace falta -->
 @if (selectedCard && isMyTurn()) {

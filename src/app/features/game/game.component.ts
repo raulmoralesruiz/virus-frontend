@@ -42,13 +42,13 @@ export class GameComponent implements OnInit {
   selectedTarget: PlayCardTarget | null = null;
   selectedTargetA: PlayCardTarget | null = null; // para transplant
   selectedTargetB: PlayCardTarget | null = null; // para transplant
+  selectedCardsToDiscard: Card[] = [];
 
   contagionAssignments: {
     fromOrganId: string;
     toOrganId: string;
     toPlayerId: string;
   }[] = [];
-  // test: ContagionTarget | null = null;
 
   cardColors = Object.values(CardColor);
 
@@ -269,12 +269,31 @@ export class GameComponent implements OnInit {
     this.contagionAssignments = [];
   }
 
-  // playCard(cardId: string, target?: { playerId: string; organId: string }) {
   playCard(cardId: string, target?: AnyPlayTarget) {
     const st = this.publicState();
     if (!st) return;
 
     // ✅ delegamos en store (ya se encarga de meter playerId)
     this.gameStore.playCard(st.roomId, cardId, target);
+  }
+
+  // marcar/desmarcar cartas
+  toggleDiscardSelection(card: Card) {
+    const idx = this.selectedCardsToDiscard.findIndex((c) => c.id === card.id);
+    if (idx >= 0) {
+      this.selectedCardsToDiscard.splice(idx, 1); // quitar
+    } else {
+      this.selectedCardsToDiscard.push(card); // añadir
+    }
+  }
+
+  // enviar a descarte
+  discardSelectedCards() {
+    if (!this.roomId || this.selectedCardsToDiscard.length === 0) return;
+    this.gameStore.discardCards(
+      this.roomId,
+      this.selectedCardsToDiscard.map((c) => c.id)
+    );
+    this.selectedCardsToDiscard = [];
   }
 }
