@@ -1,3 +1,14 @@
+@if (winner(); as w) {
+<div class="victory">
+  <h2>🏆 ¡Ganador!</h2>
+  <p>
+    El jugador <strong>{{ w.player.name }}</strong> ha completado su cuerpo.
+  </p>
+
+  <button (click)="resetGame()">Reiniciar partida</button>
+</div>
+}
+
 <!-- Estado público de la partida -->
 @if (publicState(); as st) {
 <h2>Partida - Sala {{ st.roomId.substring(0, 6) }}</h2>
@@ -5,8 +16,7 @@
 <p>Mazo: {{ st.deckCount }} cartas</p>
 <p>Descarte: {{ st.discardCount }} cartas</p>
 
-@let active = st.players[st.turnIndex];
-
+@let active = st.players[st.turnIndex]; @if (!isGameEnded()) {
 <h3>Turno</h3>
 <p>
   Turno actual:
@@ -14,6 +24,7 @@
   (límite {{ st.turnDeadlineTs | date : "HH:mm:ss" }}) — quedan
   {{ remainingSeconds() }}s
 </p>
+}
 
 <h3>Tablero</h3>
 <div class="players">
@@ -49,8 +60,12 @@
   }
 </div>
 
-<button (click)="draw()" [disabled]="!isMyTurn()">Robar carta</button>
-<button (click)="endTurn()" [disabled]="!isMyTurn()">Finalizar turno</button>
+<button (click)="draw()" [disabled]="!isMyTurn() || isGameEnded()">
+  Robar carta
+</button>
+<button (click)="endTurn()" [disabled]="!isMyTurn() || isGameEnded()">
+  Finalizar turno
+</button>
 }
 
 <!-- Errores -->
@@ -73,7 +88,7 @@
     <!-- Botón para jugar -->
     <button
       (click)="selectCardToPlay(card); $event.stopPropagation()"
-      [disabled]="!isMyTurn()"
+      [disabled]="!isMyTurn() || isGameEnded()"
     >
       Jugar
     </button>
@@ -84,29 +99,15 @@
 <!-- Botón para descartar -->
 <button
   (click)="discardSelectedCards()"
-  [disabled]="!isMyTurn() || selectedCardsToDiscard.length === 0"
+  [disabled]="
+    !isMyTurn() || selectedCardsToDiscard.length === 0 || isGameEnded()
+  "
 >
   Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
 </button>
 } @else {
 <p>Sin cartas</p>
 }
-<!-- <h3>Tu mano: {{ hand().length }} cartas</h3>
-@if (hand().length) {
-<ul>
-  @for (card of hand(); track card.id) {
-  <li>
-    {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
-    card.subtype) { ({{ card.subtype }}) }
-    <button (click)="selectCardToPlay(card)" [disabled]="!isMyTurn()">
-      Jugar
-    </button>
-  </li>
-  }
-</ul>
-} @else {
-<p>Sin cartas</p>
-} -->
 
 <!-- 🔽 UI para seleccionar objetivo si hace falta -->
 @if (selectedCard && isMyTurn()) {

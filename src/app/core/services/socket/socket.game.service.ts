@@ -2,7 +2,11 @@ import { Injectable, signal, inject } from '@angular/core';
 import { SocketService } from './socket.service';
 import { GAME_CONSTANTS } from '../../constants/game.constants';
 import { Card } from '../../models/card.model';
-import { AnyPlayTarget, PublicGameState } from '../../models/game.model';
+import {
+  AnyPlayTarget,
+  PublicGameState,
+  PublicPlayerInfo,
+} from '../../models/game.model';
 import { ApiPlayerService } from '../api/api.player.service';
 
 @Injectable({ providedIn: 'root' })
@@ -13,6 +17,7 @@ export class SocketGameService {
   publicState = signal<PublicGameState | null>(null);
   hand = signal<Card[]>([]);
   lastError = signal<string | null>(null);
+  winner = signal<PublicPlayerInfo | null>(null);
 
   constructor() {
     this.registerListeners();
@@ -25,6 +30,7 @@ export class SocketGameService {
       (state: PublicGameState) => {
         console.log('[SocketGameService] GAME_STARTED', state);
         this.publicState.set(state);
+        this.winner.set(null); // limpiar ganador de partida anterior
       }
     );
 
@@ -66,6 +72,25 @@ export class SocketGameService {
         setTimeout(() => this.lastError.set(null), 3000);
       }
     );
+
+    // 🏆 detectar fin de partida
+    this.socketService.on(
+      GAME_CONSTANTS.GAME_END,
+      (data: { roomId: string; winner: PublicPlayerInfo }) => {
+        this.winner.set(data.winner);
+        console.log('🏆 Partida terminada, ganador:', data.winner);
+      }
+    );
+
+    this.socketService.on(
+      GAME_CONSTANTS.ROOM_RESET,
+      (data: { roomId: string }) => {
+        console.log('[SocketGameService] ROOM_RESET', data);
+        this.publicState.set(null);
+        this.hand.set([]);
+        this.winner.set(null);
+      }
+    );
   }
 
   startGame(roomId: string) {
@@ -99,5 +124,12 @@ export class SocketGameService {
     cardIds: string[];
   }) {
     this.socketService.emit(GAME_CONSTANTS.GAME_DISCARD, payload);
+  }
+
+  resetRoom(roomId: string) {
+    this.socketService.emit(GAME_CONSTANTS.ROOM_RESET, { roomId });
+    this.winner.set(null);
+    this.publicState.set(null);
+    this.hand.set([]);
   }
 }

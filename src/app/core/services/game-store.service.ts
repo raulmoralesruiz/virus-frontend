@@ -38,6 +38,8 @@ export class GameStoreService {
     return Math.max(0, Math.ceil(leftMs / 1000));
   });
 
+  winner = this.socketGame.winner;
+
   constructor() {
     effect(() => {
       const state = this.publicState();
@@ -104,5 +106,9 @@ export class GameStoreService {
       playerId: me.id,
       cardIds,
     });
+  }
+
+  resetRoom(roomId: string) {
+    this.socketGame.resetRoom(roomId);
   }
 }

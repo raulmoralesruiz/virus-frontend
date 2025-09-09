@@ -56,6 +56,8 @@ export class GameComponent implements OnInit {
   CardKind = CardKind;
   TreatmentSubtype = TreatmentSubtype;
 
+  winner = this.gameStore.winner;
+
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
     if (!roomId) return;
@@ -295,5 +297,13 @@ export class GameComponent implements OnInit {
       this.selectedCardsToDiscard.map((c) => c.id)
     );
     this.selectedCardsToDiscard = [];
+  }
+
+  isGameEnded(): boolean {
+    return !!this.gameStore.winner();
+  }
+
+  resetGame() {
+    if (this.roomId) this.gameStore.resetRoom(this.roomId);
   }
 }
