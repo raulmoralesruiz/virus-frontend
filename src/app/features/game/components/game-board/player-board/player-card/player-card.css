@@ -1,0 +1,33 @@
+.card.organ {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Colores base - órgano en tablero */
+.red, .card.organ.red { background: #fc7a7aff; }
+.green, .card.organ.green { background: #8afe90ff; }
+.blue, .card.organ.blue { background: #7aa9ffff; }
+.yellow, .card.organ.yellow { background: #f7d06dff; }
+.multi, .card.organ.multi { background: #c085ffff; }
+
+.chip {
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 2px solid #ccc;
+  font-size: 12px;
+}
+
+/* Chips por tipo */
+.chip.virus { border-color: #c00; }
+.chip.medicine { border-color: #0a0; }
+
+.attachments {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+

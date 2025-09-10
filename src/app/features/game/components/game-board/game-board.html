@@ -1,0 +1,6 @@
+<h3>Tablero</h3>
+<div class="players">
+  @for (p of state.players; track p.player.id) {
+  <app-player-board [player]="p"></app-player-board>
+  }
+</div>

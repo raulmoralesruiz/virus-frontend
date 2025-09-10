@@ -111,4 +111,8 @@ export class GameStoreService {
   resetRoom(roomId: string) {
     this.socketGame.resetRoom(roomId);
   }
+
+  goHome() {
+    this.router.navigate(['/home']);
+  }
 }

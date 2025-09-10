@@ -1,0 +1,39 @@
+.player {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  /* background-color: green; */
+}
+
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  /* background-color: green; */
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
+  gap: 8px;
+  /* background-color: green; */
+}
+
+.board-slot {
+  min-height: 80px;
+  /* background-color: green; */
+}
+
+.slot-empty {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Colores base - órgano vacío */
+.slot-empty.red { background: #ffe5e5; }
+.slot-empty.green { background: #e9ffea; }
+.slot-empty.blue { background: #e8f0ff; }
+.slot-empty.yellow { background: #fff8e6; }
+.slot-empty.multi { background: #f3e8ff; }

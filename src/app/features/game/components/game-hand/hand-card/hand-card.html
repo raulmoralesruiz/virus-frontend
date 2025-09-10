@@ -1,0 +1,6 @@
+<li [class.selected-to-discard]="isSelected" (click)="onToggleSelect()">
+  {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
+  card.subtype) { ({{ card.subtype }}) }
+
+  <button (click)="onPlay($event)" [disabled]="!isMyTurn">Jugar</button>
+</li>

@@ -1,0 +1,61 @@
+.players { display: grid; gap: 1rem; }
+.player { border: 1px solid #ddd; border-radius: 8px; padding: 8px; }
+.player-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.board-slot { min-height: 80px; }
+
+.slot-empty,
+.card.organ {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.card.organ { border-style: solid; }
+.attachments { margin-top: 6px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.chip { padding: 2px 6px; border-radius: 999px; border: 1px solid #ccc; font-size: 12px; }
+
+/* Colores base - órgano vacío */
+.slot-empty.red, .card.organ.red { background: #ffe5e5; }
+.slot-empty.green, .card.organ.green { background: #e9ffea; }
+.slot-empty.blue, .card.organ.blue { background: #e8f0ff; }
+.slot-empty.yellow, .card.organ.yellow { background: #fff8e6; }
+.slot-empty.multi, .card.organ.multi { background: #f3e8ff; }
+
+/* Colores base - órgano en tableto */
+.red, .card.organ.red { background: #fc7a7aff; }
+.green, .card.organ.green { background: #8afe90ff; }
+.blue, .card.organ.blue { background: #7aa9ffff; }
+.yellow, .card.organ.yellow { background: #f7d06dff; }
+.multi, .card.organ.multi { background: #c085ffff; }
+
+
+/* Chips por tipo */
+.chip.virus { border-color: #c00; }
+.chip.medicine { border-color: #0a0; }
+
+.selected-to-discard {
+  background: #ffe0e0;
+  border: 2px solid #d33;
+}
+
+.victory {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 2px solid gold;
+  border-radius: 8px;
+  background: #fffbe6;
+  text-align: center;
+}
+
+.victory h2 {
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}

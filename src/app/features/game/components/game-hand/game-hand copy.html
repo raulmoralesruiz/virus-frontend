@@ -1,0 +1,25 @@
+<!-- <div class="test">
+  <h3>Tu mano: {{ hand.length }} cartas</h3>
+  @if (hand.length) {
+  <ul>
+    @for (card of hand; track card.id) {
+    <app-hand-card
+      [card]="card"
+      [isSelected]="selectedCardsToDiscard.includes(card)"
+      [isMyTurn]="isMyTurn"
+      (toggleSelect)="toggleDiscardSelection($event)"
+      (play)="playCard.emit($event.id)"
+    ></app-hand-card>
+    }
+  </ul>
+
+  <button
+    (click)="discardSelectedCards()"
+    [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0"
+  >
+    Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
+  </button>
+  } @else {
+  <p>Sin cartas</p>
+  }
+</div> -->
