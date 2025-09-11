@@ -20,6 +20,8 @@ export interface PublicGameState {
   startedAt: string;
   turnIndex: number;
   turnDeadlineTs: number;
+  remainingSeconds: number;
+  winner?: PublicPlayerInfo;
 }
 
 export interface GameState {

@@ -4,15 +4,14 @@
   <h3>Turno</h3>
   <p>
     Turno actual:
-    <strong>{{ active?.player?.name ?? "—" }}</strong>
-    (límite {{ state.turnDeadlineTs | date : "HH:mm:ss" }}) — quedan
+    <strong>{{ active?.player?.name ?? "—" }}</strong> — quedan
     {{ remainingSeconds }}s
   </p>
 
-  <button (click)="draw.emit()" [disabled]="!isMyTurn || isGameEnded">
+  <!-- <button (click)="draw.emit()" [disabled]="!isMyTurn || isGameEnded">
     Robar carta
   </button>
   <button (click)="endTurn.emit()" [disabled]="!isMyTurn || isGameEnded">
     Finalizar turno
-  </button>
+  </button> -->
 </div>

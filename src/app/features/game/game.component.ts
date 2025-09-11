@@ -69,4 +69,16 @@ export class GameComponent implements OnInit {
   goHome() {
     this.gameStore.goHome();
   }
+
+  handleTurnTimeout() {
+    const hand = this.hand();
+    if (!hand.length || !this.roomId) return;
+
+    // elegir carta aleatoria
+    const randomIdx = Math.floor(Math.random() * hand.length);
+    const randomCard = hand[randomIdx];
+
+    // descartar automáticamente esa carta
+    this.gameStore.discardCards(this.roomId, [randomCard.id]);
+  }
 }

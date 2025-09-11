@@ -37,3 +37,20 @@
 .slot-empty.blue { background: #e8f0ff; }
 .slot-empty.yellow { background: #fff8e6; }
 .slot-empty.multi { background: #f3e8ff; }
+
+
+.player-board {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.player-board.is-me {
+  border: 2px solid #0077cc;
+  background: #eef7ff;
+}
+
+.player-board.is-active {
+  box-shadow: 0 0 12px 3px rgba(0, 200, 0, 0.5);
+}

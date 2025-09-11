@@ -13,6 +13,8 @@ import { PublicPlayerInfo } from '../../../../../core/models/game.model';
 })
 export class PlayerBoard {
   @Input() player!: PublicPlayerInfo;
+  @Input() isMe: boolean = false;
+  @Input() isActive: boolean = false;
 
   cardColors = Object.values(CardColor);
 

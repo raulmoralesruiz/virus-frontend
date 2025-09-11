@@ -1,4 +1,4 @@
-<div class="player">
+<div class="player-board" [class.is-me]="isMe" [class.is-active]="isActive">
   <div class="player-header">
     <strong>{{ player.player.name }}</strong>
     <span class="handcount">{{ player.handCount }} en mano</span>

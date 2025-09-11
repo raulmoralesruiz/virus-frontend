@@ -14,8 +14,7 @@
   [remainingSeconds]="remainingSeconds()"
   [isMyTurn]="isMyTurn()"
   [isGameEnded]="isGameEnded()"
-  (draw)="draw()"
-  (endTurn)="endTurn()"
+  (timeoutExpired)="handleTurnTimeout()"
 ></game-turn>
 }
 

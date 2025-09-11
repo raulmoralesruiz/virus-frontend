@@ -27,15 +27,9 @@ export class GameStoreService {
     return activePlayerId === me.id;
   });
 
-  // reloj reactivo (1s)
-  private tick = signal(Date.now());
-  now = computed(() => this.tick());
-
   remainingSeconds = computed(() => {
     const state = this.publicState();
-    if (!state) return 0;
-    const leftMs = state.turnDeadlineTs - this.now();
-    return Math.max(0, Math.ceil(leftMs / 1000));
+    return state?.remainingSeconds ?? 0;
   });
 
   winner = this.socketGame.winner;
@@ -47,11 +41,6 @@ export class GameStoreService {
         this.router.navigate(['/game', state.roomId]);
       }
     });
-
-    // 🔔 Intervalo que actualiza tick cada segundo
-    setInterval(() => {
-      this.tick.set(Date.now());
-    }, 1000);
   }
 
   /**
