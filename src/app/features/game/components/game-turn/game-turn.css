@@ -1,4 +1,8 @@
 .game-turn {
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   /* background-color: green; */
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
 }

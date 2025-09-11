@@ -1,17 +1,9 @@
 @let active = state.players[state.turnIndex];
 
 <div class="game-turn">
-  <h3>Turno</h3>
+  <!-- <h3>Turno</h3> -->
   <p>
-    Turno actual:
-    <strong>{{ active?.player?.name ?? "—" }}</strong> — quedan
-    {{ remainingSeconds }}s
+    Jugando <strong>{{ active?.player?.name ?? "—" }}</strong>
   </p>
-
-  <!-- <button (click)="draw.emit()" [disabled]="!isMyTurn || isGameEnded">
-    Robar carta
-  </button>
-  <button (click)="endTurn.emit()" [disabled]="!isMyTurn || isGameEnded">
-    Finalizar turno
-  </button> -->
+  <p>quedan {{ remainingSeconds }}s</p>
 </div>
