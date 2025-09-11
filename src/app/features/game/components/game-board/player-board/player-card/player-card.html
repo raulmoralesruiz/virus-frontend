@@ -1,0 +1,18 @@
+<div class="card organ {{ organ.color }}">
+  <div class="title">{{ organ.color | titlecase }}</div>
+
+  @if (organ.attached.length) {
+  <div class="attachments">
+    @for (a of organ.attached; track a.id) {
+    <span class="chip {{ a.kind }} {{ a.color }}">
+      <!-- {{ a.kind }} - {{ a.color }} -->
+      @if (a.kind === 'virus') {
+      <span class="icon">🦠</span>
+      } @else if (a.kind === 'medicine') {
+      <span class="icon">💊</span>
+      }
+    </span>
+    }
+  </div>
+  }
+</div>

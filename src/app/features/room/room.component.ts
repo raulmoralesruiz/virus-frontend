@@ -36,4 +36,15 @@ export class RoomComponent implements OnInit {
     const p = this.player();
     return !!r && !!p && r.hostId === p.id;
   }
+
+  isIncorrectNumberPlayers(): boolean {
+    const minPlayers = 2;
+    const maxPlayers = 6;
+    const numPlayers = this.room()!.players.length;
+    return numPlayers < minPlayers || numPlayers > maxPlayers;
+  }
+
+  goHome() {
+    this.roomStore.goHome();
+  }
 }

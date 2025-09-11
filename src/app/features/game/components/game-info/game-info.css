@@ -1,0 +1,7 @@
+.game-info {
+  /* margin-bottom: 1rem; */
+
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+}

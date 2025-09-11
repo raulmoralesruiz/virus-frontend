@@ -1,0 +1,6 @@
+<div class="game-info">
+  <h2>Partida {{ state.roomId.substring(0, 6) }}</h2>
+  <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
+  <p>Mazo: {{ state.deckCount }} cartas</p>
+  <p>Descarte: {{ state.discardCount }} cartas</p>
+</div>

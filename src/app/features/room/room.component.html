@@ -7,9 +7,20 @@
 </ul>
 
 @if (isHost()) {
-<button (click)="startGame()">Iniciar partida</button>
+<button
+  (click)="startGame()"
+  [disabled]="!isHost() || isIncorrectNumberPlayers()"
+>
+  Iniciar partida
+</button>
 }
+<!-- No es anfitrión -->
+@else {
+<p>Espera a que el anfitrión inicie la partida</p>
+}
+
 <!-- No existe la sala -->
 } @else {
 <p>No estás en ninguna sala</p>
+<button (click)="goHome()">Empezar de nuevo</button>
 }

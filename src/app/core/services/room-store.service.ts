@@ -56,4 +56,8 @@ export class RoomStoreService {
   joinRoom(roomId: string, player: Player) {
     this.socket.joinRoom(roomId, player);
   }
+
+  goHome() {
+    this.router.navigate(['/home']);
+  }
 }

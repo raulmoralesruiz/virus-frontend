@@ -1,0 +1,13 @@
+.victory {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 2px solid gold;
+  border-radius: 8px;
+  background: #fffbe6;
+  text-align: center;
+}
+
+.victory h2 {
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}

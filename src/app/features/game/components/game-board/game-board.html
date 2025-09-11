@@ -1,0 +1,10 @@
+<h3>Tablero</h3>
+<div class="players">
+  @for (p of state.players; let i = $index; track p.player.id) {
+  <app-player-board
+    [player]="p"
+    [isMe]="p.player.id === meId"
+    [isActive]="i === state.turnIndex"
+  ></app-player-board>
+  }
+</div>

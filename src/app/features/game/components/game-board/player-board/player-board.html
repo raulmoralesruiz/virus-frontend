@@ -1,0 +1,19 @@
+<div class="player-board" [class.is-me]="isMe" [class.is-active]="isActive">
+  <div class="player-header">
+    <strong>{{ player.player.name }}</strong>
+    <span class="handcount">{{ player.handCount }} en mano</span>
+  </div>
+
+  <div class="board-grid">
+    @for (color of cardColors; track color) { @let organ =
+    getOrganByColor(color);
+    <div class="board-slot">
+      @if (organ) {
+      <app-player-card [organ]="organ"></app-player-card>
+      } @else {
+      <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
+      }
+    </div>
+    }
+  </div>
+</div>

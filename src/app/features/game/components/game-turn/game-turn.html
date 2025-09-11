@@ -1,0 +1,9 @@
+@let active = state.players[state.turnIndex];
+
+<div class="game-turn">
+  <!-- <h3>Turno</h3> -->
+  <p>
+    Jugando <strong>{{ active?.player?.name ?? "—" }}</strong>
+  </p>
+  <p>quedan {{ remainingSeconds }}s</p>
+</div>
