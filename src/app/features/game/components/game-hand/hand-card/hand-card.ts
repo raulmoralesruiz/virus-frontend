@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Card } from '../../../../../core/models/card.model';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-hand-card',
   standalone: true,
-  imports: [],
+  imports: [DragDropModule],
   templateUrl: './hand-card.html',
   styleUrl: './hand-card.css',
 })
@@ -21,6 +22,7 @@ export class HandCard {
   }
 
   onPlay(event: MouseEvent) {
+    console.log(`test onPlay: ${event}`);
     event.stopPropagation(); // que no active toggleSelect al pulsar el botón
     this.play.emit(this.card);
   }

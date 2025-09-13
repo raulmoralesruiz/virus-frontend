@@ -1,7 +1,14 @@
 <h3>Tu mano: {{ hand.length }} cartas</h3>
 
 @if (hand.length) {
-<ul>
+<div
+  class="hand-container"
+  cdkDropList
+  [id]="'handList-' + (apiPlayer.player()?.id || '')"
+  [cdkDropListData]="hand"
+  [cdkDropListConnectedTo]="boardIds()"
+  (cdkDropListExited)="onExitHand($event)"
+>
   @for (card of hand; track card.id) {
   <app-hand-card
     [card]="card"
@@ -9,11 +16,14 @@
     [isMyTurn]="isMyTurn"
     (toggleSelect)="toggleDiscardSelection($event)"
     (play)="selectCardToPlay($event)"
+    cdkDrag
+    [cdkDragData]="card"
   ></app-hand-card>
   }
-</ul>
+</div>
 
 <button
+  class="discard-btn"
   (click)="discardSelectedCards()"
   [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0 || gameEnded"
 >

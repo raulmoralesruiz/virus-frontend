@@ -1,4 +1,13 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   Card,
   CardKind,
@@ -12,17 +21,29 @@ import {
 } from '../../../../core/models/game.model';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
 import { GameStoreService } from '../../../../core/services/game-store.service';
+import { CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropService } from '../../../../core/services/drag-drop.service';
 
 @Component({
   selector: 'game-hand',
   standalone: true,
-  imports: [HandCard],
+  imports: [HandCard, DragDropModule],
   templateUrl: './game-hand.html',
   styleUrl: './game-hand.css',
 })
-export class GameHandComponent {
-  private apiPlayer = inject(ApiPlayerService);
-  private gameStore = inject(GameStoreService);
+export class GameHandComponent implements AfterViewInit {
+  private _apiPlayer = inject(ApiPlayerService);
+  private _gameStore = inject(GameStoreService);
+  private _dragDrop = inject(DragDropService);
+  get apiPlayer() {
+    return this._apiPlayer;
+  }
+  get gameStore() {
+    return this._gameStore;
+  }
+  get dragDrop() {
+    return this._dragDrop;
+  }
 
   @Input() hand: Card[] = [];
   @Input() isMyTurn: boolean = false;
@@ -30,8 +51,14 @@ export class GameHandComponent {
   @Input() publicState!: PublicGameState | null;
   @Input() gameEnded: boolean = false;
 
+  // 👇 exportamos la referencia de la lista
+  @ViewChild(CdkDropList) handDropList!: CdkDropList;
+
   // Eventos hacia GameComponent
   @Output() discarded = new EventEmitter<string[]>();
+
+  // Solo emitimos cuando se arrastra un órgano
+  @Output() playOrgan = new EventEmitter<Card>();
 
   // Estado interno
   selectedCard: Card | null = null;
@@ -51,6 +78,27 @@ export class GameHandComponent {
   CardKind = CardKind;
   TreatmentSubtype = TreatmentSubtype;
 
+  // ids de tableros a los que se puede conectar la mano (para soltar cartas)
+  boardIds = computed(() => {
+    if (!this.publicState) return [];
+    const ids = this.publicState.players
+      .map((p) => this._dragDrop.boardListId(p.player.id))
+      .filter((id): id is string => !!id);
+    return ids;
+  });
+
+  ngAfterViewInit(): void {
+    const me = this._apiPlayer.player();
+    if (me) {
+      const handId = `handList-${me.id}`;
+      this._dragDrop.setHandListId(me.id, handId);
+    }
+  }
+
+  onExitHand(event: any) {
+    console.log(`[EXIT] Carta ${event.item.data} salió de mano`);
+  }
+
   toggleDiscardSelection(card: Card) {
     const idx = this.selectedCardsToDiscard.findIndex((c) => c.id === card.id);
     if (idx >= 0) this.selectedCardsToDiscard.splice(idx, 1);
@@ -59,7 +107,7 @@ export class GameHandComponent {
 
   discardSelectedCards() {
     if (!this.roomId || this.selectedCardsToDiscard.length === 0) return;
-    this.gameStore.discardCards(
+    this._gameStore.discardCards(
       this.roomId,
       this.selectedCardsToDiscard.map((c) => c.id)
     );
@@ -101,7 +149,7 @@ export class GameHandComponent {
           break;
         case TreatmentSubtype.MedicalError:
           for (const p of st.players) {
-            if (p.player.id !== this.apiPlayer.player()?.id) {
+            if (p.player.id !== this._apiPlayer.player()?.id) {
               this.targetOptions.push({
                 label: p.player.name,
                 playerId: p.player.id,
@@ -112,7 +160,7 @@ export class GameHandComponent {
           break;
         case TreatmentSubtype.Contagion:
           this.contagionAssignments = [];
-          const me = this.apiPlayer.player();
+          const me = this._apiPlayer.player();
           const self = st.players.find((p) => p.player.id === me?.id);
           if (!self) return;
 
@@ -165,7 +213,7 @@ export class GameHandComponent {
     if (!this.selectedCard) return;
 
     const st = this.publicState;
-    const me = this.apiPlayer.player();
+    const me = this._apiPlayer.player();
     if (!st || !me) return;
 
     let target: any = undefined;
@@ -198,7 +246,7 @@ export class GameHandComponent {
             alert('Debes seleccionar los contagios');
             return;
           }
-          this.gameStore.playCard(
+          this._gameStore.playCard(
             st.roomId,
             this.selectedCard.id,
             this.contagionAssignments
@@ -224,7 +272,7 @@ export class GameHandComponent {
   playCard(cardId: string, target?: AnyPlayTarget) {
     const st = this.publicState;
     if (!st) return;
-    this.gameStore.playCard(st.roomId, cardId, target);
+    this._gameStore.playCard(st.roomId, cardId, target);
   }
 
   clearSelection() {

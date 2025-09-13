@@ -1,6 +1,20 @@
-<li [class.selected-to-discard]="isSelected" (click)="onToggleSelect()">
-  {{ card.kind }} - {{ card.color }} @if (card.kind === 'treatment' &&
-  card.subtype) { ({{ card.subtype }}) }
+<!-- <div class="hand-card" [class.selected]="isSelected" (click)="onToggleSelect()"> -->
+<div
+  class="hand-card"
+  [class.selected]="isSelected"
+  (click)="onToggleSelect()"
+  cdkDrag
+  [cdkDragData]="card"
+>
+  <div class="card-content">
+    <div class="kind">{{ card.kind }}</div>
+    <div class="color">{{ card.color }}</div>
+    @if (card.kind === 'treatment' && card.subtype) {
+    <div class="subtype">{{ card.subtype }}</div>
+    }
+  </div>
 
-  <button (click)="onPlay($event)" [disabled]="!isMyTurn">Jugar</button>
-</li>
+  <button class="play-btn" (click)="onPlay($event)" [disabled]="!isMyTurn">
+    Jugar
+  </button>
+</div>

@@ -78,6 +78,8 @@ export class GameStoreService {
       return;
     }
 
+    console.log(`GS! se va a jugar la carta ${cardId}`);
+
     this.socketGame.playCard({
       roomId,
       playerId: me.id,

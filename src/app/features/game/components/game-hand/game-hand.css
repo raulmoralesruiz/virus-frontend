@@ -1,8 +1,23 @@
-.selected-to-discard {
-  background: #ffe0e0;
-  border: 2px solid #d33;
+.hand-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap; /* por si hay muchas cartas */
+  margin: 16px 0;
 }
 
-.test {
-  background-color: lightblue;
+.discard-btn {
+  margin-top: 12px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #f44336;
+  color: white;
+  cursor: pointer;
 }
+
+.discard-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
