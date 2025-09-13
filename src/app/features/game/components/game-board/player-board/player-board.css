@@ -57,3 +57,22 @@
 .player-board.is-active {
   box-shadow: 0 0 12px 3px rgba(0, 200, 0, 0.5);
 }
+
+/* cuando estamos en modo trasplante */
+.board-slot.transplant-mode {
+  cursor: pointer;
+  outline: 2px dashed orange;
+  border-radius: 8px;
+}
+
+/* órgano A seleccionado */
+.board-slot.first-selected {
+  outline: 3px solid red;
+  background: rgba(255, 0, 0, 0.1);
+}
+
+/* huecos válidos para B */
+.board-slot.valid-second {
+  outline: 3px solid green;
+  background: rgba(0, 255, 0, 0.1);
+}

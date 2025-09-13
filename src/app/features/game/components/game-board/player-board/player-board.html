@@ -11,10 +11,12 @@
       class="board-slot"
       [id]="'slot-' + player().player.id + '-' + color"
       cdkDropList
-      [cdkDropListData]="organ"
+      [cdkDropListData]="organ ? [organ] : []"
       [cdkDropListConnectedTo]="connectedTo()"
       (cdkDropListDropped)="onSlotDrop($event, color)"
       (cdkDropListEntered)="onEnterBoard($event)"
+      (click)="onSlotClick(organ, player().player.id)"
+      [class.transplant-mode]="transplantState()"
     >
       @if (organ) {
       <player-card [organ]="organ"></player-card>

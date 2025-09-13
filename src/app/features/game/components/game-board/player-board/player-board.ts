@@ -1,4 +1,13 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  Input,
+  input,
+  output,
+  Output,
+} from '@angular/core';
 import { PlayerCardComponent } from './player-card/player-card';
 import { TitleCasePipe } from '@angular/common';
 import {
@@ -43,119 +52,199 @@ export class PlayerBoardComponent {
     return [`handList-${me.id}`];
   });
 
+  // recibe el estado global de trasplante
+  transplantState = input<{
+    card: Card;
+    firstOrgan: { organId: string; playerId: string } | null;
+  } | null>(null);
+
+  startTransplant = output<{
+    card: Card;
+    firstOrgan: { organId: string; playerId: string };
+  }>();
+  finishTransplant = output<{ organId: string; playerId: string }>();
+
+  // ------------------------------------------------------------
+  // Eventos de drag & drop
+  // ------------------------------------------------------------
   onEnterBoard(event: any) {
-    console.log(
-      `[ENTER] Carta ${event.item.data.id} entró en tablero de ${
-        this.player().player.name
-      }`
-    );
+    // entrada visual / debugging
+    const card = event.item?.data;
+    const who = this.player()?.player?.name;
+    console.log(`[ENTER] Carta ${card?.id ?? card} entró en tablero de ${who}`);
   }
 
-  getOrganByColor(color: CardColor) {
-    return this.player().board.find((o) => o.color === color);
-  }
-
-  // manejar drop en un HUECO concreto
+  /**
+   * Maneja el drop sobre un hueco concreto (color).
+   * Delegamos por tipo de carta a métodos auxiliares.
+   */
   onSlotDrop(event: CdkDragDrop<any>, color: CardColor) {
     const card: Card = event.item.data;
-    const meId = this._apiPlayer.player()?.id;
     const rid = this.roomId();
+    const meId = this._apiPlayer.player()?.id;
 
-    // seguridad
     if (!rid || !meId) return;
 
-    // Si es órgano: solo permitimos jugar órganos desde TU mano (isMe)
-    if (card.kind === CardKind.Organ) {
-      // si no soy yo, no se pueden poner órganos en el tablero de otro
-      if (!this.isMe()) {
-        this.gameStore.setClientError(
-          'Solo puedes poner órganos en tu propio tablero.'
-        );
-        return;
-      }
+    switch (card.kind) {
+      case CardKind.Organ:
+        this.handleOrganDrop(card, color, rid);
+        break;
 
-      // color debe ser compatible con el hueco (o órgano multi)
-      if (card.color !== color && card.color !== CardColor.Multi) {
-        this.gameStore.setClientError(
-          `Órgano ${card.color} no válido para hueco ${color}`
-        );
-        return;
-      }
+      case CardKind.Medicine:
+      case CardKind.Virus:
+        this.handleMedicineOrVirusDrop(card, color, rid);
+        break;
 
-      // Jugar carta órgano (sin target)
-      this._gameStore.playCard(rid, card.id);
-      return;
+      case CardKind.Treatment:
+        this.handleTreatmentDrop(card, color, rid);
+        break;
+
+      default:
+        this._gameStore.setClientError(
+          `Tipo de carta no manejado por drag-and-drop: ${card.kind}`
+        );
     }
-
-    // Si es medicina o virus: debe existir un órgano en el hueco
-    if (card.kind === CardKind.Medicine || card.kind === CardKind.Virus) {
-      const organ = this.getOrganByColor(color);
-      if (!organ) {
-        this.gameStore.setClientError(
-          `No hay órgano en hueco ${color} para aplicar ${card.kind}`
-        );
-        return;
-      }
-
-      // validación básica de color cliente-side (el servidor volverá a validar)
-      if (
-        card.color !== organ.color &&
-        card.color !== CardColor.Multi &&
-        organ.color !== CardColor.Multi
-      ) {
-        this.gameStore.setClientError(
-          `${card.kind} ${card.color} no válida para órgano ${organ.color}`
-        );
-        return;
-      }
-
-      // target: órgano concreto en este jugador
-      this._gameStore.playCard(rid, card.id, {
-        organId: organ.id,
-        playerId: this.player().player.id,
-      });
-      return;
-    }
-
-    if (card.kind === CardKind.Treatment) {
-      switch (card.subtype) {
-        case TreatmentSubtype.OrganThief:
-          this.playOrganThief(color, card);
-          return;
-
-        default:
-          this.gameStore.setClientError(
-            `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
-          );
-          return;
-      }
-    }
-
-    // otros tipos: ignoramos por ahora
-    this.gameStore.setClientError(
-      `Tipo de carta no manejado por drag-and-drop: ${card.kind}`
-    );
   }
 
-  playOrganThief(color: CardColor, card: Card) {
-    const rid = this.roomId();
-    const organ = this.getOrganByColor(color);
+  // ------------------------------------------------------------
+  // Métodos auxiliares por tipo de carta
+  // ------------------------------------------------------------
 
-    if (this.isMe()) {
-      this.gameStore.setClientError('No puedes robarte a ti mismo.');
+  private handleOrganDrop(card: Card, color: CardColor, rid: string) {
+    if (!this.isMe()) {
+      this._gameStore.setClientError(
+        'Solo puedes poner órganos en tu propio tablero.'
+      );
       return;
     }
 
+    if (card.color !== color && card.color !== CardColor.Multi) {
+      this._gameStore.setClientError(
+        `Órgano ${card.color} no válido para hueco ${color}`
+      );
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id);
+  }
+
+  private handleMedicineOrVirusDrop(card: Card, color: CardColor, rid: string) {
+    const organ = this.getOrganByColor(color);
     if (!organ) {
-      this.gameStore.setClientError(
+      this._gameStore.setClientError(
         `No hay órgano en hueco ${color} para aplicar ${card.kind}`
       );
       return;
     }
 
-    this.gameStore.playCard(rid, card.id, {
+    if (
+      card.color !== organ.color &&
+      card.color !== CardColor.Multi &&
+      organ.color !== CardColor.Multi
+    ) {
+      this._gameStore.setClientError(
+        `${card.kind} ${card.color} no válida para órgano ${organ.color}`
+      );
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id, {
       organId: organ.id,
       playerId: this.player().player.id,
     });
+  }
+
+  private handleTreatmentDrop(card: Card, color: CardColor, rid: string) {
+    switch (card.subtype) {
+      case TreatmentSubtype.OrganThief:
+        this.playOrganThief(color, card);
+        break;
+
+      case TreatmentSubtype.Transplant:
+        this.startTransplantSelection(card, color);
+        break;
+
+      default:
+        this._gameStore.setClientError(
+          `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
+        );
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Lógica específica de tratamientos
+  // ------------------------------------------------------------
+  playOrganThief(color: CardColor, card: Card) {
+    const rid = this.roomId();
+    const organ = this.getOrganByColor(color);
+
+    if (this.isMe()) {
+      this._gameStore.setClientError('No puedes robarte a ti mismo.');
+      return;
+    }
+
+    if (!organ) {
+      this._gameStore.setClientError(
+        `No hay órgano en hueco ${color} para aplicar ${card.kind}`
+      );
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id, {
+      organId: organ.id,
+      playerId: this.player().player.id,
+    });
+  }
+
+  /**
+   * Comienza la selección para Trasplante: guardamos el primer órgano (A)
+   * y avisamos al usuario para que seleccione el segundo órgano (B) haciendo click.
+   */
+  private startTransplantSelection(card: Card, color: CardColor) {
+    const organ = this.getOrganByColor(color);
+    if (!organ) {
+      this._gameStore.setClientError(
+        'Debes soltar el trasplante sobre un órgano válido.'
+      );
+      return;
+    }
+
+    this.startTransplant.emit({
+      card,
+      firstOrgan: { organId: organ.id, playerId: this.player().player.id },
+    });
+  }
+
+  /**
+   * Método público llamado al hacer click en un hueco cuando estamos en modo Transplant.
+   * Si se pulsa en un órgano válido, termina el trasplante enviando la jugada al servidor.
+   */
+  onSlotClick(organ: any /* OrganOnBoard | undefined */, playerId: string) {
+    // si no estamos en modo trasplante, no hacemos nada aquí
+    if (!this.transplantState()) return;
+
+    if (!organ) {
+      this._gameStore.setClientError(
+        'Debes seleccionar un órgano válido como segundo objetivo.'
+      );
+      return;
+    }
+
+    this.finishTransplant.emit({ organId: organ.id, playerId });
+  }
+
+  // ------------------------------------------------------------
+  // Helpers para estilos visuales
+  // ------------------------------------------------------------
+
+  isTransplantMode(): boolean {
+    return !!this.transplantState;
+  }
+
+  // ------------------------------------------------------------
+  // Helpers
+  // ------------------------------------------------------------
+  getOrganByColor(color: CardColor) {
+    return this.player().board.find((o) => o.color === color);
   }
 }

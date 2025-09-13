@@ -1,11 +1,21 @@
 <h3>Tablero</h3>
 <div class="players">
-  @for (p of state.players; let i = $index; track p.player.id) {
+  @for (p of state().players; let i = $index; track p.player.id) {
   <player-board
     [player]="p"
     [isMe]="p.player.id === meId"
-    [isActive]="i === state.turnIndex"
-    [roomId]="state.roomId"
+    [isActive]="i === state().turnIndex"
+    [roomId]="state().roomId"
+    [transplantState]="transplantState"
+    (startTransplant)="startTransplant($event.card, $event.firstOrgan)"
+    (finishTransplant)="finishTransplant($event)"
   ></player-board>
   }
 </div>
+
+<!-- Botón cancelar visible solo en modo trasplante -->
+@if (transplantState) {
+<button class="cancel-transplant" (click)="cancelTransplant()">
+  Cancelar trasplante
+</button>
+}
