@@ -106,4 +106,8 @@ export class GameStoreService {
   goHome() {
     this.router.navigate(['/home']);
   }
+
+  setClientError(msg: string) {
+    this.socketGame.setClientError(msg);
+  }
 }

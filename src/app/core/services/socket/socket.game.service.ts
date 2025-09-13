@@ -19,6 +19,8 @@ export class SocketGameService {
   lastError = signal<string | null>(null);
   winner = signal<PublicPlayerInfo | null>(null);
 
+  ERROR_TIMEOUT: number = 3000;
+
   constructor() {
     this.registerListeners();
   }
@@ -54,7 +56,7 @@ export class SocketGameService {
     this.socketService.on(
       GAME_CONSTANTS.GAME_STATE,
       (state: PublicGameState) => {
-        console.log('[SocketGameService] GAME_STATE', state);
+        // console.log('[SocketGameService] GAME_STATE', state);
         this.publicState.set(state);
       }
     );
@@ -69,7 +71,7 @@ export class SocketGameService {
         this.lastError.set(err.message ?? 'Error desconocido'); // seguimos mostrando solo el mensaje al usuario
 
         // Limpia el error tras unos segundos
-        setTimeout(() => this.lastError.set(null), 3000);
+        setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
       }
     );
 
@@ -131,5 +133,10 @@ export class SocketGameService {
     this.winner.set(null);
     this.publicState.set(null);
     this.hand.set([]);
+  }
+
+  setClientError(msg: string) {
+    this.lastError.set(msg);
+    setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
   }
 }

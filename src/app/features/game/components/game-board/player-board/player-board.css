@@ -21,7 +21,10 @@
 
 .board-slot {
   min-height: 80px;
+
   /* background-color: green; */
+  /* border-radius: 8px; */
+  /* border: 1px dashed #ccc; */
 }
 
 .slot-empty {

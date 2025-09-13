@@ -1,47 +1,32 @@
-import {
-  AfterViewInit,
-  Component,
-  computed,
-  inject,
-  input,
-  Input,
-} from '@angular/core';
-import { PlayerCard } from './player-card/player-card';
+import { Component, computed, inject, input } from '@angular/core';
+import { PlayerCardComponent } from './player-card/player-card';
 import { TitleCasePipe } from '@angular/common';
 import {
   Card,
   CardColor,
   CardKind,
+  TreatmentSubtype,
 } from '../../../../../core/models/card.model';
 import { PublicPlayerInfo } from '../../../../../core/models/game.model';
-import {
-  CdkDragDrop,
-  CdkDropList,
-  DragDropModule,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../core/services/game-store.service';
-import { DragDropService } from '../../../../../core/services/drag-drop.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
 
 @Component({
-  selector: 'app-player-board',
+  selector: 'player-board',
   standalone: true,
-  imports: [PlayerCard, TitleCasePipe, DragDropModule],
+  imports: [PlayerCardComponent, TitleCasePipe, DragDropModule],
   templateUrl: './player-board.html',
   styleUrl: './player-board.css',
 })
-export class PlayerBoard implements AfterViewInit {
+export class PlayerBoardComponent {
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
-  private _dragDrop = inject(DragDropService);
   get apiPlayer() {
     return this._apiPlayer;
   }
   get gameStore() {
     return this._gameStore;
-  }
-  get dragDrop() {
-    return this._dragDrop;
   }
 
   player = input.required<PublicPlayerInfo>();
@@ -51,77 +36,126 @@ export class PlayerBoard implements AfterViewInit {
 
   cardColors = Object.values(CardColor);
 
-  // ids de listas de drop con las que este tablero puede conectarse
+  // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
   connectedTo = computed(() => {
     const me = this._apiPlayer.player();
     if (!me) return [];
-    const handId = this._dragDrop.handListId(me.id);
-    return handId ? [handId] : [];
+    return [`handList-${me.id}`];
   });
 
-  ngAfterViewInit(): void {
-    // Registrar id único y estable para este tablero
-    const pid = this.player().player.id;
-    const boardId = `boardList-${pid}`;
-    this._dragDrop.setBoardListId(pid, boardId);
-  }
-
   onEnterBoard(event: any) {
-    console.log(`[ENTER] Carta ${event.item.data} entró en tablero`);
+    console.log(
+      `[ENTER] Carta ${event.item.data.id} entró en tablero de ${
+        this.player().player.name
+      }`
+    );
   }
 
   getOrganByColor(color: CardColor) {
     return this.player().board.find((o) => o.color === color);
   }
 
-  onCardDropped(event: CdkDragDrop<any>) {
+  // manejar drop en un HUECO concreto
+  onSlotDrop(event: CdkDragDrop<any>, color: CardColor) {
     const card: Card = event.item.data;
-
-    // Solo aceptamos órganos o medicinas en nuestro propio tablero
-    if (!this.isMe()) return;
-    if (card.kind !== CardKind.Organ && card.kind !== CardKind.Medicine) return;
-
+    const meId = this._apiPlayer.player()?.id;
     const rid = this.roomId();
-    if (!rid) return;
 
-    // si es órgano → como hasta ahora
+    // seguridad
+    if (!rid || !meId) return;
+
+    // Si es órgano: solo permitimos jugar órganos desde TU mano (isMe)
     if (card.kind === CardKind.Organ) {
-      this._gameStore.playCard(rid, card.id, {
-        organId: '', // se coloca en un hueco vacío
-        playerId: this.player().player.id,
-      });
-    }
-
-    // si es medicina → necesita un órgano destino
-    if (card.kind === CardKind.Medicine) {
-      // buscamos un órgano del mismo color
-      const targetOrgan = this.player().board.find(
-        (o) => o.color === card.color
-      );
-      if (!targetOrgan) {
-        console.warn('No hay órgano válido para esta medicina');
+      // si no soy yo, no se pueden poner órganos en el tablero de otro
+      if (!this.isMe()) {
+        this.gameStore.setClientError(
+          'Solo puedes poner órganos en tu propio tablero.'
+        );
         return;
       }
 
+      // color debe ser compatible con el hueco (o órgano multi)
+      if (card.color !== color && card.color !== CardColor.Multi) {
+        this.gameStore.setClientError(
+          `Órgano ${card.color} no válido para hueco ${color}`
+        );
+        return;
+      }
+
+      // Jugar carta órgano (sin target)
+      this._gameStore.playCard(rid, card.id);
+      return;
+    }
+
+    // Si es medicina o virus: debe existir un órgano en el hueco
+    if (card.kind === CardKind.Medicine || card.kind === CardKind.Virus) {
+      const organ = this.getOrganByColor(color);
+      if (!organ) {
+        this.gameStore.setClientError(
+          `No hay órgano en hueco ${color} para aplicar ${card.kind}`
+        );
+        return;
+      }
+
+      // validación básica de color cliente-side (el servidor volverá a validar)
+      if (
+        card.color !== organ.color &&
+        card.color !== CardColor.Multi &&
+        organ.color !== CardColor.Multi
+      ) {
+        this.gameStore.setClientError(
+          `${card.kind} ${card.color} no válida para órgano ${organ.color}`
+        );
+        return;
+      }
+
+      // target: órgano concreto en este jugador
       this._gameStore.playCard(rid, card.id, {
-        organId: targetOrgan.id,
+        organId: organ.id,
         playerId: this.player().player.id,
       });
+      return;
     }
+
+    if (card.kind === CardKind.Treatment) {
+      switch (card.subtype) {
+        case TreatmentSubtype.OrganThief:
+          this.playOrganThief(color, card);
+          return;
+
+        default:
+          this.gameStore.setClientError(
+            `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
+          );
+          return;
+      }
+    }
+
+    // otros tipos: ignoramos por ahora
+    this.gameStore.setClientError(
+      `Tipo de carta no manejado por drag-and-drop: ${card.kind}`
+    );
   }
-  // onCardDropped(event: CdkDragDrop<any>) {
-  //   console.log(`card droped: ${event}`);
-  //   const card: Card = event.item.data;
 
-  //   // Solo aceptamos órganos y en nuestro propio tablero
-  //   if (!this.isMe() || card.kind !== CardKind.Organ) return;
+  playOrganThief(color: CardColor, card: Card) {
+    const rid = this.roomId();
+    const organ = this.getOrganByColor(color);
 
-  //   const rid = this.roomId();
-  //   if (!rid) return;
+    if (this.isMe()) {
+      this.gameStore.setClientError('No puedes robarte a ti mismo.');
+      return;
+    }
 
-  //   this._gameStore.playCard(rid, card.id, {
-  //     organId: '', // no hace falta target porque cae en tu propio tablero
-  //     playerId: this.player().player.id,
-  //   });
-  // }
+    if (!organ) {
+      this.gameStore.setClientError(
+        `No hay órgano en hueco ${color} para aplicar ${card.kind}`
+      );
+      return;
+    }
+
+    this.gameStore.playCard(rid, card.id, {
+      organId: organ.id,
+      playerId: this.player().player.id,
+    });
+  }
 }

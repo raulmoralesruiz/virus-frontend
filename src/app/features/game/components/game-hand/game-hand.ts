@@ -1,15 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  computed,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   Card,
+  CardColor,
   CardKind,
   TreatmentSubtype,
 } from '../../../../core/models/card.model';
@@ -21,8 +13,7 @@ import {
 } from '../../../../core/models/game.model';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
 import { GameStoreService } from '../../../../core/services/game-store.service';
-import { CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
-import { DragDropService } from '../../../../core/services/drag-drop.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'game-hand',
@@ -31,18 +22,14 @@ import { DragDropService } from '../../../../core/services/drag-drop.service';
   templateUrl: './game-hand.html',
   styleUrl: './game-hand.css',
 })
-export class GameHandComponent implements AfterViewInit {
+export class GameHandComponent {
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
-  private _dragDrop = inject(DragDropService);
   get apiPlayer() {
     return this._apiPlayer;
   }
   get gameStore() {
     return this._gameStore;
-  }
-  get dragDrop() {
-    return this._dragDrop;
   }
 
   @Input() hand: Card[] = [];
@@ -50,15 +37,6 @@ export class GameHandComponent implements AfterViewInit {
   @Input() roomId!: string;
   @Input() publicState!: PublicGameState | null;
   @Input() gameEnded: boolean = false;
-
-  // 👇 exportamos la referencia de la lista
-  @ViewChild(CdkDropList) handDropList!: CdkDropList;
-
-  // Eventos hacia GameComponent
-  @Output() discarded = new EventEmitter<string[]>();
-
-  // Solo emitimos cuando se arrastra un órgano
-  @Output() playOrgan = new EventEmitter<Card>();
 
   // Estado interno
   selectedCard: Card | null = null;
@@ -77,26 +55,25 @@ export class GameHandComponent implements AfterViewInit {
   // referencias públicas
   CardKind = CardKind;
   TreatmentSubtype = TreatmentSubtype;
+  cardColors = Object.values(CardColor);
 
-  // ids de tableros a los que se puede conectar la mano (para soltar cartas)
-  boardIds = computed(() => {
+  // Construye la lista de ids de TODOS los slots (player x color).
+  // El hand list se conectará a todos esos slots.
+  boardIds(): string[] {
     if (!this.publicState) return [];
-    const ids = this.publicState.players
-      .map((p) => this._dragDrop.boardListId(p.player.id))
-      .filter((id): id is string => !!id);
-    return ids;
-  });
-
-  ngAfterViewInit(): void {
-    const me = this._apiPlayer.player();
-    if (me) {
-      const handId = `handList-${me.id}`;
-      this._dragDrop.setHandListId(me.id, handId);
+    const ids: string[] = [];
+    for (const p of this.publicState.players) {
+      for (const color of this.cardColors) {
+        ids.push(`slot-${p.player.id}-${color}`);
+      }
     }
+    return ids;
   }
 
   onExitHand(event: any) {
-    console.log(`[EXIT] Carta ${event.item.data} salió de mano`);
+    console.log(
+      `[EXIT] Carta ${JSON.stringify(event.item.data.id)} salió de mano`
+    );
   }
 
   toggleDiscardSelection(card: Card) {

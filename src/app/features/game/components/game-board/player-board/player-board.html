@@ -1,14 +1,4 @@
-<div
-  class="player-board"
-  [class.is-me]="isMe()"
-  [class.is-active]="isActive()"
-  [id]="'boardList-' + player().player.id"
-  cdkDropList
-  [cdkDropListData]="player().board"
-  [cdkDropListConnectedTo]="connectedTo()"
-  (cdkDropListDropped)="onCardDropped($event)"
-  (cdkDropListEntered)="onEnterBoard($event)"
->
+<div class="player-board" [class.is-me]="isMe()" [class.is-active]="isActive()">
   <div class="player-header">
     <strong>{{ player().player.name }}</strong>
     <span class="handcount">{{ player().handCount }} en mano</span>
@@ -17,9 +7,17 @@
   <div class="board-grid">
     @for (color of cardColors; track color) { @let organ =
     getOrganByColor(color);
-    <div class="board-slot">
+    <div
+      class="board-slot"
+      [id]="'slot-' + player().player.id + '-' + color"
+      cdkDropList
+      [cdkDropListData]="organ"
+      [cdkDropListConnectedTo]="connectedTo()"
+      (cdkDropListDropped)="onSlotDrop($event, color)"
+      (cdkDropListEntered)="onEnterBoard($event)"
+    >
       @if (organ) {
-      <app-player-card [organ]="organ"></app-player-card>
+      <player-card [organ]="organ"></player-card>
       } @else {
       <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
       }

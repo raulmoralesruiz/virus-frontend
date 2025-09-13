@@ -61,5 +61,8 @@
   gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
+
+  /* border-radius: 8px;
+  border: 1px dashed gray; */
 }
 
