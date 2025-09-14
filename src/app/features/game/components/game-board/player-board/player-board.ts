@@ -16,7 +16,10 @@ import {
   CardKind,
   TreatmentSubtype,
 } from '../../../../../core/models/card.model';
-import { PublicPlayerInfo } from '../../../../../core/models/game.model';
+import {
+  MedicalErrorTarget,
+  PublicPlayerInfo,
+} from '../../../../../core/models/game.model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../core/services/game-store.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
@@ -164,6 +167,14 @@ export class PlayerBoardComponent {
         this.startTransplantSelection(card, color);
         break;
 
+      case TreatmentSubtype.MedicalError:
+        this.playMedicalError(card);
+        break;
+
+      case TreatmentSubtype.Gloves:
+        this.playGloves(card);
+        break;
+
       default:
         this._gameStore.setClientError(
           `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
@@ -194,6 +205,37 @@ export class PlayerBoardComponent {
       organId: organ.id,
       playerId: this.player().player.id,
     });
+  }
+
+  private playMedicalError(card: Card) {
+    const rid = this.roomId();
+    const me = this._apiPlayer.player();
+    const targetId = this.player().player.id;
+
+    if (!rid || !me) return;
+
+    if (targetId === me.id) {
+      this._gameStore.setClientError(
+        'No puedes jugar Error Médico sobre ti mismo.'
+      );
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id, {
+      playerId: targetId,
+    } as MedicalErrorTarget);
+  }
+
+  private playGloves(card: Card) {
+    const rid = this.roomId();
+    const me = this._apiPlayer.player();
+
+    if (!rid || !me) return;
+
+    // Gloves no necesita target
+    this._gameStore.playCard(rid, card.id);
+
+    this._gameStore.setClientError('Has jugado Guantes de Látex.');
   }
 
   /**
