@@ -1,9 +1,9 @@
-import { Component, inject, input, OnChanges } from '@angular/core';
+import { Component, computed, inject, input, OnChanges } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { PlayerBoardComponent } from './player-board/player-board';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
 import { GameStoreService } from '../../../../core/services/game-store.service';
-import { Card } from '../../../../core/models/card.model';
+import { Card, CardColor } from '../../../../core/models/card.model';
 
 @Component({
   selector: 'game-board',
@@ -24,18 +24,74 @@ export class GameBoardComponent implements OnChanges {
 
   state = input.required<PublicGameState>();
 
-  // Estado global del trasplante
-  transplantState: {
-    card: Card;
-    firstOrgan: { organId: string; playerId: string } | null;
-  } | null = null;
-
   get meId(): string | null {
     return this._apiPlayer.player()?.id ?? null;
   }
 
   ngOnChanges() {
     this.cleanTransplantMode();
+  }
+
+  // lista con todos los ids de slots: slot-<playerId>-<color>
+  allSlotIds = computed(() => {
+    const st = this.state();
+    if (!st) return [];
+    const colors = Object.values(CardColor);
+    const ids: string[] = [];
+    for (const p of st.players) {
+      for (const c of colors) {
+        ids.push(`slot-${p.player.id}-${c}`);
+      }
+    }
+    return ids;
+  });
+
+  // Estado global del trasplante
+  transplantState: {
+    card: Card;
+    firstOrgan: { organId: string; playerId: string } | null;
+  } | null = null;
+
+  // Estado contagio
+  contagionState: {
+    card: Card;
+    assignments: {
+      fromOrganId: string;
+      toOrganId: string;
+      toPlayerId: string;
+    }[];
+  } | null = null;
+
+  startContagion(card: Card) {
+    this.contagionState = { card, assignments: [] };
+    this._gameStore.setClientError(
+      'Arrastra tus virus a órganos rivales libres.'
+    );
+  }
+
+  addAssignment(assign: {
+    fromOrganId: string;
+    toOrganId: string;
+    toPlayerId: string;
+  }) {
+    if (!this.contagionState) return;
+    this.contagionState.assignments.push(assign);
+  }
+
+  finishContagion() {
+    if (!this.contagionState) return;
+    const rid = this.state().roomId;
+    this._gameStore.playCard(
+      rid,
+      this.contagionState.card.id,
+      this.contagionState.assignments
+    );
+    this.contagionState = null;
+  }
+
+  cancelContagion() {
+    this.contagionState = null;
+    this._gameStore.setClientError('Contagio cancelado.');
   }
 
   startTransplant(

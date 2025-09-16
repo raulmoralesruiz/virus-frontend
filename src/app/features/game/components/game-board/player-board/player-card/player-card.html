@@ -3,16 +3,25 @@
 
   @if (organ.attached.length) {
   <div class="attachments">
-    @for (a of organ.attached; track a.id) {
-    <span class="chip {{ a.kind }} {{ a.color }}">
-      <!-- {{ a.kind }} - {{ a.color }} -->
-      @if (a.kind === 'virus') {
+    @for (a of organ.attached; track a.id) { @if (contagionMode && isVirus(a)) {
+    <!-- Virus arrastrable en modo contagio -->
+    <div
+      class="attached-card chip virus {{ a.color }}"
+      cdkDrag
+      [cdkDragData]="{ fromOrganId: organ.id, virusId: a.id }"
+    >
       <span class="icon">🦠</span>
-      } @else if (a.kind === 'medicine') {
+    </div>
+    } @else {
+    <!-- Cualquier otra carta (virus estático o medicina) -->
+    <div class="attached-card chip {{ a.kind }} {{ a.color }}">
+      @if (isVirus(a)) {
+      <span class="icon">🦠</span>
+      } @else {
       <span class="icon">💊</span>
       }
-    </span>
-    }
+    </div>
+    } }
   </div>
   }
 </div>

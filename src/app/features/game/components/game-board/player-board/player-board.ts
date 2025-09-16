@@ -18,6 +18,7 @@ import {
 } from '../../../../../core/models/card.model';
 import {
   MedicalErrorTarget,
+  OrganOnBoard,
   PublicPlayerInfo,
 } from '../../../../../core/models/game.model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
@@ -55,6 +56,28 @@ export class PlayerBoardComponent {
     return [`handList-${me.id}`];
   });
 
+  // recibir la lista global de ids de huecos
+  allSlotIds = input.required<string[]>();
+
+  // --- Inputs / Outputs ---
+  contagionState = input<{
+    card: Card;
+    assignments: {
+      fromOrganId: string;
+      toOrganId: string;
+      toPlayerId: string;
+    }[];
+  } | null>(null);
+
+  virusMoved = output<{
+    fromOrganId: string;
+    toOrganId: string;
+    toPlayerId: string;
+  }>();
+
+  // 👇 nuevo output para contagio
+  startContagion = output<{ card: Card }>();
+
   // recibe el estado global de trasplante
   transplantState = input<{
     card: Card;
@@ -65,16 +88,18 @@ export class PlayerBoardComponent {
     card: Card;
     firstOrgan: { organId: string; playerId: string };
   }>();
+
   finishTransplant = output<{ organId: string; playerId: string }>();
 
   // ------------------------------------------------------------
   // Eventos de drag & drop
   // ------------------------------------------------------------
-  onEnterBoard(event: any) {
-    // entrada visual / debugging
-    const card = event.item?.data;
-    const who = this.player()?.player?.name;
-    console.log(`[ENTER] Carta ${card?.id ?? card} entró en tablero de ${who}`);
+  onDrop(event: CdkDragDrop<any>, color: CardColor, organ: OrganOnBoard) {
+    if (this.contagionState()) {
+      this.onVirusDrop(event, organ);
+    } else {
+      this.onSlotDrop(event, color);
+    }
   }
 
   /**
@@ -107,6 +132,47 @@ export class PlayerBoardComponent {
           `Tipo de carta no manejado por drag-and-drop: ${card.kind}`
         );
     }
+  }
+
+  onVirusDrop(event: CdkDragDrop<any>, organ: OrganOnBoard) {
+    const data = event.item.data; // { fromOrganId, virusId }
+    if (!this.contagionState()) return;
+
+    console.log(`onVirusDrop - data:${JSON.stringify(data)}`);
+    console.log(`onVirusDrop - organ:${JSON.stringify(organ)}`);
+
+    // nueva validación: evitar mismo órgano
+    if (data.fromOrganId === organ.id) {
+      this._gameStore.setClientError(
+        'Has dejado el virus en el mismo órgano, no tiene efecto.'
+      );
+      return;
+    }
+
+    // Validar: órgano destino debe estar libre
+    if (
+      organ.attached.some((a) => a.kind === 'virus' || a.kind === 'medicine')
+    ) {
+      this._gameStore.setClientError('El órgano destino no está libre.');
+      return;
+    }
+
+    // actualizar frontend en caliente
+    const me = this.player();
+    const fromOrgan = me.board.find((o) => o.id === data.fromOrganId);
+    if (fromOrgan) {
+      const idx = fromOrgan.attached.findIndex((a) => a.id === data.virusId);
+      if (idx >= 0) {
+        const [virus] = fromOrgan.attached.splice(idx, 1);
+        organ.attached.push(virus); // 👈 mover virus al destino
+      }
+    }
+
+    this.virusMoved.emit({
+      fromOrganId: data.fromOrganId,
+      toOrganId: organ.id,
+      toPlayerId: this.player().player.id,
+    });
   }
 
   // ------------------------------------------------------------
@@ -175,6 +241,10 @@ export class PlayerBoardComponent {
         this.playGloves(card);
         break;
 
+      case TreatmentSubtype.Contagion:
+        this.playContagion(card);
+        break;
+
       default:
         this._gameStore.setClientError(
           `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
@@ -238,6 +308,16 @@ export class PlayerBoardComponent {
     this._gameStore.setClientError('Has jugado Guantes de Látex.');
   }
 
+  private playContagion(card: Card) {
+    if (!this.isMe()) {
+      this._gameStore.setClientError(
+        'Solo puedes usar Contagio en tu propio turno.'
+      );
+      return;
+    }
+    this.startContagion.emit({ card });
+  }
+
   /**
    * Comienza la selección para Trasplante: guardamos el primer órgano (A)
    * y avisamos al usuario para que seleccione el segundo órgano (B) haciendo click.
@@ -286,7 +366,35 @@ export class PlayerBoardComponent {
   // ------------------------------------------------------------
   // Helpers
   // ------------------------------------------------------------
-  getOrganByColor(color: CardColor) {
-    return this.player().board.find((o) => o.color === color);
+  // getOrganByColor(color: CardColor): OrganOnBoard {
+  //   return this.player().board.find((o) => o.color === color)!;
+  // }
+  getOrganByColor(color: CardColor): OrganOnBoard | null {
+    return this.player().board.find((o) => o.color === color) ?? null;
+  }
+
+  // helper para construir la lista de ids a conectar para UN hueco concreto (excluye el propio)
+  getConnectedIdsForSlot(color: CardColor): string[] {
+    const me = this._apiPlayer.player();
+    const result: string[] = [];
+
+    // 1) la mano local (si existe)
+    if (me) {
+      result.push(`handList-${me.id}`);
+    }
+
+    // 2) todos los demás huecos (excepto este hueco concreto)
+    const mySlotId = `slot-${this.player().player.id}-${color}`;
+    const others = this.allSlotIds().filter((id) => id !== mySlotId);
+    result.push(...others);
+
+    return result;
+  }
+
+  onEnterBoard(event: any) {
+    // entrada visual / debugging
+    const card = event.item?.data;
+    const who = this.player()?.player?.name;
+    console.log(`[ENTER] Carta ${card?.id ?? card} entró en tablero de ${who}`);
   }
 }

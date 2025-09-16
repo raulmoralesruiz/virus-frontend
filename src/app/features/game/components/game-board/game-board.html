@@ -6,9 +6,13 @@
     [isMe]="p.player.id === meId"
     [isActive]="i === state().turnIndex"
     [roomId]="state().roomId"
+    [allSlotIds]="allSlotIds()"
     [transplantState]="transplantState"
     (startTransplant)="startTransplant($event.card, $event.firstOrgan)"
     (finishTransplant)="finishTransplant($event)"
+    [contagionState]="contagionState"
+    (virusMoved)="addAssignment($event)"
+    (startContagion)="startContagion($event.card)"
   ></player-board>
   }
 </div>
@@ -18,4 +22,10 @@
 <button class="cancel-transplant" (click)="cancelTransplant()">
   Cancelar trasplante
 </button>
+}
+
+<!-- Botones modo contagio -->
+@if (contagionState) {
+<button (click)="finishContagion()">Finalizar contagio</button>
+<button (click)="cancelContagion()">Cancelar</button>
 }

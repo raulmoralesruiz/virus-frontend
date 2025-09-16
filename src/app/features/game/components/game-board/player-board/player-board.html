@@ -12,14 +12,17 @@
       [id]="'slot-' + player().player.id + '-' + color"
       cdkDropList
       [cdkDropListData]="organ ? [organ] : []"
-      [cdkDropListConnectedTo]="connectedTo()"
-      (cdkDropListDropped)="onSlotDrop($event, color)"
+      [cdkDropListConnectedTo]="getConnectedIdsForSlot(color)"
+      (cdkDropListDropped)="onDrop($event, color, organ!)"
       (cdkDropListEntered)="onEnterBoard($event)"
       (click)="onSlotClick(organ, player().player.id)"
       [class.transplant-mode]="transplantState()"
     >
       @if (organ) {
-      <player-card [organ]="organ"></player-card>
+      <player-card
+        [organ]="organ"
+        [contagionMode]="contagionState()! && isMe()"
+      ></player-card>
       } @else {
       <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
       }
