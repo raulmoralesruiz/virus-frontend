@@ -19,6 +19,7 @@ import {
 import {
   MedicalErrorTarget,
   OrganOnBoard,
+  PublicGameState,
   PublicPlayerInfo,
 } from '../../../../../core/models/game.model';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
@@ -46,6 +47,11 @@ export class PlayerBoardComponent {
   isMe = input(false);
   isActive = input(false);
   roomId = input.required<string>();
+  gameState = input.required<PublicGameState>();
+  getTemporaryVirusesForOrgan =
+    input.required<(organId: string, playerId: string) => Card[]>();
+  hasTemporaryVirus =
+    input.required<(organId: string, playerId: string) => boolean>();
 
   cardColors = Object.values(CardColor);
 
@@ -67,12 +73,19 @@ export class PlayerBoardComponent {
       toOrganId: string;
       toPlayerId: string;
     }[];
+    temporaryViruses: {
+      organId: string;
+      playerId: string;
+      virus: Card;
+      isTemporary: true;
+    }[];
   } | null>(null);
 
   virusMoved = output<{
     fromOrganId: string;
     toOrganId: string;
     toPlayerId: string;
+    virus: Card;
   }>();
 
   // 👇 nuevo output para contagio
@@ -134,45 +147,110 @@ export class PlayerBoardComponent {
     }
   }
 
+  // Método mejorado para manejar el drop de virus
   onVirusDrop(event: CdkDragDrop<any>, organ: OrganOnBoard) {
     const data = event.item.data; // { fromOrganId, virusId }
-    if (!this.contagionState()) return;
+    const contagionState = this.contagionState();
+    if (!contagionState) return;
 
     console.log(`onVirusDrop - data:${JSON.stringify(data)}`);
     console.log(`onVirusDrop - organ:${JSON.stringify(organ)}`);
 
-    // nueva validación: evitar mismo órgano
+    // ===== VALIDACIONES =====
+
+    // 1. Evitar mismo órgano
     if (data.fromOrganId === organ.id) {
       this._gameStore.setClientError(
-        'Has dejado el virus en el mismo órgano, no tiene efecto.'
+        'No puedes mover el virus al mismo órgano.'
       );
       return;
     }
 
-    // Validar: órgano destino debe estar libre
-    if (
-      organ.attached.some((a) => a.kind === 'virus' || a.kind === 'medicine')
-    ) {
+    // 2. Validar que es un órgano rival
+    if (this.isMe()) {
+      this._gameStore.setClientError(
+        'No puedes contagiar tus propios órganos.'
+      );
+      return;
+    }
+
+    // 3. Verificar que el órgano destino está libre
+    const hasAttached = organ.attached.some(
+      (a) => a.kind === 'virus' || a.kind === 'medicine'
+    );
+
+    // Usar el método del parent para verificar virus temporales
+    const hasTemporary = this.hasTemporaryVirus()(
+      organ.id,
+      this.player().player.id
+    );
+
+    if (hasAttached || hasTemporary) {
       this._gameStore.setClientError('El órgano destino no está libre.');
       return;
     }
 
-    // actualizar frontend en caliente
-    const me = this.player();
-    const fromOrgan = me.board.find((o) => o.id === data.fromOrganId);
-    if (fromOrgan) {
-      const idx = fromOrgan.attached.findIndex((a) => a.id === data.virusId);
-      if (idx >= 0) {
-        const [virus] = fromOrgan.attached.splice(idx, 1);
-        organ.attached.push(virus); // 👈 mover virus al destino
+    // 4. Buscar el órgano origen y el virus
+    const gameState = this.gameState();
+    let fromOrgan: OrganOnBoard | null = null;
+    let sourcePlayer: any = null;
+
+    for (const player of gameState.players) {
+      const foundOrgan = player.board.find(
+        (o: any) => o.id === data.fromOrganId
+      );
+      if (foundOrgan) {
+        fromOrgan = foundOrgan;
+        sourcePlayer = player;
+        break;
       }
     }
+
+    if (!fromOrgan) {
+      this._gameStore.setClientError('No se encontró el órgano origen.');
+      return;
+    }
+
+    const virus = fromOrgan.attached.find((a) => a.id === data.virusId);
+
+    if (!virus) {
+      this._gameStore.setClientError('No se encontró el virus a mover.');
+      return;
+    }
+
+    // 5. Verificar compatibilidad de colores
+    const isColorCompatible =
+      virus.color === organ.color ||
+      virus.color === CardColor.Multi ||
+      organ.color === CardColor.Multi;
+
+    if (!isColorCompatible) {
+      this._gameStore.setClientError(
+        `El virus ${virus.color} no es compatible con el órgano ${organ.color}.`
+      );
+      return;
+    }
+
+    // ===== EJECUTAR MOVIMIENTO =====
+    // IMPORTANTE: NO modificar organ.attached directamente
+    // Solo emitir el evento, el estado se maneja en game-board
 
     this.virusMoved.emit({
       fromOrganId: data.fromOrganId,
       toOrganId: organ.id,
       toPlayerId: this.player().player.id,
+      virus: virus,
     });
+  }
+
+  // Método helper para verificar si un virus es temporal
+  isTemporaryVirus(organId: string, virusId: string): boolean {
+    const contagionState = this.contagionState();
+    if (!contagionState) return false;
+
+    return contagionState.temporaryViruses.some(
+      (tv) => tv.organId === organId && tv.virus.id === virusId
+    );
   }
 
   // ------------------------------------------------------------

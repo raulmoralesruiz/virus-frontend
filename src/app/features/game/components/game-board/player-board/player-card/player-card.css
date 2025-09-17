@@ -66,3 +66,8 @@
   border: 1px dashed gray; */
 }
 
+/* Estilo para virus temporales */
+.attached-card.temporary-virus {
+  border: 2px dashed #000 !important;
+  opacity: 0.8;
+}

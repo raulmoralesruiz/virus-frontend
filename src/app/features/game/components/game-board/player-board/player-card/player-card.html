@@ -1,10 +1,11 @@
 <div class="card organ {{ organ.color }}">
   <div class="title">{{ organ.color | titlecase }}</div>
 
-  @if (organ.attached.length) {
+  @if (getAllAttachedCards().length) {
   <div class="attachments">
-    @for (a of organ.attached; track a.id) { @if (contagionMode && isVirus(a)) {
-    <!-- Virus arrastrable en modo contagio -->
+    @for (a of getAllAttachedCards(); track a.id) { @if (contagionMode &&
+    isVirus(a) && !isTemporaryVirus(a.id)) {
+    <!-- Virus arrastrable en modo contagio (solo los reales, no temporales) -->
     <div
       class="attached-card chip virus {{ a.color }}"
       cdkDrag
@@ -13,8 +14,11 @@
       <span class="icon">🦠</span>
     </div>
     } @else {
-    <!-- Cualquier otra carta (virus estático o medicina) -->
-    <div class="attached-card chip {{ a.kind }} {{ a.color }}">
+    <!-- Cualquier otra carta (virus temporal, estático o medicina) -->
+    <div
+      class="attached-card chip {{ a.kind }} {{ a.color }}"
+      [class.temporary-virus]="isVirus(a) && isTemporaryVirus(a.id)"
+    >
       @if (isVirus(a)) {
       <span class="icon">🦠</span>
       } @else {

@@ -1,0 +1,17 @@
+{
+  "player": {
+    "id": "3ce4b570-58dc-4c2c-8db9-0d3bf1c38a78",
+    "name": "22",
+    "socketId": "7fDuPvruAixGkfOgAAAF"
+  },
+  "handCount": 3,
+  "board": [
+    {
+      "id": "organ_yellow_3",
+      "kind": "organ",
+      "color": "yellow",
+      "attached": []
+    },
+    { "id": "organ_green_5", "kind": "organ", "color": "green", "attached": [] }
+  ]
+}

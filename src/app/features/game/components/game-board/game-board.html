@@ -7,6 +7,9 @@
     [isActive]="i === state().turnIndex"
     [roomId]="state().roomId"
     [allSlotIds]="allSlotIds()"
+    [gameState]="state()"
+    [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan.bind(this)"
+    [hasTemporaryVirus]="hasTemporaryVirus.bind(this)"
     [transplantState]="transplantState"
     (startTransplant)="startTransplant($event.card, $event.firstOrgan)"
     (finishTransplant)="finishTransplant($event)"
@@ -26,6 +29,17 @@
 
 <!-- Botones modo contagio -->
 @if (contagionState) {
-<button (click)="finishContagion()">Finalizar contagio</button>
-<button (click)="cancelContagion()">Cancelar</button>
+<div class="contagion-controls">
+  <button
+    (click)="finishContagion()"
+    [disabled]="contagionState.assignments.length === 0"
+    class="finish-contagion"
+  >
+    Finalizar contagio ({{ contagionState.assignments.length }} virus{{
+      contagionState.assignments.length !== 1 ? "es" : ""
+    }}
+    movido{{ contagionState.assignments.length !== 1 ? "s" : "" }})
+  </button>
+  <button (click)="cancelContagion()" class="cancel-contagion">Cancelar</button>
+</div>
 }
