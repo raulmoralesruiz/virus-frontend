@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
-import { TitleCasePipe } from '@angular/common';
-import { Card, CardKind } from '../../../../../../core/models/card.model';
+import {
+  Card,
+  CardKind,
+  CardColor,
+} from '../../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'player-card',
   standalone: true,
-  imports: [TitleCasePipe, DragDropModule],
+  imports: [DragDropModule],
   templateUrl: './player-card.html',
   styleUrl: './player-card.css',
 })
@@ -28,6 +31,14 @@ export class PlayerCardComponent {
     }[];
   } | null = null;
 
+  private readonly organIcons: Record<CardColor, string> = {
+    [CardColor.Red]: '❤️',
+    [CardColor.Green]: '🫃',
+    [CardColor.Blue]: '🧠',
+    [CardColor.Yellow]: '🦴',
+    [CardColor.Multi]: '🌈',
+  };
+
   // Método para obtener todos los virus (reales + temporales)
   getAllAttachedCards(): Card[] {
     const realCards = this.organ.attached || [];
@@ -42,5 +53,9 @@ export class PlayerCardComponent {
 
   isTemporaryVirus(virusId: string): boolean {
     return this.temporaryViruses.some((tv) => tv.id === virusId);
+  }
+
+  organIcon(): string {
+    return this.organIcons[this.organ.color] ?? '❔';
   }
 }

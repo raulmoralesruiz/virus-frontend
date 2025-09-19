@@ -27,7 +27,7 @@
         "
       ></player-card>
       } @else {
-      <div class="slot-empty {{ color }}">{{ color | titlecase }}</div>
+      <div class="slot-empty {{ color }}">{{ getOrganIcon(color) }}</div>
       }
     </div>
     }

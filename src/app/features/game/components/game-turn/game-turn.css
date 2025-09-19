@@ -1,6 +1,6 @@
 .game-turn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   gap: 0.25rem;
   padding: 0.75rem 1rem;
@@ -8,6 +8,7 @@
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+  justify-content: space-between;
 }
 
 .game-turn p {

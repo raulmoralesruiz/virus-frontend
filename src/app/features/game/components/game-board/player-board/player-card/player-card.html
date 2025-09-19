@@ -1,7 +1,7 @@
 <div class="card organ {{ organ.color }}">
-  <div class="title">{{ organ.color | titlecase }}</div>
-
-  @if (getAllAttachedCards().length) {
+  @if (organ.attached.length === 0) {
+  <div class="title">{{ organIcon() }}</div>
+  } @if (getAllAttachedCards().length) {
   <div class="attachments">
     @for (a of getAllAttachedCards(); track a.id) { @if (contagionMode &&
     isVirus(a) && !isTemporaryVirus(a.id)) {

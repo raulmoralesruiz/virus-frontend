@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   Card,
   CardColor,
@@ -22,7 +22,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   templateUrl: './game-hand.html',
   styleUrl: './game-hand.css',
 })
-export class GameHandComponent {
+export class GameHandComponent implements OnChanges {
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
   get apiPlayer() {
@@ -68,6 +68,16 @@ export class GameHandComponent {
       }
     }
     return ids;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const turnChange = changes['isMyTurn'];
+    if (!turnChange || turnChange.firstChange) return;
+
+    if (turnChange.previousValue && !turnChange.currentValue) {
+      this.clearSelection();
+      this.selectedCardsToDiscard = [];
+    }
   }
 
   onExitHand(event: any) {

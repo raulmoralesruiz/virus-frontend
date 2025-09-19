@@ -9,7 +9,6 @@ import {
   Output,
 } from '@angular/core';
 import { PlayerCardComponent } from './player-card/player-card';
-import { TitleCasePipe } from '@angular/common';
 import {
   Card,
   CardColor,
@@ -29,7 +28,7 @@ import { ApiPlayerService } from '../../../../../core/services/api/api.player.se
 @Component({
   selector: 'player-board',
   standalone: true,
-  imports: [PlayerCardComponent, TitleCasePipe, DragDropModule],
+  imports: [PlayerCardComponent, DragDropModule],
   templateUrl: './player-board.html',
   styleUrl: './player-board.css',
 })
@@ -54,6 +53,13 @@ export class PlayerBoardComponent {
     input.required<(organId: string, playerId: string) => boolean>();
 
   cardColors = Object.values(CardColor);
+  private readonly organIcons: Record<CardColor, string> = {
+    [CardColor.Red]: '❤️',
+    [CardColor.Green]: '🫃',
+    [CardColor.Blue]: '🧠',
+    [CardColor.Yellow]: '🦴',
+    [CardColor.Multi]: '🌈',
+  };
 
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
   connectedTo = computed(() => {
@@ -113,6 +119,10 @@ export class PlayerBoardComponent {
     } else {
       this.onSlotDrop(event, color);
     }
+  }
+
+  getOrganIcon(color: CardColor): string {
+    return this.organIcons[color] ?? '❔';
   }
 
   /**
