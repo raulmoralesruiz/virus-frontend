@@ -10,7 +10,7 @@ import { TestDndComponent } from '../game/components/prueba/test-dnd.component';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  imports: [TestDndComponent],
+  imports: [],
 })
 export class HomeComponent implements OnInit {
   private apiPlayerService = inject(ApiPlayerService);

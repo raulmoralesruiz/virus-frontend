@@ -1,37 +1,49 @@
-.player {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 8px;
-  /* background-color: green; */
+.player-board {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1rem;
+  transition: box-shadow 0.2s ease;
+  background: #ffffff;
+  box-shadow: 0 12px 30px -20px rgba(15, 23, 42, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .player-header {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  /* background-color: green; */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.player-header strong {
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.player-header .handcount {
+  font-size: 0.9rem;
+  color: #475569;
 }
 
 .board-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(100px, 1fr));
-  gap: 8px;
-  /* background-color: green; */
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 0.75rem;
 }
 
 .board-slot {
-  min-height: 80px;
-
-  /* background-color: green; */
-  /* border-radius: 8px; */
-  /* border: 1px dashed #ccc; */
+  min-height: 110px;
 }
 
 .slot-empty {
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 8px;
+  border: 2px dashed #cbd5f5;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
   text-align: center;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 /* Colores base - órgano vacío */
@@ -41,38 +53,48 @@
 .slot-empty.yellow { background: #fff8e6; }
 .slot-empty.multi { background: #f3e8ff; }
 
-
-.player-board {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 8px;
-  transition: box-shadow 0.2s;
-}
-
 .player-board.is-me {
-  border: 2px solid #0077cc;
-  background: #eef7ff;
+  border: 2px solid #2563eb;
+  background: #eff6ff;
 }
 
 .player-board.is-active {
-  box-shadow: 0 0 12px 3px rgba(0, 200, 0, 0.5);
+  box-shadow: 0 0 18px -4px rgba(16, 185, 129, 0.65);
 }
 
 /* cuando estamos en modo trasplante */
 .board-slot.transplant-mode {
   cursor: pointer;
-  outline: 2px dashed orange;
-  border-radius: 8px;
+  outline: 2px dashed #fb923c;
+  border-radius: 12px;
 }
 
 /* órgano A seleccionado */
 .board-slot.first-selected {
-  outline: 3px solid red;
-  background: rgba(255, 0, 0, 0.1);
+  outline: 3px solid #ef4444;
+  background: rgba(239, 68, 68, 0.12);
 }
 
 /* huecos válidos para B */
 .board-slot.valid-second {
-  outline: 3px solid green;
-  background: rgba(0, 255, 0, 0.1);
+  outline: 3px solid #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+@media (min-width: 600px) {
+  .player-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .board-grid {
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .board-grid {
+    grid-template-columns: repeat(5, minmax(140px, 1fr));
+  }
 }

@@ -1,7 +1,35 @@
 .game-info {
-  /* margin-bottom: 1rem; */
-
   display: flex;
-  justify-content: space-around;
-  align-items: baseline;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+}
+
+.game-info h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.game-info p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+@media (min-width: 768px) {
+  .game-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .game-info h2 {
+    font-size: 1.35rem;
+  }
 }

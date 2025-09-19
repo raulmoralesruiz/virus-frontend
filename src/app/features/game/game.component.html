@@ -1,39 +1,41 @@
-<!-- Winner -->
-@if (winner(); as w) {
-<game-winner [winner]="w" (reset)="resetGame()"></game-winner>
-}
+<div class="game-layout">
+  <!-- Winner -->
+  @if (winner(); as w) {
+  <game-winner [winner]="w" (reset)="resetGame()"></game-winner>
+  }
 
-<!-- Información de la partida -->
-@if (publicState(); as st) {
-<game-info [state]="st"></game-info>
+  <!-- Información de la partida -->
+  @if (publicState(); as st) {
+  <game-info [state]="st"></game-info>
 
-<!-- Información del turno -->
-@if (!winner()) {
-<game-turn
-  [state]="st"
-  [remainingSeconds]="remainingSeconds()"
-  [isMyTurn]="isMyTurn()"
-  [isGameEnded]="isGameEnded()"
-  (timeoutExpired)="handleTurnTimeout()"
-></game-turn>
-}
+  <!-- Información del turno -->
+  @if (!winner()) {
+  <game-turn
+    [state]="st"
+    [remainingSeconds]="remainingSeconds()"
+    [isMyTurn]="isMyTurn()"
+    [isGameEnded]="isGameEnded()"
+    (timeoutExpired)="handleTurnTimeout()"
+  ></game-turn>
+  }
 
-<!-- Tablero de la partida -->
-<game-board [state]="st"></game-board>
+  <!-- Tablero de la partida -->
+  <game-board [state]="st"></game-board>
 
-<!-- Mano del jugador -->
-<game-hand
-  [hand]="hand()"
-  [isMyTurn]="isMyTurn()"
-  [roomId]="roomId"
-  [publicState]="st"
-  [gameEnded]="isGameEnded()"
-></game-hand>
-}
-<!-- Home -->
-@else {
-<button (click)="goHome()">Empezar de nuevo</button>
-}
+  <!-- Mano del jugador -->
+  <game-hand
+    [hand]="hand()"
+    [isMyTurn]="isMyTurn()"
+    [roomId]="roomId"
+    [publicState]="st"
+    [gameEnded]="isGameEnded()"
+  ></game-hand>
+  }
+  <!-- Home -->
+  @else {
+  <button (click)="goHome()">Empezar de nuevo</button>
+  }
 
-<!-- Errores -->
-<game-error [error]="lastError()"></game-error>
+  <!-- Errores -->
+  <game-error [error]="lastError()"></game-error>
+</div>

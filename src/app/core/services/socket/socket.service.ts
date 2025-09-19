@@ -37,7 +37,9 @@ export class SocketService {
       if (p?.id) {
         this.emit('player:identify', { playerId: p.id });
       }
-    } catch {}
+    } catch {
+      console.warn('Failed to identify player:');
+    }
   }
 
   emit(event: string, data?: any) {
