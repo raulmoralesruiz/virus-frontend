@@ -6,16 +6,11 @@
 
   <!-- Información de la partida -->
   @if (publicState(); as st) {
-  <div class="game-toolbar">
-    <button class="history-toggle" type="button" (click)="openHistory($event)">
-      Historial
-      @if (history().length) {
-      <span class="history-badge">{{ history().length }}</span>
-      }
-    </button>
-  </div>
-
-  <game-info [state]="st"></game-info>
+  <game-info
+    [state]="st"
+    [historyCount]="history().length"
+    (historyRequested)="openHistory()"
+  ></game-info>
 
   <!-- Tablero de la partida -->
   <game-board [state]="st"></game-board>
