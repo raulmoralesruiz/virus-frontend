@@ -33,11 +33,17 @@ export class GameStoreService {
   });
 
   winner = this.socketGame.winner;
+  history = computed(() => this.publicState()?.history ?? []);
+  private historyVisible = signal(false);
+  historyOpen = this.historyVisible.asReadonly();
 
   constructor() {
     effect(() => {
       const state = this.publicState();
-      if (state) {
+      if (!state) return;
+
+      const targetUrl = `/game/${state.roomId}`;
+      if (!this.router.url.startsWith(targetUrl)) {
         this.router.navigate(['/game', state.roomId]);
       }
     });
@@ -109,5 +115,13 @@ export class GameStoreService {
 
   setClientError(msg: string) {
     this.socketGame.setClientError(msg);
+  }
+
+  openHistoryModal() {
+    this.historyVisible.set(true);
+  }
+
+  closeHistoryModal() {
+    this.historyVisible.set(false);
   }
 }

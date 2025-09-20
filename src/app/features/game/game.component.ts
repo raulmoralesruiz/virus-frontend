@@ -28,12 +28,14 @@ export class GameComponent implements OnInit {
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   hand: Signal<Card[]> = this.gameStore.hand;
+  history: Signal<string[]> = this.gameStore.history;
   roomId!: string;
 
   lastError = this.gameStore.lastError;
   isMyTurn = this.gameStore.isMyTurn;
   remainingSeconds = this.gameStore.remainingSeconds;
   winner = this.gameStore.winner;
+  showHistory = this.gameStore.historyOpen;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -66,6 +68,15 @@ export class GameComponent implements OnInit {
 
   goHome() {
     this.gameStore.goHome();
+  }
+
+  openHistory(event?: MouseEvent) {
+    event?.stopPropagation();
+    this.gameStore.openHistoryModal();
+  }
+
+  closeHistory() {
+    this.gameStore.closeHistoryModal();
   }
 
   handleTurnTimeout() {

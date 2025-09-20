@@ -15,6 +15,45 @@
   width: 100%;
 }
 
+.game-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.history-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.7);
+}
+
+.history-toggle:hover {
+  transform: translateY(-1px);
+  background: #1e293b;
+  box-shadow: 0 18px 34px -20px rgba(15, 23, 42, 0.75);
+}
+
+.history-badge {
+  min-width: 1.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #f97316;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .game-empty {
   display: flex;
   flex-direction: column;
@@ -62,6 +101,87 @@
 .cta-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 35px -20px rgba(37, 99, 235, 0.85);
+}
+
+.history-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 20;
+  backdrop-filter: blur(2px);
+}
+
+.history-modal {
+  width: min(420px, 92vw);
+  max-height: min(70vh, 520px);
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 28px 60px -24px rgba(15, 23, 42, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.history-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.history-close {
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  color: #475569;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.history-close:hover {
+  color: #0f172a;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+  max-height: calc(70vh - 6rem);
+  padding-right: 0.25rem;
+  flex: 1 1 auto;
+}
+
+.history-item {
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.history-empty {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 @media (min-width: 768px) {

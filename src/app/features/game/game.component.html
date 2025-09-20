@@ -6,6 +6,15 @@
 
   <!-- Información de la partida -->
   @if (publicState(); as st) {
+  <div class="game-toolbar">
+    <button class="history-toggle" type="button" (click)="openHistory($event)">
+      Historial
+      @if (history().length) {
+      <span class="history-badge">{{ history().length }}</span>
+      }
+    </button>
+  </div>
+
   <game-info [state]="st"></game-info>
 
   <!-- Tablero de la partida -->
@@ -28,6 +37,35 @@
       Puedes regresar a la pantalla principal para crear o unirte a otra sala.
     </p>
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
+  </div>
+  }
+
+  @if (showHistory()) {
+  <div class="history-overlay" (click)="closeHistory()">
+    <div class="history-modal" (click)="$event.stopPropagation()">
+      <div class="history-header">
+        <h3>Historial de movimientos</h3>
+        <button
+          type="button"
+          class="history-close"
+          aria-label="Cerrar historial"
+          (click)="closeHistory()"
+        >
+          ✕
+        </button>
+      </div>
+
+      @if (history().length) {
+      <ul class="history-list">
+        @for (entry of history(); track $index) {
+        <li class="history-item">{{ entry }}</li>
+        }
+      </ul>
+      }
+      @else {
+      <p class="history-empty">Aún no hay movimientos registrados.</p>
+      }
+    </div>
   </div>
   }
 
