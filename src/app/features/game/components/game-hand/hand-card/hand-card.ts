@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
+import {
+  Card,
+  CardColor,
+  CardKind,
+} from '../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-hand-card',
   standalone: true,
-  imports: [DragDropModule],
+  imports: [DragDropModule, TitleCasePipe, CommonModule],
   templateUrl: './hand-card.html',
   styleUrl: './hand-card.css',
 })
@@ -22,8 +27,39 @@ export class HandCard {
   }
 
   onPlay(event: MouseEvent) {
-    console.log(`test onPlay: ${event}`);
     event.stopPropagation(); // que no active toggleSelect al pulsar el botón
     this.play.emit(this.card);
   }
+
+  get icon(): string {
+    switch (this.card.kind) {
+      case CardKind.Organ:
+        return this.organIcons[this.card.color] ?? '❔';
+      case CardKind.Medicine:
+        return '💊';
+      case CardKind.Virus:
+        return '🦠';
+      case CardKind.Treatment:
+        return '🧪';
+      default:
+        return '❔';
+    }
+  }
+
+  get hasSubtype(): boolean {
+    return this.card.kind === CardKind.Treatment && !!this.card.subtype;
+  }
+
+  get formattedSubtype(): string | null {
+    if (!this.hasSubtype || !this.card.subtype) return null;
+    return this.card.subtype.replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
+  private readonly organIcons: Record<CardColor, string> = {
+    [CardColor.Red]: '❤️',
+    [CardColor.Green]: '🫃',
+    [CardColor.Blue]: '🧠',
+    [CardColor.Yellow]: '🦴',
+    [CardColor.Multi]: '🌈',
+  };
 }

@@ -1,16 +1,19 @@
-<!-- <div class="hand-card" [class.selected]="isSelected" (click)="onToggleSelect()"> -->
 <div
   class="hand-card"
-  [class.selected]="isSelected"
+  [ngClass]="[
+    'hand-card--' + card.color,
+    'hand-card--' + card.kind,
+    isSelected ? 'is-selected' : ''
+  ]"
   (click)="onToggleSelect()"
   cdkDrag
   [cdkDragData]="card"
 >
   <div class="card-content">
-    <div class="kind">{{ card.kind }}</div>
-    <div class="color">{{ card.color }}</div>
-    @if (card.kind === 'treatment' && card.subtype) {
-    <div class="subtype">{{ card.subtype }}</div>
+    @if (hasSubtype && formattedSubtype) {
+    <span class="card-subtype">{{ formattedSubtype | titlecase }}</span>
+    } @else {
+    <span class="card-icon">{{ icon }}</span>
     }
   </div>
 

@@ -22,6 +22,7 @@
   }
 </div>
 
+@if (selectedCardsToDiscard.length) {
 <button
   class="discard-btn"
   (click)="discardSelectedCards()"
@@ -29,6 +30,8 @@
 >
   Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
 </button>
+}
+<!-- Jugador no tiene cartas -->
 } @else {
 <p>Sin cartas</p>
 }
