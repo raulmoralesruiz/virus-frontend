@@ -1,4 +1,45 @@
-.error {
-  color: red;
-  font-weight: bold;
+.error-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.15);
+  animation: fade-in 150ms ease-out;
+}
+
+.error-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(90vw, 420px);
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  background: #fff4f4;
+  color: #7a0000;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(122, 0, 0, 0.15);
+  font-weight: 600;
+}
+
+.error-icon {
+  font-size: 1.5rem;
+}
+
+.error-message {
+  margin: 0;
+  line-height: 1.4;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

@@ -5,7 +5,6 @@ import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameInfoComponent } from './components/game-info/game-info';
-import { GameTurnComponent } from './components/game-turn/game-turn';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
@@ -15,7 +14,6 @@ import { GameWinnerComponent } from './components/game-winner/game-winner';
   imports: [
     GameErrorComponent,
     GameInfoComponent,
-    GameTurnComponent,
     GameBoardComponent,
     GameHandComponent,
     GameWinnerComponent,
