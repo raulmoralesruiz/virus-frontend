@@ -1,4 +1,4 @@
-<h3>Tu mano: {{ hand.length }} cartas</h3>
+<!-- <h3>Tu mano: {{ hand.length }} cartas</h3> -->
 
 @if (hand.length) {
 <div
@@ -51,26 +51,24 @@
   TreatmentSubtype.Transplant) {
   <div class="field">
     <label for="transplant-organ-a">Órgano A:</label>
-    <select
-      id="transplant-organ-a"
-      (change)="onTargetChange($event, 'A')"
-    >
+    <select id="transplant-organ-a" (change)="onTargetChange($event, 'A')">
       <option value="">-- Selecciona --</option>
       @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
       }
     </select>
   </div>
 
   <div class="field">
     <label for="transplant-organ-b">Órgano B:</label>
-    <select
-      id="transplant-organ-b"
-      (change)="onTargetChange($event, 'B')"
-    >
+    <select id="transplant-organ-b" (change)="onTargetChange($event, 'B')">
       <option value="">-- Selecciona --</option>
       @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
       }
     </select>
   </div>
@@ -109,7 +107,9 @@
     <select id="card-target" (change)="onTargetChange($event)">
       <option value="">-- Selecciona --</option>
       @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
       }
     </select>
   </div>

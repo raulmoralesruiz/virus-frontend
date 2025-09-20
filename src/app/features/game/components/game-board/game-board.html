@@ -1,4 +1,4 @@
-<h3>Tablero</h3>
+<!-- <h3>Tablero</h3> -->
 <div class="players">
   @for (p of state().players; let i = $index; track p.player.id) {
   <player-board
@@ -8,6 +8,7 @@
     [roomId]="state().roomId"
     [allSlotIds]="allSlotIds()"
     [gameState]="state()"
+    [remainingSeconds]="gameStore.remainingSeconds()"
     [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan.bind(this)"
     [hasTemporaryVirus]="hasTemporaryVirus.bind(this)"
     [transplantState]="transplantState"

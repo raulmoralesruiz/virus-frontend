@@ -1,5 +1,5 @@
 .player-board {
-  --board-slot-min-height: 80px;
+  /* --board-slot-min-height: 80px; */
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 1.5rem 0.75rem 0.75rem;
@@ -16,14 +16,15 @@
   position: absolute;
   top: 0;
   left: 1rem;
-  transform: translateY(-50%);
+  right: 1rem;
+  /* transform: translateY(-50%); */
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  background: #ffffff;
-  padding: 0 0.4rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  /* background: #ffffff; */
+  padding: 0.2rem 0.6rem;
   z-index: 1;
-  /* border: 1px solid black; */
   border-radius: 8px;
 }
 
@@ -36,6 +37,17 @@
 .player-header .handcount {
   font-size: 0.9rem;
   color: #475569;
+}
+
+.player-header .turn-timer {
+  margin-left: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.player-board.is-active .player-header .turn-timer {
+  color: #16a34a;
 }
 
 .board-grid {

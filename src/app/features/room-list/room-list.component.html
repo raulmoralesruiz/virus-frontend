@@ -1,17 +1,25 @@
-<h2>Jugador: {{ player()?.name }}</h2>
+<div class="room-list-screen">
+  <div class="room-panel">
+    <h2>Hola, {{ player()?.name }}</h2>
+    <p>Elige una sala existente o crea una nueva para comenzar la partida.</p>
+    <button class="cta-button" (click)="createRoom()">Crear sala</button>
 
-<h2>Salas disponibles</h2>
-<button (click)="createRoom()">Crear sala</button>
-
-@if (roomList().length > 0) {
-<ul>
-  @for (room of roomList(); track room.id) {
-  <li>
-    {{ room.name }} ({{ room.players.length }} jugadores)
-    <button (click)="joinRoom(room.id)">Unirse</button>
-  </li>
-  }
-</ul>
-} @else {
-<p>No hay salas disponibles</p>
-}
+    @if (roomList().length > 0) {
+    <ul class="room-list">
+      @for (room of roomList(); track room.id) {
+      <li>
+        <div class="room-info">
+          <strong>{{ room.name }}</strong>
+          <span>{{ room.players.length }} jugadores</span>
+        </div>
+        <button class="secondary-button" (click)="joinRoom(room.id)">
+          Unirse
+        </button>
+      </li>
+      }
+    </ul>
+    } @else {
+    <p class="empty-copy">No hay salas disponibles por ahora. ¡Crea la primera!</p>
+    }
+  </div>
+</div>

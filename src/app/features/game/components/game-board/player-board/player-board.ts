@@ -47,6 +47,7 @@ export class PlayerBoardComponent {
   isActive = input(false);
   roomId = input.required<string>();
   gameState = input.required<PublicGameState>();
+  remainingSeconds = input(0);
   getTemporaryVirusesForOrgan =
     input.required<(organId: string, playerId: string) => Card[]>();
   hasTemporaryVirus =

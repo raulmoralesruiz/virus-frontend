@@ -1,26 +1,35 @@
-@if (room()) {
-<h2>{{ room()!.name }} ({{ room()!.players.length }} jugadores)</h2>
-<ul>
-  @for (player of room()!.players; track player.id) {
-  <li>{{ player.name }}</li>
+<div class="room-screen">
+  @if (room()) {
+  <div class="room-panel">
+    <h2>{{ room()!.name }}</h2>
+    <p class="subtitle">
+      {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
+      "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
+    </p>
+
+    <ul class="player-list">
+      @for (player of room()!.players; track player.id) {
+      <li>{{ player.name }}</li>
+      }
+    </ul>
+
+    @if (isHost()) {
+    <button
+      class="cta-button"
+      (click)="startGame()"
+      [disabled]="!isHost() || isIncorrectNumberPlayers()"
+    >
+      Iniciar partida
+    </button>
+    } @else {
+    <p class="waiting-copy">Espera a que el anfitrión inicie la partida.</p>
+    }
+  </div>
+  } @else {
+  <div class="room-panel">
+    <h2>No estás en ninguna sala</h2>
+    <p class="subtitle">Regresa al inicio para crear o unirte a una partida.</p>
+    <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
+  </div>
   }
-</ul>
-
-@if (isHost()) {
-<button
-  (click)="startGame()"
-  [disabled]="!isHost() || isIncorrectNumberPlayers()"
->
-  Iniciar partida
-</button>
-}
-<!-- No es anfitrión -->
-@else {
-<p>Espera a que el anfitrión inicie la partida</p>
-}
-
-<!-- No existe la sala -->
-} @else {
-<p>No estás en ninguna sala</p>
-<button (click)="goHome()">Empezar de nuevo</button>
-}
+</div>

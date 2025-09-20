@@ -8,17 +8,6 @@
   @if (publicState(); as st) {
   <game-info [state]="st"></game-info>
 
-  <!-- Información del turno -->
-  @if (!winner()) {
-  <game-turn
-    [state]="st"
-    [remainingSeconds]="remainingSeconds()"
-    [isMyTurn]="isMyTurn()"
-    [isGameEnded]="isGameEnded()"
-    (timeoutExpired)="handleTurnTimeout()"
-  ></game-turn>
-  }
-
   <!-- Tablero de la partida -->
   <game-board [state]="st"></game-board>
 
@@ -33,7 +22,13 @@
   }
   <!-- Home -->
   @else {
-  <button (click)="goHome()">Empezar de nuevo</button>
+  <div class="game-empty">
+    <h2>¿Partida finalizada?</h2>
+    <p>
+      Puedes regresar a la pantalla principal para crear o unirte a otra sala.
+    </p>
+    <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
+  </div>
   }
 
   <!-- Errores -->
