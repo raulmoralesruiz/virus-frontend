@@ -3,14 +3,15 @@ import {
   Card,
   CardColor,
   CardKind,
+  TreatmentSubtype,
 } from '../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommonModule, TitleCasePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hand-card',
   standalone: true,
-  imports: [DragDropModule, TitleCasePipe, CommonModule],
+  imports: [DragDropModule, CommonModule],
   templateUrl: './hand-card.html',
   styleUrl: './hand-card.css',
 })
@@ -52,7 +53,14 @@ export class HandCard {
 
   get formattedSubtype(): string | null {
     if (!this.hasSubtype || !this.card.subtype) return null;
-    return this.card.subtype.replace(/([a-z])([A-Z])/g, '$1 $2');
+    const withSpaces = this.card.subtype.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return withSpaces.replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
+  get subtypeImagePath(): string | null {
+    if (!this.hasSubtype || !this.card.subtype) return null;
+    const iconFile = this.treatmentIcons[this.card.subtype];
+    return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 
   private readonly organIcons: Record<CardColor, string> = {
@@ -61,5 +69,13 @@ export class HandCard {
     [CardColor.Blue]: '🧠',
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
+  };
+
+  private readonly treatmentIcons: Record<TreatmentSubtype, string> = {
+    [TreatmentSubtype.Transplant]: 'transplant.svg',
+    [TreatmentSubtype.OrganThief]: 'organThief.svg',
+    [TreatmentSubtype.Contagion]: 'contagion.svg',
+    [TreatmentSubtype.Gloves]: 'gloves.svg',
+    [TreatmentSubtype.MedicalError]: 'medicalError.svg',
   };
 }

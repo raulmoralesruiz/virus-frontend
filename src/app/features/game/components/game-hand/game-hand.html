@@ -1,39 +1,44 @@
 <!-- <h3>Tu mano: {{ hand.length }} cartas</h3> -->
 
 @if (hand.length) {
-<div
-  class="hand-container"
-  cdkDropList
-  [id]="'handList-' + (apiPlayer.player()?.id || '')"
-  [cdkDropListData]="hand"
-  [cdkDropListConnectedTo]="boardIds()"
-  (cdkDropListExited)="onExitHand($event)"
->
-  @for (card of hand; track card.id) {
-  <app-hand-card
-    [card]="card"
-    [isSelected]="selectedCardsToDiscard.includes(card)"
-    [isMyTurn]="isMyTurn"
-    (toggleSelect)="toggleDiscardSelection($event)"
-    (play)="selectCardToPlay($event)"
-    cdkDrag
-    [cdkDragData]="card"
-  ></app-hand-card>
+<div class="hand-panel">
+  <div
+    class="hand-container"
+    cdkDropList
+    [id]="'handList-' + (apiPlayer.player()?.id || '')"
+    [cdkDropListData]="hand"
+    [cdkDropListConnectedTo]="boardIds()"
+    (cdkDropListExited)="onExitHand($event)"
+  >
+    @for (card of hand; track card.id) {
+    <app-hand-card
+      [card]="card"
+      [isSelected]="selectedCardsToDiscard.includes(card)"
+      [isMyTurn]="isMyTurn"
+      (toggleSelect)="toggleDiscardSelection($event)"
+      (play)="selectCardToPlay($event)"
+      cdkDrag
+      [cdkDragData]="card"
+    ></app-hand-card>
+    }
+  </div>
+
+  @if (selectedCardsToDiscard.length) {
+  <button
+    class="discard-btn"
+    (click)="discardSelectedCards()"
+    [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0 || gameEnded"
+  >
+    Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
+  </button>
   }
 </div>
-
-@if (selectedCardsToDiscard.length) {
-<button
-  class="discard-btn"
-  (click)="discardSelectedCards()"
-  [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0 || gameEnded"
->
-  Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
-</button>
-}
+<div class="hand-panel-spacer" aria-hidden="true"></div>
 <!-- Jugador no tiene cartas -->
 } @else {
-<p>Sin cartas</p>
+<div class="hand-empty">
+  <p>Sin cartas</p>
+</div>
 }
 
 <!-- UI para seleccionar objetivo -->

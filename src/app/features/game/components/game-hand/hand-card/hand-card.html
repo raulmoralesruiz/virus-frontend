@@ -10,8 +10,12 @@
   [cdkDragData]="card"
 >
   <div class="card-content">
-    @if (hasSubtype && formattedSubtype) {
-    <span class="card-subtype">{{ formattedSubtype | titlecase }}</span>
+    @if (hasSubtype && subtypeImagePath) {
+    <img
+      class="card-subtype-image"
+      [src]="subtypeImagePath"
+      [alt]="formattedSubtype ?? 'Tratamiento'"
+    />
     } @else {
     <span class="card-icon">{{ icon }}</span>
     }
