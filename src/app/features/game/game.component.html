@@ -1,39 +1,69 @@
-<!-- Winner -->
-@if (winner(); as w) {
-<game-winner [winner]="w" (reset)="resetGame()"></game-winner>
-}
+<div class="game-layout">
+  <!-- Winner -->
+  @if (winner(); as w) {
+  <game-winner [winner]="w" (reset)="resetGame()"></game-winner>
+  }
 
-<!-- Información de la partida -->
-@if (publicState(); as st) {
-<game-info [state]="st"></game-info>
+  <!-- Información de la partida -->
+  @if (publicState(); as st) {
+  <game-info
+    [state]="st"
+    [historyCount]="history().length"
+    (historyRequested)="openHistory()"
+  ></game-info>
 
-<!-- Información del turno -->
-@if (!winner()) {
-<game-turn
-  [state]="st"
-  [remainingSeconds]="remainingSeconds()"
-  [isMyTurn]="isMyTurn()"
-  [isGameEnded]="isGameEnded()"
-  (timeoutExpired)="handleTurnTimeout()"
-></game-turn>
-}
+  <!-- Tablero de la partida -->
+  <game-board [state]="st"></game-board>
 
-<!-- Tablero de la partida -->
-<game-board [state]="st"></game-board>
+  <!-- Mano del jugador -->
+  <game-hand
+    [hand]="hand()"
+    [isMyTurn]="isMyTurn()"
+    [roomId]="roomId"
+    [publicState]="st"
+    [gameEnded]="isGameEnded()"
+  ></game-hand>
+  }
+  <!-- Home -->
+  @else {
+  <div class="game-empty">
+    <h2>¿Partida finalizada?</h2>
+    <p>
+      Puedes regresar a la pantalla principal para crear o unirte a otra sala.
+    </p>
+    <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
+  </div>
+  }
 
-<!-- Mano del jugador -->
-<game-hand
-  [hand]="hand()"
-  [isMyTurn]="isMyTurn()"
-  [roomId]="roomId"
-  [publicState]="st"
-  [gameEnded]="isGameEnded()"
-></game-hand>
-}
-<!-- Home -->
-@else {
-<button (click)="goHome()">Empezar de nuevo</button>
-}
+  @if (showHistory()) {
+  <div class="history-overlay" (click)="closeHistory()">
+    <div class="history-modal" (click)="$event.stopPropagation()">
+      <div class="history-header">
+        <h3>Historial de movimientos</h3>
+        <button
+          type="button"
+          class="history-close"
+          aria-label="Cerrar historial"
+          (click)="closeHistory()"
+        >
+          ✕
+        </button>
+      </div>
 
-<!-- Errores -->
-<game-error [error]="lastError()"></game-error>
+      @if (history().length) {
+      <ul class="history-list">
+        @for (entry of history(); track $index) {
+        <li class="history-item">{{ entry }}</li>
+        }
+      </ul>
+      }
+      @else {
+      <p class="history-empty">Aún no hay movimientos registrados.</p>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Errores -->
+  <game-error [error]="lastError()"></game-error>
+</div>

@@ -1,6 +1,27 @@
-<div class="game-info">
-  <h2>Partida {{ state.roomId.substring(0, 6) }}</h2>
-  <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
-  <p>Mazo: {{ state.deckCount }} cartas</p>
-  <p>Descarte: {{ state.discardCount }} cartas</p>
+<div
+  class="game-info"
+  [class.game-info--expanded]="showDetails"
+  (click)="toggleDetails()"
+  (keydown)="onKeyDown($event)"
+  role="button"
+  tabindex="0"
+  [attr.aria-expanded]="showDetails"
+>
+  <div class="game-info__header">
+    <h2>Partida {{ shortRoomId }}</h2>
+    <button type="button" class="history-toggle" (click)="onHistoryClick($event)">
+      Historial
+      @if (historyCount) {
+      <span class="history-badge">{{ historyCount }}</span>
+      }
+    </button>
+  </div>
+
+  @if (showDetails) {
+  <div class="game-info__details">
+    <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
+    <p>Mazo: {{ state.deckCount }} cartas</p>
+    <p>Descarte: {{ state.discardCount }} cartas</p>
+  </div>
+  }
 </div>

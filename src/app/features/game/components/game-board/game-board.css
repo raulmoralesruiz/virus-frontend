@@ -1,4 +1,83 @@
 .players {
   display: grid;
-  gap: 1rem;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+.cancel-transplant {
+  margin-top: 0.75rem;
+  background: #e2e8f0;
+  border: 1px solid #cbd5f5;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  color: #1e293b;
+  width: 100%;
+}
+
+.contagion-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.contagion-controls button {
+  width: 100%;
+}
+
+.finish-contagion {
+  background: #059669;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+}
+
+.finish-contagion:disabled {
+  background: #34d399;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.cancel-contagion {
+  background: #f97316;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+}
+
+.cancel-contagion:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .players {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .players {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .cancel-transplant {
+    width: auto;
+  }
+
+  .contagion-controls {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .contagion-controls button {
+    width: auto;
+  }
 }

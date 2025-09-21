@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../../environments/environment';
+import { PLAYER_CONSTANTS } from '../../constants/player.constants';
 
 @Injectable({ providedIn: 'root' })
 export class SocketService {
@@ -20,7 +21,7 @@ export class SocketService {
     this.socket.on('connect', () => {
       this.connected.set(true);
       console.log('✅ Connected to socket server');
-      this.identifyIfPlayer();
+      this.tryRestorePlayerSession();
     });
 
     this.socket.on('disconnect', () => {
@@ -29,15 +30,17 @@ export class SocketService {
     });
   }
 
-  private identifyIfPlayer() {
+  private tryRestorePlayerSession() {
     try {
       const raw = localStorage.getItem('player');
       if (!raw) return;
       const p = JSON.parse(raw);
       if (p?.id) {
-        this.emit('player:identify', { playerId: p.id });
+        this.emit(PLAYER_CONSTANTS.PLAYER_RECONNECT, { playerId: p.id });
       }
-    } catch {}
+    } catch {
+      console.warn('Failed to restore player session:');
+    }
   }
 
   emit(event: string, data?: any) {

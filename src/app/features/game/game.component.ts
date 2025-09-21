@@ -5,7 +5,6 @@ import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameInfoComponent } from './components/game-info/game-info';
-import { GameTurnComponent } from './components/game-turn/game-turn';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
@@ -15,7 +14,6 @@ import { GameWinnerComponent } from './components/game-winner/game-winner';
   imports: [
     GameErrorComponent,
     GameInfoComponent,
-    GameTurnComponent,
     GameBoardComponent,
     GameHandComponent,
     GameWinnerComponent,
@@ -30,12 +28,14 @@ export class GameComponent implements OnInit {
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   hand: Signal<Card[]> = this.gameStore.hand;
+  history: Signal<string[]> = this.gameStore.history;
   roomId!: string;
 
   lastError = this.gameStore.lastError;
   isMyTurn = this.gameStore.isMyTurn;
   remainingSeconds = this.gameStore.remainingSeconds;
   winner = this.gameStore.winner;
+  showHistory = this.gameStore.historyOpen;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -68,6 +68,15 @@ export class GameComponent implements OnInit {
 
   goHome() {
     this.gameStore.goHome();
+  }
+
+  openHistory(event?: MouseEvent) {
+    event?.stopPropagation();
+    this.gameStore.openHistoryModal();
+  }
+
+  closeHistory() {
+    this.gameStore.closeHistoryModal();
   }
 
   handleTurnTimeout() {

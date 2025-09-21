@@ -1,8 +1,133 @@
-.selected-to-discard {
-  background: #ffe0e0;
-  border: 2px solid #d33;
+.hand-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  margin: 1rem 0;
+  padding: 0.25rem 0;
 }
 
-.test {
-  background-color: lightblue;
+.discard-btn {
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.discard-btn:not(:disabled):hover {
+  filter: brightness(0.95);
+}
+
+.discard-btn:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.target-select {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px -22px rgba(15, 23, 42, 0.6);
+}
+
+.target-select p {
+  margin: 0;
+  color: #0f172a;
+}
+
+.target-select h4 {
+  margin: 0.5rem 0 0;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.target-select .field,
+.contagion-assignment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contagion-assignment {
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.contagion-assignment:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.target-select label {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.target-select select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5f5;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.target-select button {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.target-select button:first-of-type {
+  background: #2563eb;
+  color: #fff;
+}
+
+.target-select button:last-of-type {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #cbd5f5;
+}
+
+@media (min-width: 640px) {
+  .hand-container {
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .discard-btn {
+    width: auto;
+    align-self: flex-end;
+    padding-inline: 1.2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .target-select {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: flex-end;
+    gap: 1rem;
+  }
+
+  .target-select button {
+    width: auto;
+    justify-self: flex-start;
+    padding-inline: 1.6rem;
+  }
 }

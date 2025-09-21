@@ -1,7 +1,14 @@
-<h3>Tu mano: {{ hand.length }} cartas</h3>
+<!-- <h3>Tu mano: {{ hand.length }} cartas</h3> -->
 
 @if (hand.length) {
-<ul>
+<div
+  class="hand-container"
+  cdkDropList
+  [id]="'handList-' + (apiPlayer.player()?.id || '')"
+  [cdkDropListData]="hand"
+  [cdkDropListConnectedTo]="boardIds()"
+  (cdkDropListExited)="onExitHand($event)"
+>
   @for (card of hand; track card.id) {
   <app-hand-card
     [card]="card"
@@ -9,16 +16,22 @@
     [isMyTurn]="isMyTurn"
     (toggleSelect)="toggleDiscardSelection($event)"
     (play)="selectCardToPlay($event)"
+    cdkDrag
+    [cdkDragData]="card"
   ></app-hand-card>
   }
-</ul>
+</div>
 
+@if (selectedCardsToDiscard.length) {
 <button
+  class="discard-btn"
   (click)="discardSelectedCards()"
   [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0 || gameEnded"
 >
   Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
 </button>
+}
+<!-- Jugador no tiene cartas -->
 } @else {
 <p>Sin cartas</p>
 }
@@ -39,21 +52,29 @@
   <!-- Transplante -->
   @if (selectedCard.kind === CardKind.Treatment && selectedCard.subtype ===
   TreatmentSubtype.Transplant) {
-  <label>Órgano A:</label>
-  <select (change)="onTargetChange($event, 'A')">
-    <option value="">-- Selecciona --</option>
-    @for (opt of targetOptions; track opt.organId) {
-    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
-    }
-  </select>
+  <div class="field">
+    <label for="transplant-organ-a">Órgano A:</label>
+    <select id="transplant-organ-a" (change)="onTargetChange($event, 'A')">
+      <option value="">-- Selecciona --</option>
+      @for (opt of targetOptions; track opt.organId) {
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
+      }
+    </select>
+  </div>
 
-  <label>Órgano B:</label>
-  <select (change)="onTargetChange($event, 'B')">
-    <option value="">-- Selecciona --</option>
-    @for (opt of targetOptions; track opt.organId) {
-    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
-    }
-  </select>
+  <div class="field">
+    <label for="transplant-organ-b">Órgano B:</label>
+    <select id="transplant-organ-b" (change)="onTargetChange($event, 'B')">
+      <option value="">-- Selecciona --</option>
+      @for (opt of targetOptions; track opt.organId) {
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
+      }
+    </select>
+  </div>
   }
 
   <!-- Contagion -->
@@ -62,8 +83,13 @@
   <h4>Asigna cada virus a un órgano libre de otro jugador</h4>
   @for (assignment of contagionAssignments; let i = $index; track i) {
   <div class="contagion-assignment">
-    <label>Virus desde órgano {{ assignment.fromOrganId }} →</label>
-    <select (change)="onContagionTargetChange($event, i)">
+    <label [attr.for]="'contagion-target-' + i">
+      Virus desde órgano {{ assignment.fromOrganId }} →
+    </label>
+    <select
+      (change)="onContagionTargetChange($event, i)"
+      [attr.id]="'contagion-target-' + i"
+    >
       <option value="">-- Selecciona destino --</option>
       @for (p of publicState?.players; track p.player.id) { @for (o of p.board;
       track o.id) { @if (!o.attached.length) {
@@ -79,13 +105,17 @@
   @if (targetOptions.length && !(selectedCard.kind === CardKind.Treatment &&
   (selectedCard.subtype === TreatmentSubtype.Transplant || selectedCard.subtype
   === TreatmentSubtype.Contagion))) {
-  <label>Objetivo:</label>
-  <select (change)="onTargetChange($event)">
-    <option value="">-- Selecciona --</option>
-    @for (opt of targetOptions; track opt.organId) {
-    <option [value]="opt.organId + '|' + opt.playerId">{{ opt.label }}</option>
-    }
-  </select>
+  <div class="field">
+    <label for="card-target">Objetivo:</label>
+    <select id="card-target" (change)="onTargetChange($event)">
+      <option value="">-- Selecciona --</option>
+      @for (opt of targetOptions; track opt.organId) {
+      <option [value]="opt.organId + '|' + opt.playerId">
+        {{ opt.label }}
+      </option>
+      }
+    </select>
+  </div>
   }
 
   <button (click)="confirmPlayCard()">Confirmar</button>

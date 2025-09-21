@@ -1,4 +1,4 @@
-.hand-card {
+/* .hand-card {
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
@@ -12,4 +12,156 @@
 .selected-to-discard {
   background: #ffe0e0;
   border: 1px solid gray;
+} */
+
+
+.hand-card {
+  width: 82px;
+  height: 120px;
+  border: 2px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 2px;
+  padding: 10px 8px;
+  box-shadow: 0 10px 24px -18px rgba(15, 23, 42, 0.85);
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+
+.hand-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 28px -16px rgba(15, 23, 42, 0.8);
+}
+
+.hand-card.is-selected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid #ef4444;
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35);
+}
+
+.hand-card:active {
+  cursor: grabbing;
+
+  /* background: #e0f6ff; */
+  /* border: 2px solid #4ecafc; */
+}
+
+.card-content {
+  text-align: center;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.card-icon {
+  font-size: 2.4rem;
+  filter: drop-shadow(0 6px 12px rgba(15, 23, 42, 0.18));
+}
+
+.card-subtype {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.85);
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.play-btn {
+  font-size: 0.7rem;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 20px -14px rgba(15, 23, 42, 0.75);
+}
+
+.play-btn:disabled {
+  background: rgba(15, 23, 42, 0.25);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.play-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -14px rgba(15, 23, 42, 0.85);
+}
+
+@media (min-width: 480px) {
+  .hand-card {
+    width: 96px;
+    height: 140px;
+    margin: 6px 4px;
+  }
+
+  .play-btn {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hand-card {
+    width: 108px;
+    height: 156px;
+  }
+}
+
+/* Colores por tipo de carta */
+.hand-card--red {
+  background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.hand-card--green {
+  background: linear-gradient(180deg, #dcfce7 0%, #bbf7d0 100%);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.hand-card--blue {
+  background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+  border-color: rgba(59, 130, 246, 0.45);
+}
+
+.hand-card--yellow {
+  background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+  border-color: rgba(234, 179, 8, 0.45);
+}
+
+.hand-card--multi {
+  background: linear-gradient(145deg, #fce7f3 0%, #ede9fe 33%, #dbeafe 66%, #dcfce7 100%);
+  border-color: rgba(168, 85, 247, 0.45);
+}
+
+.hand-card--treatment .card-icon {
+  font-size: 2rem;
+}
+
+.hand-card--virus .card-icon {
+  font-size: 2.8rem;
+}
+
+.hand-card--medicine .card-icon {
+  font-size: 2.3rem;
+}
+
+.hand-card--organ .card-icon {
+  font-size: 2.6rem;
 }

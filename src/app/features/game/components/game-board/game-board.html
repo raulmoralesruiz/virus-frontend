@@ -1,10 +1,46 @@
-<h3>Tablero</h3>
+<!-- <h3>Tablero</h3> -->
 <div class="players">
-  @for (p of state.players; let i = $index; track p.player.id) {
-  <app-player-board
+  @for (p of state().players; let i = $index; track p.player.id) {
+  <player-board
     [player]="p"
     [isMe]="p.player.id === meId"
-    [isActive]="i === state.turnIndex"
-  ></app-player-board>
+    [isActive]="i === state().turnIndex"
+    [roomId]="state().roomId"
+    [allSlotIds]="allSlotIds()"
+    [gameState]="state()"
+    [remainingSeconds]="gameStore.remainingSeconds()"
+    [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan.bind(this)"
+    [hasTemporaryVirus]="hasTemporaryVirus.bind(this)"
+    [transplantState]="transplantState"
+    (startTransplant)="startTransplant($event.card, $event.firstOrgan)"
+    (finishTransplant)="finishTransplant($event)"
+    [contagionState]="contagionState"
+    (virusMoved)="addAssignment($event)"
+    (startContagion)="startContagion($event.card)"
+  ></player-board>
   }
 </div>
+
+<!-- Botón cancelar visible solo en modo trasplante -->
+@if (transplantState) {
+<button class="cancel-transplant" (click)="cancelTransplant()">
+  Cancelar trasplante
+</button>
+}
+
+<!-- Botones modo contagio -->
+@if (contagionState) {
+<div class="contagion-controls">
+  <button
+    (click)="finishContagion()"
+    [disabled]="contagionState.assignments.length === 0"
+    class="finish-contagion"
+  >
+    Finalizar contagio ({{ contagionState.assignments.length }} virus{{
+      contagionState.assignments.length !== 1 ? "es" : ""
+    }}
+    movido{{ contagionState.assignments.length !== 1 ? "s" : "" }})
+  </button>
+  <button (click)="cancelContagion()" class="cancel-contagion">Cancelar</button>
+</div>
+}

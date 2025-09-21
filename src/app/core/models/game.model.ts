@@ -22,6 +22,7 @@ export interface PublicGameState {
   turnDeadlineTs: number;
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
+  history: string[];
 }
 
 export interface GameState {
@@ -33,6 +34,7 @@ export interface GameState {
     players: PublicPlayerInfo[]; // lo que ven todos
   };
   startedAt: string; // ISO string
+  history: string[];
 }
 
 export interface PlayCardTarget {
