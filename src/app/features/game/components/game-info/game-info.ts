@@ -13,6 +13,7 @@ export class GameInfoComponent {
   @Input() state!: PublicGameState;
   @Input() historyCount = 0;
   @Output() historyRequested = new EventEmitter<void>();
+  @Output() leaveRequested = new EventEmitter<void>();
 
   showDetails = false;
 
@@ -23,6 +24,12 @@ export class GameInfoComponent {
   onHistoryClick(event: MouseEvent): void {
     event.stopPropagation();
     this.historyRequested.emit();
+  }
+
+  onLeaveClick(event: MouseEvent): void {
+    event.stopPropagation();
+    event.preventDefault();
+    this.leaveRequested.emit();
   }
 
   onKeyDown(event: KeyboardEvent): void {

@@ -95,4 +95,9 @@ export class ApiRoomService {
     this._currentRoom.set(room);
     this.saveCurrentRoomToLocalStorage(room);
   }
+
+  clearCurrentRoom() {
+    this._currentRoom.set(null);
+    localStorage.removeItem('currentRoom');
+  }
 }

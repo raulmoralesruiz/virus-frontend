@@ -10,6 +10,7 @@
     [state]="st"
     [historyCount]="history().length"
     (historyRequested)="openHistory()"
+    (leaveRequested)="leaveGame()"
   ></game-info>
 
   <!-- Tablero de la partida -->
@@ -66,4 +67,30 @@
 
   <!-- Errores -->
   <game-error [error]="lastError()"></game-error>
+
+  @if (confirmingLeave) {
+  <div
+    class="confirm-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="leave-confirm-title"
+    aria-describedby="leave-confirm-description"
+  >
+    <div class="confirm-modal">
+      <h3 id="leave-confirm-title">¿Salir de la partida?</h3>
+      <p id="leave-confirm-description">
+        Si abandonas la partida, perderás tu progreso actual. ¿Quieres volver a la lista
+        de salas?
+      </p>
+      <div class="confirm-actions">
+        <button type="button" class="confirm-cancel" (click)="cancelLeave()">
+          Cancelar
+        </button>
+        <button type="button" class="confirm-accept" (click)="confirmLeave()">
+          Salir
+        </button>
+      </div>
+    </div>
+  </div>
+  }
 </div>

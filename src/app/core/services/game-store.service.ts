@@ -3,12 +3,14 @@ import { SocketGameService } from '../services/socket/socket.game.service';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from './api/api.player.service';
 import { AnyPlayTarget } from '../models/game.model';
+import { RoomStoreService } from './room-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
   private socketGame = inject(SocketGameService);
   private apiPlayer = inject(ApiPlayerService);
   private router = inject(Router);
+  private roomStore = inject(RoomStoreService);
 
   // Estado público de la partida (mazo, descarte, jugadores...)
   publicState = this.socketGame.publicState;
@@ -111,6 +113,16 @@ export class GameStoreService {
 
   goHome() {
     this.router.navigate(['/home']);
+  }
+
+  leaveGame(roomId: string) {
+    const player = this.apiPlayer.player();
+    if (!player) return;
+
+    this.socketGame.leaveGame(roomId);
+    this.roomStore.leaveRoom(roomId, player);
+    this.historyVisible.set(false);
+    this.router.navigate(['/room-list']);
   }
 
   setClientError(msg: string) {

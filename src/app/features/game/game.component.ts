@@ -36,6 +36,7 @@ export class GameComponent implements OnInit {
   remainingSeconds = this.gameStore.remainingSeconds;
   winner = this.gameStore.winner;
   showHistory = this.gameStore.historyOpen;
+  confirmingLeave = false;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -68,6 +69,23 @@ export class GameComponent implements OnInit {
 
   goHome() {
     this.gameStore.goHome();
+  }
+
+  leaveGame() {
+    this.confirmingLeave = true;
+  }
+
+  confirmLeave() {
+    if (!this.roomId) {
+      this.confirmingLeave = false;
+      return;
+    }
+    this.gameStore.leaveGame(this.roomId);
+    this.confirmingLeave = false;
+  }
+
+  cancelLeave() {
+    this.confirmingLeave = false;
   }
 
   openHistory(event?: MouseEvent) {
