@@ -1,9 +1,10 @@
 <!-- <h3>Tu mano: {{ hand.length }} cartas</h3> -->
 
 @if (hand.length) {
-<div class="hand-panel">
+<div class="hand-panel" [class.is-my-turn]="isMyTurn">
   <div
     class="hand-container"
+    [class.is-my-turn]="isMyTurn"
     cdkDropList
     [id]="'handList-' + (apiPlayer.player()?.id || '')"
     [cdkDropListData]="hand"

@@ -3,7 +3,8 @@
   [ngClass]="[
     'hand-card--' + card.color,
     'hand-card--' + card.kind,
-    isSelected ? 'is-selected' : ''
+    isSelected ? 'is-selected' : '',
+    isMyTurn ? 'is-my-turn' : ''
   ]"
   (click)="onToggleSelect()"
   cdkDrag

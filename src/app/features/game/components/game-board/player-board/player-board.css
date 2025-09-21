@@ -3,7 +3,7 @@
   border: 1px solid #e2e8f0;
   border-radius: 16px;
   padding: 1.5rem 0.75rem 0.75rem;
-  transition: box-shadow 0.2s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   background: #ffffff;
   box-shadow: 0 12px 30px -20px rgba(15, 23, 42, 0.45);
   display: flex;
@@ -25,7 +25,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   /* background: #ffffff; */
-  padding: 0.2rem 0.6rem;
+  padding: 0rem 0.5rem;
   z-index: 1;
   border-radius: 8px;
 }
@@ -50,6 +50,58 @@
 
 .player-board.is-active .player-header .turn-timer {
   color: #16a34a;
+}
+
+.player-board.is-active .player-header {
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.player-board.is-active .player-header strong {
+  color: #047857;
+}
+
+.turn-timer--warning {
+  color: #f97316 !important;
+}
+
+.turn-timer--critical {
+  color: #dc2626 !important;
+  animation: turnTimerBlink 1s ease-in-out infinite;
+}
+
+@keyframes playerTurnPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px rgba(34, 197, 94, 0.22),
+      0 22px 44px -24px rgba(16, 185, 129, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(34, 197, 94, 0.38),
+      0 32px 56px -24px rgba(16, 185, 129, 0.68);
+  }
+}
+
+@keyframes turnTimerBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-board.is-active {
+    animation: none;
+    transform: none;
+  }
+
+  .turn-timer--critical {
+    animation: none;
+  }
 }
 
 
@@ -97,7 +149,20 @@
 }
 
 .player-board.is-active {
-  box-shadow: 0 0 18px -4px rgba(16, 185, 129, 0.65);
+  background: linear-gradient(
+    180deg,
+    rgba(240, 253, 244, 0.92) 0%,
+    rgba(220, 252, 231, 0.82) 100%
+  );
+  box-shadow:
+    0 0 0 3px rgba(34, 197, 94, 0.28),
+    0 26px 48px -24px rgba(16, 185, 129, 0.6);
+  transform: translateY(-4px);
+  animation: playerTurnPulse 2.2s ease-in-out infinite;
+}
+
+.player-board.is-me.is-active {
+  border-color: #2563eb;
 }
 
 /* cuando estamos en modo trasplante */

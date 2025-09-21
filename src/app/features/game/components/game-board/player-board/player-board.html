@@ -2,7 +2,13 @@
   <div class="player-header">
     <strong>{{ player().player.name }}</strong>
     @if (isActive()) {
-    <span class="turn-timer">{{ remainingSeconds() }}s</span>
+    <span
+      class="turn-timer"
+      [class.turn-timer--warning]="turnTimerState() === 'warning'"
+      [class.turn-timer--critical]="turnTimerState() === 'critical'"
+    >
+      {{ remainingSeconds() }}s
+    </span>
     }
     <!-- <span class="handcount">{{ player().handCount }} en mano</span> -->
   </div>

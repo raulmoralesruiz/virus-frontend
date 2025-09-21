@@ -69,6 +69,15 @@ export class PlayerBoardComponent {
     return [`handList-${me.id}`];
   });
 
+  turnTimerState = computed<'idle' | 'running' | 'warning' | 'critical'>(() => {
+    if (!this.isActive()) return 'idle';
+
+    const seconds = this.remainingSeconds();
+    if (seconds <= 5) return 'critical';
+    if (seconds <= 10) return 'warning';
+    return 'running';
+  });
+
   // recibir la lista global de ids de huecos
   allSlotIds = input.required<string[]>();
 
