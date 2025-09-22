@@ -9,12 +9,17 @@
 >
   <div class="game-info__header">
     <h2>Partida {{ shortRoomId }}</h2>
-    <button type="button" class="history-toggle" (click)="onHistoryClick($event)">
-      Historial
-      @if (historyCount) {
-      <span class="history-badge">{{ historyCount }}</span>
-      }
-    </button>
+    <div class="game-info__actions">
+      <button
+        type="button"
+        class="history-toggle"
+        (click)="onHistoryClick($event)"
+      >
+        Historial @if (historyCount) {
+        <span class="history-badge">{{ historyCount }}</span>
+        }
+      </button>
+    </div>
   </div>
 
   @if (showDetails) {
@@ -22,13 +27,23 @@
     <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
     <p>Mazo: {{ state.deckCount }} cartas</p>
     <p>Descarte: {{ state.discardCount }} cartas</p>
-    <button
-      type="button"
-      class="game-info__leave"
-      (click)="onLeaveClick($event)"
-    >
-      Salir de la partida
-    </button>
+    <div class="game-info__controls">
+      <button
+        type="button"
+        class="game-info__leave"
+        (click)="onLeaveClick($event)"
+      >
+        Salir de la partida
+      </button>
+      <button
+        type="button"
+        class="sound-toggle"
+        (click)="onToggleMute($event)"
+        [attr.aria-pressed]="isMuted()"
+      >
+        {{ isMuted() ? "Activar sonido" : "Silenciar sonido" }}
+      </button>
+    </div>
   </div>
   }
 </div>

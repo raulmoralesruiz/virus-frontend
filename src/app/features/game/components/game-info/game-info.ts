@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { DatePipe } from '@angular/common';
+import { TimerSoundService } from '../../../../core/services/timer-sound.service';
 
 @Component({
   selector: 'game-info',
@@ -16,6 +17,8 @@ export class GameInfoComponent {
   @Output() leaveRequested = new EventEmitter<void>();
 
   showDetails = false;
+  private readonly timerSoundService = inject(TimerSoundService);
+  readonly isMuted = this.timerSoundService.isMuted;
 
   toggleDetails(): void {
     this.showDetails = !this.showDetails;
@@ -37,6 +40,11 @@ export class GameInfoComponent {
       event.preventDefault();
       this.toggleDetails();
     }
+  }
+
+  onToggleMute(event: MouseEvent): void {
+    event.stopPropagation();
+    this.timerSoundService.toggleMute();
   }
 
   get shortRoomId(): string {

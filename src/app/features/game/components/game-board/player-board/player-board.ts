@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   EventEmitter,
   inject,
   Input,
@@ -24,6 +25,7 @@ import {
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../core/services/game-store.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
+import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
 
 @Component({
   selector: 'player-board',
@@ -77,6 +79,50 @@ export class PlayerBoardComponent {
     if (seconds <= 10) return 'warning';
     return 'running';
   });
+
+  private readonly timerSoundService = inject(TimerSoundService);
+  isMuted = this.timerSoundService.isMuted;
+
+  constructor() {
+    effect(() => {
+      const isActive = this.isActive();
+      const isMe = this.isMe();
+      const seconds = this.remainingSeconds(); // fuerza ejecución cada segundo
+      const timerState = this.turnTimerState();
+
+      if (!isActive || !isMe) {
+        return;
+      }
+
+      this.playTickForState(timerState);
+    });
+  }
+
+  private playTickForState(
+    timerState: 'idle' | 'running' | 'warning' | 'critical'
+  ) {
+    if (this.isMuted()) {
+      return; // No hacer nada si está silenciado
+    }
+
+    switch (timerState) {
+      case 'running':
+        this.timerSoundService.playTick('running');
+        break;
+      case 'warning':
+        this.timerSoundService.playTick('warning');
+        break;
+      case 'critical':
+        this.timerSoundService.playTick('critical');
+        break;
+      default:
+        break;
+    }
+  }
+
+  toggleMute() {
+    this.timerSoundService.toggleMute();
+  }
 
   // recibir la lista global de ids de huecos
   allSlotIds = input.required<string[]>();
