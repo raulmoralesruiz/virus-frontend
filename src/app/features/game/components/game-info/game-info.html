@@ -12,6 +12,14 @@
     <div class="game-info__actions">
       <button
         type="button"
+        class="theme-toggle"
+        (click)="onToggleTheme($event)"
+        [attr.aria-pressed]="isDarkTheme()"
+      >
+        {{ isDarkTheme() ? "☀️" : "🌙" }}
+      </button>
+      <button
+        type="button"
         class="history-toggle"
         (click)="onHistoryClick($event)"
       >
@@ -41,7 +49,7 @@
         (click)="onToggleMute($event)"
         [attr.aria-pressed]="isMuted()"
       >
-        {{ isMuted() ? "Activar sonido" : "Silenciar sonido" }}
+        {{ isMuted() ? "🔊" : "🔇" }}
       </button>
     </div>
   </div>

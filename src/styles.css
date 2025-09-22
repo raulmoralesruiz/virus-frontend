@@ -1,13 +1,117 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global style tokens and theme handling */
 
 * {
   box-sizing: border-box;
 }
 
+:root {
+  color-scheme: light;
+  --color-bg-body: #f8fafc;
+  --color-bg-gradient-start: #f8fafc;
+  --color-bg-gradient-end: #e2e8f0;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f1f5f9;
+  --color-surface-strong: #0f172a;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-inverted: #ffffff;
+  --color-border: #6b6d6f;
+  --color-outline: #0e7b7b;
+  --color-overlay: rgba(15, 23, 42, 0.45);
+  --color-primary: #139b9b;
+  --color-primary-hover: #0d6767;
+  --color-primary-contrast: #ffffff;
+  --color-muted-button-bg: #e2e8f0;
+  --color-muted-button-hover: #cbd5f5;
+  --color-muted-button-active: #cbced2;
+  --color-danger: #ef4444;
+  --color-danger-strong: #b91c1c;
+  --color-danger-soft: #fee2e2;
+  --color-danger-soft-hover: #fecaca;
+  --color-warning: #f97316;
+  --color-success: #059669;
+  --color-success-contrast: #ffffff;
+  --color-success-disabled: #34d399;
+  --color-victory-border: gold;
+  --color-victory-background: #fffbe6;
+  --color-victory-text: #d4af37;
+  --color-slot-empty-red: #ffe5e5;
+  --color-slot-empty-green: #e9ffea;
+  --color-slot-empty-blue: #e8f0ff;
+  --color-slot-empty-yellow: #fff8e6;
+  --color-slot-empty-multi: #f3e8ff;
+  --color-hand-panel-background: #eff6ff;
+  --color-hand-panel-border: rgba(148, 163, 184, 0.35);
+  --color-error-background: #fff4f4;
+  --color-error-border: rgba(122, 0, 0, 0.15);
+  --color-error-text: #7a0000;
+  --shadow-panel: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+  --shadow-panel-strong: 0 16px 32px -22px rgba(15, 23, 42, 0.55);
+  --shadow-modal: 0 28px 56px -24px rgba(15, 23, 42, 0.55);
+  --shadow-button-primary: 0 12px 30px -18px rgba(15, 23, 42, 0.7);
+  --shadow-button-primary-hover: 0 18px 34px -20px rgba(15, 23, 42, 0.75);
+  --shadow-button-danger: 0 16px 32px -22px rgba(239, 68, 68, 0.7);
+  --shadow-button-danger-hover: 0 18px 36px -20px rgba(239, 68, 68, 0.8);
+  --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body.theme-dark {
+  color-scheme: dark;
+  --color-bg-body: #000000;
+  --color-bg-gradient-start: #050505;
+  --color-bg-gradient-end: #000000;
+  --color-surface: #0b1120;
+  --color-surface-soft: #111827;
+  --color-surface-strong: #ffffff;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5f5;
+  --color-text-muted: #94a3b8;
+  --color-text-inverted: #0b1120;
+  --color-border: #6b6d6f;
+  --color-outline: #0e7b7b;
+  --color-overlay: rgba(8, 15, 40, 0.7);
+  --color-primary: #139b9b;
+  --color-primary-hover: #0d6767;
+  --color-primary-contrast: #ffffff;
+  --color-muted-button-bg: rgba(177, 182, 188, 0.2);
+  --color-muted-button-hover: rgba(148, 163, 184, 0.35);
+  --color-muted-button-active: rgba(148, 163, 184, 0.6);
+  --color-danger: #f87171;
+  --color-danger-strong: #fca5a5;
+  --color-danger-soft: rgba(248, 113, 113, 0.18);
+  --color-danger-soft-hover: rgba(248, 113, 113, 0.3);
+  --color-warning: #fb923c;
+  --color-success: #10b981;
+  --color-success-contrast: #0b1120;
+  --color-success-disabled: rgba(16, 185, 129, 0.35);
+  --color-victory-border: rgba(212, 175, 55, 0.65);
+  --color-victory-background: rgba(250, 204, 21, 0.12);
+  --color-victory-text: #facc15;
+  --color-slot-empty-red: rgba(248, 113, 113, 0.2);
+  --color-slot-empty-green: rgba(34, 197, 94, 0.2);
+  --color-slot-empty-blue: rgba(59, 130, 246, 0.18);
+  --color-slot-empty-yellow: rgba(250, 204, 21, 0.18);
+  --color-slot-empty-multi: rgba(192, 132, 252, 0.2);
+  --color-hand-panel-background: rgba(15, 23, 42, 0.85);
+  --color-hand-panel-border: rgba(148, 163, 184, 0.25);
+  --color-error-background: rgba(239, 68, 68, 0.15);
+  --color-error-border: rgba(248, 113, 113, 0.35);
+  --color-error-text: #fecaca;
+  --shadow-panel: 0 10px 28px -20px rgba(15, 23, 42, 0.7);
+  --shadow-panel-strong: 0 20px 36px -18px rgba(15, 23, 42, 0.75);
+  --shadow-modal: 0 32px 60px -24px rgba(8, 15, 40, 0.85);
+  --shadow-button-primary: 0 20px 32px -22px rgba(59, 130, 246, 0.7);
+  --shadow-button-primary-hover: 0 24px 40px -22px rgba(59, 130, 246, 0.75);
+  --shadow-button-danger: 0 20px 34px -22px rgba(248, 113, 113, 0.75);
+  --shadow-button-danger-hover: 0 24px 42px -22px rgba(248, 113, 113, 0.85);
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--color-bg-body);
+  color: var(--color-text-primary);
   line-height: 1.5;
+  transition: var(--transition-theme);
 }

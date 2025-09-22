@@ -3,22 +3,22 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 0.85rem 1rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-panel);
   cursor: pointer;
   user-select: none;
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .game-info:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--color-outline);
   outline-offset: 2px;
 }
 
 .game-info--expanded {
-  box-shadow: 0 16px 32px -22px rgba(15, 23, 42, 0.55);
+  box-shadow: var(--shadow-panel-strong);
 }
 
 .game-info__header {
@@ -38,8 +38,8 @@
   padding: 0.4rem 0.95rem;
   border: none;
   border-radius: 999px;
-  background: #e2e8f0;
-  color: #1e293b;
+  background: var(--color-muted-button-bg);
+  color: var(--color-text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -47,24 +47,24 @@
 }
 
 .sound-toggle:hover {
-  background: #cbd5f5;
+  background: var(--color-muted-button-hover);
   transform: translateY(-1px);
 }
 
 .sound-toggle:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--color-outline);
   outline-offset: 2px;
 }
 
 .sound-toggle[aria-pressed='true'] {
-  background: #94a3b8;
-  color: #f8fafc;
+  background: var(--color-muted-button-active);
+  color: var(--color-text-primary);
 }
 
 .game-info__header h2 {
   margin: 0;
   font-size: 1.25rem;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .history-toggle {
@@ -74,24 +74,24 @@
   padding: 0.45rem 1rem;
   border: none;
   border-radius: 999px;
-  background: #0f172a;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-  box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.7);
+  box-shadow: var(--shadow-button-primary);
 }
 
 .history-toggle:hover {
   transform: translateY(-1px);
-  background: #1e293b;
-  box-shadow: 0 18px 34px -20px rgba(15, 23, 42, 0.75);
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-button-primary-hover);
 }
 
 .history-toggle:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--color-outline);
   outline-offset: 2px;
 }
 
@@ -99,11 +99,40 @@
   min-width: 1.5rem;
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
-  background: #f97316;
-  color: #fff;
+  background: var(--color-warning);
+  color: var(--color-text-inverted);
   font-size: 0.75rem;
   font-weight: 600;
   text-align: center;
+}
+
+.theme-toggle {
+  padding: 0.4rem 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--color-muted-button-bg);
+  border-color: var(--color-muted-button-hover);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-outline);
+  outline-offset: 2px;
+}
+
+.theme-toggle[aria-pressed='true'] {
+  background: var(--color-muted-button-bg);
+  border-color: var(--color-muted-button-active);
+  color: var(--color-text-secondary);
 }
 
 
@@ -131,10 +160,10 @@
 
 .game-info__leave {
   padding: 0.4rem 0.85rem;
-  border: 1px solid #ef4444;
+  border: 1px solid var(--color-danger);
   border-radius: 999px;
-  background: #fff5f5;
-  color: #b91c1c;
+  background: var(--color-danger-soft);
+  color: var(--color-danger-strong);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -142,20 +171,20 @@
 }
 
 .game-info__leave:hover {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--color-danger-soft-hover);
+  color: var(--color-danger);
   transform: translateY(-1px);
 }
 
 .game-info__leave:focus-visible {
-  outline: 2px solid #ef4444;
+  outline: 2px solid var(--color-danger);
   outline-offset: 2px;
 }
 
 .game-info__details p {
   margin: 0;
   font-size: 0.95rem;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 
 @media (min-width: 768px) {

@@ -24,22 +24,25 @@
   min-height: 70vh;
   padding: 2rem 1.5rem;
   border-radius: 24px;
-  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 18px 36px -22px rgba(15, 23, 42, 0.55);
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-gradient-start) 0%,
+    var(--color-bg-gradient-end) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), var(--shadow-panel-strong);
   text-align: center;
 }
 
 .game-empty h2 {
   margin: 0;
-  color: #0f172a;
+  color: var(--color-text-primary);
   font-size: 1.5rem;
 }
 
 .game-empty p {
   margin: 0;
   max-width: 360px;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-size: 1rem;
 }
 
@@ -49,19 +52,19 @@
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 999px;
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 15px 30px -20px rgba(37, 99, 235, 0.8);
+  box-shadow: var(--shadow-button-primary);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 35px -20px rgba(37, 99, 235, 0.85);
+  box-shadow: var(--shadow-button-primary-hover);
 }
 
 .history-overlay {
@@ -71,7 +74,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   z-index: 20;
   backdrop-filter: blur(2px);
 }
@@ -81,9 +84,9 @@
   max-height: min(70vh, 520px);
   padding: 1.5rem;
   border-radius: 20px;
-  background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 28px 60px -24px rgba(15, 23, 42, 0.55);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-modal);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -106,13 +109,13 @@
   border: none;
   background: transparent;
   font-size: 1.25rem;
-  color: #475569;
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: color 0.15s ease;
 }
 
 .history-close:hover {
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .history-list {
@@ -131,8 +134,8 @@
 .history-item {
   padding: 0.75rem 0.9rem;
   border-radius: 14px;
-  background: #f1f5f9;
-  color: #0f172a;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
   font-size: 0.95rem;
   line-height: 1.35;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -140,7 +143,7 @@
 
 .history-empty {
   margin: 0;
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 0.95rem;
   text-align: center;
 }
@@ -152,7 +155,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
   z-index: 30;
   backdrop-filter: blur(2px);
   user-select: none;
@@ -162,9 +165,9 @@
   width: min(340px, 90vw);
   padding: 1.75rem;
   border-radius: 18px;
-  background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 28px 56px -24px rgba(15, 23, 42, 0.55);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-modal);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -178,7 +181,7 @@
 
 .confirm-modal p {
   margin: 0;
-  color: #475569;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -201,26 +204,26 @@
 }
 
 .confirm-cancel {
-  border: 1px solid #cbd5f5;
-  background: #f8fafc;
-  color: #0f172a;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
 }
 
 .confirm-cancel:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px -18px rgba(15, 23, 42, 0.4);
+  box-shadow: var(--shadow-panel);
 }
 
 .confirm-accept {
   border: none;
-  background: #ef4444;
-  color: #ffffff;
-  box-shadow: 0 16px 32px -22px rgba(239, 68, 68, 0.7);
+  background: var(--color-danger);
+  color: var(--color-text-inverted);
+  box-shadow: var(--shadow-button-danger);
 }
 
 .confirm-accept:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 36px -20px rgba(239, 68, 68, 0.8);
+  box-shadow: var(--shadow-button-danger-hover);
 }
 
 @media (min-width: 768px) {

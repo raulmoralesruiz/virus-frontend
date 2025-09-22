@@ -1,13 +1,13 @@
 .victory {
   margin-top: 2rem;
   padding: 1rem;
-  border: 2px solid gold;
+  border: 2px solid var(--color-victory-border);
   border-radius: 8px;
-  background: #fffbe6;
+  background: var(--color-victory-background);
   text-align: center;
 }
 
 .victory h2 {
-  color: #d4af37;
+  color: var(--color-victory-text);
   margin-bottom: 0.5rem;
 }

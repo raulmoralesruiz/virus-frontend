@@ -1,5 +1,5 @@
 .card.organ {
-  border: 2px solid #ccc;
+  border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 8px;
   text-align: center;
@@ -18,11 +18,11 @@
 .chip {
   padding: 2px 6px;
   border-radius: 8px;
-  border: 2px solid #ccc; /* se sobrescribirá abajo */
+  border: 2px solid var(--color-border); /* se sobrescribirá abajo */
   font-size: 0.7rem;
   text-align: center;
-  background: #f5f5f5;
-  color: #000;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   min-width: 0;
   line-height: 1.1;
   display: flex;
@@ -74,6 +74,6 @@
 
 /* Estilo para virus temporales */
 .attached-card.temporary-virus {
-  border: 2px dashed #000 !important;
+  border: 2px dashed var(--color-text-primary) !important;
   opacity: 0.8;
 }

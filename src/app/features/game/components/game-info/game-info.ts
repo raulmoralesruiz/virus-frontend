@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { DatePipe } from '@angular/common';
 import { TimerSoundService } from '../../../../core/services/timer-sound.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'game-info',
@@ -18,7 +19,9 @@ export class GameInfoComponent {
 
   showDetails = false;
   private readonly timerSoundService = inject(TimerSoundService);
+  private readonly themeService = inject(ThemeService);
   readonly isMuted = this.timerSoundService.isMuted;
+  readonly isDarkTheme = this.themeService.isDark;
 
   toggleDetails(): void {
     this.showDetails = !this.showDetails;
@@ -45,6 +48,11 @@ export class GameInfoComponent {
   onToggleMute(event: MouseEvent): void {
     event.stopPropagation();
     this.timerSoundService.toggleMute();
+  }
+
+  onToggleTheme(event: MouseEvent): void {
+    event.stopPropagation();
+    this.themeService.toggleTheme();
   }
 
   get shortRoomId(): string {

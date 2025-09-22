@@ -4,7 +4,11 @@
   justify-content: center;
   min-height: 100vh;
   padding: 2rem 1.5rem;
-  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-gradient-start) 0%,
+    var(--color-bg-gradient-end) 100%
+  );
 }
 
 .room-list-screen {
@@ -14,25 +18,25 @@
 }
 
 .room-panel {
-  background: #ffffff;
+  background: var(--color-surface);
   border-radius: 24px;
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 0 24px 55px -30px rgba(15, 23, 42, 0.55);
+  box-shadow: var(--shadow-panel-strong);
   text-align: center;
 }
 
 .room-panel h2 {
   margin: 0;
-  color: #0f172a;
+  color: var(--color-text-primary);
   font-size: 1.75rem;
 }
 
 .room-panel p {
   margin: 0;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 
 .cta-button,
@@ -51,14 +55,14 @@
 }
 
 .cta-button {
-  background: #2563eb;
-  color: #ffffff;
-  box-shadow: 0 18px 40px -25px rgba(37, 99, 235, 0.9);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  box-shadow: var(--shadow-button-primary);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 45px -25px rgba(37, 99, 235, 0.95);
+  box-shadow: var(--shadow-button-primary-hover);
 }
 
 .room-list {
@@ -77,7 +81,7 @@
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-radius: 16px;
-  background: #f1f5f9;
+  background: var(--color-surface-soft);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -89,28 +93,28 @@
 }
 
 .room-info strong {
-  color: #0f172a;
+  color: var(--color-text-primary);
   font-size: 1rem;
 }
 
 .room-info span {
-  color: #475569;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
 
 .secondary-button {
-  background: #ffffff;
-  color: #2563eb;
-  box-shadow: 0 12px 24px -18px rgba(37, 99, 235, 0.45);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-panel);
 }
 
 .secondary-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 30px -20px rgba(37, 99, 235, 0.5);
+  box-shadow: var(--shadow-panel-strong);
 }
 
 .empty-copy {
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 
 @media (max-width: 480px) {
