@@ -32,6 +32,7 @@
   color: #0f172a;
   position: relative;
   overflow: hidden;
+  user-select: none;
 }
 
 .hand-card:hover {

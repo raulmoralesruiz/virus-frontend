@@ -10,6 +10,7 @@
 .room-screen {
   width: 100%;
   max-width: 640px;
+  user-select: none;
 }
 
 .room-panel {
@@ -126,6 +127,7 @@
   background: rgba(15, 23, 42, 0.45);
   z-index: 30;
   backdrop-filter: blur(2px);
+  user-select: none;
 }
 
 .confirm-modal {

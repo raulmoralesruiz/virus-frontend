@@ -10,6 +10,7 @@
 .room-list-screen {
   width: 100%;
   max-width: 640px;
+  user-select: none;
 }
 
 .room-panel {
