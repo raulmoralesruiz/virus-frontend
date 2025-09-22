@@ -1,13 +1,27 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
-import { RoomListComponent } from './features/room-list/room-list.component';
-import { RoomComponent } from './features/room/room.component';
-import { GameComponent } from './features/game/game.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'room-list', component: RoomListComponent },
-  { path: 'room/:id', component: RoomComponent }, // ruta para una sala concreta
-  { path: 'game/:id', component: GameComponent },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./features/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
+    path: 'room-list',
+    loadComponent: () =>
+      import('./features/room-list/room-list.component').then(
+        (m) => m.RoomListComponent,
+      ),
+  },
+  {
+    path: 'room/:id',
+    loadComponent: () =>
+      import('./features/room/room.component').then((m) => m.RoomComponent),
+  },
+  {
+    path: 'game/:id',
+    loadComponent: () =>
+      import('./features/game/game.component').then((m) => m.GameComponent),
+  },
   { path: '**', redirectTo: 'home' },
 ];

@@ -116,16 +116,15 @@
   border-radius: 16px;
   background: var(--color-surface);
   box-shadow: var(--shadow-panel);
+  color: var(--color-text-primary);
 }
 
 .target-select p {
   margin: 0;
-  color: var(--color-text-primary);
 }
 
 .target-select h4 {
   margin: 0.5rem 0 0;
-  color: var(--color-text-primary);
   font-size: 1rem;
 }
 
@@ -148,7 +147,6 @@
 
 .target-select label {
   font-weight: 600;
-  color: var(--color-text-primary);
 }
 
 .target-select select {
@@ -242,9 +240,7 @@
     padding: 1rem 1.25rem 1.35rem;
     border-radius: 20px;
     background: linear-gradient(165deg, rgba(59, 130, 246, 0.14) 0%, rgba(14, 165, 233, 0.08) 100%);
-    border: 1px solid var(--color-hand-panel-border);
     box-shadow: 0 18px 42px -26px rgba(15, 23, 42, 0.55);
-    color: var(--color-text-primary);
   }
 
   .hand-panel-spacer {
