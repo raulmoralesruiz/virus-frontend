@@ -1,7 +1,12 @@
 <div class="room-screen">
   @if (room()) {
   <div class="room-panel">
-    <h2>{{ room()!.name }}</h2>
+    <div class="room-header">
+      <h2>{{ room()!.name }}</h2>
+      <button type="button" class="room-leave" (click)="leaveRoom()">
+        Salir de la sala
+      </button>
+    </div>
     <p class="subtitle">
       {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
       "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
@@ -30,6 +35,31 @@
     <h2>No estás en ninguna sala</h2>
     <p class="subtitle">Regresa al inicio para crear o unirte a una partida.</p>
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
+  </div>
+  }
+
+  @if (confirmingLeave) {
+  <div
+    class="confirm-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="leave-confirm-title"
+    aria-describedby="leave-confirm-description"
+  >
+    <div class="confirm-modal">
+      <h3 id="leave-confirm-title">¿Salir de la sala?</h3>
+      <p id="leave-confirm-description">
+        Si abandonas esta sala, se liberará tu plaza y volverás al listado de salas.
+      </p>
+      <div class="confirm-actions">
+        <button type="button" class="confirm-cancel" (click)="cancelLeave()">
+          Cancelar
+        </button>
+        <button type="button" class="confirm-accept" (click)="confirmLeave()">
+          Salir
+        </button>
+      </div>
+    </div>
   </div>
   }
 </div>

@@ -85,6 +85,114 @@
   box-shadow: none;
 }
 
+.room-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.room-leave {
+  border: none;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: 0 16px 32px -28px rgba(239, 68, 68, 0.8);
+}
+
+.room-leave:hover,
+.room-leave:focus-visible {
+  background: #fecaca;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px -26px rgba(239, 68, 68, 0.85);
+}
+
+.room-leave:focus-visible {
+  outline: 2px solid rgba(239, 68, 68, 0.5);
+  outline-offset: 2px;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 30;
+  backdrop-filter: blur(2px);
+}
+
+.confirm-modal {
+  width: min(340px, 90vw);
+  padding: 1.75rem;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 28px 56px -24px rgba(15, 23, 42, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.confirm-modal h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.confirm-modal p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.confirm-cancel,
+.confirm-accept {
+  min-width: 110px;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.confirm-cancel {
+  border: 1px solid #cbd5f5;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.confirm-cancel:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -18px rgba(15, 23, 42, 0.4);
+}
+
+.confirm-accept {
+  border: none;
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 16px 32px -22px rgba(239, 68, 68, 0.7);
+}
+
+.confirm-accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px -22px rgba(239, 68, 68, 0.75);
+}
+
 @media (max-width: 480px) {
   .room-panel {
     padding: 2rem 1.5rem;
