@@ -13,7 +13,10 @@
 .green, .card.organ.green { background: #8afe90ff; }
 .blue, .card.organ.blue { background: #7aa9ffff; }
 .yellow, .card.organ.yellow { background: #f7d06dff; }
-.multi, .card.organ.multi { background: #c085ffff; }
+.multi, .card.organ.multi {
+  /* background: #c085ffff;  */
+  background: linear-gradient(145deg, #fce7f3 0%, #ede9fe 33%, #dbeafe 66%, #dcfce7 100%);
+}
 
 .chip {
   padding: 2px 6px;
