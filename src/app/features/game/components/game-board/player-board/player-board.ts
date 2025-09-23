@@ -8,6 +8,7 @@ import {
   input,
   output,
   Output,
+  signal,
 } from '@angular/core';
 import { PlayerCardComponent } from './player-card/player-card';
 import {
@@ -80,10 +81,29 @@ export class PlayerBoardComponent {
     return 'running';
   });
 
+  turnDurationSeconds = signal(0);
+
+  turnProgressPercent = computed(() => {
+    const duration = this.turnDurationSeconds();
+    if (duration <= 0) return 0;
+
+    const ratio = this.remainingSeconds() / duration;
+    return Math.max(0, Math.min(100, ratio * 100));
+  });
+
   private readonly timerSoundService = inject(TimerSoundService);
   isMuted = this.timerSoundService.isMuted;
 
   constructor() {
+    effect(() => {
+      const remaining = this.remainingSeconds();
+      const currentDuration = this.turnDurationSeconds();
+
+      if (remaining > currentDuration) {
+        this.turnDurationSeconds.set(remaining);
+      }
+    });
+
     effect(() => {
       const isActive = this.isActive();
       const isMe = this.isMe();
