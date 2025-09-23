@@ -2,7 +2,7 @@
 
 @if (hand.length) {
 <div class="hand-panel" #handPanel [class.is-my-turn]="isMyTurn">
-  @if (selectedCard && isMyTurn) {
+  @if (selectedCard) {
   <game-target-select
     [selectedCard]="selectedCard"
     [targetOptions]="targetOptions"
@@ -12,6 +12,7 @@
     [selectedTargetA]="selectedTargetA"
     [selectedTargetB]="selectedTargetB"
     [confirmDisabled]="!canConfirmSelection"
+    [isMyTurn]="isMyTurn"
     (targetChange)="onTargetChange($event.value, $event.which)"
     (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
     (confirm)="confirmPlayCard()"

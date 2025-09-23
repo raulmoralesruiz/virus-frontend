@@ -136,6 +136,11 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   }
 
   selectCardToPlay(card: Card) {
+    if (!this.isMyTurn && this.selectedCard?.id === card.id) {
+      this.clearSelection();
+      return;
+    }
+
     this.selectedCard = card;
     this.targetOptions = [];
     this.selectedTarget = null;

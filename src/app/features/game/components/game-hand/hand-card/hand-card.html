@@ -22,7 +22,7 @@
     }
   </div>
 
-  <button class="play-btn" (click)="onPlay($event)" [disabled]="!isMyTurn">
-    Jugar
+  <button class="play-btn" (click)="onPlay($event)">
+    {{ isMyTurn ? "Jugar" : "Info" }}
   </button>
 </div>

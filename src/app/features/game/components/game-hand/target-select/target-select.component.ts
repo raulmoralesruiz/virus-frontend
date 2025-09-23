@@ -40,6 +40,7 @@ export class TargetSelectComponent {
   }[] = [];
   @Input() publicState: PublicGameState | null = null;
   @Input() confirmDisabled: boolean = false;
+  @Input() isMyTurn: boolean = false;
 
   @Input()
   set selectedTarget(value: PlayCardTarget | null) {

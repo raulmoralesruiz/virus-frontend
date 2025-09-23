@@ -11,7 +11,8 @@
 
   <p class="target-select__instruction">{{ instruction }}</p>
 
-  @if (isTransplant) {
+  @if (isMyTurn) {
+    @if (isTransplant) {
     <section class="target-select__group target-select__group--with-organs">
       <div class="target-select__field">
         <label for="transplant-player-a">Jugador A</label>
@@ -107,7 +108,7 @@
     </section>
   }
 
-  @if (isContagion) {
+    @if (isContagion) {
     @if (contagionAssignments.length) {
       <section class="target-select__group target-select__group--stacked">
         @for (assignment of contagionAssignments; let i = $index; track i) {
@@ -142,7 +143,7 @@
     }
   }
 
-  @if (isPlayerOnly) {
+    @if (isPlayerOnly) {
     <section class="target-select__group">
       <div class="target-select__field">
         <label for="target-player">Jugador</label>
@@ -160,7 +161,7 @@
     </section>
   }
 
-  @if (showSingleTarget) {
+    @if (showSingleTarget) {
     <section class="target-select__group target-select__group--with-organs">
       <div class="target-select__field">
         <label for="card-target-player">Jugador</label>
@@ -207,13 +208,13 @@
     </section>
   }
 
-  @if (hasNoOptionsAvailable) {
+    @if (hasNoOptionsAvailable) {
     <p class="target-select__empty">
       No hay objetivos disponibles por ahora.
     </p>
   }
 
-  <div class="target-select__actions">
+    <div class="target-select__actions">
     <button
       type="button"
       class="target-select__confirm"
@@ -226,4 +227,5 @@
       Cancelar
     </button>
   </div>
+  }
 </div>
