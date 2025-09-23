@@ -45,6 +45,14 @@
       </button>
       <button
         type="button"
+        class="fullscreen-toggle"
+        (click)="onToggleFullscreen($event)"
+        [attr.aria-pressed]="isFullscreenActive"
+      >
+        {{ isFullscreenActive ? "📱" : "🖥️" }}
+      </button>
+      <button
+        type="button"
         class="sound-toggle"
         (click)="onToggleMute($event)"
         [attr.aria-pressed]="isMuted()"

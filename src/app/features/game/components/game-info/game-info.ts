@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, inject } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { TimerSoundService } from '../../../../core/services/timer-sound.service';
 import { ThemeService } from '../../../../core/services/theme.service';
 
@@ -20,8 +20,10 @@ export class GameInfoComponent {
   showDetails = false;
   private readonly timerSoundService = inject(TimerSoundService);
   private readonly themeService = inject(ThemeService);
+  private readonly documentRef = inject(DOCUMENT);
   readonly isMuted = this.timerSoundService.isMuted;
   readonly isDarkTheme = this.themeService.isDark;
+  isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
 
   toggleDetails(): void {
     this.showDetails = !this.showDetails;
@@ -53,6 +55,30 @@ export class GameInfoComponent {
   onToggleTheme(event: MouseEvent): void {
     event.stopPropagation();
     this.themeService.toggleTheme();
+  }
+
+  async onToggleFullscreen(event: MouseEvent): Promise<void> {
+    event.stopPropagation();
+
+    try {
+      if (this.documentRef.fullscreenElement) {
+        await this.documentRef.exitFullscreen();
+      } else {
+        const element = this.documentRef.documentElement;
+        if (element) {
+          await element.requestFullscreen();
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling fullscreen', error);
+    } finally {
+      this.isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
+    }
+  }
+
+  @HostListener('document:fullscreenchange')
+  onFullscreenChange(): void {
+    this.isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
   }
 
   get shortRoomId(): string {
