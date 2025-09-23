@@ -20,7 +20,7 @@ export class SocketGameService {
   lastError = signal<string | null>(null);
   winner = signal<PublicPlayerInfo | null>(null);
 
-  ERROR_TIMEOUT: number = 3000;
+  ERROR_TIMEOUT: number = 5000;
 
   constructor() {
     this.registerListeners();
@@ -178,6 +178,10 @@ export class SocketGameService {
   setClientError(msg: string) {
     this.lastError.set(msg);
     setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
+  }
+
+  clearLastError() {
+    this.lastError.set(null);
   }
 
   leaveGame(roomId?: string) {

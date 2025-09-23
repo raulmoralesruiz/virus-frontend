@@ -129,6 +129,10 @@ export class GameStoreService {
     this.socketGame.setClientError(msg);
   }
 
+  clearError() {
+    this.socketGame.clearLastError();
+  }
+
   openHistoryModal() {
     this.historyVisible.set(true);
   }

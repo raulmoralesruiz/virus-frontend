@@ -108,4 +108,8 @@ export class GameComponent implements OnInit {
     // descartar automáticamente esa carta
     this.gameStore.discardCards(this.roomId, [randomCard.id]);
   }
+
+  dismissError() {
+    this.gameStore.clearError();
+  }
 }
