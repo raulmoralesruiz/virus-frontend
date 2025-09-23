@@ -1,4 +1,14 @@
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  inject,
+  Input,
+  NgZone,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import {
   Card,
   CardColor,
@@ -14,17 +24,24 @@ import {
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
 import { GameStoreService } from '../../../../core/services/game-store.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {
+  TargetSelectComponent,
+  type TargetSelectOption,
+} from './target-select/target-select.component';
 
 @Component({
   selector: 'game-hand',
   standalone: true,
-  imports: [HandCard, DragDropModule],
+  imports: [HandCard, DragDropModule, TargetSelectComponent],
   templateUrl: './game-hand.html',
   styleUrl: './game-hand.css',
 })
-export class GameHandComponent implements OnChanges {
+export class GameHandComponent implements OnChanges, OnDestroy {
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
+  private _ngZone = inject(NgZone);
+  private _handPanel?: ElementRef<HTMLDivElement>;
+  private _resizeObserver?: ResizeObserver;
   get apiPlayer() {
     return this._apiPlayer;
   }
@@ -41,10 +58,11 @@ export class GameHandComponent implements OnChanges {
   // Estado interno
   selectedCard: Card | null = null;
   selectedCardsToDiscard: Card[] = [];
-  targetOptions: { label: string; playerId: string; organId: string }[] = [];
+  targetOptions: TargetSelectOption[] = [];
   selectedTarget: PlayCardTarget | null = null;
   selectedTargetA: PlayCardTarget | null = null;
   selectedTargetB: PlayCardTarget | null = null;
+  panelSpacerHeight = 0;
 
   contagionAssignments: {
     fromOrganId: string;
@@ -56,6 +74,18 @@ export class GameHandComponent implements OnChanges {
   CardKind = CardKind;
   TreatmentSubtype = TreatmentSubtype;
   cardColors = Object.values(CardColor);
+
+  @ViewChild('handPanel')
+  set handPanelRef(ref: ElementRef<HTMLDivElement> | undefined) {
+    if (ref) {
+      this._handPanel = ref;
+      this.setupPanelObserver();
+    } else {
+      this._handPanel = undefined;
+      this.teardownPanelObserver();
+      this.panelSpacerHeight = 0;
+    }
+  }
 
   // Construye la lista de ids de TODOS los slots (player x color).
   // El hand list se conectará a todos esos slots.
@@ -78,6 +108,10 @@ export class GameHandComponent implements OnChanges {
       this.clearSelection();
       this.selectedCardsToDiscard = [];
     }
+  }
+
+  ngOnDestroy(): void {
+    this.teardownPanelObserver();
   }
 
   onExitHand(event: any) {
@@ -104,6 +138,9 @@ export class GameHandComponent implements OnChanges {
   selectCardToPlay(card: Card) {
     this.selectedCard = card;
     this.targetOptions = [];
+    this.selectedTarget = null;
+    this.selectedTargetA = null;
+    this.selectedTargetB = null;
 
     const st = this.publicState;
     if (!st) return;
@@ -112,9 +149,10 @@ export class GameHandComponent implements OnChanges {
       for (const p of st.players) {
         for (const o of p.board) {
           this.targetOptions.push({
-            label: `${p.player.name} · ${o.color}`,
+            playerName: p.player.name,
             playerId: p.player.id,
             organId: o.id,
+            organColor: o.color,
           });
         }
       }
@@ -127,9 +165,10 @@ export class GameHandComponent implements OnChanges {
           for (const p of st.players) {
             for (const o of p.board) {
               this.targetOptions.push({
-                label: `${p.player.name} · ${o.color}`,
+                playerName: p.player.name,
                 playerId: p.player.id,
                 organId: o.id,
+                organColor: o.color,
               });
             }
           }
@@ -138,7 +177,7 @@ export class GameHandComponent implements OnChanges {
           for (const p of st.players) {
             if (p.player.id !== this._apiPlayer.player()?.id) {
               this.targetOptions.push({
-                label: p.player.name,
+                playerName: p.player.name,
                 playerId: p.player.id,
                 organId: '',
               });
@@ -168,8 +207,7 @@ export class GameHandComponent implements OnChanges {
     }
   }
 
-  onTargetChange(event: Event, which: 'A' | 'B' | 'single' = 'single') {
-    const value = (event.target as HTMLSelectElement).value;
+  onTargetChange(value: string, which: 'A' | 'B' | 'single' = 'single') {
     if (!value) {
       if (which === 'A') this.selectedTargetA = null;
       else if (which === 'B') this.selectedTargetB = null;
@@ -184,8 +222,7 @@ export class GameHandComponent implements OnChanges {
     else this.selectedTarget = target;
   }
 
-  onContagionTargetChange(event: Event, idx: number) {
-    const value = (event.target as HTMLSelectElement).value;
+  onContagionTargetChange(value: string, idx: number) {
     if (!value) {
       this.contagionAssignments[idx].toOrganId = '';
       this.contagionAssignments[idx].toPlayerId = '';
@@ -194,6 +231,42 @@ export class GameHandComponent implements OnChanges {
     const [organId, playerId] = value.split('|');
     this.contagionAssignments[idx].toOrganId = organId;
     this.contagionAssignments[idx].toPlayerId = playerId;
+  }
+
+  get canConfirmSelection(): boolean {
+    if (!this.selectedCard) return false;
+
+    if (this.selectedCard.kind === CardKind.Treatment) {
+      switch (this.selectedCard.subtype) {
+        case TreatmentSubtype.Transplant:
+          return (
+            !!this.selectedTargetA &&
+            !!this.selectedTargetB &&
+            this.selectedTargetA.organId !== this.selectedTargetB.organId
+          );
+        case TreatmentSubtype.OrganThief:
+        case TreatmentSubtype.MedicalError:
+          return !!this.selectedTarget;
+        case TreatmentSubtype.Contagion:
+          return (
+            this.contagionAssignments.length > 0 &&
+            this.contagionAssignments.every(
+              (assignment) => assignment.toOrganId && assignment.toPlayerId
+            )
+          );
+        default:
+          return true;
+      }
+    }
+
+    if (
+      this.selectedCard.kind === CardKind.Virus ||
+      this.selectedCard.kind === CardKind.Medicine
+    ) {
+      return !!this.selectedTarget;
+    }
+
+    return true;
   }
 
   confirmPlayCard() {
@@ -269,5 +342,52 @@ export class GameHandComponent implements OnChanges {
     this.selectedTargetB = null;
     this.targetOptions = [];
     this.contagionAssignments = [];
+  }
+
+  private setupPanelObserver() {
+    if (!this._handPanel) return;
+
+    this.teardownPanelObserver();
+
+    const element = this._handPanel.nativeElement;
+    const updateHeight = (height: number) => {
+      this._ngZone.run(() => {
+        this.panelSpacerHeight = Math.max(0, Math.round(height));
+      });
+    };
+
+    if (typeof ResizeObserver === 'undefined') {
+      updateHeight(element.getBoundingClientRect().height);
+      return;
+    }
+
+    this._ngZone.runOutsideAngular(() => {
+      this._resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          let height = entry.contentRect.height;
+          const borderBoxSizes = (entry as ResizeObserverEntry & {
+            borderBoxSize?: any;
+          }).borderBoxSize;
+
+          if (borderBoxSizes) {
+            const firstEntry = Array.isArray(borderBoxSizes)
+              ? borderBoxSizes[0]
+              : borderBoxSizes;
+            if (firstEntry && typeof firstEntry.blockSize === 'number') {
+              height = firstEntry.blockSize;
+            }
+          }
+
+          updateHeight(height);
+        }
+      });
+      this._resizeObserver.observe(element);
+      updateHeight(element.getBoundingClientRect().height);
+    });
+  }
+
+  private teardownPanelObserver() {
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
   }
 }

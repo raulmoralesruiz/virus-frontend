@@ -1,0 +1,229 @@
+<div class="target-select">
+  <header class="target-select__header">
+    <span class="target-select__badge">{{ cardKindLabel }}</span>
+    <div class="target-select__summary">
+      <span class="target-select__color">{{ cardColorLabel }}</span>
+      @if (cardSubtypeLabel) {
+        <span class="target-select__subtype">{{ cardSubtypeLabel }}</span>
+      }
+    </div>
+  </header>
+
+  <p class="target-select__instruction">{{ instruction }}</p>
+
+  @if (isTransplant) {
+    <section class="target-select__group target-select__group--with-organs">
+      <div class="target-select__field">
+        <label for="transplant-player-a">Jugador A</label>
+        <select
+          id="transplant-player-a"
+          [ngModel]="transplantPlayerA"
+          (ngModelChange)="handlePlayerChange($event, 'A')"
+        >
+          <option value="">-- Selecciona jugador --</option>
+          @for (player of playerOptions; track player.id) {
+            <option [value]="player.id">{{ player.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="target-select__field target-select__field--organs">
+        <label>Órgano A</label>
+        @if (
+          transplantPlayerA && organsForPlayer(transplantPlayerA).length
+        ) {
+          <div class="target-select__organs">
+            @for (opt of organsForPlayer(transplantPlayerA); track opt.organId) {
+              <button
+                type="button"
+                class="target-select__organ"
+                [class.is-active]="transplantSelectionA === toOptionValue(opt)"
+                (click)="selectOrgan(opt, 'A')"
+              >
+                <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+                <span>{{ organColorLabel(opt.organColor) }}</span>
+              </button>
+            }
+          </div>
+        } @else if (transplantPlayerA) {
+          <p class="target-select__empty target-select__empty--inline">
+            Ese jugador no tiene órganos disponibles.
+          </p>
+        } @else {
+          <p class="target-select__empty target-select__empty--inline">
+            Selecciona primero un jugador.
+          </p>
+        }
+      </div>
+
+      <div class="target-select__field">
+        <label for="transplant-player-b">Jugador B</label>
+        <select
+          id="transplant-player-b"
+          [ngModel]="transplantPlayerB"
+          (ngModelChange)="handlePlayerChange($event, 'B')"
+        >
+          <option value="">-- Selecciona jugador --</option>
+          @for (player of playerOptions; track player.id) {
+            <option [value]="player.id">{{ player.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="target-select__field target-select__field--organs">
+        <label>Órgano B</label>
+        @if (
+          transplantPlayerB && organsForPlayer(transplantPlayerB).length
+        ) {
+          <div class="target-select__organs">
+            @for (opt of organsForPlayer(transplantPlayerB); track opt.organId) {
+              <button
+                type="button"
+                class="target-select__organ"
+                [class.is-active]="transplantSelectionB === toOptionValue(opt)"
+                (click)="selectOrgan(opt, 'B')"
+              >
+                <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+                <span>{{ organColorLabel(opt.organColor) }}</span>
+              </button>
+            }
+          </div>
+        } @else if (transplantPlayerB) {
+          <p class="target-select__empty target-select__empty--inline">
+            Ese jugador no tiene órganos disponibles.
+          </p>
+        } @else {
+          <p class="target-select__empty target-select__empty--inline">
+            Selecciona primero un jugador.
+          </p>
+        }
+      </div>
+
+      @if (!targetOptions.length) {
+        <p class="target-select__empty">
+          No hay órganos disponibles para intercambiar ahora mismo.
+        </p>
+      }
+    </section>
+  }
+
+  @if (isContagion) {
+    @if (contagionAssignments.length) {
+      <section class="target-select__group target-select__group--stacked">
+        @for (assignment of contagionAssignments; let i = $index; track i) {
+          <div class="target-select__field">
+            <label [attr.for]="'contagion-target-' + i">
+              Virus {{ i + 1 }}
+              <span>{{ contagionSourceLabel(assignment) }}</span>
+            </label>
+            <select
+              [attr.id]="'contagion-target-' + i"
+              [ngModel]="contagionSelectionValue(assignment)"
+              (ngModelChange)="handleContagionChange($event, i)"
+            >
+              <option value="">-- Selecciona destino --</option>
+              @for (p of publicState?.players; track p.player.id) {
+                @for (o of p.board; track o.id) {
+                  @if (!o.attached.length) {
+                    <option [value]="o.id + '|' + p.player.id">
+                      {{ p.player.name }} · {{ o.color }}
+                    </option>
+                  }
+                }
+              }
+            </select>
+          </div>
+        }
+      </section>
+    } @else {
+      <p class="target-select__empty">
+        No tienes virus disponibles para contagiar.
+      </p>
+    }
+  }
+
+  @if (isPlayerOnly) {
+    <section class="target-select__group">
+      <div class="target-select__field">
+        <label for="target-player">Jugador</label>
+        <select
+          id="target-player"
+          [ngModel]="singlePlayerSelection"
+          (ngModelChange)="handlePlayerChange($event, 'single')"
+        >
+          <option value="">-- Selecciona jugador --</option>
+          @for (player of playerOptions; track player.id) {
+            <option [value]="player.id">{{ player.name }}</option>
+          }
+        </select>
+      </div>
+    </section>
+  }
+
+  @if (showSingleTarget) {
+    <section class="target-select__group target-select__group--with-organs">
+      <div class="target-select__field">
+        <label for="card-target-player">Jugador</label>
+        <select
+          id="card-target-player"
+          [ngModel]="singlePlayerSelection"
+          (ngModelChange)="handlePlayerChange($event, 'single')"
+        >
+          <option value="">-- Selecciona jugador --</option>
+          @for (player of playerOptions; track player.id) {
+            <option [value]="player.id">{{ player.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="target-select__field target-select__field--organs">
+        <label>Órgano</label>
+        @if (
+          singlePlayerSelection && organsForPlayer(singlePlayerSelection).length
+        ) {
+          <div class="target-select__organs">
+            @for (opt of organsForPlayer(singlePlayerSelection); track opt.organId) {
+              <button
+                type="button"
+                class="target-select__organ"
+                [class.is-active]="singleSelectionValue === toOptionValue(opt)"
+                (click)="selectOrgan(opt, 'single')"
+              >
+                <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+                <span>{{ organColorLabel(opt.organColor) }}</span>
+              </button>
+            }
+          </div>
+        } @else if (singlePlayerSelection) {
+          <p class="target-select__empty target-select__empty--inline">
+            Ese jugador no tiene órganos disponibles.
+          </p>
+        } @else {
+          <p class="target-select__empty target-select__empty--inline">
+            Selecciona primero un jugador.
+          </p>
+        }
+      </div>
+    </section>
+  }
+
+  @if (hasNoOptionsAvailable) {
+    <p class="target-select__empty">
+      No hay objetivos disponibles por ahora.
+    </p>
+  }
+
+  <div class="target-select__actions">
+    <button
+      type="button"
+      class="target-select__confirm"
+      [disabled]="confirmDisabled"
+      (click)="emitConfirm()"
+    >
+      Confirmar
+    </button>
+    <button type="button" class="target-select__cancel" (click)="emitCancel()">
+      Cancelar
+    </button>
+  </div>
+</div>
