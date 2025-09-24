@@ -28,6 +28,8 @@ export class RoomListComponent implements OnInit {
   }
 
   joinRoom(roomId: string) {
+    const room = this.roomList().find((r) => r.id === roomId);
+    if (room?.inProgress) return;
     this.store.joinRoom(roomId, this.player()!);
   }
 }

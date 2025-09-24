@@ -11,9 +11,16 @@
         <div class="room-info">
           <strong>{{ room.name }}</strong>
           <span>{{ room.players.length }} jugadores</span>
+          @if (room.inProgress) {
+            <span class="room-info__status">En partida</span>
+          }
         </div>
-        <button class="secondary-button" (click)="joinRoom(room.id)">
-          Unirse
+        <button
+          class="secondary-button"
+          [disabled]="room.inProgress"
+          (click)="joinRoom(room.id)"
+        >
+          {{ room.inProgress ? 'En partida' : 'Unirse' }}
         </button>
       </li>
       }
