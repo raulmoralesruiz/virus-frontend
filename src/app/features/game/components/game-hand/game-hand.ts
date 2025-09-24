@@ -93,6 +93,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     if (!this.publicState) return [];
     const ids: string[] = [];
     for (const p of this.publicState.players) {
+      ids.push(`board-${p.player.id}`);
       for (const color of this.cardColors) {
         ids.push(`slot-${p.player.id}-${color}`);
       }

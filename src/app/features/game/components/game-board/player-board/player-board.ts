@@ -23,7 +23,12 @@ import {
   PublicGameState,
   PublicPlayerInfo,
 } from '../../../../../core/models/game.model';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  DragDropModule,
+} from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../core/services/game-store.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
 import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
@@ -189,6 +194,99 @@ export class PlayerBoardComponent {
   // ------------------------------------------------------------
   // Eventos de drag & drop
   // ------------------------------------------------------------
+  boardDropListId(): string {
+    return `board-${this.player().player.id}`;
+  }
+
+  boardEnterPredicate = (
+    drag: CdkDrag,
+    _drop: CdkDropList<any>
+  ): boolean => {
+    const data = drag.data as Card | { virusId: string } | undefined;
+    if (!data) return false;
+
+    if ('virusId' in (data as any)) {
+      return false; // el tablero general no acepta virus en contagio
+    }
+
+    const card = data as Card;
+
+    switch (card.kind) {
+      case CardKind.Organ:
+        return this.isMe();
+
+      case CardKind.Treatment:
+        switch (card.subtype) {
+          case TreatmentSubtype.Gloves:
+            return true; // guantes no necesitan objetivo
+
+          case TreatmentSubtype.MedicalError: {
+            const me = this._apiPlayer.player();
+            return !!me && this.player().player.id !== me.id;
+          }
+
+          case TreatmentSubtype.Contagion:
+            return this.isMe();
+
+          default:
+            return false;
+        }
+
+      default:
+        return false;
+    }
+  };
+
+  slotEnterPredicate = (drag: CdkDrag, _drop: CdkDropList<any>): boolean => {
+    const data = drag.data as Card | { virusId: string } | undefined;
+    if (!data) return false;
+
+    if ('virusId' in (data as any)) {
+      return true; // contagio: permitir mover virus a órganos
+    }
+
+    const card = data as Card;
+
+    if (card.kind === CardKind.Organ) {
+      return false; // órganos caen en el tablero completo
+    }
+
+    if (card.kind === CardKind.Treatment) {
+      if (
+        card.subtype === TreatmentSubtype.Gloves ||
+        card.subtype === TreatmentSubtype.MedicalError ||
+        card.subtype === TreatmentSubtype.Contagion
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  onBoardDrop(event: CdkDragDrop<any>) {
+    const rid = this.roomId();
+    const card = event.item.data as Card | undefined;
+
+    if (!rid || !card) return;
+
+    switch (card.kind) {
+      case CardKind.Organ:
+        this.handleOrganDrop(card, rid);
+        break;
+
+      case CardKind.Treatment:
+        this.handleBoardTreatmentDrop(card, rid);
+        break;
+
+      default:
+        this._gameStore.setClientError(
+          `No puedes soltar ${card.kind} en el tablero general.`
+        );
+        break;
+    }
+  }
+
   onDrop(event: CdkDragDrop<any>, color: CardColor, organ: OrganOnBoard) {
     if (this.contagionState()) {
       this.onVirusDrop(event, organ);
@@ -214,7 +312,7 @@ export class PlayerBoardComponent {
 
     switch (card.kind) {
       case CardKind.Organ:
-        this.handleOrganDrop(card, color, rid);
+        this.handleOrganDrop(card, rid, color);
         break;
 
       case CardKind.Medicine:
@@ -343,7 +441,7 @@ export class PlayerBoardComponent {
   // Métodos auxiliares por tipo de carta
   // ------------------------------------------------------------
 
-  private handleOrganDrop(card: Card, color: CardColor, rid: string) {
+  private handleOrganDrop(card: Card, rid: string, color?: CardColor) {
     if (!this.isMe()) {
       this._gameStore.setClientError(
         'Solo puedes poner órganos en tu propio tablero.'
@@ -351,7 +449,11 @@ export class PlayerBoardComponent {
       return;
     }
 
-    if (card.color !== color && card.color !== CardColor.Multi) {
+    if (
+      color &&
+      card.color !== color &&
+      card.color !== CardColor.Multi
+    ) {
       this._gameStore.setClientError(
         `Órgano ${card.color} no válido para hueco ${color}`
       );
@@ -470,6 +572,28 @@ export class PlayerBoardComponent {
     this._gameStore.playCard(rid, card.id);
 
     this._gameStore.setClientError('Has jugado Guantes de Látex.');
+  }
+
+  private handleBoardTreatmentDrop(card: Card, rid: string) {
+    switch (card.subtype) {
+      case TreatmentSubtype.MedicalError:
+        this.playMedicalError(card);
+        break;
+
+      case TreatmentSubtype.Gloves:
+        this.playGloves(card);
+        break;
+
+      case TreatmentSubtype.Contagion:
+        this.playContagion(card);
+        break;
+
+      default:
+        this._gameStore.setClientError(
+          `Debes soltar ${card.subtype} sobre un objetivo válido.`
+        );
+        break;
+    }
   }
 
   private playContagion(card: Card) {
