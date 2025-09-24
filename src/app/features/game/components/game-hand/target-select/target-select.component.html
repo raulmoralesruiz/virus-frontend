@@ -110,32 +110,57 @@
 
     @if (isContagion) {
     @if (contagionAssignments.length) {
-      <section class="target-select__group target-select__group--stacked">
-        @for (assignment of contagionAssignments; let i = $index; track i) {
+      @for (assignment of contagionAssignments; let i = $index; track i) {
+        <section class="target-select__group target-select__group--with-organs">
           <div class="target-select__field">
-            <label [attr.for]="'contagion-target-' + i">
+            <label [attr.for]="'contagion-player-' + i">
               Virus {{ i + 1 }}
               <span>{{ contagionSourceLabel(assignment) }}</span>
             </label>
             <select
-              [attr.id]="'contagion-target-' + i"
-              [ngModel]="contagionSelectionValue(assignment)"
-              (ngModelChange)="handleContagionChange($event, i)"
+              [attr.id]="'contagion-player-' + i"
+              [ngModel]="assignment.toPlayerId"
+              (ngModelChange)="handleContagionPlayerChange($event, i)"
             >
-              <option value="">-- Selecciona destino --</option>
-              @for (p of publicState?.players; track p.player.id) {
-                @for (o of p.board; track o.id) {
-                  @if (!o.attached.length) {
-                    <option [value]="o.id + '|' + p.player.id">
-                      {{ p.player.name }} · {{ o.color }}
-                    </option>
-                  }
-                }
+              <option value="">-- Selecciona jugador --</option>
+              @for (player of contagionPlayerOptions; track player.id) {
+                <option [value]="player.id">{{ player.name }}</option>
               }
             </select>
           </div>
-        }
-      </section>
+
+          <div class="target-select__field target-select__field--organs">
+            <label>Órgano destino</label>
+            @let organs = contagionOrgansForPlayer(assignment.toPlayerId);
+            @if (
+              assignment.toPlayerId &&
+              organs.length
+            ) {
+              <div class="target-select__organs">
+                @for (opt of organs; track opt.organId) {
+                  <button
+                    type="button"
+                    class="target-select__organ"
+                    [class.is-active]="contagionSelectionValue(assignment) === toOptionValue(opt)"
+                    (click)="selectContagionOrgan(opt, i)"
+                  >
+                    <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+                    <span>{{ organColorLabel(opt.organColor) }}</span>
+                  </button>
+                }
+              </div>
+            } @else if (assignment.toPlayerId) {
+              <p class="target-select__empty target-select__empty--inline">
+                Ese jugador no tiene órganos libres.
+              </p>
+            } @else {
+              <p class="target-select__empty target-select__empty--inline">
+                Selecciona primero un jugador.
+              </p>
+            }
+          </div>
+        </section>
+      }
     } @else {
       <p class="target-select__empty">
         No tienes virus disponibles para contagiar.

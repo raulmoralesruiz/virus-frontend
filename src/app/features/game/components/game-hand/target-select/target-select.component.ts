@@ -9,6 +9,7 @@ import {
 import {
   PlayCardTarget,
   PublicGameState,
+  OrganOnBoard,
 } from '../../../../../core/models/game.model';
 
 export interface TargetSelectOption {
@@ -202,6 +203,21 @@ export class TargetSelectComponent {
     return Array.from(players, ([id, name]) => ({ id, name }));
   }
 
+  get contagionPlayerOptions(): PlayerOption[] {
+    if (!this.publicState) return [];
+    const selectedPlayers = new Set(
+      this.contagionAssignments.map((assignment) => assignment.toPlayerId).filter(Boolean)
+    );
+    const players: PlayerOption[] = [];
+    for (const info of this.publicState.players) {
+      const hasFreeOrgan = info.board.some((organ) => !organ.attached.length);
+      if (hasFreeOrgan || selectedPlayers.has(info.player.id)) {
+        players.push({ id: info.player.id, name: info.player.name });
+      }
+    }
+    return players;
+  }
+
   handleTargetChange(value: string, which: 'A' | 'B' | 'single' = 'single') {
     if (which === 'A') this.transplantSelectionA = value;
     if (which === 'B') this.transplantSelectionB = value;
@@ -267,6 +283,16 @@ export class TargetSelectComponent {
     this.contagionTargetChange.emit({ value, index });
   }
 
+  handleContagionPlayerChange(playerId: string, index: number) {
+    const value = playerId ? `|${playerId}` : '';
+    this.handleContagionChange(value, index);
+  }
+
+  selectContagionOrgan(option: TargetSelectOption, index: number) {
+    if (!option.organId || !option.playerId) return;
+    this.handleContagionChange(this.toOptionValue(option), index);
+  }
+
   selectOrgan(option: TargetSelectOption, which: 'A' | 'B' | 'single') {
     if (!option.organId) return;
     if (which === 'single') {
@@ -297,6 +323,20 @@ export class TargetSelectComponent {
     return this.targetOptions.filter(
       (option) => option.playerId === playerId && !!option.organId
     );
+  }
+
+  contagionOrgansForPlayer(playerId: string): TargetSelectOption[] {
+    if (!playerId || !this.publicState) return [];
+    const info = this.publicState.players.find((p) => p.player.id === playerId);
+    if (!info) return [];
+    return info.board
+      .filter((organ) => !organ.attached.length)
+      .map((organ) => ({
+        playerId: info.player.id,
+        playerName: info.player.name,
+        organId: organ.id,
+        organColor: organ.color,
+      }));
   }
 
   organColorClass(color?: string): string {
@@ -331,6 +371,21 @@ export class TargetSelectComponent {
   }
 
   contagionSourceLabel(assignment: { fromOrganId: string }): string {
+    const organInfo = this.findOrganById(assignment.fromOrganId);
+    if (organInfo) {
+      return `Desde ${this.organColorLabel(organInfo.organ.color)}`;
+    }
     return `Desde órgano ${assignment.fromOrganId}`;
+  }
+
+  private findOrganById(organId: string): { organ: OrganOnBoard; playerName: string } | null {
+    if (!this.publicState) return null;
+    for (const info of this.publicState.players) {
+      const organ = info.board.find((o) => o.id === organId);
+      if (organ) {
+        return { organ, playerName: info.player.name };
+      }
+    }
+    return null;
   }
 }
