@@ -105,10 +105,14 @@ export class SocketGameService {
           return;
         }
 
+        const hasPublicState = !!this.publicState();
+
         if (!data.winner) {
-          this.activeRoomId = null;
-          this.publicState.set(null);
-          this.hand.set([]);
+          if (!hasPublicState) {
+            this.activeRoomId = null;
+            this.publicState.set(null);
+            this.hand.set([]);
+          }
         }
 
         this.winner.set(data.winner);
