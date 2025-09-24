@@ -14,6 +14,8 @@ export class TimerSoundService {
     critical: this.createHowl('assets/sounds/timer/critical.mp3'),
   };
 
+  private readonly winnerSound = this.createHowl('assets/sounds/winner.mp3');
+
   toggleMute() {
     this.mutedSignal.update((muted) => !muted);
   }
@@ -24,6 +26,14 @@ export class TimerSoundService {
     }
 
     this.timerSounds[state].play();
+  }
+
+  playWinner() {
+    if (this.mutedSignal()) {
+      return;
+    }
+
+    this.winnerSound.play();
   }
 
   private createHowl(src: string): Howl {

@@ -1,8 +1,34 @@
-<div class="victory">
-  <h2>🏆 ¡Ganador!</h2>
-  <p>
-    El jugador <strong>{{ winner.player.name }}</strong> ha completado su
-    cuerpo.
-  </p>
-  <button (click)="onReset()">Reiniciar partida</button>
+@if (isVisible) {
+<div class="winner-overlay" (click)="closeModal()">
+  <div
+    class="winner-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="winner-title"
+    aria-describedby="winner-description"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      type="button"
+      class="winner-close"
+      aria-label="Cerrar aviso de ganador"
+      (click)="closeModal()"
+    >
+      ✕
+    </button>
+
+    <div class="winner-content">
+      <h2 id="winner-title" class="winner-heading">🏆 ¡Ganador!</h2>
+      <p id="winner-description" class="winner-message">
+        El jugador <strong>{{ winner.player.name }}</strong> ha completado su cuerpo.
+      </p>
+
+      <div class="winner-actions">
+        <button type="button" class="winner-reset" (click)="onReset()">
+          Reiniciar partida
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+}
