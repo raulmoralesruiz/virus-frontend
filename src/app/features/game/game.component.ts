@@ -8,6 +8,7 @@ import { GameInfoComponent } from './components/game-info/game-info';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
+import { GameActionFeedComponent } from './components/game-action-feed/game-action-feed';
 
 @Component({
   selector: 'app-game',
@@ -17,6 +18,7 @@ import { GameWinnerComponent } from './components/game-winner/game-winner';
     GameBoardComponent,
     GameHandComponent,
     GameWinnerComponent,
+    GameActionFeedComponent,
   ],
   standalone: true,
   templateUrl: './game.component.html',

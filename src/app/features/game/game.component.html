@@ -1,4 +1,5 @@
 <div class="game-layout">
+  <game-action-feed></game-action-feed>
   <!-- Winner -->
   @if (winner(); as w) {
   <game-winner [winner]="w" (reset)="resetGame()"></game-winner>

@@ -18,6 +18,14 @@ import {
   TreatmentSubtype,
 } from '../../../../../core/models/card.model';
 import {
+  articleForCard,
+  cardWithArticle,
+  describeCard,
+  describeColor,
+  describeOrgan,
+  organWithArticle,
+} from '../../../../../core/utils/card-label.utils';
+import {
   MedicalErrorTarget,
   OrganOnBoard,
   PublicGameState,
@@ -449,13 +457,11 @@ export class PlayerBoardComponent {
       return;
     }
 
-    if (
-      color &&
-      card.color !== color &&
-      card.color !== CardColor.Multi
-    ) {
+    if (color && card.color !== color && card.color !== CardColor.Multi) {
+      const organLabel = describeOrgan(card.color);
+      const slotLabel = describeColor(color);
       this._gameStore.setClientError(
-        `Órgano ${card.color} no válido para hueco ${color}`
+        `El ${organLabel} no puede ocupar el hueco ${slotLabel}.`
       );
       return;
     }
@@ -466,8 +472,11 @@ export class PlayerBoardComponent {
   private handleMedicineOrVirusDrop(card: Card, color: CardColor, rid: string) {
     const organ = this.getOrganByColor(color);
     if (!organ) {
+      const slotOrgan = describeOrgan(color);
+      const cardArticle = articleForCard(card).toLowerCase();
+      const cardLabel = describeCard(card);
       this._gameStore.setClientError(
-        `No hay órgano en hueco ${color} para aplicar ${card.kind}`
+        `No hay un ${slotOrgan} disponible para aplicar ${cardArticle} ${cardLabel}.`
       );
       return;
     }
@@ -478,7 +487,7 @@ export class PlayerBoardComponent {
       organ.color !== CardColor.Multi
     ) {
       this._gameStore.setClientError(
-        `${card.kind} ${card.color} no válida para órgano ${organ.color}`
+        `${cardWithArticle(card)} no es compatible con ${organWithArticle(organ.color)}.`
       );
       return;
     }
