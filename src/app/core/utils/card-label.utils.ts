@@ -63,6 +63,11 @@ export const cardWithArticle = (card: Card): string => {
   return `${articleForCard(card)} ${describeCard(card)}`;
 };
 
-export const organWithArticle = (color: CardColor): string => {
-  return `el ${describeOrgan(color)}`;
+export const organWithArticle = (
+  color: CardColor,
+  options?: { capitalize?: boolean }
+): string => {
+  const capitalize = options?.capitalize ?? false;
+  const article = capitalize ? 'El' : 'el';
+  return `${article} ${describeOrgan(color)}`;
 };
