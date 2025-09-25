@@ -117,13 +117,25 @@ export class PlayerBoardComponent {
       }
     });
 
+    let wasActive = false;
     effect(() => {
       const isActive = this.isActive();
       const isMe = this.isMe();
       const seconds = this.remainingSeconds(); // fuerza ejecución cada segundo
       const timerState = this.turnTimerState();
 
-      if (!isActive || !isMe) {
+      if (!isMe) {
+        wasActive = false;
+        return;
+      }
+
+      if (isActive && !wasActive) {
+        this.timerSoundService.playTurnStart();
+      }
+
+      wasActive = isActive;
+
+      if (!isActive) {
         return;
       }
 
@@ -139,9 +151,6 @@ export class PlayerBoardComponent {
     }
 
     switch (timerState) {
-      case 'running':
-        this.timerSoundService.playTick('running');
-        break;
       case 'warning':
         this.timerSoundService.playTick('warning');
         break;

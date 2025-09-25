@@ -13,7 +13,16 @@ export class TimerSoundService {
     critical: this.createAudio('assets/sounds/timer/critical.mp3'),
   };
 
+  private readonly turnStartSound = this.createAudio('assets/sounds/turn.mp3');
   private readonly winnerSound = this.createAudio('assets/sounds/winner.mp3');
+
+  playTurnStart() {
+    if (this.mutedSignal()) {
+      return;
+    }
+
+    this.playAudio(this.turnStartSound);
+  }
 
   toggleMute() {
     this.mutedSignal.update((muted) => !muted);
