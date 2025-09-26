@@ -1,3 +1,9 @@
 <h2>Introduce tu nombre</h2>
-<input id="nameInput" #nameInput type="text" placeholder="Tu nombre" />
+<input
+  id="nameInput"
+  #nameInput
+  type="text"
+  placeholder="Tu nombre"
+  autocomplete="off"
+/>
 <button (click)="setName(nameInput.value)">Continuar</button>
