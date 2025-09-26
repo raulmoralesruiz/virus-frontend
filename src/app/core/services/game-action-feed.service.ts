@@ -29,9 +29,27 @@ export class GameActionFeedService {
 
   constructor() {
     effect(() => {
-      const history = this.socketGame.publicState()?.history ?? [];
-      this.processHistory(history);
+      const state = this.socketGame.publicState();
+
+      if (!state) {
+        this.reset();
+        return;
+      }
+
+      this.processHistory(state.history ?? []);
     });
+  }
+
+  private reset() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+
+    this.queue.set([]);
+    this.current.set(null);
+    this.historyCounts = new Map();
+    this.initialized = false;
   }
 
   private processHistory(history: string[]) {
