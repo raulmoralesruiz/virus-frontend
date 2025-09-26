@@ -22,9 +22,15 @@ export class RoomStoreService {
 
     effect(() => {
       const room = this.currentRoom();
-      if (room) {
-        this.router.navigate(['/room', room.id]);
-      }
+      if (!room) return;
+
+      const currentUrl = this.router.url;
+      const targetUrl = `/room/${room.id}`;
+
+      if (currentUrl.startsWith(`/game/${room.id}`)) return;
+      if (currentUrl.startsWith(targetUrl)) return;
+
+      this.router.navigate(['/room', room.id]);
     });
   }
 
