@@ -83,6 +83,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 10px 20px -14px rgba(15, 23, 42, 0.75);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.38);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .play-btn:disabled {

@@ -149,6 +149,97 @@
   gap: 0.35rem;
 }
 
+.game-info__summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.game-info__pile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-text-secondary);
+}
+
+.game-info__pile-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.game-info__pile-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  color: var(--color-text-inverted);
+  font-weight: 700;
+}
+
+.game-info__pile-icon::before,
+.game-info__pile-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.55;
+  filter: brightness(1.1);
+}
+
+.game-info__pile-icon::before {
+  transform: translate(-0.2rem, -0.28rem);
+  z-index: -1;
+}
+
+.game-info__pile-icon::after {
+  transform: translate(-0.4rem, -0.55rem);
+  z-index: -2;
+  opacity: 0.3;
+}
+
+.game-info__pile--start .game-info__pile-icon {
+  width: 3.4rem;
+  padding: 0 0.2rem;
+}
+
+.game-info__pile--start .game-info__pile-count {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.game-info__pile-icon--deck,
+.game-info__pile-icon--deck::before,
+.game-info__pile-icon--deck::after {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+}
+
+.game-info__pile-icon--start,
+.game-info__pile-icon--start::before,
+.game-info__pile-icon--start::after {
+  background: linear-gradient(135deg, var(--color-muted-button-active), var(--color-primary));
+}
+
+.game-info__pile-icon--discard,
+.game-info__pile-icon--discard::before,
+.game-info__pile-icon--discard::after {
+  background: linear-gradient(135deg, var(--color-danger-soft), var(--color-danger));
+}
+
+.game-info__pile-count {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
 .game-info__controls {
   display: inline-flex;
   flex-wrap: wrap;
@@ -198,6 +289,10 @@
 @media (min-width: 768px) {
   .game-info {
     padding: 1rem 1.5rem;
+  }
+
+  .game-info__summary {
+    gap: 1.1rem;
   }
 
   .game-info__header h2 {

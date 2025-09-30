@@ -32,9 +32,38 @@
 
   @if (showDetails) {
   <div class="game-info__details">
-    <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
-    <p>Mazo: {{ state.deckCount }} cartas</p>
-    <p>Descarte: {{ state.discardCount }} cartas</p>
+    <div class="game-info__summary">
+      <div
+        class="game-info__pile game-info__pile--start"
+        role="group"
+        [attr.aria-label]="'Hora de inicio: ' + (state.startedAt | date : 'HH:mm')"
+      >
+        <span class="game-info__pile-icon game-info__pile-icon--start" aria-hidden="true">
+          <span class="game-info__pile-count">{{ state.startedAt | date : 'HH:mm' }}</span>
+        </span>
+        <span class="game-info__pile-label">Inicio</span>
+      </div>
+      <div
+        class="game-info__pile"
+        role="group"
+        [attr.aria-label]="'Cartas en el mazo: ' + state.deckCount"
+      >
+        <span class="game-info__pile-icon game-info__pile-icon--deck" aria-hidden="true">
+          <span class="game-info__pile-count">{{ state.deckCount }}</span>
+        </span>
+        <span class="game-info__pile-label">Mazo</span>
+      </div>
+      <div
+        class="game-info__pile"
+        role="group"
+        [attr.aria-label]="'Cartas en el descarte: ' + state.discardCount"
+      >
+        <span class="game-info__pile-icon game-info__pile-icon--discard" aria-hidden="true">
+          <span class="game-info__pile-count">{{ state.discardCount }}</span>
+        </span>
+        <span class="game-info__pile-label">Descarte</span>
+      </div>
+    </div>
     <div class="game-info__controls">
       <button
         type="button"
