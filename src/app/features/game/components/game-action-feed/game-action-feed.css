@@ -14,7 +14,8 @@
   gap: 0.9rem;
   padding: 0.7rem 1.1rem;
   border-radius: 18px;
-  background: var(--color-surface-soft);
+  background: var(--section-feed-background);
+  border: 1px solid var(--section-feed-border);
   box-shadow: var(--shadow-modal);
   backdrop-filter: blur(6px);
   color: var(--color-text-primary);

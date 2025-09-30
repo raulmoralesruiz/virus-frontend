@@ -3,9 +3,9 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 0.85rem 1rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--section-info-border);
   border-radius: 12px;
-  background: var(--color-surface);
+  background: var(--section-info-background);
   box-shadow: var(--shadow-panel);
   cursor: pointer;
   user-select: none;
@@ -20,6 +20,7 @@
 
 .game-info--expanded {
   box-shadow: var(--shadow-panel-strong);
+  border-color: var(--color-player-me-border);
 }
 
 .game-info__header {
@@ -87,6 +88,7 @@
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   box-shadow: var(--shadow-button-primary);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
 
 .history-toggle:hover {

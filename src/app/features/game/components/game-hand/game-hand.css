@@ -60,21 +60,17 @@
 }
 
 .hand-panel.is-my-turn {
-  background: linear-gradient(
-    165deg,
-    rgba(37, 99, 235, 0.22) 0%,
-    rgba(14, 165, 233, 0.18) 100%
-  );
-  border-color: rgba(59, 130, 246, 0.5);
+  background: var(--color-player-active-background);
+  border-color: var(--color-player-active-border);
   box-shadow:
-    0 -22px 42px -20px rgba(30, 64, 175, 0.55),
-    0 0 0 3px rgba(37, 99, 235, 0.32);
+    0 -22px 42px -22px rgba(8, 15, 40, 0.32),
+    0 0 0 3px var(--color-player-active-ring);
   animation: handPanelPulse 2.4s ease-in-out infinite;
 }
 
 .hand-container.is-my-turn {
-  background: rgba(37, 99, 235, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.25);
+  background: rgba(251, 191, 36, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.35);
 }
 
 .discard-btn {
@@ -84,12 +80,13 @@
   border: none;
   border-radius: 999px;
   background: var(--color-danger);
-  color: var(--color-text-inverted);
+  color: var(--color-text-on-dark);
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
   transition: filter 0.2s ease;
   box-shadow: var(--shadow-button-danger);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
 }
 
 .discard-btn:not(:disabled):hover {
@@ -97,12 +94,14 @@
 }
 
 .hand-panel.is-my-turn .discard-btn:not(:disabled) {
-  background: var(--color-primary);
-  box-shadow: var(--shadow-button-primary);
+  background: var(--color-player-active-border);
+  color: var(--color-text-on-dark);
+  box-shadow: 0 16px 30px -18px rgba(202, 138, 4, 0.45);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
 }
 
 .hand-panel.is-my-turn .discard-btn:not(:disabled):hover {
-  filter: brightness(1.05);
+  filter: brightness(1.02);
 }
 
 .discard-btn:disabled {
@@ -134,13 +133,13 @@
   0%,
   100% {
     box-shadow:
-      0 -20px 38px -22px rgba(30, 64, 175, 0.45),
-      0 0 0 2px rgba(37, 99, 235, 0.25);
+      0 -20px 36px -22px rgba(8, 15, 40, 0.35),
+      0 0 0 2px var(--color-player-active-ring);
   }
   50% {
     box-shadow:
-      0 -28px 48px -18px rgba(59, 130, 246, 0.6),
-      0 0 0 4px rgba(37, 99, 235, 0.38);
+      0 -28px 48px -18px rgba(202, 138, 4, 0.45),
+      0 0 0 5px rgba(251, 191, 36, 0.48);
   }
 }
 
@@ -172,7 +171,7 @@
     max-width: none;
     padding: 1rem 1.25rem 1.35rem;
     border-radius: 20px;
-    background: linear-gradient(165deg, rgba(59, 130, 246, 0.14) 0%, rgba(14, 165, 233, 0.08) 100%);
+    background: var(--color-hand-panel-background);
     box-shadow: 0 18px 42px -26px rgba(15, 23, 42, 0.55);
   }
 
