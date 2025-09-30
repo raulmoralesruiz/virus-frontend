@@ -19,6 +19,7 @@ export class HandCard {
   @Input() card!: Card;
   @Input() isSelected: boolean = false;
   @Input() isMyTurn: boolean = false;
+  @Input() infoOpen: boolean = false;
 
   @Output() toggleSelect = new EventEmitter<Card>();
   @Output() play = new EventEmitter<Card>();
@@ -30,6 +31,14 @@ export class HandCard {
   onPlay(event: MouseEvent) {
     event.stopPropagation(); // que no active toggleSelect al pulsar el botón
     this.play.emit(this.card);
+  }
+
+  get actionLabel(): string {
+    if (this.isMyTurn) {
+      return 'Jugar';
+    }
+
+    return this.infoOpen ? 'Cancelar' : 'Info';
   }
 
   get icon(): string {

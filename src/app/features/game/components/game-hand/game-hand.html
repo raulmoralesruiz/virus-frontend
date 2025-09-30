@@ -34,6 +34,7 @@
       [card]="card"
       [isSelected]="selectedCardsToDiscard.includes(card)"
       [isMyTurn]="isMyTurn"
+      [infoOpen]="selectedCard?.id === card.id"
       (toggleSelect)="toggleDiscardSelection($event)"
       (play)="selectCardToPlay($event)"
       cdkDrag
