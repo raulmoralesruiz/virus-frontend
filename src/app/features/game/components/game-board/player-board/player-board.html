@@ -2,9 +2,7 @@
   <div class="player-header">
     <strong>{{ player().player.name }}</strong>
     @if (isActive() && turnDurationSeconds() > 0) {
-    <div
-      class="turn-progress"
-    >
+    <div class="turn-progress">
       <div
         class="turn-progress__track"
         role="progressbar"
@@ -21,8 +19,7 @@
         ></div>
       </div>
     </div>
-    }
-    @if (isActive()) {
+    } @if (isActive()) {
     <span
       class="turn-timer"
       [class.turn-timer--warning]="turnTimerState() === 'warning'"
@@ -44,31 +41,27 @@
     (cdkDropListDropped)="onBoardDrop($event)"
   >
     <div class="board-grid" cdkDropListGroup>
-      @for (color of cardColors; track color) { @let organ =
-      getOrganByColor(color);
-      <div
+      @for (organ of player().board; track organ.id) {
+      <player-card
         class="board-slot"
-        [id]="'slot-' + player().player.id + '-' + color"
         cdkDropList
-        [cdkDropListData]="organ ? [organ] : []"
-        [cdkDropListConnectedTo]="getConnectedIdsForSlot(color)"
+        [class.transplant-mode]="transplantState()"
+        [id]="'slot-' + player().player.id + '-' + organ.color"
+        [cdkDropListData]="[organ]"
+        [cdkDropListConnectedTo]="getConnectedIdsForSlot(organ.color)"
         [cdkDropListEnterPredicate]="slotEnterPredicate"
-        (cdkDropListDropped)="onDrop($event, color, organ!)"
+        (cdkDropListDropped)="onDrop($event, organ.color, organ)"
         (cdkDropListEntered)="onEnterBoard($event)"
         (click)="onSlotClick(organ, player().player.id)"
-        [class.transplant-mode]="transplantState()"
-      >
-        @if (organ) {
-        <player-card
-          [organ]="organ"
-          [contagionMode]="contagionState()! && isMe()"
-          [temporaryViruses]="
-            getTemporaryVirusesForOrgan()(organ.id, player().player.id)
-          "
-        ></player-card>
-        } @else {
-        <div class="slot-empty {{ color }}">{{ getOrganIcon(color) }}</div>
-        }
+        [organ]="organ"
+        [contagionMode]="contagionState()! && isMe()"
+        [temporaryViruses]="
+          getTemporaryVirusesForOrgan()(organ.id, player().player.id)
+        "
+      ></player-card>
+      } @empty {
+      <div class="board-empty" aria-label="Tablero vacío">
+        Tablero de {{ player().player.name }}
       </div>
       }
     </div>

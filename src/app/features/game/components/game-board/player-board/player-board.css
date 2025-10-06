@@ -13,8 +13,9 @@
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
-  --board-slot-min-width: 100px;
-  --board-slot-gap: 0.5rem;
+  /* --board-slot-min-width: 72px; */
+  --board-slot-gap: 0.35rem;
+  --board-slot-height: 50px;
   user-select: none;
 }
 
@@ -164,43 +165,32 @@
   flex: 1;
   display: grid;
   gap: var(--board-slot-gap, 0.5rem);
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(var(--board-slot-min-width, 100px), 1fr)
-  );
+  grid-template-columns: repeat(4, minmax(var(--board-slot-min-width, 40px), 1fr));
+  grid-auto-rows: var(--board-slot-height, 132px);
+}
+
+.board-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--board-slot-height, 132px);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 2px dashed var(--color-border);
+  color: var(--color-text-secondary);
+  background: rgba(148, 163, 184, 0.08);
+  text-align: center;
+  font-weight: 500;
 }
 
 .board-slot {
   display: flex;
-  min-height: var(--board-slot-min-height, 0);
-}
-
-.board-slot > * {
-  flex: 1 1 auto;
-}
-
-.slot-empty {
-  border: 2px dashed var(--organ-border-empty);
+  align-items: stretch;
+  justify-content: center;
+  height: 100%;
   border-radius: 12px;
-  text-align: center;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  font-size: 0.9rem;
-  flex: 1;
-  display: grid;
-  place-items: center;
-  padding: 0.35rem;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 8px 16px -14px rgba(15, 23, 42, 0.4);
 }
-
-/* Colores base - órgano vacío */
-.slot-empty.red { background: var(--color-slot-empty-red); }
-.slot-empty.green { background: var(--color-slot-empty-green); }
-.slot-empty.blue { background: var(--color-slot-empty-blue); }
-.slot-empty.yellow { background: var(--color-slot-empty-yellow); }
-.slot-empty.multi { background: var(--color-slot-empty-multi); }
 
 .player-board.is-me {
   border: 2px solid var(--color-player-me-border);
@@ -254,15 +244,17 @@
 }
 
 @media (min-width: 768px) {
-  .player-board {
-    --board-slot-min-width: 120px;
-    --board-slot-gap: 0.75rem;
-    --board-slot-min-height: 74px;
-  }
+  /* .player-board {
+    --board-slot-min-width: 96px;
+    --board-slot-gap: 0.5rem;
+    --board-slot-height: 152px;
+  } */
 }
 
 @media (min-width: 900px) {
-  .player-board {
-    --board-slot-min-width: 140px;
-  }
+  /* .player-board {
+    --board-slot-min-width: 130px;
+    --board-slot-gap: 0.75rem;
+    --board-slot-height: 180px;
+  } */
 }

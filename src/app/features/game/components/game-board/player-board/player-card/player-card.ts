@@ -1,10 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
-import {
-  Card,
-  CardKind,
-  CardColor,
-} from '../../../../../../core/models/card.model';
+import { Card, CardKind, CardColor } from '../../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({

@@ -69,7 +69,6 @@ export class PlayerBoardComponent {
   hasTemporaryVirus =
     input.required<(organId: string, playerId: string) => boolean>();
 
-  cardColors = Object.values(CardColor);
   private readonly organIcons: Record<CardColor, string> = {
     [CardColor.Red]: '❤️',
     [CardColor.Green]: '🫃',
@@ -304,8 +303,18 @@ export class PlayerBoardComponent {
     }
   }
 
-  onDrop(event: CdkDragDrop<any>, color: CardColor, organ: OrganOnBoard) {
+  onDrop(
+    event: CdkDragDrop<any>,
+    color: CardColor,
+    organ?: OrganOnBoard | null
+  ) {
     if (this.contagionState()) {
+      if (!organ) {
+        this._gameStore.setClientError(
+          'Debes contagiar un órgano válido.'
+        );
+        return;
+      }
       this.onVirusDrop(event, organ);
     } else {
       this.onSlotDrop(event, color);
