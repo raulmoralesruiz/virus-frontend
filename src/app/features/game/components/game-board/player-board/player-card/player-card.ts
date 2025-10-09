@@ -1,7 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
 import { Card, CardKind, CardColor } from '../../../../../../core/models/card.model';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragEnter,
+  CdkDropList,
+  DragDropModule,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'player-card',
@@ -14,6 +20,17 @@ export class PlayerCardComponent {
   @Input() organ!: OrganOnBoard;
   @Input() contagionMode: boolean = false;
   @Input() temporaryViruses: Card[] = [];
+
+  @Input({ required: true }) dropListId!: string;
+  @Input() dropListData: unknown = null;
+  @Input() dropListConnectedTo: (string | CdkDropList<unknown>)[] = [];
+  @Input()
+  dropListEnterPredicate?: (drag: CdkDrag<unknown>, drop: CdkDropList<unknown>) => boolean;
+  @Input() dropListDisabled = false;
+
+  @Output() dropListDropped = new EventEmitter<CdkDragDrop<unknown>>();
+  @Output() dropListEntered = new EventEmitter<CdkDragEnter<unknown>>();
+  defaultEnterPredicate = (_drag: CdkDrag<unknown>, _drop: CdkDropList<unknown>) => true;
 
   // Agregar input para el estado de contagio completo
   @Input() contagionState: {

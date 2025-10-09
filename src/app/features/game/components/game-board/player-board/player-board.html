@@ -49,14 +49,13 @@
       @for (organ of player().board; track organ.id) {
       <player-card
         class="board-slot"
-        cdkDropList
         [class.transplant-mode]="transplantState()"
-        [id]="'slot-' + player().player.id + '-' + organ.color"
-        [cdkDropListData]="[organ]"
-        [cdkDropListConnectedTo]="getConnectedIdsForSlot(organ.color)"
-        [cdkDropListEnterPredicate]="slotEnterPredicate"
-        (cdkDropListDropped)="onDrop($event, organ.color, organ)"
-        (cdkDropListEntered)="onEnterBoard($event)"
+        [dropListId]="'slot-' + player().player.id + '-' + organ.color"
+        [dropListData]="[organ]"
+        [dropListConnectedTo]="getConnectedIdsForSlot(organ.color)"
+        [dropListEnterPredicate]="slotEnterPredicate"
+        (dropListDropped)="onDrop($event, organ.color, organ)"
+        (dropListEntered)="onEnterBoard($event)"
         (click)="onSlotClick(organ, player().player.id)"
         [organ]="organ"
         [contagionMode]="contagionState()! && isMe()"

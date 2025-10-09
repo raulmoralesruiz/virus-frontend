@@ -1,4 +1,14 @@
-<div class="card organ {{ organ.color }}">
+<div
+  class="card organ {{ organ.color }}"
+  cdkDropList
+  [id]="dropListId"
+  [cdkDropListData]="dropListData"
+  [cdkDropListConnectedTo]="dropListConnectedTo"
+  [cdkDropListEnterPredicate]="dropListEnterPredicate || defaultEnterPredicate"
+  [cdkDropListDisabled]="dropListDisabled"
+  (cdkDropListDropped)="dropListDropped.emit($event)"
+  (cdkDropListEntered)="dropListEntered.emit($event)"
+>
   @if (organ.attached.length === 0) {
   <div class="title">{{ organIcon() }}</div>
   }

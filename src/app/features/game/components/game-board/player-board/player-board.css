@@ -239,6 +239,44 @@
   background: rgba(34, 197, 94, 0.15);
 }
 
+.board-drop-wrapper.cdk-drop-list {
+  border: 2px dashed transparent;
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.board-drop-wrapper.cdk-drop-list.cdk-drop-list-dragging {
+  border-color: var(--color-border-highlight, rgba(59, 130, 246, 0.55));
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving {
+  border-color: var(--color-player-active-border);
+  box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.board-slot .card.organ.cdk-drop-list {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.board-slot .card.organ.cdk-drop-list.cdk-drop-list-dragging {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.board-slot .card.organ.cdk-drop-list.cdk-drop-list-receiving {
+  box-shadow:
+    inset 0 0 0 2px var(--color-player-active-border),
+    0 6px 14px -6px rgba(59, 130, 246, 0.45);
+}
+
 @media (min-width: 768px) {
   /* .player-board {
     --board-slot-min-width: 96px;
