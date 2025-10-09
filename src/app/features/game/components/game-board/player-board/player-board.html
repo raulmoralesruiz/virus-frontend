@@ -40,6 +40,11 @@
     [cdkDropListEnterPredicate]="boardEnterPredicate"
     (cdkDropListDropped)="onBoardDrop($event)"
   >
+    @if (player().board.length === 0) {
+    <div class="board-empty" aria-label="Tablero vacío">
+      Tablero de {{ player().player.name }}
+    </div>
+    } @else {
     <div class="board-grid" cdkDropListGroup>
       @for (organ of player().board; track organ.id) {
       <player-card
@@ -59,11 +64,8 @@
           getTemporaryVirusesForOrgan()(organ.id, player().player.id)
         "
       ></player-card>
-      } @empty {
-      <div class="board-empty" aria-label="Tablero vacío">
-        Tablero de {{ player().player.name }}
-      </div>
       }
     </div>
+    }
   </div>
 </div>
