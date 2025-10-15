@@ -16,6 +16,7 @@
   position: relative;
   overflow: hidden;
   user-select: none;
+  will-change: transform;
 }
 
 .hand-card:hover {
@@ -106,6 +107,29 @@
 
 .hand-card.is-my-turn .play-btn:not(:disabled):hover {
   box-shadow: 0 15px 28px -14px rgba(251, 191, 36, 0.5);
+}
+
+.hand-card.cdk-drag-dragging {
+  transition: none !important;
+  box-shadow:
+    0 12px 32px -18px rgba(15, 23, 42, 0.85),
+    0 0 0 2px rgba(148, 163, 184, 0.4);
+}
+
+.hand-card.cdk-drag-dragging .play-btn {
+  transition: none !important;
+}
+
+.cdk-drag-preview.hand-card {
+  box-shadow:
+    0 22px 42px -18px rgba(15, 23, 42, 0.9),
+    0 0 0 2px rgba(148, 163, 184, 0.45);
+  transition: none !important;
+  cursor: grabbing;
+}
+
+.hand-card.cdk-drag-placeholder {
+  opacity: 0;
 }
 
 @media (min-width: 480px) {
