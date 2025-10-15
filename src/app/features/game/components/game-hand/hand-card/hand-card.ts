@@ -25,6 +25,7 @@ export class HandCard {
   @Output() play = new EventEmitter<Card>();
 
   onToggleSelect() {
+    if (!this.isMyTurn) return;
     this.toggleSelect.emit(this.card);
   }
 

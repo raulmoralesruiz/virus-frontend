@@ -9,6 +9,7 @@
   (click)="onToggleSelect()"
   cdkDrag
   [cdkDragData]="card"
+  [cdkDragDisabled]="!isMyTurn"
 >
   <div class="card-content">
     @if (hasSubtype && subtypeImagePath) {

@@ -122,6 +122,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   }
 
   toggleDiscardSelection(card: Card) {
+    if (!this.isMyTurn) return;
     const idx = this.selectedCardsToDiscard.findIndex((c) => c.id === card.id);
     if (idx >= 0) this.selectedCardsToDiscard.splice(idx, 1);
     else this.selectedCardsToDiscard.push(card);
