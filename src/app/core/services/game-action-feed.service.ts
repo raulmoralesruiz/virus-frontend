@@ -40,6 +40,20 @@ export class GameActionFeedService {
     });
   }
 
+  dismissCurrent(): void {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+
+    if (!this.current()) {
+      return;
+    }
+
+    this.current.set(null);
+    this.showNext();
+  }
+
   private reset() {
     if (this.timer) {
       clearTimeout(this.timer);

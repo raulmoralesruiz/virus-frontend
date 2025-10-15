@@ -1,6 +1,10 @@
 @if (action(); as action) {
 <div
   class="action-feed"
+  role="button"
+  tabindex="0"
+  (click)="dismiss()"
+  (keydown)="handleKeydown($event)"
   [class.is-visible]="isVisible()"
   [class.is-leaving]="isLeaving()"
   (transitionend)="handleTransitionEnd($event)"
@@ -36,5 +40,12 @@
       }
     </div>
   </div>
+  <button
+    type="button"
+    class="action-feed__close"
+    aria-label="Cerrar notificación"
+  >
+    &times;
+  </button>
 </div>
 }

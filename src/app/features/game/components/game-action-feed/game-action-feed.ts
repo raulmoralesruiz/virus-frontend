@@ -55,6 +55,23 @@ export class GameActionFeedComponent {
     });
   }
 
+  dismiss(): void {
+    if (!this.display()) {
+      return;
+    }
+
+    this.feed.dismissCurrent();
+  }
+
+  handleKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    event.preventDefault();
+    this.dismiss();
+  }
+
   handleTransitionEnd(event: TransitionEvent): void {
     if (event.target !== event.currentTarget || event.propertyName !== 'opacity') {
       return;
