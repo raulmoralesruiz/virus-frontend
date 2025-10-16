@@ -114,27 +114,27 @@ export class TargetSelectComponent {
 
   get instruction(): string {
     if (this.isTransplant) {
-      return 'Elige dos órganos distintos para completar el trasplante.';
+      return 'Elige dos órganos distintos para intercambiarlos entre jugadores sin repetir colores.';
     }
     if (this.isContagion) {
-      return 'Asigna cada virus a un órgano libre de otro jugador.';
+      return 'Asigna cada virus a un órgano libre de otro jugador para propagar la infección.';
     }
     if (this.requiresTargetSelection) {
       if (this.selectedCard.kind === CardKind.Medicine) {
-        return 'Selecciona el órgano que quieres curar.';
+        return 'Selecciona el órgano que quieres curar o vacunar; eliminará un virus compatible o añadirá protección.';
       }
       if (this.selectedCard.kind === CardKind.Virus) {
-        return 'Selecciona el órgano que quieres infectar.';
+        return 'Selecciona el órgano que quieres infectar para dañarlo o extirparlo si ya está enfermo.';
       }
       if (this.selectedCard.subtype === TreatmentSubtype.OrganThief) {
-        return 'Elige el órgano que vas a robar.';
+        return 'Elige el órgano que vas a robar para añadirlo a tu cuerpo.';
       }
       if (this.selectedCard.subtype === TreatmentSubtype.MedicalError) {
-        return 'Selecciona al jugador objetivo del error médico.';
+        return 'Selecciona al jugador con el que intercambiarás todos tus órganos.';
       }
-      return 'Selecciona el objetivo adecuado para la carta.';
+      return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
-    return 'Confirma la jugada cuando estés listo.';
+    return `${this.cardEffectDescription} Confirma para jugarla.`;
   }
 
   get isTransplant(): boolean {
@@ -387,5 +387,33 @@ export class TargetSelectComponent {
       }
     }
     return null;
+  }
+
+  private get cardEffectDescription(): string {
+    switch (this.selectedCard.kind) {
+      case CardKind.Organ:
+        return 'Añade este órgano sano a tu cuerpo para acercarte a la victoria.';
+      case CardKind.Virus:
+        return 'Infecta un órgano compatible y podría eliminarlo si ya estaba enfermo.';
+      case CardKind.Medicine:
+        return 'Cura un órgano infectado o lo vacuna para protegerlo de futuros virus.';
+      case CardKind.Treatment:
+        switch (this.selectedCard.subtype) {
+          case TreatmentSubtype.Transplant:
+            return 'Intercambia dos órganos entre jugadores respetando los colores disponibles.';
+          case TreatmentSubtype.OrganThief:
+            return 'Roba un órgano compatible de otro jugador y colócalo en tu tablero.';
+          case TreatmentSubtype.Contagion:
+            return 'Traslada tus virus a órganos libres de otros jugadores para infectarlos.';
+          case TreatmentSubtype.Gloves:
+            return 'Obliga a todos los rivales a descartar su mano, robar nuevas cartas y perder el próximo turno.';
+          case TreatmentSubtype.MedicalError:
+            return 'Intercambia por completo tu cuerpo con el jugador elegido.';
+          default:
+            return 'Aplica un efecto especial sobre la partida.';
+        }
+      default:
+        return 'Aplica un efecto especial sobre la partida.';
+    }
   }
 }
