@@ -14,8 +14,16 @@
   @if (isMyTurn) {
     @if (isTransplant) {
     <section class="target-select__group target-select__group--with-organs">
-      <div class="target-select__field">
-        <label for="transplant-player-a">Jugador A</label>
+      <div
+        class="target-select__field target-select__field--player"
+        [class.is-active]="!!transplantPlayerA"
+      >
+        <label for="transplant-player-a">
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">👤</span>
+            <span>Jugador A</span>
+          </span>
+        </label>
         <select
           id="transplant-player-a"
           [ngModel]="transplantPlayerA"
@@ -28,8 +36,17 @@
         </select>
       </div>
 
-      <div class="target-select__field target-select__field--organs">
-        <label>Órgano A</label>
+      <div
+        class="target-select__field target-select__field--organs"
+        [class.is-active]="!!transplantSelectionA"
+        [class.is-disabled]="!transplantPlayerA"
+      >
+        <label>
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+            <span>Órgano A</span>
+          </span>
+        </label>
         @if (
           transplantPlayerA && organsForPlayer(transplantPlayerA).length
         ) {
@@ -57,8 +74,16 @@
         }
       </div>
 
-      <div class="target-select__field">
-        <label for="transplant-player-b">Jugador B</label>
+      <div
+        class="target-select__field target-select__field--player"
+        [class.is-active]="!!transplantPlayerB"
+      >
+        <label for="transplant-player-b">
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">👤</span>
+            <span>Jugador B</span>
+          </span>
+        </label>
         <select
           id="transplant-player-b"
           [ngModel]="transplantPlayerB"
@@ -71,8 +96,17 @@
         </select>
       </div>
 
-      <div class="target-select__field target-select__field--organs">
-        <label>Órgano B</label>
+      <div
+        class="target-select__field target-select__field--organs"
+        [class.is-active]="!!transplantSelectionB"
+        [class.is-disabled]="!transplantPlayerB"
+      >
+        <label>
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+            <span>Órgano B</span>
+          </span>
+        </label>
         @if (
           transplantPlayerB && organsForPlayer(transplantPlayerB).length
         ) {
@@ -112,9 +146,15 @@
     @if (contagionAssignments.length) {
       @for (assignment of contagionAssignments; let i = $index; track i) {
         <section class="target-select__group target-select__group--with-organs">
-          <div class="target-select__field">
+          <div
+            class="target-select__field target-select__field--player"
+            [class.is-active]="!!assignment.toPlayerId"
+          >
             <label [attr.for]="'contagion-player-' + i">
-              Virus {{ i + 1 }}
+              <span class="target-select__label-main">
+                <span class="target-select__label-icon" aria-hidden="true">👤</span>
+                <span>Virus {{ i + 1 }}</span>
+              </span>
               <span>{{ contagionSourceLabel(assignment) }}</span>
             </label>
             <select
@@ -129,8 +169,17 @@
             </select>
           </div>
 
-          <div class="target-select__field target-select__field--organs">
-            <label>Órgano destino</label>
+          <div
+            class="target-select__field target-select__field--organs"
+            [class.is-active]="!!assignment.toOrganId"
+            [class.is-disabled]="!assignment.toPlayerId"
+          >
+            <label>
+              <span class="target-select__label-main">
+                <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+                <span>Órgano destino</span>
+              </span>
+            </label>
             @let organs = contagionOrgansForPlayer(assignment.toPlayerId);
             @if (
               assignment.toPlayerId &&
@@ -170,8 +219,16 @@
 
     @if (isPlayerOnly) {
     <section class="target-select__group">
-      <div class="target-select__field">
-        <label for="target-player">Jugador</label>
+      <div
+        class="target-select__field target-select__field--player"
+        [class.is-active]="!!singlePlayerSelection"
+      >
+        <label for="target-player">
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">👤</span>
+            <span>Jugador</span>
+          </span>
+        </label>
         <select
           id="target-player"
           [ngModel]="singlePlayerSelection"
@@ -188,8 +245,16 @@
 
     @if (showSingleTarget) {
     <section class="target-select__group target-select__group--with-organs">
-      <div class="target-select__field">
-        <label for="card-target-player">Jugador</label>
+      <div
+        class="target-select__field target-select__field--player"
+        [class.is-active]="!!singlePlayerSelection"
+      >
+        <label for="card-target-player">
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">👤</span>
+            <span>Jugador</span>
+          </span>
+        </label>
         <select
           id="card-target-player"
           [ngModel]="singlePlayerSelection"
@@ -202,8 +267,17 @@
         </select>
       </div>
 
-      <div class="target-select__field target-select__field--organs">
-        <label>Órgano</label>
+      <div
+        class="target-select__field target-select__field--organs"
+        [class.is-active]="!!singleSelectionValue"
+        [class.is-disabled]="!singlePlayerSelection"
+      >
+        <label>
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+            <span>Órgano</span>
+          </span>
+        </label>
         @if (
           singlePlayerSelection && organsForPlayer(singlePlayerSelection).length
         ) {
