@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
 import { Player } from '../../core/models/player.model';
-import { TestDndComponent } from '../game/components/prueba/test-dnd.component';
-// import { TestDndComponent2 } from '../game/components/prueba/test-dnd2.component';
 
 @Component({
   selector: 'app-home',

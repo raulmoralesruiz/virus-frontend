@@ -8,16 +8,16 @@
   [attr.aria-expanded]="showDetails"
 >
   <div class="game-info__header">
-    <h2>Partida {{ shortRoomId }}</h2>
+    <div class="game-info__title">
+      <h2>#{{ shortRoomId }}</h2>
+      <span class="game-info__details-indicator">
+        {{ showDetails ? "Ocultar detalles" : "Ver detalles" }}
+        <span class="game-info__details-arrow" aria-hidden="true">
+          {{ showDetails ? "▲" : "▼" }}
+        </span>
+      </span>
+    </div>
     <div class="game-info__actions">
-      <button
-        type="button"
-        class="theme-toggle"
-        (click)="onToggleTheme($event)"
-        [attr.aria-pressed]="isDarkTheme()"
-      >
-        {{ isDarkTheme() ? "☀️" : "🌙" }}
-      </button>
       <button
         type="button"
         class="history-toggle"
@@ -71,6 +71,14 @@
         (click)="onLeaveClick($event)"
       >
         Salir de la partida
+      </button>
+      <button
+        type="button"
+        class="theme-toggle"
+        (click)="onToggleTheme($event)"
+        [attr.aria-pressed]="isDarkTheme()"
+      >
+        {{ isDarkTheme() ? "☀️" : "🌙" }}
       </button>
       <button
         type="button"
