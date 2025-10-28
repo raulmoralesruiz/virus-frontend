@@ -1,0 +1,33 @@
+<div class="game-info__controls">
+  <button
+    type="button"
+    class="game-info__leave"
+    (click)="onLeaveClick($event)"
+  >
+    Salir
+  </button>
+  <button
+    type="button"
+    class="theme-toggle"
+    (click)="onThemeToggle($event)"
+    [attr.aria-pressed]="isDarkTheme()"
+  >
+    {{ isDarkTheme() ? "☀️" : "🌙" }}
+  </button>
+  <button
+    type="button"
+    class="fullscreen-toggle"
+    (click)="onFullscreenToggle($event)"
+    [attr.aria-pressed]="isFullscreenActive"
+  >
+    {{ isFullscreenActive ? "📱" : "🖥️" }}
+  </button>
+  <button
+    type="button"
+    class="sound-toggle"
+    (click)="onMuteToggle($event)"
+    [attr.aria-pressed]="isMuted()"
+  >
+    {{ isMuted() ? "🔊" : "🔇" }}
+  </button>
+</div>

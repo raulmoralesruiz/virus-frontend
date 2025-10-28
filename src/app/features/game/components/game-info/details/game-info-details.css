@@ -1,0 +1,40 @@
+.game-info__details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.game-info__room-id {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-primary);
+}
+
+.game-info__summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
+  flex-wrap: wrap;
+}
+
+.game-info__details p:not(.game-info__room-id) {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .game-info__summary {
+    gap: 1.1rem;
+  }
+
+  .game-info__details {
+    flex-direction: row;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}

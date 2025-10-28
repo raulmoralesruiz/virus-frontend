@@ -7,112 +7,24 @@
   tabindex="0"
   [attr.aria-expanded]="showDetails"
 >
-  <div class="game-info__header">
-    <div class="game-info__title">
-      <h2>#{{ shortRoomId }}</h2>
-      <span class="game-info__details-indicator">
-        {{ showDetails ? "Ocultar detalles" : "Ver detalles" }}
-        <span class="game-info__details-arrow" aria-hidden="true">
-          {{ showDetails ? "▲" : "▼" }}
-        </span>
-      </span>
-    </div>
-    <div class="game-info__actions">
-      <button
-        type="button"
-        class="history-toggle"
-        (click)="onHistoryClick($event)"
-      >
-        Historial @if (historyCount) {
-        <span class="history-badge">{{ historyCount }}</span>
-        }
-      </button>
-    </div>
-  </div>
+  <game-info-header
+    [roomId]="shortRoomId"
+    [showDetails]="showDetails"
+    [historyCount]="historyCount"
+    (historyRequested)="requestHistory()"
+  ></game-info-header>
 
   @if (showDetails) {
-  <div class="game-info__details">
-    <div class="game-info__summary">
-      <div
-        class="game-info__pile game-info__pile--start"
-        role="group"
-        [attr.aria-label]="
-          state.startedAt
-            ? 'Hora de inicio: ' + (state.startedAt | date : 'HH:mm')
-            : 'Hora de inicio no disponible'
-        "
-      >
-        <span class="game-info__pile-icon game-info__pile-icon--start" aria-hidden="true">
-          <span class="game-info__pile-count">{{ state.startedAt | date : 'HH:mm' }}</span>
-        </span>
-        <span class="game-info__pile-label">Inicio</span>
-      </div>
-      @if (gameDuration) {
-      <div
-        class="game-info__pile game-info__pile--duration"
-        role="group"
-        [attr.aria-label]="'Tiempo jugado: ' + gameDuration"
-      >
-        <span class="game-info__pile-icon game-info__pile-icon--duration" aria-hidden="true">
-          <span class="game-info__pile-count">{{ gameDuration }}</span>
-        </span>
-        <span class="game-info__pile-label">Jugado</span>
-      </div>
-      }
-      <div
-        class="game-info__pile"
-        role="group"
-        [attr.aria-label]="'Cartas en el mazo: ' + state.deckCount"
-      >
-        <span class="game-info__pile-icon game-info__pile-icon--deck" aria-hidden="true">
-          <span class="game-info__pile-count">{{ state.deckCount }}</span>
-        </span>
-        <span class="game-info__pile-label">Mazo</span>
-      </div>
-      <div
-        class="game-info__pile"
-        role="group"
-        [attr.aria-label]="'Cartas en el descarte: ' + state.discardCount"
-      >
-        <span class="game-info__pile-icon game-info__pile-icon--discard" aria-hidden="true">
-          <span class="game-info__pile-count">{{ state.discardCount }}</span>
-        </span>
-        <span class="game-info__pile-label">Descarte</span>
-      </div>
-    </div>
-    <div class="game-info__controls">
-      <button
-        type="button"
-        class="game-info__leave"
-        (click)="onLeaveClick($event)"
-      >
-        Salir
-      </button>
-      <button
-        type="button"
-        class="theme-toggle"
-        (click)="onToggleTheme($event)"
-        [attr.aria-pressed]="isDarkTheme()"
-      >
-        {{ isDarkTheme() ? "☀️" : "🌙" }}
-      </button>
-      <button
-        type="button"
-        class="fullscreen-toggle"
-        (click)="onToggleFullscreen($event)"
-        [attr.aria-pressed]="isFullscreenActive"
-      >
-        {{ isFullscreenActive ? "📱" : "🖥️" }}
-      </button>
-      <button
-        type="button"
-        class="sound-toggle"
-        (click)="onToggleMute($event)"
-        [attr.aria-pressed]="isMuted()"
-      >
-        {{ isMuted() ? "🔊" : "🔇" }}
-      </button>
-    </div>
-  </div>
+  <game-info-details
+    [state]="state"
+    [gameDuration]="gameDuration"
+    [isMuted]="isMuted"
+    [isDarkTheme]="isDarkTheme"
+    [isFullscreenActive]="isFullscreenActive"
+    (leaveRequested)="requestLeave()"
+    (muteToggled)="toggleMute()"
+    (themeToggled)="toggleTheme()"
+    (fullscreenToggled)="toggleFullscreen()"
+  ></game-info-details>
   }
 </div>

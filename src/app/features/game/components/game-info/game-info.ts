@@ -9,15 +9,17 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { PublicGameState } from '../../../../core/models/game.model';
-import { DatePipe, DOCUMENT } from '@angular/common';
 import { TimerSoundService } from '../../../../core/services/timer-sound.service';
 import { ThemeService } from '../../../../core/services/theme.service';
+import { GameInfoHeaderComponent } from './header/game-info-header';
+import { GameInfoDetailsComponent } from './details/game-info-details';
 
 @Component({
   selector: 'game-info',
   standalone: true,
-  imports: [DatePipe],
+  imports: [GameInfoHeaderComponent, GameInfoDetailsComponent],
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
 })
@@ -52,14 +54,11 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
     this.showDetails = !this.showDetails;
   }
 
-  onHistoryClick(event: MouseEvent): void {
-    event.stopPropagation();
+  requestHistory(): void {
     this.historyRequested.emit();
   }
 
-  onLeaveClick(event: MouseEvent): void {
-    event.stopPropagation();
-    event.preventDefault();
+  requestLeave(): void {
     this.leaveRequested.emit();
   }
 
@@ -70,19 +69,15 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
     }
   }
 
-  onToggleMute(event: MouseEvent): void {
-    event.stopPropagation();
+  toggleMute(): void {
     this.timerSoundService.toggleMute();
   }
 
-  onToggleTheme(event: MouseEvent): void {
-    event.stopPropagation();
+  toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 
-  async onToggleFullscreen(event: MouseEvent): Promise<void> {
-    event.stopPropagation();
-
+  async toggleFullscreen(): Promise<void> {
     try {
       if (this.documentRef.fullscreenElement) {
         await this.documentRef.exitFullscreen();
