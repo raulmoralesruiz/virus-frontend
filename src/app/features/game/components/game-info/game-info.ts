@@ -1,4 +1,14 @@
-import { Component, EventEmitter, HostListener, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { TimerSoundService } from '../../../../core/services/timer-sound.service';
@@ -11,7 +21,7 @@ import { ThemeService } from '../../../../core/services/theme.service';
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
 })
-export class GameInfoComponent {
+export class GameInfoComponent implements OnChanges, OnDestroy {
   @Input() state!: PublicGameState;
   @Input() historyCount = 0;
   @Output() historyRequested = new EventEmitter<void>();
@@ -24,6 +34,19 @@ export class GameInfoComponent {
   readonly isMuted = this.timerSoundService.isMuted;
   readonly isDarkTheme = this.themeService.isDark;
   isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
+  gameDuration = '';
+  private startTimestamp?: number;
+  private gameDurationTimer?: ReturnType<typeof setInterval>;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('state' in changes) {
+      this.setupDurationTracking();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.clearDurationTimer();
+  }
 
   toggleDetails(): void {
     this.showDetails = !this.showDetails;
@@ -83,5 +106,58 @@ export class GameInfoComponent {
 
   get shortRoomId(): string {
     return this.state?.roomId?.substring(0, 6) ?? '';
+  }
+
+  private setupDurationTracking(): void {
+    this.clearDurationTimer();
+
+    const startedAt = this.state?.startedAt;
+    if (!startedAt) {
+      this.startTimestamp = undefined;
+      this.gameDuration = '';
+      return;
+    }
+
+    const parsedStart = Date.parse(startedAt);
+    if (Number.isNaN(parsedStart)) {
+      this.startTimestamp = undefined;
+      this.gameDuration = '';
+      return;
+    }
+
+    this.startTimestamp = parsedStart;
+    this.updateGameDuration();
+
+    if (this.state?.winner) {
+      return;
+    }
+
+    this.gameDurationTimer = setInterval(() => {
+      this.updateGameDuration();
+    }, 60000);
+  }
+
+  private clearDurationTimer(): void {
+    if (this.gameDurationTimer) {
+      clearInterval(this.gameDurationTimer);
+      this.gameDurationTimer = undefined;
+    }
+  }
+
+  private updateGameDuration(): void {
+    if (!this.startTimestamp) {
+      this.gameDuration = '';
+      return;
+    }
+
+    const now = Date.now();
+    const diffMs = Math.max(0, now - this.startTimestamp);
+    const totalMinutes = Math.floor(diffMs / 60000);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    this.gameDuration = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
   }
 }

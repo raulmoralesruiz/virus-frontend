@@ -36,13 +36,29 @@
       <div
         class="game-info__pile game-info__pile--start"
         role="group"
-        [attr.aria-label]="'Hora de inicio: ' + (state.startedAt | date : 'HH:mm')"
+        [attr.aria-label]="
+          state.startedAt
+            ? 'Hora de inicio: ' + (state.startedAt | date : 'HH:mm')
+            : 'Hora de inicio no disponible'
+        "
       >
         <span class="game-info__pile-icon game-info__pile-icon--start" aria-hidden="true">
           <span class="game-info__pile-count">{{ state.startedAt | date : 'HH:mm' }}</span>
         </span>
         <span class="game-info__pile-label">Inicio</span>
       </div>
+      @if (gameDuration) {
+      <div
+        class="game-info__pile game-info__pile--duration"
+        role="group"
+        [attr.aria-label]="'Tiempo jugado: ' + gameDuration"
+      >
+        <span class="game-info__pile-icon game-info__pile-icon--duration" aria-hidden="true">
+          <span class="game-info__pile-count">{{ gameDuration }}</span>
+        </span>
+        <span class="game-info__pile-label">Jugado</span>
+      </div>
+      }
       <div
         class="game-info__pile"
         role="group"

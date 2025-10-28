@@ -236,12 +236,14 @@
   opacity: 0.3;
 }
 
-.game-info__pile--start .game-info__pile-icon {
+.game-info__pile--start .game-info__pile-icon,
+.game-info__pile--duration .game-info__pile-icon {
   width: 3.4rem;
   padding: 0 0.2rem;
 }
 
-.game-info__pile--start .game-info__pile-count {
+.game-info__pile--start .game-info__pile-count,
+.game-info__pile--duration .game-info__pile-count {
   font-size: 1rem;
   letter-spacing: 0.05em;
 }
@@ -254,7 +256,10 @@
 
 .game-info__pile-icon--start,
 .game-info__pile-icon--start::before,
-.game-info__pile-icon--start::after {
+.game-info__pile-icon--start::after,
+.game-info__pile-icon--duration,
+.game-info__pile-icon--duration::before,
+.game-info__pile-icon--duration::after {
   background: linear-gradient(135deg, var(--color-muted-button-active), var(--color-primary));
 }
 
