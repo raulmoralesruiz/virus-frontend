@@ -18,9 +18,9 @@
     type="button"
     class="fullscreen-toggle"
     (click)="onFullscreenToggle($event)"
-    [attr.aria-pressed]="isFullscreenActive"
+    [attr.aria-pressed]="isFullscreenActive()"
   >
-    {{ isFullscreenActive ? "📱" : "🖥️" }}
+    {{ isFullscreenActive() ? "📱" : "🖥️" }}
   </button>
   <button
     type="button"

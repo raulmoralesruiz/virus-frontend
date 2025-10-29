@@ -1,15 +1,15 @@
 <div
   class="game-info__pile"
-  [ngClass]="modifierClass"
-  [attr.role]="role"
-  [attr.aria-label]="ariaLabel"
+  [ngClass]="modifierClass()"
+  [attr.role]="role()"
+  [attr.aria-label]="ariaLabel()"
 >
   <span
     class="game-info__pile-icon"
-    [ngClass]="iconClass"
+    [ngClass]="iconClass()"
     aria-hidden="true"
   >
-    <span class="game-info__pile-count">{{ value ?? '' }}</span>
+    <span class="game-info__pile-count">{{ value() ?? '' }}</span>
   </span>
-  <span class="game-info__pile-label">{{ label }}</span>
+  <span class="game-info__pile-label">{{ label() }}</span>
 </div>

@@ -1,12 +1,4 @@
-import {
-  Component,
-  effect,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, effect, input, OnChanges, output, signal } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 
 @Component({
@@ -17,15 +9,15 @@ import { PublicGameState } from '../../../../core/models/game.model';
   styleUrl: './game-turn.css',
 })
 export class GameTurnComponent implements OnChanges {
-  @Input() state!: PublicGameState;
-  @Input() remainingSeconds!: number;
-  @Input() isMyTurn!: boolean;
-  @Input() isGameEnded!: boolean;
+  state = input.required<PublicGameState>();
+  remainingSeconds = input.required<number>();
+  isMyTurn = input(false);
+  isGameEnded = input(false);
 
   // @Output() draw = new EventEmitter<void>();
   // @Output() endTurn = new EventEmitter<void>();
 
-  @Output() timeoutExpired = new EventEmitter<void>();
+  timeoutExpired = output<void>();
 
   // 🚀 Signal wrapper para remainingSeconds (lo vamos a observar con effect)
   remaining = signal<number>(0);
@@ -34,7 +26,9 @@ export class GameTurnComponent implements OnChanges {
     // cuando cambia remaining -> comprobamos timeout
     effect(() => {
       const secs = this.remaining();
-      if (secs === 0 && this.isMyTurn && !this.isGameEnded) {
+      const isMyTurn = this.isMyTurn();
+      const isGameEnded = this.isGameEnded();
+      if (secs === 0 && isMyTurn && !isGameEnded) {
         this.timeoutExpired.emit();
       }
     });
@@ -42,6 +36,6 @@ export class GameTurnComponent implements OnChanges {
 
   ngOnChanges() {
     // cada vez que Angular pase nuevas @Input
-    this.remaining.set(this.remainingSeconds);
+    this.remaining.set(this.remainingSeconds());
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { PublicGameState } from '../../../../../core/models/game.model';
 import { GameInfoPileComponent } from './pile/game-info-pile';
@@ -12,16 +12,16 @@ import { GameInfoControlsComponent } from './controls/game-info-controls';
   styleUrl: './game-info-details.css',
 })
 export class GameInfoDetailsComponent {
-  @Input() state!: PublicGameState;
-  @Input() gameDuration = '';
-  @Input() isMuted!: () => boolean;
-  @Input() isDarkTheme!: () => boolean;
-  @Input() isFullscreenActive = false;
+  state = input.required<PublicGameState>();
+  gameDuration = input('');
+  isMuted = input(false);
+  isDarkTheme = input(false);
+  isFullscreenActive = input(false);
 
-  @Output() leaveRequested = new EventEmitter<void>();
-  @Output() muteToggled = new EventEmitter<void>();
-  @Output() themeToggled = new EventEmitter<void>();
-  @Output() fullscreenToggled = new EventEmitter<void>();
+  leaveRequested = output<void>();
+  muteToggled = output<void>();
+  themeToggled = output<void>();
+  fullscreenToggled = output<void>();
 
   onLeaveRequested(): void {
     this.leaveRequested.emit();

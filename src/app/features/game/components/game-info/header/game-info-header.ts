@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'game-info-header',
@@ -7,10 +7,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './game-info-header.css',
 })
 export class GameInfoHeaderComponent {
-  @Input() roomId = '';
-  @Input() showDetails = false;
-  @Input() historyCount = 0;
-  @Output() historyRequested = new EventEmitter<void>();
+  roomId = input('');
+  showDetails = input(false);
+  historyCount = input(0);
+  historyRequested = output<void>();
 
   onHistoryClick(event: MouseEvent): void {
     event.stopPropagation();

@@ -10,16 +10,16 @@
   <game-info-header
     [roomId]="shortRoomId"
     [showDetails]="showDetails"
-    [historyCount]="historyCount"
+    [historyCount]="historyCount()"
     (historyRequested)="requestHistory()"
   ></game-info-header>
 
   @if (showDetails) {
   <game-info-details
-    [state]="state"
+    [state]="state()"
     [gameDuration]="gameDuration"
-    [isMuted]="isMuted"
-    [isDarkTheme]="isDarkTheme"
+    [isMuted]="isMuted()"
+    [isDarkTheme]="isDarkTheme()"
     [isFullscreenActive]="isFullscreenActive"
     (leaveRequested)="requestLeave()"
     (muteToggled)="toggleMute()"

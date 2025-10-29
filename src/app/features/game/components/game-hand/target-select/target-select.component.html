@@ -11,7 +11,7 @@
 
   <p class="target-select__instruction">{{ instruction }}</p>
 
-  @if (isMyTurn) {
+  @if (isMyTurn()) {
     @if (isTransplant) {
     <section class="target-select__group target-select__group--with-organs">
       <div
@@ -134,7 +134,7 @@
         }
       </div>
 
-      @if (!targetOptions.length) {
+      @if (!targetOptions().length) {
         <p class="target-select__empty">
           No hay órganos disponibles para intercambiar ahora mismo.
         </p>
@@ -143,8 +143,8 @@
   }
 
     @if (isContagion) {
-    @if (contagionAssignments.length) {
-      @for (assignment of contagionAssignments; let i = $index; track i) {
+    @if (contagionAssignments().length) {
+      @for (assignment of contagionAssignments(); let i = $index; track i) {
         <section class="target-select__group target-select__group--with-organs">
           <div
             class="target-select__field target-select__field--player"
@@ -317,7 +317,7 @@
     <button
       type="button"
       class="target-select__confirm"
-      [disabled]="confirmDisabled"
+      [disabled]="confirmDisabled()"
       (click)="emitConfirm()"
     >
       Confirmar

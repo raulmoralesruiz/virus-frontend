@@ -1,8 +1,8 @@
-@if (error) {
+@if (error()) {
 <div class="error-overlay" (click)="onOverlayClick()" role="presentation">
   <div class="error-toast" role="alert" aria-live="assertive" (click)="$event.stopPropagation()">
     <span class="error-icon" aria-hidden="true">⚠️</span>
-    <p class="error-message">{{ error }}</p>
+    <p class="error-message">{{ error() }}</p>
     <button
       type="button"
       class="error-close"

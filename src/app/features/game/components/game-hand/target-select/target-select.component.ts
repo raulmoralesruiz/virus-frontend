@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   Card,
@@ -32,37 +32,24 @@ type PlayerOption = {
   styleUrl: './target-select.component.css',
 })
 export class TargetSelectComponent {
-  @Input({ required: true }) selectedCard!: Card;
-  @Input() targetOptions: TargetSelectOption[] = [];
-  @Input() contagionAssignments: {
+  selectedCard = input.required<Card>();
+  targetOptions = input<TargetSelectOption[]>([]);
+  contagionAssignments = input<{
     fromOrganId: string;
     toOrganId: string;
     toPlayerId: string;
-  }[] = [];
-  @Input() publicState: PublicGameState | null = null;
-  @Input() confirmDisabled: boolean = false;
-  @Input() isMyTurn: boolean = false;
+  }[]>([]);
+  publicState = input<PublicGameState | null>(null);
+  confirmDisabled = input(false);
+  isMyTurn = input(false);
+  selectedTarget = input<PlayCardTarget | null>(null);
+  selectedTargetA = input<PlayCardTarget | null>(null);
+  selectedTargetB = input<PlayCardTarget | null>(null);
 
-  @Input()
-  set selectedTarget(value: PlayCardTarget | null) {
-    this.singleSelectionValue = this.toOptionValue(value);
-    this.singlePlayerSelection = value?.playerId ?? '';
-  }
-  @Input()
-  set selectedTargetA(value: PlayCardTarget | null) {
-    this.transplantSelectionA = this.toOptionValue(value);
-    this.transplantPlayerA = value?.playerId ?? '';
-  }
-  @Input()
-  set selectedTargetB(value: PlayCardTarget | null) {
-    this.transplantSelectionB = this.toOptionValue(value);
-    this.transplantPlayerB = value?.playerId ?? '';
-  }
-
-  @Output() targetChange = new EventEmitter<{ value: string; which: 'A' | 'B' | 'single' }>();
-  @Output() contagionTargetChange = new EventEmitter<{ value: string; index: number }>();
-  @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  targetChange = output<{ value: string; which: 'A' | 'B' | 'single' }>();
+  contagionTargetChange = output<{ value: string; index: number }>();
+  confirm = output<void>();
+  cancel = output<void>();
 
   protected readonly CardKind = CardKind;
   protected readonly TreatmentSubtype = TreatmentSubtype;
@@ -73,6 +60,26 @@ export class TargetSelectComponent {
   transplantPlayerA = '';
   transplantSelectionB = '';
   transplantPlayerB = '';
+
+  constructor() {
+    effect(() => {
+      const value = this.selectedTarget();
+      this.singleSelectionValue = this.toOptionValue(value);
+      this.singlePlayerSelection = value?.playerId ?? '';
+    });
+
+    effect(() => {
+      const value = this.selectedTargetA();
+      this.transplantSelectionA = this.toOptionValue(value);
+      this.transplantPlayerA = value?.playerId ?? '';
+    });
+
+    effect(() => {
+      const value = this.selectedTargetB();
+      this.transplantSelectionB = this.toOptionValue(value);
+      this.transplantPlayerB = value?.playerId ?? '';
+    });
+  }
 
   private readonly kindLabels: Record<CardKind, string> = {
     [CardKind.Organ]: 'Órgano',
@@ -98,16 +105,19 @@ export class TargetSelectComponent {
   };
 
   get cardKindLabel(): string {
-    return this.kindLabels[this.selectedCard.kind];
+    const card = this.selectedCard();
+    return this.kindLabels[card.kind];
   }
 
   get cardColorLabel(): string {
-    return this.colorLabels[this.selectedCard.color] ?? this.selectedCard.color;
+    const card = this.selectedCard();
+    return this.colorLabels[card.color] ?? card.color;
   }
 
   get cardSubtypeLabel(): string | null {
-    if (this.selectedCard.kind === CardKind.Treatment && this.selectedCard.subtype) {
-      return this.treatmentLabels[this.selectedCard.subtype] ?? this.selectedCard.subtype;
+    const card = this.selectedCard();
+    if (card.kind === CardKind.Treatment && card.subtype) {
+      return this.treatmentLabels[card.subtype] ?? card.subtype;
     }
     return null;
   }
@@ -120,16 +130,17 @@ export class TargetSelectComponent {
       return 'Asigna cada virus a un órgano libre de otro jugador para propagar la infección.';
     }
     if (this.requiresTargetSelection) {
-      if (this.selectedCard.kind === CardKind.Medicine) {
+      const card = this.selectedCard();
+      if (card.kind === CardKind.Medicine) {
         return 'Selecciona el órgano que quieres curar o vacunar; eliminará un virus compatible o añadirá protección.';
       }
-      if (this.selectedCard.kind === CardKind.Virus) {
+      if (card.kind === CardKind.Virus) {
         return 'Selecciona el órgano que quieres infectar para dañarlo o extirparlo si ya está enfermo.';
       }
-      if (this.selectedCard.subtype === TreatmentSubtype.OrganThief) {
+      if (card.subtype === TreatmentSubtype.OrganThief) {
         return 'Elige el órgano que vas a robar para añadirlo a tu cuerpo.';
       }
-      if (this.selectedCard.subtype === TreatmentSubtype.MedicalError) {
+      if (card.subtype === TreatmentSubtype.MedicalError) {
         return 'Selecciona al jugador con el que intercambiarás todos tus órganos.';
       }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
@@ -138,36 +149,37 @@ export class TargetSelectComponent {
   }
 
   get isTransplant(): boolean {
+    const card = this.selectedCard();
     return (
-      this.selectedCard.kind === CardKind.Treatment &&
-      this.selectedCard.subtype === TreatmentSubtype.Transplant
+      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.Transplant
     );
   }
 
   get isContagion(): boolean {
+    const card = this.selectedCard();
     return (
-      this.selectedCard.kind === CardKind.Treatment &&
-      this.selectedCard.subtype === TreatmentSubtype.Contagion
+      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.Contagion
     );
   }
 
   get isPlayerOnly(): boolean {
+    const card = this.selectedCard();
     return (
-      this.selectedCard.kind === CardKind.Treatment &&
-      this.selectedCard.subtype === TreatmentSubtype.MedicalError
+      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.MedicalError
     );
   }
 
   get requiresTargetSelection(): boolean {
-    if (this.selectedCard.kind === CardKind.Treatment) {
+    const card = this.selectedCard();
+    if (card.kind === CardKind.Treatment) {
       return (
-        this.selectedCard.subtype === TreatmentSubtype.Transplant ||
-        this.selectedCard.subtype === TreatmentSubtype.OrganThief ||
-        this.selectedCard.subtype === TreatmentSubtype.MedicalError ||
-        this.selectedCard.subtype === TreatmentSubtype.Contagion
+        card.subtype === TreatmentSubtype.Transplant ||
+        card.subtype === TreatmentSubtype.OrganThief ||
+        card.subtype === TreatmentSubtype.MedicalError ||
+        card.subtype === TreatmentSubtype.Contagion
       );
     }
-    return this.selectedCard.kind === CardKind.Virus || this.selectedCard.kind === CardKind.Medicine;
+    return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
   }
 
   get showSingleTarget(): boolean {
@@ -187,14 +199,14 @@ export class TargetSelectComponent {
       return this.playerOptions.length === 0;
     }
     if (this.requiresSingleTarget) {
-      return this.playerOptions.length === 0 || this.targetOptions.length === 0;
+      return this.playerOptions.length === 0 || this.targetOptions().length === 0;
     }
     return false;
   }
 
   get playerOptions(): PlayerOption[] {
     const players = new Map<string, string>();
-    for (const option of this.targetOptions) {
+    for (const option of this.targetOptions()) {
       if (!option.playerId || !option.playerName) continue;
       if (!players.has(option.playerId)) {
         players.set(option.playerId, option.playerName);
@@ -204,12 +216,15 @@ export class TargetSelectComponent {
   }
 
   get contagionPlayerOptions(): PlayerOption[] {
-    if (!this.publicState) return [];
+    const state = this.publicState();
+    if (!state) return [];
     const selectedPlayers = new Set(
-      this.contagionAssignments.map((assignment) => assignment.toPlayerId).filter(Boolean)
+      this.contagionAssignments()
+        .map((assignment) => assignment.toPlayerId)
+        .filter((id): id is string => Boolean(id))
     );
     const players: PlayerOption[] = [];
-    for (const info of this.publicState.players) {
+    for (const info of state.players) {
       const hasFreeOrgan = info.board.some((organ) => !organ.attached.length);
       if (hasFreeOrgan || selectedPlayers.has(info.player.id)) {
         players.push({ id: info.player.id, name: info.player.name });
@@ -320,14 +335,15 @@ export class TargetSelectComponent {
 
   organsForPlayer(playerId: string): TargetSelectOption[] {
     if (!playerId) return [];
-    return this.targetOptions.filter(
+    return this.targetOptions().filter(
       (option) => option.playerId === playerId && !!option.organId
     );
   }
 
   contagionOrgansForPlayer(playerId: string): TargetSelectOption[] {
-    if (!playerId || !this.publicState) return [];
-    const info = this.publicState.players.find((p) => p.player.id === playerId);
+    const state = this.publicState();
+    if (!playerId || !state) return [];
+    const info = state.players.find((p) => p.player.id === playerId);
     if (!info) return [];
     return info.board
       .filter((organ) => !organ.attached.length)
@@ -379,8 +395,9 @@ export class TargetSelectComponent {
   }
 
   private findOrganById(organId: string): { organ: OrganOnBoard; playerName: string } | null {
-    if (!this.publicState) return null;
-    for (const info of this.publicState.players) {
+    const state = this.publicState();
+    if (!state) return null;
+    for (const info of state.players) {
       const organ = info.board.find((o) => o.id === organId);
       if (organ) {
         return { organ, playerName: info.player.name };
@@ -390,7 +407,8 @@ export class TargetSelectComponent {
   }
 
   private get cardEffectDescription(): string {
-    switch (this.selectedCard.kind) {
+    const card = this.selectedCard();
+    switch (card.kind) {
       case CardKind.Organ:
         return 'Añade este órgano sano a tu cuerpo para acercarte a la victoria.';
       case CardKind.Virus:
@@ -398,7 +416,7 @@ export class TargetSelectComponent {
       case CardKind.Medicine:
         return 'Cura un órgano infectado o lo vacuna para protegerlo de futuros virus.';
       case CardKind.Treatment:
-        switch (this.selectedCard.subtype) {
+        switch (card.subtype) {
           case TreatmentSubtype.Transplant:
             return 'Intercambia dos órganos entre jugadores respetando los colores disponibles.';
           case TreatmentSubtype.OrganThief:

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import {
   Card,
   CardColor,
@@ -16,36 +16,37 @@ import { CommonModule } from '@angular/common';
   styleUrl: './hand-card.css',
 })
 export class HandCard {
-  @Input() card!: Card;
-  @Input() isSelected: boolean = false;
-  @Input() isMyTurn: boolean = false;
-  @Input() infoOpen: boolean = false;
+  card = input.required<Card>();
+  isSelected = input(false);
+  isMyTurn = input(false);
+  infoOpen = input(false);
 
-  @Output() toggleSelect = new EventEmitter<Card>();
-  @Output() play = new EventEmitter<Card>();
+  toggleSelect = output<Card>();
+  play = output<Card>();
 
   onToggleSelect() {
-    if (!this.isMyTurn) return;
-    this.toggleSelect.emit(this.card);
+    if (!this.isMyTurn()) return;
+    this.toggleSelect.emit(this.card());
   }
 
   onPlay(event: MouseEvent) {
     event.stopPropagation(); // que no active toggleSelect al pulsar el botón
-    this.play.emit(this.card);
+    this.play.emit(this.card());
   }
 
   get actionLabel(): string {
-    if (this.isMyTurn) {
+    if (this.isMyTurn()) {
       return 'Jugar';
     }
 
-    return this.infoOpen ? 'Cancelar' : 'Info';
+    return this.infoOpen() ? 'Cancelar' : 'Info';
   }
 
   get icon(): string {
-    switch (this.card.kind) {
+    const card = this.card();
+    switch (card.kind) {
       case CardKind.Organ:
-        return this.organIcons[this.card.color] ?? '❔';
+        return this.organIcons[card.color] ?? '❔';
       case CardKind.Medicine:
         return '💊';
       case CardKind.Virus:
@@ -58,18 +59,21 @@ export class HandCard {
   }
 
   get hasSubtype(): boolean {
-    return this.card.kind === CardKind.Treatment && !!this.card.subtype;
+    const card = this.card();
+    return card.kind === CardKind.Treatment && !!card.subtype;
   }
 
   get formattedSubtype(): string | null {
-    if (!this.hasSubtype || !this.card.subtype) return null;
-    const withSpaces = this.card.subtype.replace(/([a-z])([A-Z])/g, '$1 $2');
+    const card = this.card();
+    if (!this.hasSubtype || !card.subtype) return null;
+    const withSpaces = card.subtype.replace(/([a-z])([A-Z])/g, '$1 $2');
     return withSpaces.replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   get subtypeImagePath(): string | null {
-    if (!this.hasSubtype || !this.card.subtype) return null;
-    const iconFile = this.treatmentIcons[this.card.subtype];
+    const card = this.card();
+    if (!this.hasSubtype || !card.subtype) return null;
+    const iconFile = this.treatmentIcons[card.subtype];
     return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 

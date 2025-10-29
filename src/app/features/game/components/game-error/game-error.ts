@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'game-error',
@@ -8,9 +8,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './game-error.css',
 })
 export class GameErrorComponent {
-  @Input() error: string | null = null;
+  error = input<string | null>(null);
 
-  @Output() closed = new EventEmitter<void>();
+  closed = output<void>();
 
   onOverlayClick() {
     this.closed.emit();

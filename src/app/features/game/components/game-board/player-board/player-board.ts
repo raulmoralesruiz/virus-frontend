@@ -1,15 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  EventEmitter,
-  inject,
-  Input,
-  input,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { PlayerCardComponent } from './player-card/player-card';
 import {
   Card,

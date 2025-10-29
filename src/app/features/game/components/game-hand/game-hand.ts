@@ -4,10 +4,10 @@ import {
   OnDestroy,
   ViewChild,
   inject,
-  Input,
   NgZone,
   OnChanges,
   SimpleChanges,
+  input,
 } from '@angular/core';
 import {
   Card,
@@ -49,11 +49,11 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     return this._gameStore;
   }
 
-  @Input() hand: Card[] = [];
-  @Input() isMyTurn: boolean = false;
-  @Input() roomId!: string;
-  @Input() publicState!: PublicGameState | null;
-  @Input() gameEnded: boolean = false;
+  hand = input<Card[]>([]);
+  isMyTurn = input(false);
+  roomId = input<string | null>(null);
+  publicState = input<PublicGameState | null>(null);
+  gameEnded = input(false);
 
   // Estado interno
   selectedCard: Card | null = null;
@@ -90,9 +90,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   // Construye la lista de ids de TODOS los slots (player x color).
   // El hand list se conectará a todos esos slots.
   boardIds(): string[] {
-    if (!this.publicState) return [];
+    const publicState = this.publicState();
+    if (!publicState) return [];
     const ids: string[] = [];
-    for (const p of this.publicState.players) {
+    for (const p of publicState.players) {
       ids.push(`board-${p.player.id}`);
       for (const color of this.cardColors) {
         ids.push(`slot-${p.player.id}-${color}`);
@@ -122,23 +123,24 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   }
 
   toggleDiscardSelection(card: Card) {
-    if (!this.isMyTurn) return;
+    if (!this.isMyTurn()) return;
     const idx = this.selectedCardsToDiscard.findIndex((c) => c.id === card.id);
     if (idx >= 0) this.selectedCardsToDiscard.splice(idx, 1);
     else this.selectedCardsToDiscard.push(card);
   }
 
   discardSelectedCards() {
-    if (!this.roomId || this.selectedCardsToDiscard.length === 0) return;
+    const roomId = this.roomId();
+    if (!roomId || this.selectedCardsToDiscard.length === 0) return;
     this._gameStore.discardCards(
-      this.roomId,
+      roomId,
       this.selectedCardsToDiscard.map((c) => c.id)
     );
     this.selectedCardsToDiscard = [];
   }
 
   selectCardToPlay(card: Card) {
-    if (!this.isMyTurn && this.selectedCard?.id === card.id) {
+    if (!this.isMyTurn() && this.selectedCard?.id === card.id) {
       this.clearSelection();
       return;
     }
@@ -149,7 +151,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTargetA = null;
     this.selectedTargetB = null;
 
-    const st = this.publicState;
+    const st = this.publicState();
     if (!st) return;
 
     if (card.kind === CardKind.Virus || card.kind === CardKind.Medicine) {
@@ -279,7 +281,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   confirmPlayCard() {
     if (!this.selectedCard) return;
 
-    const st = this.publicState;
+    const st = this.publicState();
     const me = this._apiPlayer.player();
     if (!st || !me) return;
 
@@ -337,7 +339,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   }
 
   playCard(cardId: string, target?: AnyPlayTarget) {
-    const st = this.publicState;
+    const st = this.publicState();
     if (!st) return;
     this._gameStore.playCard(st.roomId, cardId, target);
   }

@@ -1,26 +1,28 @@
+@let organValue = organ();
+
 <div
-  class="card organ {{ organ.color }}"
+  class="card organ {{ organValue.color }}"
   cdkDropList
-  [id]="dropListId"
-  [cdkDropListData]="dropListData"
-  [cdkDropListConnectedTo]="dropListConnectedTo"
-  [cdkDropListEnterPredicate]="dropListEnterPredicate || defaultEnterPredicate"
-  [cdkDropListDisabled]="dropListDisabled"
+  [id]="dropListId()"
+  [cdkDropListData]="dropListData()"
+  [cdkDropListConnectedTo]="dropListConnectedTo()"
+  [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
+  [cdkDropListDisabled]="dropListDisabled()"
   (cdkDropListDropped)="dropListDropped.emit($event)"
   (cdkDropListEntered)="dropListEntered.emit($event)"
 >
-  @if (organ.attached.length === 0) {
+  @if (organValue.attached.length === 0) {
   <div class="title">{{ organIcon() }}</div>
   }
   @if (getAllAttachedCards().length) {
   <div class="attachments">
     @for (a of getAllAttachedCards(); track a.id) {
-      @if (contagionMode && isVirus(a) && !isTemporaryVirus(a.id)) {
+      @if (contagionMode() && isVirus(a) && !isTemporaryVirus(a.id)) {
       <!-- Virus arrastrable en modo contagio (solo los reales, no temporales) -->
       <div
         class="attached-card chip virus {{ a.color }}"
         cdkDrag
-        [cdkDragData]="{ fromOrganId: organ.id, virusId: a.id }"
+        [cdkDragData]="{ fromOrganId: organValue.id, virusId: a.id }"
       >
         <span class="icon">🦠</span>
       </div>

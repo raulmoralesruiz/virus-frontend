@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  inject,
-} from '@angular/core';
+import { Component, effect, input, output, inject } from '@angular/core';
 import { PublicPlayerInfo } from '../../../../core/models/game.model';
 import { TimerSoundService } from '../../../../core/services/timer-sound.service';
 
@@ -17,19 +9,23 @@ import { TimerSoundService } from '../../../../core/services/timer-sound.service
   templateUrl: './game-winner.html',
   styleUrl: './game-winner.css',
 })
-export class GameWinnerComponent implements OnChanges {
+export class GameWinnerComponent {
   private readonly timerSoundService = inject(TimerSoundService);
 
-  @Input() winner!: { player: PublicPlayerInfo['player'] };
-  @Output() reset = new EventEmitter<void>();
+  winner = input<{ player: PublicPlayerInfo['player'] } | null>(null);
+  reset = output<void>();
 
   isVisible = false;
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['winner']?.currentValue) {
+  constructor() {
+    effect(() => {
+      const winner = this.winner();
+      if (!winner) {
+        return;
+      }
       this.isVisible = true;
       this.timerSoundService.playWinner();
-    }
+    });
   }
 
   onReset() {

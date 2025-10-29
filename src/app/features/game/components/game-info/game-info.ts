@@ -1,13 +1,12 @@
 import {
   Component,
-  EventEmitter,
   HostListener,
-  Input,
   OnChanges,
   OnDestroy,
-  Output,
   SimpleChanges,
   inject,
+  input,
+  output,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { PublicGameState } from '../../../../core/models/game.model';
@@ -24,10 +23,10 @@ import { GameInfoDetailsComponent } from './details/game-info-details';
   styleUrl: './game-info.css',
 })
 export class GameInfoComponent implements OnChanges, OnDestroy {
-  @Input() state!: PublicGameState;
-  @Input() historyCount = 0;
-  @Output() historyRequested = new EventEmitter<void>();
-  @Output() leaveRequested = new EventEmitter<void>();
+  state = input.required<PublicGameState>();
+  historyCount = input(0);
+  historyRequested = output<void>();
+  leaveRequested = output<void>();
 
   showDetails = false;
   private readonly timerSoundService = inject(TimerSoundService);
@@ -100,13 +99,15 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
   }
 
   get shortRoomId(): string {
-    return this.state?.roomId?.substring(0, 6) ?? '';
+    const state = this.state();
+    return state?.roomId?.substring(0, 6) ?? '';
   }
 
   private setupDurationTracking(): void {
     this.clearDurationTimer();
 
-    const startedAt = this.state?.startedAt;
+    const state = this.state();
+    const startedAt = state?.startedAt;
     if (!startedAt) {
       this.startTimestamp = undefined;
       this.gameDuration = '';
@@ -123,7 +124,7 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
     this.startTimestamp = parsedStart;
     this.updateGameDuration();
 
-    if (this.state?.winner) {
+    if (state?.winner) {
       return;
     }
 

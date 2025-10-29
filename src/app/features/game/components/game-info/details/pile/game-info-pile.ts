@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -9,10 +9,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './game-info-pile.css',
 })
 export class GameInfoPileComponent {
-  @Input() label = '';
-  @Input() value: string | number | null = '';
-  @Input() ariaLabel = '';
-  @Input() modifierClass?: string | string[] | null;
-  @Input() iconClass?: string | string[] | null;
-  @Input() role = 'group';
+  label = input('');
+  value = input<string | number | null>('');
+  ariaLabel = input('');
+  modifierClass = input<string | string[] | null | undefined>(undefined);
+  iconClass = input<string | string[] | null | undefined>(undefined);
+  role = input('group');
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'game-info-controls',
@@ -7,14 +7,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './game-info-controls.css',
 })
 export class GameInfoControlsComponent {
-  @Input() isMuted!: () => boolean;
-  @Input() isDarkTheme!: () => boolean;
-  @Input() isFullscreenActive = false;
+  isMuted = input(false);
+  isDarkTheme = input(false);
+  isFullscreenActive = input(false);
 
-  @Output() leaveRequested = new EventEmitter<void>();
-  @Output() themeToggled = new EventEmitter<void>();
-  @Output() fullscreenToggled = new EventEmitter<void>();
-  @Output() muteToggled = new EventEmitter<void>();
+  leaveRequested = output<void>();
+  themeToggled = output<void>();
+  fullscreenToggled = output<void>();
+  muteToggled = output<void>();
 
   onLeaveClick(event: MouseEvent): void {
     event.stopPropagation();
