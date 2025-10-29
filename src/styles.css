@@ -210,3 +210,97 @@ body {
   line-height: 1.5;
   transition: var(--transition-theme);
 }
+
+/* Home screen shared styling */
+app-home .join-card {
+  width: min(430px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+  padding: clamp(1.35rem, 3.4vw, 1.8rem);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 34px -24px rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(10px);
+}
+
+app-home .input-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+app-home .input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+app-home input[type='text'] {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  box-shadow: 0 12px 26px -22px rgba(15, 23, 42, 0.52);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+app-home input[type='text']::placeholder {
+  color: var(--color-text-muted);
+}
+
+app-home input[type='text']:focus {
+  outline: 3px solid rgba(14, 165, 233, 0.2);
+  border-color: rgba(14, 165, 233, 0.6);
+  box-shadow: 0 16px 30px -24px rgba(14, 165, 233, 0.55);
+}
+
+app-home button {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 45%, #8b5cf6 100%);
+  color: var(--color-primary-contrast);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  box-shadow: var(--shadow-button-primary);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+app-home button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-primary-hover);
+  filter: brightness(1.05);
+}
+
+app-home button:focus-visible {
+  outline: 3px solid rgba(236, 72, 153, 0.25);
+  outline-offset: 3px;
+}
+
+app-home .helper-text {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  app-home .input-row {
+    flex-direction: row;
+  }
+
+  app-home input[type='text'] {
+    flex: 1;
+  }
+
+  app-home button {
+    max-width: 150px;
+  }
+}
