@@ -1,11 +1,9 @@
 :host {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
   min-height: 100vh;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 2.5rem;
   background: linear-gradient(
     180deg,
     var(--color-bg-gradient-start) 0%,
@@ -14,57 +12,310 @@
   user-select: none;
 }
 
-h2 {
+.home {
+  width: min(720px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.logo-wrapper {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.75rem, 5vw, 2.75rem);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(34, 211, 238, 0.35), transparent 55%),
+    radial-gradient(circle at 60% 75%, rgba(168, 85, 247, 0.32), transparent 65%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.75));
+  box-shadow:
+    inset 0 0 18px rgba(148, 163, 184, 0.2),
+    0 24px 48px -28px rgba(15, 23, 42, 0.6),
+    0 12px 32px -22px rgba(15, 23, 42, 0.45);
+}
+
+.virus-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.05em, 0.8vw, 0.15em);
+  padding: clamp(0.55rem, 1.6vw, 0.95rem)
+    clamp(0.75rem, 2.1vw, 1.2rem)
+    clamp(0.35rem, 1vw, 0.65rem)
+    clamp(0.75rem, 2.1vw, 1.2rem);
+  font-family: 'Luckiest Guy', 'Baloo 2', 'Fredoka One', 'Poppins', 'Nunito', 'Segoe UI', sans-serif;
+  font-size: clamp(3.1rem, 9vw, 5rem);
+  font-weight: 400;
+  letter-spacing: clamp(0.02em, 0.7vw, 0.04em);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-text-on-dark);
+  text-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.65),
+    0 0 18px rgba(56, 189, 248, 0.45);
+  background:
+    linear-gradient(120deg, rgba(20, 184, 166, 0.95), rgba(14, 165, 233, 0.85) 30%, rgba(236, 72, 153, 0.85) 65%, rgba(139, 92, 246, 0.9));
+  background-size: 180% 180%;
+  border-radius: clamp(0.75rem, 3vw, 1.6rem);
+  box-shadow:
+    inset 0 -6px 18px rgba(15, 23, 42, 0.65),
+    inset 0 6px 14px rgba(255, 255, 255, 0.08),
+    0 16px 40px -26px rgba(16, 185, 129, 0.75);
+  animation: pulse 4.5s ease-in-out infinite, gradientShift 18s ease-in-out infinite;
+}
+
+.letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 50% 60%;
+  line-height: 2;
+  background: inherit;
+  background-size: inherit;
+  background-position: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: clamp(0.05em, 0.6vw, 0.08em) rgba(15, 23, 42, 0.75);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.55));
+  margin-top: 1rem;
+}
+
+.letter-v,
+.letter-r,
+.letter-s {
+  animation: sway 6s ease-in-out infinite alternate;
+}
+
+.letter-i,
+.letter-u,
+.letter-mark {
+  animation: sway 7s ease-in-out infinite alternate-reverse;
+}
+
+.logo-orbit {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.95;
+  filter: drop-shadow(0 6px 12px rgba(15, 23, 42, 0.35));
+}
+
+.logo-orbit--one {
+  width: clamp(12px, 2vw, 18px);
+  height: clamp(12px, 2vw, 18px);
+  top: 12%;
+  left: -12%;
+  background: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  animation: orbit 7.5s linear infinite;
+}
+
+.logo-orbit--two {
+  width: clamp(16px, 2.5vw, 22px);
+  height: clamp(16px, 2.5vw, 22px);
+  bottom: 14%;
+  right: -15%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  animation: orbit 9s linear infinite reverse;
+}
+
+.greeting {
   margin: 0;
   color: var(--color-text-primary);
-  text-align: center;
-  font-size: 1.5rem;
+  font-family: 'Luckiest Guy', 'Baloo 2', 'Poppins', 'Segoe UI', sans-serif;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: clamp(0.01em, 0.5vw, 0.04em);
+  text-transform: uppercase;
+  line-height: 1.05;
+  text-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+}
+
+.welcome-line {
+  margin: 0;
+  max-width: 30rem;
+  color: var(--color-text-secondary);
+  font-family: 'Nunito', 'Poppins', 'Segoe UI', sans-serif;
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.welcome-line::after {
+  content: '';
+  display: block;
+  width: clamp(72px, 18vw, 120px);
+  height: 4px;
+  margin: 0.95rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 50%, #ec4899 100%);
+  opacity: 0.85;
+}
+
+.subtext {
+  margin: 0;
+  max-width: 32rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.join-card {
+  width: min(460px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border-radius: 24px;
+  background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.78) 100%
+    )
+    padding-box;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 22px 48px -28px rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(18px);
+}
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-text-secondary);
+}
+
+.input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
 }
 
 input[type='text'] {
   width: 100%;
-  max-width: 320px;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
   color: var(--color-text-primary);
-  box-shadow: 0 10px 22px -20px rgba(15, 23, 42, 0.55);
+  box-shadow: 0 16px 32px -28px rgba(15, 23, 42, 0.55);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type='text']::placeholder {
+  color: var(--color-text-muted);
+}
+
+input[type='text']:focus {
+  outline: 3px solid rgba(34, 211, 238, 0.18);
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow: 0 18px 38px -26px rgba(14, 165, 233, 0.55);
 }
 
 button {
   width: 100%;
-  max-width: 320px;
-  padding: 0.75rem 1rem;
-  border: none;
+  padding: 0.9rem 1rem;
+  border: 0;
   border-radius: 999px;
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 45%, #8b5cf6 100%);
   color: var(--color-primary-contrast);
   font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: var(--shadow-button-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-button-primary-hover);
+  filter: brightness(1.05);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(236, 72, 153, 0.25);
+  outline-offset: 3px;
+}
+
+.helper-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .input-row {
+    flex-direction: row;
+  }
+
+  input[type='text'] {
+    flex: 1;
+  }
+
+  button {
+    max-width: 160px;
+  }
 }
 
 @media (min-width: 768px) {
   :host {
-    padding: 3rem 1.5rem;
+    padding: 3.5rem 1.5rem;
   }
+}
 
-  h2 {
-    font-size: 1.75rem;
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.05);
+  }
+}
 
-  input[type='text'],
-  button {
-    max-width: 360px;
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes sway {
+  0% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(0);
+  }
+  50% {
+    transform: rotate(180deg) translateX(6px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(0);
   }
 }

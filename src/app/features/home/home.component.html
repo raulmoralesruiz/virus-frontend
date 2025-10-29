@@ -1,10 +1,36 @@
-<h2>Introduce tu nombre</h2>
-<input
-  id="nameInput"
-  #nameInput
-  type="text"
-  placeholder="Tu nombre"
-  name="username"
-  autocomplete="name"
-/>
-<button (click)="setName(nameInput.value)">Continuar</button>
+<section class="home">
+  <div class="hero">
+    <div class="logo-wrapper" aria-hidden="true">
+      <div class="virus-logo">
+        <span class="letter letter-v">V</span>
+        <span class="letter letter-i">I</span>
+        <span class="letter letter-r">R</span>
+        <span class="letter letter-u">U</span>
+        <span class="letter letter-s">S</span>
+        <span class="letter letter-mark">!</span>
+        <span class="logo-orbit logo-orbit--one"></span>
+        <span class="logo-orbit logo-orbit--two"></span>
+      </div>
+    </div>
+    <h1 class="greeting">{{ greeting }}</h1>
+    <p class="welcome-line">{{ welcomeMessage }}</p>
+    <p class="subtext">{{ tagline }}</p>
+  </div>
+
+  <div class="join-card">
+    <label class="input-label" for="nameInput">Introduce tu nombre</label>
+    <div class="input-row">
+      <input
+        id="nameInput"
+        #nameInput
+        type="text"
+        placeholder="Tu nombre"
+        name="username"
+        autocomplete="name"
+        (keyup.enter)="setName(nameInput.value)"
+      />
+      <button type="button" (click)="setName(nameInput.value)">Continuar</button>
+    </div>
+    <p class="helper-text">Usaremos tu nombre para identificarte en las partidas.</p>
+  </div>
+</section>
