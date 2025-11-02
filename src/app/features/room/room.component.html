@@ -1,35 +1,73 @@
 <div class="room-screen">
   @if (room()) {
-  <div class="room-panel">
-    <div class="room-header">
-      <h2>{{ room()!.name }}</h2>
-      <button type="button" class="room-leave" (click)="leaveRoom()">
-        Salir de la sala
-      </button>
-    </div>
-    <p class="subtitle">
-      {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
-      "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
-    </p>
+    <div class="room-panel">
+      <div class="room-top">
+        <div class="room-code">
+          <span class="room-code__label">ID sala</span>
+          <code class="room-code__value">{{ room()!.name }}</code>
+          <button
+            type="button"
+            class="room-copy-icon"
+            (click)="copyRoomCode()"
+            aria-label="Copiar ID"
+          >
+            <svg
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="room-copy-icon__svg"
+            >
+              <path
+                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+              />
+            </svg>
+          </button>
+        </div>
+        <button type="button" class="room-leave" (click)="leaveRoom()">
+          Salir de la sala
+        </button>
+      </div>
 
-    <ul class="player-list">
-      @for (player of room()!.players; track player.id) {
-      <li>{{ player.name }}</li>
+      @if (shareMessage) {
+      <p class="room-share-feedback">{{ shareMessage }}</p>
       }
-    </ul>
 
-    @if (isHost()) {
-    <button
-      class="cta-button"
-      (click)="startGame()"
-      [disabled]="!isHost() || isIncorrectNumberPlayers()"
-    >
-      Iniciar partida
-    </button>
-    } @else {
-    <p class="waiting-copy">Espera a que el anfitrión inicie la partida.</p>
-    }
-  </div>
+      <div class="room-share">
+        <p class="room-share__hint">
+          {{ room()!.visibility === 'private'
+            ? 'Comparte el enlace para invitar a tus amigos.'
+            : 'Comparte el enlace para que otros se sumen.' }}
+        </p>
+        <div class="room-share-actions">
+          <button type="button" class="room-share-button" (click)="copyRoomLink()">
+            Copiar enlace
+          </button>
+        </div>
+      </div>
+
+      <p class="subtitle">
+        {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
+        "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
+      </p>
+
+      <ul class="player-list">
+        @for (player of room()!.players; track player.id) {
+        <li>{{ player.name }}</li>
+        }
+      </ul>
+
+      @if (isHost()) {
+      <button
+        class="cta-button"
+        (click)="startGame()"
+        [disabled]="!isHost() || isIncorrectNumberPlayers()"
+      >
+        Iniciar partida
+      </button>
+      } @else {
+      <p class="waiting-copy">Espera a que el anfitrión inicie la partida.</p>
+      }
+    </div>
   } @else {
   <div class="room-panel">
     <h2>No estás en ninguna sala</h2>

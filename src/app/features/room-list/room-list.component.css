@@ -39,6 +39,98 @@
   color: var(--color-text-secondary);
 }
 
+.create-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.private-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.private-hint p {
+  margin: 0;
+}
+
+.private-hint p + p {
+  margin-top: 0.35rem;
+}
+
+.join-by-code {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#roomCodeInput {
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
+.join-by-code .input-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.join-input-row {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.join-input-row input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: var(--color-surface-soft);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  box-shadow: 0 12px 26px -22px rgba(15, 23, 42, 0.32);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.join-input-row input:focus {
+  outline: 3px solid rgba(14, 165, 233, 0.16);
+  border-color: rgba(14, 165, 233, 0.58);
+  box-shadow: 0 16px 30px -24px rgba(14, 165, 233, 0.42);
+}
+
+.join-by-code .helper-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 600px) {
+  .join-input-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .join-input-row input {
+    flex: 1;
+  }
+
+  .join-input-row .cta-button {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding-inline: 1.5rem;
+  }
+}
+
 .cta-button,
 .secondary-button {
   width: 100%;
@@ -102,6 +194,20 @@
   font-size: 0.9rem;
 }
 
+.room-info__visibility {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.15);
+  color: rgba(37, 99, 235, 0.95);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .secondary-button {
   background: var(--color-surface);
   color: var(--color-primary);
@@ -115,6 +221,18 @@
 
 .empty-copy {
   color: var(--color-text-secondary);
+  line-height: 1.5;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.empty-copy p {
+  margin: 0;
+}
+
+.empty-copy p + p {
+  margin-top: 0.35rem;
 }
 
 @media (max-width: 480px) {
@@ -127,7 +245,16 @@
     align-items: stretch;
   }
 
+  .join-input-row {
+    flex-direction: column;
+  }
+
   .secondary-button {
     width: 100%;
+  }
+
+  .private-hint,
+  .empty-copy {
+    font-size: 0.95rem;
   }
 }

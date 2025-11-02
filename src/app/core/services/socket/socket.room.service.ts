@@ -16,8 +16,8 @@ export class SocketRoomService {
     this.socketService.on(ROOM_CONSTANTS.ROOM_JOINED, callback);
   }
 
-  createRoom(player: Player) {
-    this.socketService.emit(ROOM_CONSTANTS.ROOM_NEW, { player });
+  createRoom(player: Player, visibility: Room['visibility']) {
+    this.socketService.emit(ROOM_CONSTANTS.ROOM_NEW, { player, visibility });
   }
 
   joinRoom(roomId: string, player: Player) {

@@ -34,6 +34,70 @@
   font-size: 1.75rem;
 }
 
+.room-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.room-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.room-code__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.room-code__value {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.room-copy-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: var(--shadow-button-primary);
+}
+
+.room-copy-icon:hover,
+.room-copy-icon:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-primary-hover);
+}
+
+.room-copy-icon:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.35);
+  outline-offset: 2px;
+}
+
+.room-copy-icon__svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
 .subtitle {
   margin: 0;
   color: var(--color-text-secondary);
@@ -91,13 +155,6 @@
   box-shadow: none;
 }
 
-.room-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .room-leave {
   border: none;
   background: var(--color-danger-soft);
@@ -120,6 +177,80 @@
 .room-leave:focus-visible {
   outline: 2px solid var(--color-danger);
   outline-offset: 2px;
+}
+
+.room-meta__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.room-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.room-share__hint {
+  margin: 0;
+}
+
+.room-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.room-share-button {
+  width: auto;
+  min-width: 0;
+  padding: 0.55rem 1.5rem;
+  border: none;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  text-transform: none;
+  box-shadow: var(--shadow-panel);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.room-share-button:hover,
+.room-share-button:focus-visible {
+  transform: translateY(-2px);
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-panel-strong);
+}
+
+.room-share-button:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.35);
+  outline-offset: 2px;
+}
+
+.room-share-feedback {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-align: center;
 }
 
 .confirm-overlay {

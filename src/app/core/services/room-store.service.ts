@@ -62,17 +62,24 @@ export class RoomStoreService {
   }
 
   loadRoomById(id: string) {
+    const player = this.apiPlayer.player();
     this.api.getRoomById(id).subscribe((room) => {
       this.currentRoom.set(room);
+
+      if (player && !room.players.some((pl) => pl.id === player.id)) {
+        this.joinRoom(room.id, player);
+      }
     });
   }
 
-  createRoom(player: Player) {
-    this.socket.createRoom(player);
+  createRoom(player: Player, visibility: Room['visibility'] = 'public') {
+    this.socket.createRoom(player, visibility);
   }
 
-  joinRoom(roomId: string, player: Player) {
-    this.socket.joinRoom(roomId, player);
+  joinRoom(roomKey: string, player: Player) {
+    const normalized = this.normalizeRoomKey(roomKey);
+    if (!normalized) return;
+    this.socket.joinRoom(normalized, player);
   }
 
   leaveRoom(roomId: string, player: Player) {
@@ -83,5 +90,17 @@ export class RoomStoreService {
 
   goHome() {
     this.router.navigate(['/home']);
+  }
+
+  private normalizeRoomKey(value: string): string | null {
+    if (!value) return null;
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+
+    const urlMatch = trimmed.match(/room\/([A-Za-z0-9-]+)/i);
+    const candidate = urlMatch ? urlMatch[1] : trimmed;
+    const cleaned = candidate.replace(/\s+/g, '');
+
+    return cleaned.toLowerCase();
   }
 }

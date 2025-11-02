@@ -1,9 +1,7 @@
 import { Component, inject, OnInit, Signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { Room } from '../../core/models/room.model';
 import { Player } from '../../core/models/player.model';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
-import { ApiRoomService } from '../../core/services/api/api.room.service';
 import { RoomStoreService } from '../../core/services/room-store.service';
 
 @Component({
@@ -23,13 +21,20 @@ export class RoomListComponent implements OnInit {
     this.store.getRooms();
   }
 
-  createRoom() {
-    this.store.createRoom(this.player()!);
+  createRoom(visibility: Room['visibility']) {
+    this.store.createRoom(this.player()!, visibility);
   }
 
   joinRoom(roomId: string) {
     const room = this.roomList().find((r) => r.id === roomId);
     if (room?.inProgress) return;
     this.store.joinRoom(roomId, this.player()!);
+  }
+
+  joinRoomByCode(input: HTMLInputElement) {
+    const roomId = input.value.trim();
+    if (!roomId) return;
+    this.store.joinRoom(roomId, this.player()!);
+    input.value = '';
   }
 }
