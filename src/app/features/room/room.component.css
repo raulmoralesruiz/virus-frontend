@@ -98,6 +98,38 @@
   fill: currentColor;
 }
 
+.room-share-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: var(--shadow-button-primary);
+}
+
+.room-share-icon:hover,
+.room-share-icon:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-primary-hover);
+}
+
+.room-share-icon:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.35);
+  outline-offset: 2px;
+}
+
+.room-share-icon__svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
 .subtitle {
   margin: 0;
   color: var(--color-text-secondary);
@@ -210,13 +242,17 @@
 
 .room-share-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.65rem;
   justify-content: center;
   width: 100%;
 }
 
 .room-share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: auto;
   min-width: 0;
   padding: 0.55rem 1.5rem;

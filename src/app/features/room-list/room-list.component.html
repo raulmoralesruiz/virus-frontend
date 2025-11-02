@@ -34,7 +34,10 @@
       <li>
         <div class="room-info">
           <strong>{{ room.name }}</strong>
-          <span>{{ room.players.length }} jugadores</span>
+          <span>
+            {{ room.players.length }}
+            jugador{{ room.players.length === 1 ? '' : 'es' }}
+          </span>
           @if (room.visibility === 'private') {
             <span class="room-info__visibility">Privada</span>
           }
