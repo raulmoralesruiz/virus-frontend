@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 2rem 1.5rem;
   background: linear-gradient(
     180deg,
@@ -368,6 +369,10 @@
 }
 
 @media (max-width: 480px) {
+  :host {
+    padding: 1.5rem 1rem;
+  }
+
   .room-panel {
     padding: 2rem 1.5rem;
   }

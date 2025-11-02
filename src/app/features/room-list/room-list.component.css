@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 2rem 1.5rem;
   background: linear-gradient(
     180deg,
@@ -258,6 +259,12 @@
 
 .empty-copy p + p {
   margin-top: 0.35rem;
+}
+
+@media (max-width: 480px) {
+  :host {
+    padding: 1.5rem 1rem;
+  }
 }
 
 @media (max-width: 400px) {
