@@ -8,10 +8,7 @@
       <button class="secondary-button" (click)="createRoom('private')">Crear sala privada</button>
     </div>
 
-    <div class="private-hint">
-      <p>Las salas privadas no aparecen en la lista.</p>
-      <p>Comparte el enlace o el ID con tus amigos.</p>
-    </div>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <div class="join-by-code">
       <label class="input-label" for="roomCodeInput">Unirse con identificador</label>
@@ -28,10 +25,7 @@
           Unirse
         </button>
       </div>
-      <div class="helper-text">
-        <p>Introduce el ID de la sala a la que deseas unirte.</p>
-        <p>Si no tienes el ID, pide a un amigo que te lo comparta.</p>
-      </div>
+
     </div>
 
     @if (roomList().length > 0) {
