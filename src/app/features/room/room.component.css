@@ -39,35 +39,48 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
+  width: 100%;
 }
 
-.room-code {
+.room-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: flex-start;
+  flex: 0 1 auto;
+  min-width: 0;
+  min-height: 2.8rem;
+  margin-right: auto;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   background: var(--color-surface-soft);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.room-code__label {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.room-code__value {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  font-size: 0.9rem;
-  color: var(--color-text-primary);
+.room-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  min-height: 2.8rem;
+  margin-left: auto;
+  padding: 0.4rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-surface-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.room-copy-icon {
+.room-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -75,60 +88,80 @@
   height: 2rem;
   border: none;
   border-radius: 50%;
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-  box-shadow: var(--shadow-button-primary);
 }
 
-.room-copy-icon:hover,
-.room-copy-icon:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-button-primary-hover);
-}
-
-.room-copy-icon:focus-visible {
-  outline: 2px solid rgba(14, 165, 233, 0.35);
-  outline-offset: 2px;
-}
-
-.room-copy-icon__svg {
+.room-action__icon {
   width: 1rem;
   height: 1rem;
   fill: currentColor;
 }
 
+.room-copy-icon,
 .room-share-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: none;
-  border-radius: 50%;
   background: var(--color-primary);
   color: var(--color-primary-contrast);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   box-shadow: var(--shadow-button-primary);
 }
 
+.room-copy-icon:hover,
+.room-copy-icon:focus-visible,
 .room-share-icon:hover,
 .room-share-icon:focus-visible {
   transform: translateY(-2px);
   box-shadow: var(--shadow-button-primary-hover);
 }
 
+.room-copy-icon:focus-visible,
 .room-share-icon:focus-visible {
   outline: 2px solid rgba(14, 165, 233, 0.35);
   outline-offset: 2px;
 }
 
-.room-share-icon__svg {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
+.room-leave {
+  background: linear-gradient(135deg, var(--color-danger-soft), var(--color-danger));
+  color: var(--color-text-inverted);
+  border: 1px solid var(--color-danger-soft-hover);
+  box-shadow: var(--shadow-button-danger);
+}
+
+.room-leave .room-action__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.room-leave:hover,
+.room-leave:focus-visible {
+  background: linear-gradient(135deg, var(--color-danger), var(--color-danger-strong));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-danger-hover);
+}
+
+.room-leave:focus-visible {
+  outline: 2px solid var(--color-danger);
+  outline-offset: 2px;
+}
+
+@media (max-width: 330px) {
+  .room-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .room-label,
+  .room-actions {
+    margin: 0;
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .room-actions {
+    margin-left: 0;
+  }
 }
 
 .subtitle {
@@ -189,21 +222,15 @@
 }
 
 .room-leave {
-  border: none;
   background: var(--color-danger-soft);
   color: var(--color-danger-strong);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   box-shadow: var(--shadow-button-danger);
 }
 
 .room-leave:hover,
 .room-leave:focus-visible {
   background: var(--color-danger-soft-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-button-danger-hover);
 }
 

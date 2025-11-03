@@ -143,10 +143,16 @@
   .join-input-row {
     flex-direction: row;
     align-items: center;
+    justify-content: center;
   }
 
   .join-input-row input {
     flex: 1;
+  }
+
+  #roomCodeInput {
+    flex: 0 1 18ch;
+    max-width: 18ch;
   }
 
   .join-input-row .cta-button {
@@ -267,7 +273,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 360px) {
   .room-panel {
     padding: 2rem 1.5rem;
   }
@@ -302,11 +308,13 @@
   .room-info strong {
     font-size: 0.95rem;
     line-height: 1.2;
+    justify-self: start;
   }
 
   .room-info span {
     font-size: 0.85rem;
     line-height: 1.2;
+    justify-self: end;
   }
 
   .room-info__visibility,
