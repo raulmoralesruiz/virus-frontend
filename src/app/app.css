@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  color: var(--color-text-primary);
+  transition: var(--transition-theme);
+}
+
+.app-shell__theme {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+}

@@ -1,1 +1,8 @@
-<router-outlet />
+<div class="app-shell">
+  @if (shouldShowThemeToggle()) {
+  <div class="app-shell__theme">
+    <app-theme-toggle />
+  </div>
+  }
+  <router-outlet />
+</div>
