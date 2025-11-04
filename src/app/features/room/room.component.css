@@ -80,6 +80,15 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
+:host-context(body.theme-dark) .room-label,
+:host-context(body.theme-dark) .room-actions {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow:
+    0 18px 32px -20px rgba(8, 15, 40, 0.82),
+    inset 0 1px 0 rgba(148, 197, 253, 0.14),
+    0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+
 .room-action {
   display: inline-flex;
   align-items: center;
@@ -185,6 +194,13 @@
   color: var(--color-text-primary);
   font-weight: 500;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+:host-context(body.theme-dark) .player-list li {
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  box-shadow:
+    inset 0 1px 0 rgba(148, 197, 253, 0.12),
+    0 20px 36px -22px rgba(8, 15, 40, 0.86);
 }
 
 .waiting-copy {

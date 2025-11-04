@@ -51,12 +51,42 @@
   box-shadow: 0 10px 28px -20px rgba(15, 23, 42, 0.963), inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
+:host-context(body.theme-dark) .create-actions .secondary-button {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow:
+    0 20px 36px -22px rgba(8, 15, 40, 0.78),
+    inset 0 1px 0 rgba(148, 197, 253, 0.12),
+    0 0 0 1px rgba(56, 189, 248, 0.22);
+}
+
+:host-context(body.theme-dark) .create-actions .secondary-button:hover {
+  box-shadow:
+    0 24px 42px -20px rgba(8, 15, 40, 0.88),
+    inset 0 1px 0 rgba(148, 197, 253, 0.18),
+    0 0 0 1px rgba(56, 189, 248, 0.3);
+}
+
 .room-list li .secondary-button {
   width: auto;
   min-width: 140px;
   margin: 0;
   border: 1px solid rgba(148, 163, 184, 0.4);
   box-shadow: 0 10px 28px -20px rgba(15, 23, 42, 0.963), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+:host-context(body.theme-dark) .room-list li .secondary-button {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow:
+    0 18px 32px -20px rgba(8, 15, 40, 0.82),
+    inset 0 1px 0 rgba(148, 197, 253, 0.14),
+    0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+
+:host-context(body.theme-dark) .room-list li .secondary-button:hover {
+  box-shadow:
+    0 22px 38px -20px rgba(8, 15, 40, 0.9),
+    inset 0 1px 0 rgba(148, 197, 253, 0.18),
+    0 0 0 1px rgba(56, 189, 248, 0.28);
 }
 
 .private-hint {
@@ -207,6 +237,13 @@
   border-radius: 16px;
   background: var(--color-surface-soft);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+:host-context(body.theme-dark) .room-list li {
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  box-shadow:
+    inset 0 1px 0 rgba(148, 197, 253, 0.12),
+    0 20px 36px -22px rgba(8, 15, 40, 0.86);
 }
 
 .room-info {
