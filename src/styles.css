@@ -73,6 +73,7 @@
   --shadow-button-danger: 0 16px 32px -22px rgba(239, 68, 68, 0.6);
   --shadow-button-danger-hover: 0 18px 36px -20px rgba(239, 68, 68, 0.7);
   --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  --color-join-card-bg: rgba(255, 255, 255, 0.92);
 
   /* Card palette */
   --card-red-start: #fee2e2;
@@ -172,6 +173,7 @@ body.theme-dark {
   --shadow-button-primary-hover: 0 24px 40px -22px rgba(59, 130, 246, 0.75);
   --shadow-button-danger: 0 20px 34px -22px rgba(248, 113, 113, 0.68);
   --shadow-button-danger-hover: 0 24px 42px -22px rgba(248, 113, 113, 0.78);
+  --color-join-card-bg: rgba(15, 23, 42, 0.88);
 
   --card-red-start: #7f1d1d;
   --card-red-end: #b91c1c;
@@ -219,7 +221,7 @@ app-home .join-card {
   gap: 1.05rem;
   padding: clamp(1.35rem, 3.4vw, 1.8rem);
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-join-card-bg);
   box-shadow: 0 18px 34px -24px rgba(15, 23, 42, 0.48);
   backdrop-filter: blur(10px);
 }
@@ -239,13 +241,14 @@ app-home .input-row {
 
 app-home input[type='text'] {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.4);
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-surface-soft);
   font-size: 1rem;
   color: var(--color-text-primary);
-  box-shadow: 0 12px 26px -22px rgba(15, 23, 42, 0.52);
+  text-align: center;
+  box-shadow: 0 12px 26px -22px rgba(15, 23, 42, 0.32);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -254,9 +257,30 @@ app-home input[type='text']::placeholder {
 }
 
 app-home input[type='text']:focus {
-  outline: 3px solid rgba(14, 165, 233, 0.2);
-  border-color: rgba(14, 165, 233, 0.6);
-  box-shadow: 0 16px 30px -24px rgba(14, 165, 233, 0.55);
+  outline: 3px solid rgba(14, 165, 233, 0.16);
+  border-color: rgba(14, 165, 233, 0.58);
+  box-shadow: 0 16px 30px -24px rgba(14, 165, 233, 0.42);
+}
+
+app-home #nameInput::placeholder {
+  animation: homePlaceholderGlow 2.8s ease-in-out infinite;
+}
+
+app-home #nameInput:focus::placeholder {
+  opacity: 0;
+}
+
+@keyframes homePlaceholderGlow {
+  0%,
+  100% {
+    color: var(--color-text-muted);
+    text-shadow: none;
+  }
+
+  50% {
+    color: var(--color-primary);
+    text-shadow: 0 0 8px rgba(20, 184, 166, 0.4);
+  }
 }
 
 app-home button {
