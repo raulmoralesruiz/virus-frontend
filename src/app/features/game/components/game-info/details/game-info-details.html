@@ -1,7 +1,7 @@
 @let stateValue = state();
 
 <div class="game-info__details">
-  <div class="game-info__summary">
+  <div class="game-info__row game-info__row--times">
     <game-info-pile
       label="Inicio"
       [value]="stateValue.startedAt | date : 'HH:mm'"
@@ -22,6 +22,8 @@
       iconClass="game-info__pile-icon--duration"
     ></game-info-pile>
     }
+  </div>
+  <div class="game-info__row game-info__row--piles">
     <game-info-pile
       label="Mazo"
       [value]="stateValue.deckCount"
@@ -35,13 +37,15 @@
       iconClass="game-info__pile-icon--discard"
     ></game-info-pile>
   </div>
-  <game-info-controls
-    [isMuted]="isMuted()"
-    [isDarkTheme]="isDarkTheme()"
-    [isFullscreenActive]="isFullscreenActive()"
-    (leaveRequested)="onLeaveRequested()"
-    (muteToggled)="onMuteToggled()"
-    (themeToggled)="onThemeToggled()"
-    (fullscreenToggled)="onFullscreenToggled()"
-  ></game-info-controls>
+  <div class="game-info__row game-info__row--controls">
+    <game-info-controls
+      [isMuted]="isMuted()"
+      [isDarkTheme]="isDarkTheme()"
+      [isFullscreenActive]="isFullscreenActive()"
+      (leaveRequested)="onLeaveRequested()"
+      (muteToggled)="onMuteToggled()"
+      (themeToggled)="onThemeToggled()"
+      (fullscreenToggled)="onFullscreenToggled()"
+    ></game-info-controls>
+  </div>
 </div>

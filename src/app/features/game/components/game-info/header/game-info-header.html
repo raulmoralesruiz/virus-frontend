@@ -1,12 +1,11 @@
 <div class="game-info__header">
   <div class="game-info__title">
-    <h2>#{{ roomId() }}</h2>
-    <span class="game-info__details-indicator">
-      {{ showDetails() ? "Ocultar detalles" : "Ver detalles" }}
+    <h2>
+      <span>#{{ roomId() }}</span>
       <span class="game-info__details-arrow" aria-hidden="true">
         {{ showDetails() ? "▲" : "▼" }}
       </span>
-    </span>
+    </h2>
   </div>
   <div class="game-info__actions">
     <button type="button" class="history-toggle" (click)="onHistoryClick($event)">

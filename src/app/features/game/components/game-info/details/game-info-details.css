@@ -12,12 +12,13 @@
   color: var(--color-text-primary);
 }
 
-.game-info__summary {
+.game-info__row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 0.2rem;
   flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
 }
 
 .game-info__details p:not(.game-info__room-id) {
@@ -26,15 +27,17 @@
   color: var(--color-text-secondary);
 }
 
-@media (min-width: 768px) {
-  .game-info__summary {
-    gap: 1.1rem;
-  }
-
+@media (min-width: 640px) {
   .game-info__details {
     flex-direction: row;
-    gap: 1.5rem;
-    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    gap: 1.1rem;
+    flex-wrap: nowrap;
+  }
+
+  .game-info__row {
+    gap: 1.1rem;
+    width: auto;
   }
 }
