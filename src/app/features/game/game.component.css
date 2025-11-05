@@ -34,6 +34,13 @@
   text-align: center;
 }
 
+:host-context(body.theme-dark) .game-empty {
+  box-shadow:
+    0 20px 36px -22px rgba(8, 15, 40, 0.78),
+    inset 0 1px 0 rgba(148, 197, 253, 0.12),
+    0 0 0 1px rgba(56, 189, 248, 0.22);
+}
+
 .game-empty h2 {
   margin: 0;
   color: var(--color-text-primary);
@@ -140,6 +147,15 @@
   font-size: 0.95rem;
   line-height: 1.35;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 3px solid rgba(148, 163, 184, 0.16);
+}
+
+:host-context(body.theme-dark) .history-item {
+  box-shadow:
+    0 18px 32px -20px rgba(8, 15, 40, 0.82),
+    inset 0 1px 0 rgba(148, 197, 253, 0.14),
+    0 0 0 1px rgba(56, 189, 248, 0.2);
+  border: 3px solid rgba(56, 189, 248, 0.18);
 }
 
 .history-empty {
