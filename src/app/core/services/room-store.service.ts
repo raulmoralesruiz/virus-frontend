@@ -48,6 +48,7 @@ export class RoomStoreService {
       } else if (this.currentRoom()?.id === room.id) {
         this.currentRoom.set(null);
         this.api.clearCurrentRoom();
+        this.router.navigate(['/room-list']);
       }
     });
   }
