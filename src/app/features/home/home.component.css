@@ -50,8 +50,12 @@
   place-items: center;
   padding: clamp(1.4rem, 4vw, 2.2rem);
   border-radius: 28px;
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.75));
-  box-shadow: 0 22px 44px -26px rgba(15, 23, 42, 0.55);
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.92),
+    rgba(15, 23, 42, 0.75)
+  );
+  border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .virus-logo {
@@ -70,9 +74,10 @@
   background: linear-gradient(115deg, #14b8a6 0%, #0ea5e9 38%, #ec4899 72%, #8b5cf6 100%);
   background-size: 180% 180%;
   border-radius: clamp(0.7rem, 2.5vw, 1.4rem);
-  box-shadow: inset 0 -4px 14px rgba(0, 0, 0, 0.45), 0 16px 36px -24px rgba(14, 165, 233, 0.6);
-  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  text-shadow: none;
   animation: pulse 5s ease-in-out infinite, gradientShift 16s ease-in-out infinite;
+  opacity: 0.94;
 }
 
 .letter {
@@ -88,8 +93,7 @@
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: clamp(0.045em, 0.55vw, 0.07em) rgba(15, 23, 42, 0.7);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+  -webkit-text-stroke: clamp(0.045em, 0.55vw, 0.07em) rgba(15, 23, 42, 0.5);
   margin-top: 1rem;
 }
 
@@ -97,7 +101,8 @@
   position: absolute;
   border-radius: 50%;
   opacity: 0.9;
-  filter: drop-shadow(0 6px 12px rgba(15, 23, 42, 0.35));
+  filter: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .logo-orbit--one {
@@ -123,9 +128,9 @@
   color: var(--color-text-primary);
   font-family: 'Luckiest Guy', 'Baloo 2', 'Poppins', 'Segoe UI', sans-serif;
   font-size: clamp(1.9rem, 4.5vw, 2.6rem);
-  letter-spacing: clamp(0.01em, 0.45vw, 0.035em);
+  letter-spacing: clamp(0.015em, 0.5vw, 0.045em);
   text-transform: uppercase;
-  text-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+  font-weight: 700;
 }
 
 .welcome-line {

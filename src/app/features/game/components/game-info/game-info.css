@@ -6,10 +6,9 @@
   border: 1px solid var(--section-info-border);
   border-radius: 12px;
   background: var(--section-info-background);
-  box-shadow: var(--shadow-panel);
   cursor: pointer;
   user-select: none;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -19,7 +18,6 @@
 }
 
 .game-info--expanded {
-  box-shadow: var(--shadow-panel-strong);
   border-color: var(--color-player-me-border);
 }
 

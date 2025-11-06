@@ -25,8 +25,14 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: var(--shadow-panel-strong);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.94);
   text-align: center;
+}
+
+:host-context(body.theme-dark) .room-panel {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.24);
 }
 
 .room-panel h2 {
@@ -47,46 +53,34 @@
 }
 
 .create-actions .secondary-button {
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: 0 10px 28px -20px rgba(15, 23, 42, 0.963), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(241, 245, 249, 0.9);
 }
 
 :host-context(body.theme-dark) .create-actions .secondary-button {
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow:
-    0 20px 36px -22px rgba(8, 15, 40, 0.78),
-    inset 0 1px 0 rgba(148, 197, 253, 0.12),
-    0 0 0 1px rgba(56, 189, 248, 0.22);
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  background: rgba(15, 23, 42, 0.85);
 }
 
 :host-context(body.theme-dark) .create-actions .secondary-button:hover {
-  box-shadow:
-    0 24px 42px -20px rgba(8, 15, 40, 0.88),
-    inset 0 1px 0 rgba(148, 197, 253, 0.18),
-    0 0 0 1px rgba(56, 189, 248, 0.3);
+  border-color: rgba(56, 189, 248, 0.32);
 }
 
 .room-list li .secondary-button {
   width: auto;
   min-width: 140px;
   margin: 0;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: 0 10px 28px -20px rgba(15, 23, 42, 0.963), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(248, 250, 252, 0.92);
 }
 
 :host-context(body.theme-dark) .room-list li .secondary-button {
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow:
-    0 18px 32px -20px rgba(8, 15, 40, 0.82),
-    inset 0 1px 0 rgba(148, 197, 253, 0.14),
-    0 0 0 1px rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  background: rgba(15, 23, 42, 0.85);
 }
 
 :host-context(body.theme-dark) .room-list li .secondary-button:hover {
-  box-shadow:
-    0 22px 38px -20px rgba(8, 15, 40, 0.9),
-    inset 0 1px 0 rgba(148, 197, 253, 0.18),
-    0 0 0 1px rgba(56, 189, 248, 0.28);
+  border-color: rgba(56, 189, 248, 0.32);
 }
 
 .private-hint {
@@ -153,14 +147,13 @@
   background: var(--color-surface-soft);
   font-size: 1rem;
   color: var(--color-text-primary);
-  box-shadow: 0 12px 26px -22px rgba(15, 23, 42, 0.32);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .join-input-row input:focus {
   outline: 3px solid rgba(14, 165, 233, 0.16);
   border-color: rgba(14, 165, 233, 0.58);
-  box-shadow: 0 16px 30px -24px rgba(14, 165, 233, 0.42);
+  background: rgba(226, 232, 240, 0.88);
 }
 
 .join-by-code .helper-text {
@@ -204,19 +197,20 @@
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  border: none;
+  transition: background 0.2s ease, border-color 0.2s ease, letter-spacing 0.2s ease;
+  border: 1px solid rgba(148, 163, 184, 0.24);
 }
 
 .cta-button {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
-  box-shadow: var(--shadow-button-primary);
+  opacity: 0.95;
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-button-primary-hover);
+  border-color: rgba(14, 165, 233, 0.55);
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.96) 0%, rgba(14, 165, 233, 0.94) 100%);
 }
 
 .room-list {
@@ -235,15 +229,13 @@
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-radius: 16px;
-  background: var(--color-surface-soft);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: rgba(241, 245, 249, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 :host-context(body.theme-dark) .room-list li {
-  border: 1px solid rgba(148, 163, 184, 0.26);
-  box-shadow:
-    inset 0 1px 0 rgba(148, 197, 253, 0.12),
-    0 20px 36px -22px rgba(8, 15, 40, 0.86);
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  background: rgba(15, 23, 42, 0.85);
 }
 
 .room-info {
@@ -278,14 +270,13 @@
 }
 
 .secondary-button {
-  background: var(--color-surface);
+  background: rgba(248, 250, 252, 0.92);
   color: var(--color-primary);
-  box-shadow: var(--shadow-panel);
 }
 
 .secondary-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-panel-strong);
+  border-color: rgba(14, 165, 233, 0.45);
+  letter-spacing: 0.02em;
 }
 
 .empty-copy {
