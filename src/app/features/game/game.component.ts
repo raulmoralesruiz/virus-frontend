@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
+import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameInfoComponent } from './components/game-info/game-info';
 import { GameBoardComponent } from './components/game-board/game-board';
@@ -19,6 +20,7 @@ import { GameActionFeedComponent } from './components/game-action-feed/game-acti
     GameHandComponent,
     GameWinnerComponent,
     GameActionFeedComponent,
+    ThemeToggleComponent,
   ],
   standalone: true,
   templateUrl: './game.component.html',

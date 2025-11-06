@@ -1,4 +1,4 @@
-<div class="game-layout">
+<div class="game-layout" [class.game-layout--empty]="!publicState()">
   <game-action-feed></game-action-feed>
   <!-- Winner -->
   @if (winner(); as w) {
@@ -29,6 +29,7 @@
   <!-- Home -->
   @else {
   <div class="game-empty">
+    <app-theme-toggle class="game-empty__theme-toggle" />
     <h2>¿Partida finalizada?</h2>
     <p>
       Puedes regresar a la pantalla principal para crear o unirte a otra sala.

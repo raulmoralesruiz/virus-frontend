@@ -44,6 +44,20 @@ export class GameStoreService {
       const state = this.publicState();
       if (!state) return;
 
+      const player = this.apiPlayer.player();
+      if (!player) return;
+
+      const isPlayerInGame = state.players.some(
+        (info) => info.player.id === player.id
+      );
+
+      if (!isPlayerInGame) {
+        if (this.router.url.startsWith('/game/')) {
+          this.router.navigate(['/room-list']);
+        }
+        return;
+      }
+
       const targetUrl = `/game/${state.roomId}`;
       if (!this.router.url.startsWith(targetUrl)) {
         this.router.navigate(['/game', state.roomId]);
