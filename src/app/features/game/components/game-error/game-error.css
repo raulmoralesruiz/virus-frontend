@@ -23,7 +23,6 @@
   border-radius: 16px;
   background: var(--color-error-background);
   color: var(--color-error-text);
-  border: 1px solid var(--color-error-border);
   font-weight: 600;
   cursor: default;
 }
@@ -55,8 +54,6 @@
 }
 
 .error-close:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
 }
 
 .error-close:hover {

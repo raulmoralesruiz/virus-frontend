@@ -34,7 +34,6 @@
 
 .game-info__leave {
   padding: 0.4rem 0.85rem;
-  border: 1px solid var(--color-danger);
   border-radius: 999px;
   background: var(--color-danger-soft);
   color: var(--color-danger-strong);
@@ -57,36 +56,29 @@
 }
 
 .game-info__leave:focus-visible {
-  outline: 2px solid var(--color-danger);
-  outline-offset: 2px;
 }
 
 .theme-toggle {
   padding: 0.4rem 0.95rem;
-  border: 1px solid var(--color-border);
   border-radius: 999px;
   background: transparent;
   color: var(--color-text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .theme-toggle:hover {
   background: var(--color-muted-button-bg);
-  border-color: var(--color-muted-button-hover);
   transform: translateY(-1px);
 }
 
 .theme-toggle:focus-visible {
-  outline: 2px solid var(--color-outline);
-  outline-offset: 2px;
 }
 
 .theme-toggle[aria-pressed='true'] {
   background: var(--color-muted-button-bg);
-  border-color: var(--color-muted-button-active);
   color: var(--color-text-secondary);
 }
 
@@ -111,8 +103,6 @@
 
 .sound-toggle:focus-visible,
 .fullscreen-toggle:focus-visible {
-  outline: 2px solid var(--color-outline);
-  outline-offset: 2px;
 }
 
 .sound-toggle[aria-pressed='true'],

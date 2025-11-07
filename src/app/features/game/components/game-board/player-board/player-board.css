@@ -1,12 +1,11 @@
 .player-board {
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 1.5rem 0.75rem 0.75rem;
   transition:
     background 0.3s ease,
-    transform 0.3s ease,
-    border-color 0.3s ease;
-  background: var(--color-player-neutral-background);
+    transform 0.3s ease;
+  background: #d9e2f4;
+  color: #0f172a;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -120,11 +119,9 @@
   0%,
   100% {
     transform: translateY(-4px);
-    border-color: var(--color-player-active-border);
   }
   50% {
     transform: translateY(-6px);
-    border-color: rgba(251, 191, 36, 0.65);
   }
 }
 
@@ -153,6 +150,16 @@
 .board-drop-wrapper {
   flex: 1;
   display: flex;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+}
+
+.board-drop-wrapper:not(.is-active) {
+  color: var(--color-text-primary);
+}
+
+:host-context(body.theme-dark) .board-drop-wrapper {
+  background: rgba(248, 250, 252, 0.08);
 }
 
 .board-grid {
@@ -167,9 +174,15 @@
   width: 100%;
   padding: 0.5rem;
   border-radius: 12px;
-  border: 2px dashed var(--color-border);
   color: var(--color-text-secondary);
-  background: rgba(148, 163, 184, 0.08);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.08));
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(148, 163, 184, 0.12),
+    rgba(148, 163, 184, 0.12) 10px,
+    transparent 10px,
+    transparent 16px
+  );
   text-align: center;
   font-weight: 500;
 }
@@ -183,13 +196,16 @@
 }
 
 .player-board.is-me {
-  border: 2px solid var(--color-player-me-border);
   background: var(--color-player-me-background);
 }
 
 :host-context(body.theme-dark) .player-board.is-me {
   background: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
-  border-color: rgba(34, 197, 159, 0.5);
+}
+
+:host-context(body.theme-dark) .player-board:not(.is-me):not(.is-active) {
+  background: #223253;
+  color: #f8fafc;
 }
 
 :host-context(body.theme-dark) .player-board.is-me .player-header {
@@ -202,14 +218,12 @@
 }
 
 .player-board.is-active {
-  border: 2px solid var(--color-player-active-border);
   background: var(--color-player-active-background);
   transform: translateY(-4px);
   animation: playerTurnPulse 2.2s ease-in-out infinite;
 }
 
 .player-board.is-me.is-active {
-  border-color: var(--color-player-active-border);
   background: linear-gradient(
     170deg,
     rgba(255, 247, 237, 0.9) 4%,
@@ -225,44 +239,40 @@
     rgba(14, 165, 233, 0.16) 55%,
     rgba(37, 99, 235, 0.14) 100%
   );
-  border-color: rgba(251, 191, 36, 0.45);
 }
 
 /* cuando estamos en modo trasplante */
-.board-slot.transplant-mode {
-  cursor: pointer;
-  outline: 2px dashed var(--color-warning);
+.board-slot {
+  position: relative;
   border-radius: 12px;
 }
 
-/* órgano A seleccionado */
+.board-slot.transplant-mode {
+  cursor: pointer;
+  background: rgba(249, 115, 22, 0.12);
+}
+
 .board-slot.first-selected {
-  outline: 3px solid var(--color-danger);
   background: rgba(239, 68, 68, 0.12);
 }
 
-/* huecos válidos para B */
 .board-slot.valid-second {
-  outline: 3px solid var(--color-success);
   background: rgba(34, 197, 94, 0.15);
 }
 
 .board-drop-wrapper.cdk-drop-list {
-  border: 2px dashed transparent;
   border-radius: 12px;
   box-sizing: border-box;
   transition:
-    border-color 0.2s ease,
     background 0.2s ease;
+  background: rgba(15, 23, 42, 0.02);
 }
 
 .board-drop-wrapper.cdk-drop-list.cdk-drop-list-dragging {
-  border-color: var(--color-border-highlight, rgba(59, 130, 246, 0.55));
   background: rgba(59, 130, 246, 0.08);
 }
 
 .board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving {
-  border-color: var(--color-player-active-border);
 }
 
 .board-slot .card.organ.cdk-drop-list {
@@ -277,7 +287,6 @@
 }
 
 .board-slot .card.organ.cdk-drop-list.cdk-drop-list-receiving {
-  border: 2px solid var(--color-player-active-border);
 }
 
 @media (min-width: 768px) {

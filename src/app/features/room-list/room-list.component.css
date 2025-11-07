@@ -25,14 +25,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
   background: rgba(255, 255, 255, 0.94);
   text-align: center;
 }
 
 :host-context(body.theme-dark) .room-panel {
   background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.24);
 }
 
 .room-panel h2 {
@@ -53,34 +51,26 @@
 }
 
 .create-actions .secondary-button {
-  border: 1px solid rgba(148, 163, 184, 0.24);
-  background: rgba(241, 245, 249, 0.9);
+  background: #d9e2f4;
+  color: #0f172a;
 }
 
 :host-context(body.theme-dark) .create-actions .secondary-button {
-  border: 1px solid rgba(56, 189, 248, 0.24);
-  background: rgba(15, 23, 42, 0.85);
-}
-
-:host-context(body.theme-dark) .create-actions .secondary-button:hover {
-  border-color: rgba(56, 189, 248, 0.32);
+  background: #223253;
+  color: #f8fafc;
 }
 
 .room-list li .secondary-button {
   width: auto;
   min-width: 140px;
   margin: 0;
-  border: 1px solid rgba(148, 163, 184, 0.24);
-  background: rgba(248, 250, 252, 0.92);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--color-text-primary);
 }
 
 :host-context(body.theme-dark) .room-list li .secondary-button {
-  border: 1px solid rgba(56, 189, 248, 0.24);
-  background: rgba(15, 23, 42, 0.85);
-}
-
-:host-context(body.theme-dark) .room-list li .secondary-button:hover {
-  border-color: rgba(56, 189, 248, 0.32);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--color-text-primary);
 }
 
 .private-hint {
@@ -141,19 +131,27 @@
 
 .join-input-row input {
   width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
   padding: 0.75rem 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  background: var(--color-surface-soft);
+  background: #d9e2f4;
   font-size: 1rem;
   color: var(--color-text-primary);
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .join-input-row input:focus {
-  outline: 3px solid rgba(14, 165, 233, 0.16);
-  border-color: rgba(14, 165, 233, 0.58);
-  background: rgba(226, 232, 240, 0.88);
+  background: #c5d4ef;
+}
+
+:host-context(body.theme-dark) .join-input-row input {
+  background: #223253;
+  color: #f8fafc;
+}
+
+:host-context(body.theme-dark) .join-input-row input:focus {
+  background: #2c3f68;
 }
 
 .join-by-code .helper-text {
@@ -171,6 +169,8 @@
 
   .join-input-row input {
     flex: 1;
+    max-width: none;
+    margin: 0;
   }
 
   #roomCodeInput {
@@ -197,8 +197,8 @@
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, letter-spacing 0.2s ease;
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  transition: background 0.2s ease, letter-spacing 0.2s ease;
+  border: 1px solid transparent;
 }
 
 .cta-button {
@@ -208,9 +208,7 @@
 }
 
 .cta-button:hover {
-  border-color: rgba(14, 165, 233, 0.55);
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.96) 0%, rgba(14, 165, 233, 0.94) 100%);
 }
 
 .room-list {
@@ -229,13 +227,13 @@
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-radius: 16px;
-  background: rgba(241, 245, 249, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: #d9e2f4;
+  color: #0f172a;
 }
 
 :host-context(body.theme-dark) .room-list li {
-  border: 1px solid rgba(56, 189, 248, 0.24);
-  background: rgba(15, 23, 42, 0.85);
+  background: #223253;
+  color: #f8fafc;
 }
 
 .room-info {
@@ -270,15 +268,18 @@
 }
 
 .secondary-button {
-  background: rgba(248, 250, 252, 0.92);
+  background: rgba(15, 23, 42, 0.08);
   color: var(--color-primary);
 }
 
 .secondary-button:hover {
-  border-color: rgba(14, 165, 233, 0.45);
   letter-spacing: 0.02em;
 }
 
+:host-context(body.theme-dark) .secondary-button {
+  background: rgba(248, 250, 252, 0.12);
+  color: #f8fafc;
+}
 .empty-copy {
   color: var(--color-text-secondary);
   line-height: 1.5;

@@ -129,6 +129,10 @@ export class GameStoreService {
     this.router.navigate(['/home']);
   }
 
+  goToRoomList() {
+    this.router.navigate(['/room-list']);
+  }
+
   leaveGame(roomId: string) {
     const player = this.apiPlayer.player();
     if (!player) return;

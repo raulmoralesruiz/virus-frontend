@@ -14,12 +14,11 @@
   gap: 0.75rem;
   align-items: stretch;
   border-radius: 22px;
-  background: var(--color-hand-panel-background);
-  border: 1px solid var(--color-hand-panel-border);
+  background: #d9e2f4;
   color: var(--color-text-primary);
   z-index: 12;
   backdrop-filter: blur(8px);
-  transition: background 0.35s ease, border 0.35s ease;
+  transition: background 0.35s ease, transform 0.35s ease;
   user-select: none;
   max-height: calc(100vh - 0.5rem);
   overflow-y: auto;
@@ -42,7 +41,7 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(148, 163, 184, 0.6) transparent;
   border-radius: 18px;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .hand-container::-webkit-scrollbar {
@@ -61,23 +60,25 @@
 
 .hand-panel.is-my-turn {
   background: var(--color-player-active-background);
-  border-color: var(--color-player-active-border);
   animation: handPanelPulse 2.4s ease-in-out infinite;
+}
+
+:host-context(body.theme-dark) .hand-panel:not(.is-my-turn) {
+  background: #223253;
+  color: #f8fafc;
 }
 
 .hand-container.is-my-turn {
   background: rgba(251, 191, 36, 0.14);
-  border: 1px solid rgba(251, 191, 36, 0.35);
 }
 
 .discard-btn {
   margin-top: 0;
   width: 100%;
   padding: 0.65rem 0.9rem;
-  border: 1px solid rgba(239, 68, 68, 0.45);
   border-radius: 999px;
-  background: var(--color-danger);
-  color: var(--color-text-on-dark);
+  background: #991b1b;
+  color: #fef2f2;
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -85,12 +86,12 @@
 }
 
 .discard-btn:not(:disabled):hover {
-  filter: brightness(0.95);
+  filter: brightness(0.97);
 }
 
 .hand-panel.is-my-turn .discard-btn:not(:disabled) {
-  background: var(--color-player-active-border);
-  color: var(--color-text-on-dark);
+  background: #88340c;
+  color: #fff7ed;
 }
 
 .hand-panel.is-my-turn .discard-btn:not(:disabled):hover {
@@ -107,12 +108,23 @@
   margin: 1rem 0 0;
   padding: 1.1rem;
   border-radius: 18px;
-  border: 1px dashed var(--color-border);
   background: linear-gradient(
     160deg,
     var(--color-bg-gradient-start) 0%,
     var(--color-bg-gradient-end) 100%
   );
+  background-image: repeating-linear-gradient(
+      45deg,
+      rgba(15, 23, 42, 0.05),
+      rgba(15, 23, 42, 0.05) 10px,
+      transparent 10px,
+      transparent 18px
+    ),
+    linear-gradient(
+      160deg,
+      var(--color-bg-gradient-start) 0%,
+      var(--color-bg-gradient-end) 100%
+    );
   text-align: center;
   color: var(--color-text-secondary);
   user-select: none;
@@ -126,11 +138,9 @@
   0%,
   100% {
     transform: translate(var(--hand-panel-base-x), 0);
-    border-color: var(--color-player-active-border);
   }
   50% {
     transform: translate(var(--hand-panel-base-x), -4px);
-    border-color: rgba(251, 191, 36, 0.55);
   }
 }
 

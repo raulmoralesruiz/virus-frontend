@@ -1,6 +1,7 @@
 import { Component, OnInit, Signal, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
+import { RoomStoreService } from '../../core/services/room-store.service';
 import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
 import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
@@ -29,8 +30,10 @@ import { GameActionFeedComponent } from './components/game-action-feed/game-acti
 export class GameComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private gameStore = inject(GameStoreService);
+  private roomStore = inject(RoomStoreService);
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
+  currentRoom = this.roomStore.currentRoom;
   hand: Signal<Card[]> = this.gameStore.hand;
   history: Signal<string[]> = this.gameStore.history;
   roomId!: string;
@@ -73,6 +76,14 @@ export class GameComponent implements OnInit {
 
   goHome() {
     this.gameStore.goHome();
+  }
+
+  leaveAfterWin() {
+    if (this.roomId) {
+      this.gameStore.leaveGame(this.roomId);
+    } else {
+      this.gameStore.goToRoomList();
+    }
   }
 
   leaveGame() {

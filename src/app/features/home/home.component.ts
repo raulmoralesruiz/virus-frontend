@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     const hour = new Date().getHours();
     let greeting = '¡Hola';
 
-    if (hour < 12) {
+    if (hour >= 5 && hour < 12) {
       greeting = '¡Buenos días';
     } else if (hour < 18) {
       greeting = '¡Buenas tardes';

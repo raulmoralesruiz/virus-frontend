@@ -8,7 +8,7 @@ const THEME_STORAGE_KEY = 'virus-theme-mode';
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
-  private readonly themeSignal = signal<ThemeMode>('light');
+  private readonly themeSignal = signal<ThemeMode>('dark');
 
   readonly theme = this.themeSignal.asReadonly();
   readonly isDark = computed(() => this.themeSignal() === 'dark');

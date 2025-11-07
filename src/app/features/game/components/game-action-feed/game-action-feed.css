@@ -28,7 +28,6 @@
     rgba(255, 255, 255, 0.12),
     rgba(255, 255, 255, 0.02)
   );
-  border: 1px solid var(--section-feed-border);
   backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   min-width: 220px;
@@ -73,8 +72,6 @@
 }
 
 .action-feed:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.38);
-  outline-offset: 3px;
 }
 
 .action-feed.is-leaving {
@@ -110,7 +107,6 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   background-clip: padding-box;
 }
 
@@ -151,7 +147,6 @@
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  border: 1px solid rgba(148, 163, 184, 0.25);
   max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -207,16 +202,14 @@
   width: 30px;
   height: 30px;
   padding: 0;
-  border: none;
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(255, 78, 114, 0.95), rgba(255, 33, 86, 0.9));
-  border: 1px solid rgba(255, 255, 255, 0.35);
   color: var(--color-primary-contrast);
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
-  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+  transition: background 140ms ease, transform 140ms ease;
   justify-self: end;
   align-self: start;
 }
@@ -225,12 +218,9 @@
 .action-feed__close:focus-visible {
   background: linear-gradient(135deg, rgba(255, 102, 140, 0.98), rgba(255, 45, 120, 0.95));
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.55);
 }
 
 .action-feed__close:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
 }
 
 @media (min-width: 768px) {

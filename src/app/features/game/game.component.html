@@ -2,7 +2,12 @@
   <game-action-feed></game-action-feed>
   <!-- Winner -->
   @if (winner(); as w) {
-  <game-winner [winner]="w" (reset)="resetGame()"></game-winner>
+  <game-winner
+    [winner]="w"
+    [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
+    (reset)="resetGame()"
+    (leave)="leaveAfterWin()"
+  ></game-winner>
   }
 
   <!-- Información de la partida -->

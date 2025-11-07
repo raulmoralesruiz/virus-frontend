@@ -3,22 +3,20 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 0.5rem 1rem;
-  border: 1px solid var(--section-info-border);
   border-radius: 12px;
   background: var(--section-info-background);
   cursor: pointer;
   user-select: none;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: transform 0.15s ease, background 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .game-info:focus-visible {
-  outline: 2px solid var(--color-outline);
-  outline-offset: 2px;
+  background: linear-gradient(155deg, rgba(37, 99, 235, 0.18), rgba(14, 165, 233, 0.12));
 }
 
 .game-info--expanded {
-  border-color: var(--color-player-me-border);
+  background: linear-gradient(155deg, rgba(15, 118, 110, 0.18), rgba(59, 130, 246, 0.12));
 }
 
 @media (min-width: 768px) {

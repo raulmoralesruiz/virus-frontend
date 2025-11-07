@@ -37,7 +37,6 @@
   min-height: 70vh;
   padding: 2.5rem 1.75rem;
   border-radius: 24px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
   background: linear-gradient(
     180deg,
     rgba(248, 250, 252, 0.94) 0%,
@@ -54,7 +53,6 @@
 }
 
 :host-context(body.theme-dark) .game-empty {
-  border-color: rgba(148, 197, 253, 0.16);
   background: linear-gradient(
     180deg,
     rgba(15, 23, 42, 0.92) 0%,
@@ -83,7 +81,6 @@
   width: 100%;
   max-width: 320px;
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(20, 184, 166, 0.4);
   border-radius: 999px;
   background: var(--color-primary);
   color: var(--color-primary-contrast);
@@ -91,14 +88,12 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, letter-spacing 0.2s ease;
+  transition: letter-spacing 0.2s ease;
   opacity: 0.95;
 }
 
 .cta-button:hover {
-  border-color: rgba(14, 165, 233, 0.55);
   letter-spacing: 0.03em;
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.96) 0%, rgba(14, 165, 233, 0.94) 100%);
 }
 
 .history-overlay {
@@ -120,7 +115,6 @@
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.94);
   color: var(--color-text-primary);
-  border: 1px solid rgba(148, 163, 184, 0.2);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -129,7 +123,6 @@
 :host-context(body.theme-dark) .history-modal {
   background: rgba(15, 23, 42, 0.92);
   color: var(--color-text-primary);
-  border: 1px solid rgba(56, 189, 248, 0.24);
 }
 
 .history-header {
@@ -172,18 +165,17 @@
 }
 
 .history-item {
-  padding: 0.75rem 0.9rem;
-  border-radius: 14px;
-  background: rgba(241, 245, 249, 0.92);
-  color: var(--color-text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  background: #d9e2f4;
+  color: #0f172a;
   font-size: 0.95rem;
   line-height: 1.35;
-  border: 1px solid rgba(148, 163, 184, 0.22);
 }
 
 :host-context(body.theme-dark) .history-item {
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(56, 189, 248, 0.24);
+  background: #223253;
+  color: #f8fafc;
 }
 
 .history-empty {
@@ -212,7 +204,6 @@
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.95);
   color: var(--color-text-primary);
-  border: 1px solid rgba(148, 163, 184, 0.24);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -222,7 +213,6 @@
 :host-context(body.theme-dark) .confirm-modal {
   background: rgba(15, 23, 42, 0.92);
   color: var(--color-text-primary);
-  border: 1px solid rgba(56, 189, 248, 0.24);
 }
 
 .confirm-modal h3 {
@@ -251,41 +241,35 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, letter-spacing 0.2s ease;
+  transition: background 0.2s ease, letter-spacing 0.2s ease;
   letter-spacing: 0.01em;
 }
 
 .confirm-cancel {
-  border: 1px solid var(--color-border);
   background: rgba(241, 245, 249, 0.85);
   color: var(--color-text-primary);
 }
 
 :host-context(body.theme-dark) .confirm-cancel {
-  border: 1px solid rgba(56, 189, 248, 0.3);
   background: rgba(30, 41, 59, 0.9);
   color: var(--color-text-primary);
 }
 
 .confirm-cancel:hover {
-  border-color: rgba(14, 165, 233, 0.45);
   background: rgba(226, 232, 240, 0.9);
   letter-spacing: 0.02em;
 }
 
 :host-context(body.theme-dark) .confirm-cancel:hover {
-  border-color: rgba(56, 189, 248, 0.45);
   background: rgba(30, 41, 59, 0.96);
 }
 
 .confirm-accept {
-  border: 1px solid rgba(239, 68, 68, 0.4);
   background: rgba(239, 68, 68, 0.9);
   color: var(--color-text-inverted);
 }
 
 .confirm-accept:hover {
-  border-color: rgba(239, 68, 68, 0.55);
   background: rgba(239, 68, 68, 0.96);
   letter-spacing: 0.02em;
 }
