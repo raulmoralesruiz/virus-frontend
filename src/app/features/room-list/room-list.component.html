@@ -1,65 +1,75 @@
 <div class="room-list-screen">
-  <div class="room-panel">
-    <h2>Hola, {{ player()?.name }}</h2>
-    <p>Elige una sala existente o crea una nueva para comenzar la partida.</p>
+  <div class="room-cards">
+    <section class="room-panel room-block room-block__greeting">
+      <h2>Hola, {{ player()?.name }}</h2>
+      <p>Elige una sala existente o crea una nueva para comenzar la partida.</p>
+    </section>
 
-    <div class="create-actions">
-      <button class="cta-button" (click)="createRoom('public')">Crear sala pública</button>
-      <button class="secondary-button" (click)="createRoom('private')">Crear sala privada</button>
-    </div>
+    <section class="room-panel room-block room-block__create">
+      <h3>Crear sala</h3>
+      <div class="create-form">
+        <p class="input-label">Selecciona el tipo de sala</p>
+        <div class="create-actions">
+          <button class="cta-button" (click)="createRoom('private')">Privada</button>
+          <button class="secondary-button" (click)="createRoom('public')">Pública</button>
+        </div>
+      </div>
+    </section>
 
-    <div class="section-divider" aria-hidden="true"></div>
-
-    <div class="join-by-code">
-      <label class="input-label" for="roomCodeInput">Unirse con identificador</label>
-      <div class="join-input-row">
-        <input
-          id="roomCodeInput"
-          #roomCodeInput
-          type="text"
-          placeholder="ID de sala"
-          maxlength="6"
-          (keyup.enter)="joinRoomByCode(roomCodeInput)"
-        />
-        <button class="cta-button" type="button" (click)="joinRoomByCode(roomCodeInput)">
-          Unirse
-        </button>
+    <section class="room-panel room-block room-block__join">
+      <h3>Unirse a una partida</h3>
+      <div class="join-by-code">
+        <label class="input-label" for="roomCodeInput">Unirse con identificador</label>
+        <div class="join-input-row">
+          <input
+            id="roomCodeInput"
+            #roomCodeInput
+            type="text"
+            placeholder="ID de sala"
+            maxlength="6"
+            (keyup.enter)="joinRoomByCode(roomCodeInput)"
+          />
+          <button class="cta-button" type="button" (click)="joinRoomByCode(roomCodeInput)">
+            Unirse
+          </button>
+        </div>
       </div>
 
-    </div>
+      <div class="section-divider" aria-hidden="true"></div>
 
-    @if (roomList().length > 0) {
-    <ul class="room-list">
-      @for (room of roomList(); track room.id) {
-      <li>
-        <div class="room-info">
-          <strong>{{ room.name }}</strong>
-          <span>
-            {{ room.players.length }}
-            jugador{{ room.players.length === 1 ? '' : 'es' }}
-          </span>
-          @if (room.visibility === 'private') {
-            <span class="room-info__visibility">Privada</span>
-          }
-          @if (room.inProgress) {
-            <span class="room-info__status">En partida</span>
-          }
-        </div>
-        <button
-          class="secondary-button"
-          [disabled]="room.inProgress"
-          (click)="joinRoom(room.id)"
-        >
-          {{ room.inProgress ? 'En partida' : 'Unirse' }}
-        </button>
-      </li>
+      @if (roomList().length > 0) {
+      <ul class="room-list">
+        @for (room of roomList(); track room.id) {
+        <li>
+          <div class="room-info">
+            <strong>{{ room.name }}</strong>
+            <span>
+              {{ room.players.length }}
+              jugador{{ room.players.length === 1 ? '' : 'es' }}
+            </span>
+            @if (room.visibility === 'private') {
+              <span class="room-info__visibility">Privada</span>
+            }
+            @if (room.inProgress) {
+              <span class="room-info__status">En partida</span>
+            }
+          </div>
+          <button
+            class="secondary-button"
+            [disabled]="room.inProgress"
+            (click)="joinRoom(room.id)"
+          >
+            {{ room.inProgress ? 'En partida' : 'Unirse' }}
+          </button>
+        </li>
+        }
+      </ul>
+      } @else {
+      <div class="empty-copy">
+        <p>No hay salas disponibles.</p>
+        <p>¡Crea la primera!</p>
+      </div>
       }
-    </ul>
-    } @else {
-    <div class="empty-copy">
-      <p>No hay salas disponibles por ahora.</p>
-      <p>¡Crea la primera!</p>
-    </div>
-    }
+    </section>
   </div>
 </div>
