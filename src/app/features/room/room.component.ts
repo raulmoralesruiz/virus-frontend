@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoomStoreService } from '../../core/services/room-store.service';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -23,6 +24,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   player = this.apiPlayer.player;
   confirmingLeave = false;
   shareMessage: string | null = null;
+  isCreatingPlayer = false;
+  creationError: string | null = null;
+  private createPlayerSub: Subscription | null = null;
 
   ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('id')!;
@@ -35,6 +39,10 @@ export class RoomComponent implements OnInit, OnDestroy {
     if (this.shareMessageTimeout) {
       clearTimeout(this.shareMessageTimeout);
       this.shareMessageTimeout = null;
+    }
+    if (this.createPlayerSub) {
+      this.createPlayerSub.unsubscribe();
+      this.createPlayerSub = null;
     }
   }
 
@@ -136,5 +144,33 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.shareMessage = null;
       this.shareMessageTimeout = null;
     }, 2500);
+  }
+
+  createPlayerAndJoin(input: HTMLInputElement) {
+    if (this.player() || this.isCreatingPlayer) return;
+
+    const name = input.value.trim();
+    if (!name) {
+      this.creationError = 'Introduce tu nombre para continuar.';
+      return;
+    }
+
+    this.creationError = null;
+    this.isCreatingPlayer = true;
+    if (this.createPlayerSub) {
+      this.createPlayerSub.unsubscribe();
+    }
+
+    this.createPlayerSub = this.apiPlayer.createPlayer(name).subscribe({
+      next: (player) => {
+        this.isCreatingPlayer = false;
+        this.roomStore.joinRoom(this.roomId, player);
+      },
+      error: () => {
+        this.isCreatingPlayer = false;
+        this.creationError =
+          'No pudimos crear tu jugador. Inténtalo de nuevo en unos segundos.';
+      },
+    });
   }
 }
