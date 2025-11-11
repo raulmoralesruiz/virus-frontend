@@ -25,12 +25,26 @@
             id="roomCodeInput"
             #roomCodeInput
             type="text"
-            placeholder="ID de sala"
+            placeholder="ID sala"
             maxlength="6"
             (keyup.enter)="joinRoomByCode(roomCodeInput)"
           />
-          <button class="cta-button" type="button" (click)="joinRoomByCode(roomCodeInput)">
-            Unirse
+          <button
+            class="join-submit"
+            type="button"
+            aria-label="Unirse a la sala"
+            (click)="joinRoomByCode(roomCodeInput)"
+          >
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M5 12h12m0 0-4-4m4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
           </button>
         </div>
       </div>

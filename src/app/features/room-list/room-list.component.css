@@ -28,10 +28,10 @@
 .room-panel {
   background: var(--color-surface);
   border-radius: 24px;
-  padding: 1.5rem 1.5rem;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   background: rgba(255, 255, 255, 0.94);
   text-align: center;
 }
@@ -61,8 +61,9 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: 0.75rem;
+  width: 100%;
 }
 
 .create-actions {
@@ -144,18 +145,14 @@
 }
 
 .join-input-row {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 0.75rem;
-  width: 100%;
+  position: relative;
+  max-width: 11rem;
+  margin: 0 auto;
 }
 
 .join-input-row input {
   width: 100%;
-  max-width: 360px;
-  margin: 0 auto;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 3.25rem 0.75rem 1rem;
   border-radius: 999px;
   background: #d9e2f4;
   font-size: 1rem;
@@ -182,30 +179,47 @@
   color: var(--color-text-muted);
 }
 
-@media (min-width: 600px) {
-  .join-input-row {
-    flex-direction: row;
-    align-items: center;
+@media (min-width: 360px) {
+  .create-actions {
+    display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
-  }
-
-  .join-input-row input {
-    flex: 1;
-    max-width: none;
-    margin: 0;
-  }
-
-  #roomCodeInput {
-    flex: 0 1 18ch;
-    max-width: 18ch;
-  }
-
-  .join-input-row .cta-button {
     width: auto;
-    max-width: none;
-    margin: 0;
-    padding-inline: 1.5rem;
+    max-width: 420px;
+    margin: 0 auto;
   }
+
+  .create-actions .cta-button,
+  .create-actions .secondary-button {
+    width: auto;
+    min-width: 0;
+    flex: 0 1 180px;
+    margin: 0;
+  }
+}
+
+.join-submit {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  padding: 0;
+  border: 0;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+}
+
+.join-submit svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
 }
 
 .cta-button,
