@@ -21,9 +21,6 @@
   transform: translateY(-6px);
 }
 
-.hand-card.is-my-turn {
-}
-
 
 .hand-card.is-selected::after {
   content: '';
@@ -36,7 +33,7 @@
 }
 
 .hand-card.is-selected {
-  animation: selectedCardShake 1.2s ease-in-out infinite;
+  animation: selectedCardShake 0.3s ease-in-out infinite;
 }
 
 .hand-card.is-selected:hover {

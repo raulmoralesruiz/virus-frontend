@@ -10,9 +10,9 @@
   (transitionend)="handleTransitionEnd($event)"
 >
   <div class="action-feed__identity">
-    <div [class]="iconClass()">
+    <!-- <div [class]="iconClass()">
       <span class="action-feed__icon-inner">{{ icon() }}</span>
-    </div>
+    </div> -->
     @if (action.actor) {
     <span class="action-feed__actor">{{ action.actor }}</span>
     }
@@ -32,8 +32,8 @@
       @case ('play-card') {
       <span class="action-feed__verb">{{ action.verb ?? 'jugó' }}</span>
       <span class="action-feed__card">{{ action.cardLabel }}</span>
-      @if (action.detail) {
-      <span class="action-feed__detail">{{ action.detail }}</span>
+      @if (detailFor(action); as detail) {
+      <span class="action-feed__detail">{{ detail }}</span>
       }
       }
       @case ('discard') {

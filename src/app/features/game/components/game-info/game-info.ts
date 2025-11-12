@@ -4,6 +4,7 @@ import {
   OnChanges,
   OnDestroy,
   SimpleChanges,
+  computed,
   inject,
   input,
   output,
@@ -14,11 +15,13 @@ import { TimerSoundService } from '../../../../core/services/timer-sound.service
 import { ThemeService } from '../../../../core/services/theme.service';
 import { GameInfoHeaderComponent } from './header/game-info-header';
 import { GameInfoDetailsComponent } from './details/game-info-details';
+import { GameActionFeedComponent } from '../game-action-feed/game-action-feed';
+import { GameActionFeedService } from '../../../../core/services/game-action-feed.service';
 
 @Component({
   selector: 'game-info',
   standalone: true,
-  imports: [GameInfoHeaderComponent, GameInfoDetailsComponent],
+  imports: [GameInfoHeaderComponent, GameInfoDetailsComponent, GameActionFeedComponent],
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
 })
@@ -32,12 +35,15 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
   private readonly timerSoundService = inject(TimerSoundService);
   private readonly themeService = inject(ThemeService);
   private readonly documentRef = inject(DOCUMENT);
+  private readonly actionFeedService = inject(GameActionFeedService);
   readonly isMuted = this.timerSoundService.isMuted;
   readonly isDarkTheme = this.themeService.isDark;
   isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
   gameDuration = '';
   private startTimestamp?: number;
   private gameDurationTimer?: ReturnType<typeof setInterval>;
+  readonly currentNotification = this.actionFeedService.currentAction;
+  readonly isShowingNotification = computed(() => !!this.currentNotification());
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('state' in changes) {
@@ -50,6 +56,9 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
   }
 
   toggleDetails(): void {
+    if (this.isShowingNotification()) {
+      return;
+    }
     this.showDetails = !this.showDetails;
   }
 
@@ -62,6 +71,9 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
   }
 
   onKeyDown(event: KeyboardEvent): void {
+    if (this.isShowingNotification()) {
+      return;
+    }
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.toggleDetails();

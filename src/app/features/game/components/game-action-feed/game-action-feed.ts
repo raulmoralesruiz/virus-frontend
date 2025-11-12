@@ -90,6 +90,24 @@ export class GameActionFeedComponent {
     return `${total} cartas`;
   }
 
+  detailFor(action: GameAction | null): string | null {
+    if (!action?.detail) {
+      return null;
+    }
+
+    if (action.type === 'play-card') {
+      const match = action.detail.match(
+        /^→\s*contagi(?:o|ó)\s+a\s+(?<target>.+)$/i
+      );
+      const target = match?.groups?.['target'];
+      if (target) {
+        return `contra ${target.trim()}`;
+      }
+    }
+
+    return action.detail;
+  }
+
   private iconFor(action: GameAction | null): string {
     if (!action) {
       return '🃏';
