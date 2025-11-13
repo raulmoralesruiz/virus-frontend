@@ -8,6 +8,8 @@ import {
   OnChanges,
   SimpleChanges,
   input,
+  computed,
+  signal,
 } from '@angular/core';
 import {
   Card,
@@ -57,7 +59,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
 
   // Estado interno
   selectedCard: Card | null = null;
-  selectedCardsToDiscard: Card[] = [];
+  private readonly selectedDiscardIds = signal<Set<string>>(new Set());
+  readonly selectedDiscardCount = computed(
+    () => this.selectedDiscardIds().size
+  );
   targetOptions: TargetSelectOption[] = [];
   selectedTarget: PlayCardTarget | null = null;
   selectedTargetA: PlayCardTarget | null = null;
@@ -108,7 +113,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
 
     if (turnChange.previousValue && !turnChange.currentValue) {
       this.clearSelection();
-      this.selectedCardsToDiscard = [];
+      this.resetDiscardSelection();
     }
   }
 
@@ -124,19 +129,27 @@ export class GameHandComponent implements OnChanges, OnDestroy {
 
   toggleDiscardSelection(card: Card) {
     if (!this.isMyTurn()) return;
-    const idx = this.selectedCardsToDiscard.findIndex((c) => c.id === card.id);
-    if (idx >= 0) this.selectedCardsToDiscard.splice(idx, 1);
-    else this.selectedCardsToDiscard.push(card);
+    this.selectedDiscardIds.update((current) => {
+      const next = new Set(current);
+      if (next.has(card.id)) {
+        next.delete(card.id);
+      } else {
+        next.add(card.id);
+      }
+      return next;
+    });
   }
 
   discardSelectedCards() {
     const roomId = this.roomId();
-    if (!roomId || this.selectedCardsToDiscard.length === 0) return;
-    this._gameStore.discardCards(
-      roomId,
-      this.selectedCardsToDiscard.map((c) => c.id)
-    );
-    this.selectedCardsToDiscard = [];
+    const selectedIds = Array.from(this.selectedDiscardIds());
+    if (!roomId || !selectedIds.length) return;
+    this._gameStore.discardCards(roomId, selectedIds);
+    this.resetDiscardSelection();
+  }
+
+  isCardSelected(card: Card): boolean {
+    return this.selectedDiscardIds().has(card.id);
   }
 
   selectCardToPlay(card: Card) {
@@ -398,5 +411,9 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   private teardownPanelObserver() {
     this._resizeObserver?.disconnect();
     this._resizeObserver = undefined;
+  }
+
+  private resetDiscardSelection() {
+    this.selectedDiscardIds.set(new Set());
   }
 }
