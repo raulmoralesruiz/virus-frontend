@@ -78,7 +78,13 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   // referencias públicas
   CardKind = CardKind;
   TreatmentSubtype = TreatmentSubtype;
-  cardColors = Object.values(CardColor);
+  cardColors: CardColor[] = [
+    CardColor.Red,
+    CardColor.Green,
+    CardColor.Blue,
+    CardColor.Yellow,
+    CardColor.Multi,
+  ];
 
   @ViewChild('handPanel')
   set handPanelRef(ref: ElementRef<HTMLDivElement> | undefined) {
@@ -201,6 +207,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           }
           break;
         case TreatmentSubtype.MedicalError:
+        case TreatmentSubtype.trickOrTreat:
           for (const p of st.players) {
             if (p.player.id !== this._apiPlayer.player()?.id) {
               this.targetOptions.push({
@@ -273,6 +280,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           );
         case TreatmentSubtype.OrganThief:
         case TreatmentSubtype.MedicalError:
+        case TreatmentSubtype.trickOrTreat:
           return !!this.selectedTarget;
         case TreatmentSubtype.Contagion:
           return (
@@ -322,6 +330,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           target = this.selectedTarget;
           break;
         case TreatmentSubtype.MedicalError:
+        case TreatmentSubtype.trickOrTreat:
           if (!this.selectedTarget) {
             alert('Debes seleccionar un jugador');
             return;

@@ -44,6 +44,12 @@ export class HandCard {
 
   get icon(): string {
     const card = this.card();
+    const treatmentEmoji =
+      card.kind === CardKind.Treatment ? this.treatmentEmoji(card.subtype) : null;
+    if (treatmentEmoji) {
+      return treatmentEmoji;
+    }
+
     switch (card.kind) {
       case CardKind.Organ:
         return this.organIcons[card.color] ?? '❔';
@@ -74,6 +80,9 @@ export class HandCard {
     const card = this.card();
     if (!this.hasSubtype || !card.subtype) return null;
     const iconFile = this.treatmentIcons[card.subtype];
+    if (iconFile?.startsWith('emoji:')) {
+      return null;
+    }
     return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 
@@ -83,6 +92,7 @@ export class HandCard {
     [CardColor.Blue]: '🧠',
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
+    [CardColor.Halloween]: '🎃',
   };
 
   private readonly treatmentIcons: Record<TreatmentSubtype, string> = {
@@ -91,5 +101,16 @@ export class HandCard {
     [TreatmentSubtype.Contagion]: 'contagion.svg',
     [TreatmentSubtype.Gloves]: 'gloves.svg',
     [TreatmentSubtype.MedicalError]: 'medicalError.svg',
+    [TreatmentSubtype.failedExperiment]: 'failedExperiment.svg',
+    [TreatmentSubtype.trickOrTreat]: 'emoji:🎃',
   };
+
+  private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {
+    if (!subtype) return null;
+    const icon = this.treatmentIcons[subtype];
+    if (icon?.startsWith('emoji:')) {
+      return icon.slice('emoji:'.length);
+    }
+    return null;
+  }
 }

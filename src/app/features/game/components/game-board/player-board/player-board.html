@@ -1,6 +1,14 @@
 <div class="player-board" [class.is-me]="isMe()" [class.is-active]="isActive()">
   <div class="player-header">
     <strong>{{ player().player.name }}</strong>
+    @if (player().hasTrickOrTreat) {
+    <span
+      class="player-badge player-badge--curse"
+      title="Este jugador no puede ganar hasta pasar Truco o Trato"
+    >
+      🎃 Truco o Trato
+    </span>
+    }
     @if (isActive() && turnDurationSeconds() > 0) {
     <div class="turn-progress">
       <div

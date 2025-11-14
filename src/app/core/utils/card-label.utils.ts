@@ -11,6 +11,7 @@ export const CARD_COLOR_LABELS: Record<CardColor, string> = {
   [CardColor.Blue]: 'Cerebro',
   [CardColor.Yellow]: 'Hueso',
   [CardColor.Multi]: 'Multicolor',
+  [CardColor.Halloween]: 'Halloween',
 };
 
 export const CARD_KIND_LABELS: Record<CardKind, string> = {
@@ -26,6 +27,8 @@ export const TREATMENT_LABELS: Partial<Record<TreatmentSubtype, string>> = {
   [TreatmentSubtype.Contagion]: 'Contagio',
   [TreatmentSubtype.Gloves]: 'Guantes de Látex',
   [TreatmentSubtype.MedicalError]: 'Error Médico',
+  [TreatmentSubtype.failedExperiment]: 'Experimento Fallido',
+  [TreatmentSubtype.trickOrTreat]: 'Truco o Trato',
 };
 
 export const describeColor = (color: CardColor): string => {

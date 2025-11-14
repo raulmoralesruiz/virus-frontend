@@ -173,6 +173,10 @@
   background: linear-gradient(145deg, var(--card-multi-start) 0%, var(--card-multi-middle) 45%, var(--card-multi-end) 100%);
 }
 
+.hand-card--halloween {
+  background: linear-gradient(180deg, var(--card-halloween-start) 0%, var(--card-halloween-end) 100%);
+}
+
 .hand-card--treatment .card-icon {
   font-size: 2rem;
 }

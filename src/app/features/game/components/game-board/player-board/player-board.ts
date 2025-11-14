@@ -64,6 +64,7 @@ export class PlayerBoardComponent {
     [CardColor.Blue]: '🧠',
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
+    [CardColor.Halloween]: '🎃',
   };
 
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
@@ -230,6 +231,11 @@ export class PlayerBoardComponent {
             return !!me && this.player().player.id !== me.id;
           }
 
+          case TreatmentSubtype.trickOrTreat: {
+            const me = this._apiPlayer.player();
+            return !!me && this.player().player.id !== me.id;
+          }
+
           case TreatmentSubtype.Contagion:
             return this.isMe();
 
@@ -260,7 +266,8 @@ export class PlayerBoardComponent {
       if (
         card.subtype === TreatmentSubtype.Gloves ||
         card.subtype === TreatmentSubtype.MedicalError ||
-        card.subtype === TreatmentSubtype.Contagion
+        card.subtype === TreatmentSubtype.Contagion ||
+        card.subtype === TreatmentSubtype.trickOrTreat
       ) {
         return false;
       }
@@ -527,6 +534,10 @@ export class PlayerBoardComponent {
         this.playContagion(card);
         break;
 
+      case TreatmentSubtype.trickOrTreat:
+        this.playTrickOrTreat(card);
+        break;
+
       default:
         this._gameStore.setClientError(
           `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
@@ -578,6 +589,23 @@ export class PlayerBoardComponent {
     } as MedicalErrorTarget);
   }
 
+  private playTrickOrTreat(card: Card) {
+    const rid = this.roomId();
+    const me = this._apiPlayer.player();
+    const targetId = this.player().player.id;
+
+    if (!rid || !me) return;
+
+    if (targetId === me.id) {
+      this._gameStore.setClientError('No puedes jugar Truco o Trato sobre ti mismo.');
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id, {
+      playerId: targetId,
+    } as MedicalErrorTarget);
+  }
+
   private playGloves(card: Card) {
     const rid = this.roomId();
     const me = this._apiPlayer.player();
@@ -602,6 +630,10 @@ export class PlayerBoardComponent {
 
       case TreatmentSubtype.Contagion:
         this.playContagion(card);
+        break;
+
+      case TreatmentSubtype.trickOrTreat:
+        this.playTrickOrTreat(card);
         break;
 
       default:

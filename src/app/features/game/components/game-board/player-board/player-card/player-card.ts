@@ -51,6 +51,7 @@ export class PlayerCardComponent {
     [CardColor.Blue]: '🧠',
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
+    [CardColor.Halloween]: '🎃',
   };
 
   // Método para obtener todos los virus (reales + temporales)

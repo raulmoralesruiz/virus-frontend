@@ -102,6 +102,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.Contagion]: 'Contagio',
     [TreatmentSubtype.Gloves]: 'Guantes de látex',
     [TreatmentSubtype.MedicalError]: 'Error médico',
+    [TreatmentSubtype.trickOrTreat]: 'Truco o Trato',
   };
 
   get cardKindLabel(): string {
@@ -143,6 +144,9 @@ export class TargetSelectComponent {
       if (card.subtype === TreatmentSubtype.MedicalError) {
         return 'Selecciona al jugador con el que intercambiarás todos tus órganos.';
       }
+      if (card.subtype === TreatmentSubtype.trickOrTreat) {
+        return 'Elige al jugador cuyo cuerpo quedará maldito con Truco o Trato.';
+      }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
     return `${this.cardEffectDescription} Confirma para jugarla.`;
@@ -165,7 +169,9 @@ export class TargetSelectComponent {
   get isPlayerOnly(): boolean {
     const card = this.selectedCard();
     return (
-      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.MedicalError
+      card.kind === CardKind.Treatment &&
+      (card.subtype === TreatmentSubtype.MedicalError ||
+        card.subtype === TreatmentSubtype.trickOrTreat)
     );
   }
 
@@ -176,7 +182,8 @@ export class TargetSelectComponent {
         card.subtype === TreatmentSubtype.Transplant ||
         card.subtype === TreatmentSubtype.OrganThief ||
         card.subtype === TreatmentSubtype.MedicalError ||
-        card.subtype === TreatmentSubtype.Contagion
+        card.subtype === TreatmentSubtype.Contagion ||
+        card.subtype === TreatmentSubtype.trickOrTreat
       );
     }
     return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
@@ -427,6 +434,8 @@ export class TargetSelectComponent {
             return 'Obliga a todos los rivales a descartar su mano, robar nuevas cartas y perder el próximo turno.';
           case TreatmentSubtype.MedicalError:
             return 'Intercambia por completo tu cuerpo con el jugador elegido.';
+          case TreatmentSubtype.trickOrTreat:
+            return 'Maldecirás a un jugador impidiendo su victoria hasta que cure a otro rival.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }

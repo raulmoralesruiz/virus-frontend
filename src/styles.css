@@ -94,6 +94,9 @@
   --card-multi-middle: #e0e7ff;
   --card-multi-end: #ddd6fe;
   --card-multi-border: transparent;
+  --card-halloween-start: #fcd34d;
+  --card-halloween-end: #fb923c;
+  --card-halloween-border: transparent;
 
   /* Board organ palette */
   --organ-red: #fca5a5;
@@ -195,6 +198,9 @@ body.theme-dark {
   --card-multi-middle: #7c3aed;
   --card-multi-end: #312e81;
   --card-multi-border: transparent;
+  --card-halloween-start: #9a3412;
+  --card-halloween-end: #f97316;
+  --card-halloween-border: transparent;
 
   --organ-red: rgba(248, 113, 113, 0.7);
   --organ-green: rgba(52, 211, 153, 0.7);

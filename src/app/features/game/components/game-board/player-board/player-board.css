@@ -37,6 +37,24 @@
   font-weight: 600;
 }
 
+.player-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1.2;
+}
+
+.player-badge--curse {
+  background: var(--color-danger-soft);
+  border-color: rgba(249, 115, 22, 0.35);
+  color: var(--color-danger-strong);
+}
+
 .player-header .handcount {
   font-size: 0.9rem;
   color: var(--color-text-secondary);

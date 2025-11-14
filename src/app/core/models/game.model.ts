@@ -10,6 +10,7 @@ export interface PublicPlayerInfo {
   player: Player;
   board: OrganOnBoard[]; // cartas visibles en mesa
   handCount: number; // solo el número de cartas en mano, no cuáles son
+  hasTrickOrTreat?: boolean;
 }
 
 export interface PublicGameState {
