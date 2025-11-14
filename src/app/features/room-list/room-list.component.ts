@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Room } from '../../core/models/room.model';
-import { Player } from '../../core/models/player.model';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
 import { RoomStoreService } from '../../core/services/room-store.service';
 
@@ -13,11 +13,16 @@ import { RoomStoreService } from '../../core/services/room-store.service';
 export class RoomListComponent implements OnInit {
   private apiPlayerService = inject(ApiPlayerService);
   private store = inject(RoomStoreService);
+  private router = inject(Router);
 
   roomList = this.store.rooms;
   player = this.apiPlayerService.player;
 
   ngOnInit() {
+    if (!this.player()) {
+      this.router.navigate(['/home']);
+      return;
+    }
     this.store.getRooms();
   }
 
