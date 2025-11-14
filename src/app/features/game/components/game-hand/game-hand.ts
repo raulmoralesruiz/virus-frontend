@@ -111,6 +111,11 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     const turnChange = changes['isMyTurn'];
     if (!turnChange || turnChange.firstChange) return;
 
+    if (!turnChange.previousValue && turnChange.currentValue) {
+      // Cancel info selections made while waiting so the player must press "Jugar"
+      this.clearSelection();
+    }
+
     if (turnChange.previousValue && !turnChange.currentValue) {
       this.clearSelection();
       this.resetDiscardSelection();
