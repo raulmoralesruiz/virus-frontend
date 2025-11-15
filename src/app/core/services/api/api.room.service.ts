@@ -1,8 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { Observable, tap } from 'rxjs';
-import { Room } from '../../models/room.model';
+import { map, Observable, tap } from 'rxjs';
+import { Room, createDefaultRoomConfig } from '../../models/room.model';
 import { ApiPlayerService } from './api.player.service';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,7 @@ export class ApiRoomService {
     if (stored) {
       try {
         const r: Room = JSON.parse(stored);
-        this._currentRoom.set(r);
+        this._currentRoom.set(this.normalizeRoom(r));
       } catch {
         localStorage.removeItem('currentRoom');
       }
@@ -45,16 +45,18 @@ export class ApiRoomService {
 
     return this.http
       .get<Room[]>(url)
-      .pipe(tap((rooms) => this._roomList.set(rooms)));
+      .pipe(
+        map((rooms) => rooms.map((room) => this.normalizeRoom(room))),
+        tap((rooms) => this._roomList.set(rooms))
+      );
   }
 
   getRoomById(id: string): Observable<Room> {
     const url = `${this.urlRoom}/${id}`;
 
     return this.http.get<Room>(url).pipe(
+      map((room) => this.normalizeRoom(room)),
       tap((room) => {
-        // this._currentRoom.set(room);
-        // this.saveCurrentRoomToLocalStorage(room);
         this.setCurrentRoom(room);
       })
     );
@@ -65,9 +67,8 @@ export class ApiRoomService {
     const body = { playerId };
 
     return this.http.post<Room>(url, body).pipe(
+      map((room) => this.normalizeRoom(room)),
       tap((room) => {
-        // this._currentRoom.set(room);
-        // this.saveCurrentRoomToLocalStorage(room);
         this.setCurrentRoom(room);
       })
     );
@@ -82,9 +83,8 @@ export class ApiRoomService {
     const body = { playerId };
 
     return this.http.post<Room>(url, body).pipe(
+      map((room) => this.normalizeRoom(room)),
       tap((room) => {
-        // this._currentRoom.set(room);
-        // this.saveCurrentRoomToLocalStorage(room);
         this.setCurrentRoom(room);
       })
     );
@@ -92,12 +92,21 @@ export class ApiRoomService {
 
   /** --- Métodos de utilidad --- **/
   setCurrentRoom(room: Room) {
-    this._currentRoom.set(room);
-    this.saveCurrentRoomToLocalStorage(room);
+    const normalized = this.normalizeRoom(room);
+    this._currentRoom.set(normalized);
+    this.saveCurrentRoomToLocalStorage(normalized);
+    return normalized;
   }
 
   clearCurrentRoom() {
     this._currentRoom.set(null);
     localStorage.removeItem('currentRoom');
+  }
+
+  private normalizeRoom(room: Room): Room {
+    return {
+      ...room,
+      config: room.config ?? createDefaultRoomConfig(),
+    };
   }
 }

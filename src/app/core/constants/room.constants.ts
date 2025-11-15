@@ -9,4 +9,5 @@ export const ROOM_CONSTANTS = {
 
   ROOM_GET_ALL: 'room:getAll',
   ROOMS_LIST: 'rooms:list',
+  ROOM_CONFIG_UPDATE: 'room:config:update',
 } as const;

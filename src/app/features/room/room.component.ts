@@ -3,6 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RoomStoreService } from '../../core/services/room-store.service';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
+import {
+  RoomConfig,
+  RoomGameMode,
+  RoomTimerSeconds,
+  createDefaultRoomConfig,
+} from '../../core/models/room.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -27,6 +33,12 @@ export class RoomComponent implements OnInit, OnDestroy {
   isCreatingPlayer = false;
   creationError: string | null = null;
   private createPlayerSub: Subscription | null = null;
+  readonly gameModeOptions: { value: RoomGameMode; label: string }[] = [
+    { value: 'base', label: 'Juego base' },
+    { value: 'halloween', label: 'Base + Halloween' },
+  ];
+  readonly timerOptions: RoomTimerSeconds[] = [30, 60, 90, 120];
+  private readonly defaultConfig = createDefaultRoomConfig();
 
   ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('id')!;
@@ -54,6 +66,42 @@ export class RoomComponent implements OnInit, OnDestroy {
     const r = this.room();
     const p = this.player();
     return !!r && !!p && r.hostId === p.id;
+  }
+
+  canEditConfig(): boolean {
+    const room = this.room();
+    return !!room && !room.inProgress && this.isHost();
+  }
+
+  getRoomConfig(): RoomConfig {
+    return this.room()?.config ?? this.defaultConfig;
+  }
+
+  onGameModeSelect(value: string) {
+    const mode = value as RoomGameMode;
+    if (!this.isValidMode(mode)) return;
+    const room = this.room();
+    if (!room || !this.canEditConfig()) return;
+    if (room.config?.mode === mode) return;
+    this.roomStore.updateRoomConfig(room.id, { mode });
+  }
+
+  onTimerSelect(value: string) {
+    const numeric = Number(value);
+    const seconds = numeric as RoomTimerSeconds;
+    if (!this.isValidTimer(seconds)) return;
+    const room = this.room();
+    if (!room || !this.canEditConfig()) return;
+    if (room.config?.timerSeconds === seconds) return;
+    this.roomStore.updateRoomConfig(room.id, { timerSeconds: seconds });
+  }
+
+  private isValidMode(mode: string): mode is RoomGameMode {
+    return this.gameModeOptions.some((option) => option.value === mode);
+  }
+
+  private isValidTimer(seconds: number): seconds is RoomTimerSeconds {
+    return this.timerOptions.includes(seconds as RoomTimerSeconds);
   }
 
   isIncorrectNumberPlayers(): boolean {

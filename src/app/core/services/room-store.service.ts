@@ -1,6 +1,6 @@
 // src/app/core/services/room-store.service.ts
 import { Injectable, effect, inject, signal } from '@angular/core';
-import { Room } from '../models/room.model';
+import { Room, RoomConfig, createDefaultRoomConfig } from '../models/room.model';
 import { Player } from '../models/player.model';
 import { ApiRoomService } from './api/api.room.service';
 import { SocketRoomService } from './socket/socket.room.service';
@@ -35,7 +35,9 @@ export class RoomStoreService {
   }
 
   private listenSocketUpdates() {
-    this.socket.onRoomsList((rooms) => this.rooms.set(rooms));
+    this.socket.onRoomsList((rooms) =>
+      this.rooms.set(rooms.map((room) => this.ensureRoomHasConfig(room)))
+    );
     this.socket.onRoomJoined((room) => {
       const playerId = this.apiPlayer.player()?.id;
       if (!playerId) return;
@@ -43,8 +45,8 @@ export class RoomStoreService {
       const isMember = room.players.some((pl) => pl.id === playerId);
 
       if (isMember) {
-        this.currentRoom.set(room);
-        this.api.setCurrentRoom(room); // persistencia local
+        const normalized = this.api.setCurrentRoom(room); // persistencia local
+        this.currentRoom.set(this.ensureRoomHasConfig(normalized));
       } else if (this.currentRoom()?.id === room.id) {
         this.currentRoom.set(null);
         this.api.clearCurrentRoom();
@@ -89,6 +91,10 @@ export class RoomStoreService {
     this.api.clearCurrentRoom();
   }
 
+  updateRoomConfig(roomId: string, config: Partial<RoomConfig>) {
+    this.socket.updateRoomConfig(roomId, config);
+  }
+
   goHome() {
     this.router.navigate(['/home']);
   }
@@ -103,5 +109,12 @@ export class RoomStoreService {
     const cleaned = candidate.replace(/\s+/g, '');
 
     return cleaned.toLowerCase();
+  }
+
+  private ensureRoomHasConfig(room: Room): Room {
+    return {
+      ...room,
+      config: room.config ?? createDefaultRoomConfig(),
+    };
   }
 }

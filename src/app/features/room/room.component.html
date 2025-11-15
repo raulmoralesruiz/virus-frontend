@@ -75,6 +75,48 @@
         }
       </ul>
 
+      <section class="room-config">
+        <h3>Configuración de partida</h3>
+
+        <div class="room-config__group">
+          <p class="room-config__label">Modo de juego</p>
+          <select
+            class="room-config__select"
+            [value]="getRoomConfig().mode"
+            (change)="onGameModeSelect($any($event.target).value)"
+            [disabled]="!canEditConfig()"
+          >
+            @for (option of gameModeOptions; track option.value) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="room-config__group">
+          <p class="room-config__label">Duración del turno</p>
+          <select
+            class="room-config__select"
+            [value]="getRoomConfig().timerSeconds"
+            (change)="onTimerSelect($any($event.target).value)"
+            [disabled]="!canEditConfig()"
+          >
+            @for (seconds of timerOptions; track seconds) {
+            <option [value]="seconds">
+              {{ seconds }} segundos
+            </option>
+            }
+          </select>
+        </div>
+
+        @if (!canEditConfig()) {
+        <p class="room-config__hint">
+          Solo el anfitrión puede modificar estos ajustes.
+        </p>
+        }
+      </section>
+
       @if (isHost()) {
       <button
         class="cta-button"

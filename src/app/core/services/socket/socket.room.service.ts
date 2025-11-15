@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Room } from '../../models/room.model';
+import { Room, RoomConfig } from '../../models/room.model';
 import { SocketService } from './socket.service';
 import { ROOM_CONSTANTS } from '../../constants/room.constants';
 import { Player } from '../../models/player.model';
@@ -33,5 +33,12 @@ export class SocketRoomService {
 
   requestRoomsList() {
     this.socketService.emit(ROOM_CONSTANTS.ROOM_GET_ALL);
+  }
+
+  updateRoomConfig(roomId: string, config: Partial<RoomConfig>) {
+    this.socketService.emit(ROOM_CONSTANTS.ROOM_CONFIG_UPDATE, {
+      roomId,
+      config,
+    });
   }
 }
