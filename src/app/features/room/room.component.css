@@ -303,66 +303,6 @@
   white-space: nowrap;
 }
 
-.room-share {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-}
-
-.room-share__hint {
-  margin: 0;
-}
-
-.room-share-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 0.65rem;
-  justify-content: center;
-  width: 100%;
-}
-
-.room-share-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  min-width: 0;
-  padding: 0.55rem 1.5rem;
-  background: #d9e2f4;
-  color: #0f172a;
-  text-transform: none;
-  border-radius: 999px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: background 0.2s ease, letter-spacing 0.2s ease;
-}
-
-.room-share-button:hover,
-.room-share-button:focus-visible {
-  letter-spacing: 0.02em;
-  background: #c5d4ef;
-}
-
-.room-share-button:focus-visible {
-}
-
-:host-context(body.theme-dark) .room-share-button {
-  background: #223253;
-  color: #f8fafc;
-}
-
-:host-context(body.theme-dark) .room-share-button:hover,
-:host-context(body.theme-dark) .room-share-button:focus-visible {
-  background: #2c3f68;
-}
-
 .room-share-feedback {
   margin: 0 0 0.5rem;
   font-size: 0.85rem;
