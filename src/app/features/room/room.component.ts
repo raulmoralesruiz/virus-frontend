@@ -10,10 +10,22 @@ import {
   createDefaultRoomConfig,
 } from '../../core/models/room.model';
 import { Subscription } from 'rxjs';
+import { RoomTopComponent } from './components/room-top/room-top.component';
+import { RoomPlayersComponent } from './components/room-players/room-players.component';
+import { RoomConfigComponent } from './components/room-config/room-config.component';
+import { RoomExitComponent } from './components/room-exit/room-exit.component';
+import { RoomEnterComponent } from './components/room-enter/room-enter.component';
 
 @Component({
   selector: 'app-room',
   standalone: true,
+  imports: [
+    RoomTopComponent,
+    RoomPlayersComponent,
+    RoomConfigComponent,
+    RoomExitComponent,
+    RoomEnterComponent,
+  ],
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
 })

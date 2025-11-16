@@ -1,0 +1,26 @@
+.subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.player-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.player-list li {
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  background: #d9e2f4;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+:host-context(body.theme-dark) .player-list li {
+  background: #223253;
+  color: #f8fafc;
+}

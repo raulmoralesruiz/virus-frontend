@@ -1,0 +1,67 @@
+<section class="room-config">
+  <h3>Configuración de partida</h3>
+
+  <div class="room-config__group">
+    <p class="room-config__label">Modo de juego</p>
+    <div
+      class="room-select-button"
+      role="group"
+      aria-label="Modo de juego"
+      [class.room-select-button--disabled]="!canEditConfig"
+    >
+      @for (option of gameModeOptions; track option.value) {
+      <button
+        type="button"
+        class="room-select-button__option"
+        [class.room-select-button__option--active]="
+          roomConfig.mode === option.value
+        "
+        [disabled]="!canEditConfig"
+        [attr.aria-pressed]="roomConfig.mode === option.value"
+        (click)="gameModeSelect.emit(option.value)"
+      >
+        {{ option.label }}
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="room-config__group">
+    <div class="room-config__label-row">
+      <p class="room-config__label">Duración del turno</p>
+      <span class="room-slider__value">
+        {{ roomConfig.timerSeconds }} segundos
+      </span>
+    </div>
+    <div class="room-slider" [class.room-slider--disabled]="!canEditConfig">
+      <input
+        type="range"
+        class="room-slider__input"
+        [min]="0"
+        [max]="timerOptions.length - 1"
+        step="1"
+        [value]="sliderIndex"
+        [style.--slider-progress]="sliderProgress"
+        [disabled]="!canEditConfig"
+        (input)="timerSelect.emit($any($event.target).value)"
+        aria-label="Duración del turno"
+      />
+      <div class="room-slider__ticks">
+        @for (seconds of timerOptions; track seconds; let idx = $index) {
+        <span
+          class="room-slider__tick"
+          [style.left.%]="getTickPosition(idx)"
+        >
+          {{ seconds }}s
+        </span>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (!canEditConfig) {
+  <p class="room-config__hint">
+    Solo el anfitrión puede modificar estos ajustes.
+  </p>
+  }
+</section>

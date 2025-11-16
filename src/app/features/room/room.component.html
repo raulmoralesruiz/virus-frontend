@@ -1,234 +1,55 @@
 <div class="room-screen">
   @if (room()) {
-    <div class="room-panel">
-      <div class="room-top">
-        <span class="room-label">Sala {{ room()!.name }}</span>
-        <div class="room-actions">
-          <button
-            type="button"
-            class="room-action room-copy-icon"
-            (click)="copyRoomCode()"
-            aria-label="Copiar ID"
-          >
-            <svg
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="room-action__icon"
-            >
-              <path
-                d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="room-action room-share-icon"
-            (click)="copyRoomLink()"
-            aria-label="Copiar enlace"
-          >
-            <svg
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="room-action__icon"
-            >
-              <path
-                d="M18 16.08c-0.76 0-1.44 0.3-1.96 0.77l-7.05-4.11c0.03-0.24 0.06-0.48 0.06-0.74s-0.03-0.5-0.08-0.74l7.02-4.09c0.53 0.49 1.24 0.79 2.01 0.79 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 0.24 0.03 0.48 0.08 0.7l-7.02 4.09c-0.53-0.49-1.24-0.79-2.01-0.79-1.66 0-3 1.34-3 3s1.34 3 3 3c0.77 0 1.48-0.3 2.01-0.79l7.05 4.11c-0.05 0.21-0.08 0.43-0.08 0.66 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92S19.61 16.08 18 16.08z" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="room-action room-leave"
-            (click)="leaveRoom()"
-            aria-label="Salir de la sala"
-            >
-              <svg
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                class="room-action__icon"
-              >
-                <path
-                  d="M17 6l-1.41 1.41L17.17 9H9v2h8.17l-1.58 1.59L17 14l4-4-4-4z"
-                />
-                <path
-                  d="M5 5h7V3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2H5V5z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+  <div class="room-panel">
+    <app-room-top
+      [room]="room"
+      [shareMessage]="shareMessage"
+      (copyRoomCode)="copyRoomCode()"
+      (copyRoomLink)="copyRoomLink()"
+      (leaveRoom)="leaveRoom()"
+    />
 
-      @if (shareMessage) {
-      <p class="room-share-feedback">{{ shareMessage }}</p>
-      }
+    <app-room-players [room]="room" />
 
-      <p class="subtitle">
-        {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
-        "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
-      </p>
+    <app-room-config
+      [canEditConfig]="canEditConfig()"
+      [roomConfig]="getRoomConfig()"
+      [gameModeOptions]="gameModeOptions"
+      [timerOptions]="timerOptions"
+      [sliderIndex]="getSliderIndex()"
+      [sliderProgress]="getSliderProgress()"
+      (gameModeSelect)="onGameModeSelect($event)"
+      (timerSelect)="onTimerSelect($event)"
+    />
 
-      <ul class="player-list">
-        @for (player of room()!.players; track player.id) {
-        <li>{{ player.name }}</li>
-        }
-      </ul>
-
-      <section class="room-config">
-        <h3>Configuración de partida</h3>
-
-        <div class="room-config__group">
-          <p class="room-config__label">Modo de juego</p>
-          <div
-            class="room-select-button"
-            role="group"
-            aria-label="Modo de juego"
-            [class.room-select-button--disabled]="!canEditConfig()"
-          >
-            @for (option of gameModeOptions; track option.value) {
-            <button
-              type="button"
-              class="room-select-button__option"
-              [class.room-select-button__option--active]="
-                getRoomConfig().mode === option.value
-              "
-              [disabled]="!canEditConfig()"
-              [attr.aria-pressed]="getRoomConfig().mode === option.value"
-              (click)="onGameModeSelect(option.value)"
-            >
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <div class="room-config__group">
-          <div class="room-config__label-row">
-            <p class="room-config__label">Duración del turno</p>
-            <span class="room-slider__value">
-              {{ getRoomConfig().timerSeconds }} segundos
-            </span>
-          </div>
-          <div
-            class="room-slider"
-            [class.room-slider--disabled]="!canEditConfig()"
-          >
-            <input
-              type="range"
-              class="room-slider__input"
-              [min]="0"
-              [max]="timerOptions.length - 1"
-              step="1"
-              [value]="getSliderIndex()"
-              [style.--slider-progress]="getSliderProgress()"
-              [disabled]="!canEditConfig()"
-              (input)="onTimerSelect($any($event.target).value)"
-              aria-label="Duración del turno"
-            />
-            <div class="room-slider__ticks">
-              @for (seconds of timerOptions; track seconds; let idx = $index) {
-              <span
-                class="room-slider__tick"
-                [style.left.%]="getTickPosition(idx)"
-              >
-                {{ seconds }}s
-              </span>
-              }
-            </div>
-          </div>
-        </div>
-
-        @if (!canEditConfig()) {
-        <p class="room-config__hint">
-          Solo el anfitrión puede modificar estos ajustes.
-        </p>
-        }
-      </section>
-
-      @if (isHost()) {
-      <button
-        class="cta-button"
-        (click)="startGame()"
-        [disabled]="!isHost() || isIncorrectNumberPlayers()"
-      >
-        Iniciar partida
-      </button>
-      } @else {
-      <p class="waiting-copy">Espera a que el anfitrión inicie la partida.</p>
-      }
-    </div>
+    @if (isHost()) {
+    <button
+      class="cta-button"
+      (click)="startGame()"
+      [disabled]="!isHost() || isIncorrectNumberPlayers()"
+    >
+      Iniciar partida
+    </button>
+    } @else {
+    <p class="waiting-copy">Espera a que el anfitrión inicie la partida.</p>
+    }
+  </div>
   } @else {
   <div class="room-panel">
     <h2>No estás en ninguna sala</h2>
     <p class="subtitle">Regresa al inicio para crear o unirte a una partida.</p>
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
   </div>
-  }
-
-  @if (confirmingLeave) {
-  <div
-    class="confirm-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="leave-confirm-title"
-    aria-describedby="leave-confirm-description"
-  >
-    <div class="confirm-modal">
-      <h3 id="leave-confirm-title">¿Salir de la sala?</h3>
-      <p id="leave-confirm-description">
-        Si abandonas esta sala, se liberará tu plaza y volverás al listado de salas.
-      </p>
-      <div class="confirm-actions">
-        <button type="button" class="confirm-cancel" (click)="cancelLeave()">
-          Cancelar
-        </button>
-        <button type="button" class="confirm-accept" (click)="confirmLeave()">
-          Salir
-        </button>
-      </div>
-    </div>
-  </div>
-  }
-
-  @if (!player()) {
-  <div
-    class="confirm-overlay player-name-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="player-name-title"
-    aria-describedby="player-name-description"
-  >
-    <div class="player-name-modal">
-      <h3 id="player-name-title">Crea tu jugador</h3>
-      <p id="player-name-description">
-        Introduce tu nombre para unirte.
-      </p>
-      <label class="player-name-label" for="playerNameInput">
-        Nombre
-        <input
-          id="playerNameInput"
-          #playerNameInput
-          type="text"
-          maxlength="20"
-          class="player-name-input"
-          [disabled]="isCreatingPlayer"
-          (keyup.enter)="createPlayerAndJoin(playerNameInput)"
-          (input)="creationError = null"
-        />
-      </label>
-      @if (creationError) {
-      <p class="player-name-error">{{ creationError }}</p>
-      }
-      <button
-        type="button"
-        class="cta-button player-name-submit"
-        [disabled]="isCreatingPlayer"
-        (click)="createPlayerAndJoin(playerNameInput)"
-      >
-        {{ isCreatingPlayer ? 'Guardando...' : 'Guardar y unirse' }}
-      </button>
-    </div>
-  </div>
+  } @if (confirmingLeave) {
+  <app-room-exit
+    (cancelLeave)="cancelLeave()"
+    (confirmLeave)="confirmLeave()"
+  />
+  } @if (!player()) {
+  <app-room-enter
+    [isCreatingPlayer]="isCreatingPlayer"
+    [(creationError)]="creationError"
+    (createPlayerAndJoin)="createPlayerAndJoin($event)"
+  />
   }
 </div>
