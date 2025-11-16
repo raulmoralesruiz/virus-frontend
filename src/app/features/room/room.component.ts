@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EffectRef, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomStoreService } from '../../core/services/room-store.service';
 import { GameStoreService } from '../../core/services/game-store.service';
@@ -38,13 +38,28 @@ export class RoomComponent implements OnInit, OnDestroy {
     { value: 'halloween', label: 'Base + Halloween' },
   ];
   readonly timerOptions: RoomTimerSeconds[] = [30, 60, 90, 120];
+  private readonly timerIndexMax = this.timerOptions.length - 1;
   private readonly defaultConfig = createDefaultRoomConfig();
+  private sliderSelectionIndex: number | null = null;
+  private readonly sliderSelectionEffect: EffectRef;
 
   ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('id')!;
     if (!this.room()) {
       this.roomStore.loadRoomById(this.roomId);
     }
+  }
+
+  constructor() {
+    this.sliderSelectionEffect = effect(() => {
+      const currentSeconds = this.getRoomConfig().timerSeconds;
+      if (this.sliderSelectionIndex !== null) {
+        const selectedSeconds = this.timerOptions[this.sliderSelectionIndex];
+        if (selectedSeconds === currentSeconds) {
+          this.sliderSelectionIndex = null;
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -56,6 +71,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.createPlayerSub.unsubscribe();
       this.createPlayerSub = null;
     }
+    this.sliderSelectionEffect.destroy();
   }
 
   startGame() {
@@ -87,13 +103,47 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   onTimerSelect(value: string) {
-    const numeric = Number(value);
-    const seconds = numeric as RoomTimerSeconds;
+    const index = Number(value);
+    if (!Number.isInteger(index) || index < 0 || index > this.timerIndexMax) {
+      return;
+    }
+    const seconds = this.timerOptions[index];
     if (!this.isValidTimer(seconds)) return;
+    this.sliderSelectionIndex = index;
     const room = this.room();
     if (!room || !this.canEditConfig()) return;
     if (room.config?.timerSeconds === seconds) return;
     this.roomStore.updateRoomConfig(room.id, { timerSeconds: seconds });
+  }
+
+  getTimerIndex(): number {
+    const seconds = this.getRoomConfig().timerSeconds;
+    const index = this.timerOptions.indexOf(seconds);
+    return index >= 0 ? index : 0;
+  }
+
+  getSliderIndex(): number {
+    if (this.sliderSelectionIndex !== null) {
+      return this.sliderSelectionIndex;
+    }
+    return this.getTimerIndex();
+  }
+
+  getSliderProgress(): number {
+    if (this.timerIndexMax <= 0) {
+      return 0;
+    }
+    return this.getSliderIndex() / this.timerIndexMax;
+  }
+
+  getTickPosition(index: number): number {
+    if (index <= 0 || this.timerIndexMax <= 0) {
+      return 0;
+    }
+    if (index >= this.timerIndexMax) {
+      return 100;
+    }
+    return (index / this.timerIndexMax) * 100;
   }
 
   private isValidMode(mode: string): mode is RoomGameMode {
