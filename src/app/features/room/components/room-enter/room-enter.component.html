@@ -16,21 +16,21 @@
         type="text"
         maxlength="20"
         class="player-name-input"
-        [disabled]="isCreatingPlayer"
+        [disabled]="isCreatingPlayer()"
         (keyup.enter)="createPlayerAndJoin.emit(playerNameInput)"
         (input)="creationErrorChange.emit(null)"
       />
     </label>
-    @if (creationError) {
-    <p class="player-name-error">{{ creationError }}</p>
+    @if (creationError()) {
+    <p class="player-name-error">{{ creationError() }}</p>
     }
     <button
       type="button"
       class="cta-button player-name-submit"
-      [disabled]="isCreatingPlayer"
+      [disabled]="isCreatingPlayer()"
       (click)="createPlayerAndJoin.emit(playerNameInput)"
     >
-      {{ isCreatingPlayer ? "Guardando..." : "Guardar y unirse" }}
+      {{ isCreatingPlayer() ? "Guardando..." : "Guardar y unirse" }}
     </button>
   </div>
 </div>

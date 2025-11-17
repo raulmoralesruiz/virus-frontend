@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-room-exit',
@@ -14,6 +9,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomExitComponent {
-  @Output() cancelLeave = new EventEmitter<void>();
-  @Output() confirmLeave = new EventEmitter<void>();
+  cancelLeave = output<void>();
+  confirmLeave = output<void>();
 }

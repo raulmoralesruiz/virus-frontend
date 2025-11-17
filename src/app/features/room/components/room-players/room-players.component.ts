@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, Signal } from '@angular/core';
 import { Room } from '../../../../core/models/room.model';
 
 @Component({
@@ -15,5 +10,5 @@ import { Room } from '../../../../core/models/room.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomPlayersComponent {
-  @Input({ required: true }) room!: Signal<Room | null>;
+  room = input.required<Signal<Room | null>>();
 }

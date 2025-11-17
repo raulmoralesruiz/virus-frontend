@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
   Signal,
 } from '@angular/core';
 import { Room } from '../../../../core/models/room.model';
@@ -17,9 +16,9 @@ import { Room } from '../../../../core/models/room.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomTopComponent {
-  @Input({ required: true }) room!: Signal<Room | null>;
-  @Input() shareMessage: string | null = null;
-  @Output() copyRoomCode = new EventEmitter<void>();
-  @Output() copyRoomLink = new EventEmitter<void>();
-  @Output() leaveRoom = new EventEmitter<void>();
+  room = input.required<Signal<Room | null>>();
+  shareMessage = input<string | null>(null);
+  copyRoomCode = output<void>();
+  copyRoomLink = output<void>();
+  leaveRoom = output<void>();
 }

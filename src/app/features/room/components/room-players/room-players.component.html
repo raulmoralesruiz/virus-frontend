@@ -1,10 +1,10 @@
 <p class="subtitle">
-  {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ? "" : "es" }}
-  conectad{{ room()!.players.length === 1 ? "o" : "os" }}
+  {{ room()()!.players.length }} jugador{{ room()()!.players.length === 1 ? "" : "es" }}
+  conectad{{ room()()!.players.length === 1 ? "o" : "os" }}
 </p>
 
 <ul class="player-list">
-  @for (player of room()!.players; track player.id) {
+  @for (player of room()()!.players; track player.id) {
   <li>{{ player.name }}</li>
   }
 </ul>

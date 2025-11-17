@@ -1,5 +1,5 @@
 <div class="room-top">
-  <span class="room-label">Sala {{ room()!.name }}</span>
+  <span class="room-label">Sala {{ room()()!.name }}</span>
   <div class="room-actions">
     <button
       type="button"
@@ -54,6 +54,6 @@
   </div>
 </div>
 
-@if (shareMessage) {
-<p class="room-share-feedback">{{ shareMessage }}</p>
+@if (shareMessage()) {
+<p class="room-share-feedback">{{ shareMessage() }}</p>
 }

@@ -46,8 +46,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   creationError: string | null = null;
   private createPlayerSub: Subscription | null = null;
   readonly gameModeOptions: { value: RoomGameMode; label: string }[] = [
-    { value: 'base', label: 'Juego base' },
-    { value: 'halloween', label: 'Base + Halloween' },
+    { value: 'base', label: 'Virus!' },
+    { value: 'halloween', label: 'Halloween' },
   ];
   readonly timerOptions: RoomTimerSeconds[] = [30, 60, 90, 120];
   private readonly timerIndexMax = this.timerOptions.length - 1;

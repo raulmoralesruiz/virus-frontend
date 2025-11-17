@@ -48,7 +48,8 @@
   } @if (!player()) {
   <app-room-enter
     [isCreatingPlayer]="isCreatingPlayer"
-    [(creationError)]="creationError"
+    [creationError]="creationError"
+    (creationErrorChange)="creationError = $event"
     (createPlayerAndJoin)="createPlayerAndJoin($event)"
   />
   }

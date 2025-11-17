@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 
 @Component({
@@ -15,8 +14,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomEnterComponent {
-  @Input() isCreatingPlayer = false;
-  @Input() creationError: string | null = null;
-  @Output() creationErrorChange = new EventEmitter<string | null>();
-  @Output() createPlayerAndJoin = new EventEmitter<HTMLInputElement>();
+  isCreatingPlayer = input(false);
+  creationError = input<string | null>(null);
+  creationErrorChange = output<string | null>();
+  createPlayerAndJoin = output<HTMLInputElement>();
 }

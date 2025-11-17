@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import {
   RoomConfig,
@@ -20,20 +19,20 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomConfigComponent {
-  @Input({ required: true }) canEditConfig!: boolean;
-  @Input({ required: true }) roomConfig!: RoomConfig;
-  @Input({ required: true }) gameModeOptions!: {
+  canEditConfig = input.required<boolean>();
+  roomConfig = input.required<RoomConfig>();
+  gameModeOptions = input.required<{
     value: RoomGameMode;
     label: string;
-  }[];
-  @Input({ required: true }) timerOptions!: RoomTimerSeconds[];
-  @Input({ required: true }) sliderIndex!: number;
-  @Input({ required: true }) sliderProgress!: number;
-  @Output() gameModeSelect = new EventEmitter<string>();
-  @Output() timerSelect = new EventEmitter<string>();
+  }[]>();
+  timerOptions = input.required<RoomTimerSeconds[]>();
+  sliderIndex = input.required<number>();
+  sliderProgress = input.required<number>();
+  gameModeSelect = output<string>();
+  timerSelect = output<string>();
 
   getTickPosition(index: number): number {
-    const timerIndexMax = this.timerOptions.length - 1;
+    const timerIndexMax = this.timerOptions().length - 1;
     if (index <= 0 || timerIndexMax <= 0) {
       return 0;
     }
