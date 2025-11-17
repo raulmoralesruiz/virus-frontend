@@ -388,3 +388,29 @@ app-home .helper-text {
     max-width: 150px;
   }
 }
+
+.cta-button {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: letter-spacing 0.2s ease;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  opacity: 0.95;
+}
+
+.cta-button:hover:not([disabled]) {
+  letter-spacing: 0.02em;
+}
+
+.cta-button[disabled] {
+  background: var(--color-muted-button-active);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
