@@ -307,6 +307,37 @@
     </section>
   }
 
+  @if (isFailedExperiment && singleSelectionValue) {
+    <section class="target-select__group">
+      <div class="target-select__field">
+        <label>
+          <span class="target-select__label-main">
+            <span class="target-select__label-icon" aria-hidden="true">💥</span>
+            <span>Acción</span>
+          </span>
+        </label>
+        <div class="target-select__actions-list">
+          <div class="target-select__action-item">
+            <input type="radio" id="action-cure" name="failed-experiment-action" value="cure" (change)="actionChange.emit('cure')">
+            <label for="action-cure">Cura un virus</label>
+          </div>
+          <div class="target-select__action-item">
+            <input type="radio" id="action-extirpate" name="failed-experiment-action" value="extirpate" (change)="actionChange.emit('extirpate')">
+            <label for="action-extirpate">Extirpa un órgano</label>
+          </div>
+          <div class="target-select__action-item">
+            <input type="radio" id="action-remove-medicine" name="failed-experiment-action" value="remove-medicine" (change)="actionChange.emit('remove-medicine')">
+            <label for="action-remove-medicine">Elimina una medicina</label>
+          </div>
+          <div class="target-select__action-item">
+            <input type="radio" id="action-immunize" name="failed-experiment-action" value="immunize" (change)="actionChange.emit('immunize')">
+            <label for="action-immunize">Inmuniza un órgano</label>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
     @if (hasNoOptionsAvailable) {
     <p class="target-select__empty">
       No hay objetivos disponibles por ahora.

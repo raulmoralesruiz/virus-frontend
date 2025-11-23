@@ -48,6 +48,7 @@ export class TargetSelectComponent {
 
   targetChange = output<{ value: string; which: 'A' | 'B' | 'single' }>();
   contagionTargetChange = output<{ value: string; index: number }>();
+  actionChange = output<'cure' | 'extirpate' | 'remove-medicine' | 'immunize' | null>();
   confirm = output<void>();
   cancel = output<void>();
 
@@ -103,6 +104,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.Gloves]: 'Guantes de látex',
     [TreatmentSubtype.MedicalError]: 'Error médico',
     [TreatmentSubtype.trickOrTreat]: 'Truco o Trato',
+    [TreatmentSubtype.failedExperiment]: 'Experimento fallido',
   };
 
   get cardKindLabel(): string {
@@ -147,6 +149,9 @@ export class TargetSelectComponent {
       if (card.subtype === TreatmentSubtype.trickOrTreat) {
         return 'Elige al jugador cuyo cuerpo quedará maldito con Truco o Trato.';
       }
+      if (card.subtype === TreatmentSubtype.failedExperiment) {
+        return 'Elige un órgano infectado o vacunado y una de las acciones.';
+      }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
     return `${this.cardEffectDescription} Confirma para jugarla.`;
@@ -163,6 +168,14 @@ export class TargetSelectComponent {
     const card = this.selectedCard();
     return (
       card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.Contagion
+    );
+  }
+
+  get isFailedExperiment(): boolean {
+    const card = this.selectedCard();
+    return (
+      card.kind === CardKind.Treatment &&
+      card.subtype === TreatmentSubtype.failedExperiment
     );
   }
 
@@ -183,7 +196,8 @@ export class TargetSelectComponent {
         card.subtype === TreatmentSubtype.OrganThief ||
         card.subtype === TreatmentSubtype.MedicalError ||
         card.subtype === TreatmentSubtype.Contagion ||
-        card.subtype === TreatmentSubtype.trickOrTreat
+        card.subtype === TreatmentSubtype.trickOrTreat ||
+        card.subtype === TreatmentSubtype.failedExperiment
       );
     }
     return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
@@ -436,6 +450,8 @@ export class TargetSelectComponent {
             return 'Intercambia por completo tu cuerpo con el jugador elegido.';
           case TreatmentSubtype.trickOrTreat:
             return 'Maldecirás a un jugador impidiendo su victoria hasta que cure a otro rival.';
+          case TreatmentSubtype.failedExperiment:
+            return 'Actúa como un virus o una medicina de cualquier color para curar, extirpar, eliminar medicina o inmunizar un órgano.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }

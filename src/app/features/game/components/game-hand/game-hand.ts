@@ -30,6 +30,7 @@ import {
   TargetSelectComponent,
   type TargetSelectOption,
 } from './target-select/target-select.component';
+import { isInfected, isVaccinated } from '../../../../core/utils/organ.utils';
 
 @Component({
   selector: 'game-hand',
@@ -68,6 +69,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectedTargetA: PlayCardTarget | null = null;
   selectedTargetB: PlayCardTarget | null = null;
   panelSpacerHeight = 0;
+  selectedActionForFailedExperiment: 'cure' | 'extirpate' | 'remove-medicine' | 'immunize' | null = null;
 
   contagionAssignments: {
     fromOrganId: string;
@@ -174,6 +176,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTarget = null;
     this.selectedTargetA = null;
     this.selectedTargetB = null;
+    this.selectedActionForFailedExperiment = null;
 
     const st = this.publicState();
     if (!st) return;
@@ -237,6 +240,20 @@ export class GameHandComponent implements OnChanges, OnDestroy {
             }
           }
           break;
+        case TreatmentSubtype.failedExperiment:
+          for (const p of st.players) {
+            for (const o of p.board) {
+              if (isInfected(o) || isVaccinated(o)) {
+                this.targetOptions.push({
+                  playerName: p.player.name,
+                  playerId: p.player.id,
+                  organId: o.id,
+                  organColor: o.color,
+                });
+              }
+            }
+          }
+          break;
       }
     }
   }
@@ -289,6 +306,8 @@ export class GameHandComponent implements OnChanges, OnDestroy {
               (assignment) => assignment.toOrganId && assignment.toPlayerId
             )
           );
+        case TreatmentSubtype.failedExperiment:
+          return !!this.selectedTarget && !!this.selectedActionForFailedExperiment;
         default:
           return true;
       }
@@ -349,6 +368,16 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           );
           this.clearSelection();
           return;
+        case TreatmentSubtype.failedExperiment:
+          if (!this.selectedTarget || !this.selectedActionForFailedExperiment) {
+            alert('Debes seleccionar un órgano y una acción');
+            return;
+          }
+          target = {
+            ...this.selectedTarget,
+            action: this.selectedActionForFailedExperiment,
+          };
+          break;
       }
     } else if (
       this.selectedCard.kind === CardKind.Virus ||
@@ -378,6 +407,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTargetB = null;
     this.targetOptions = [];
     this.contagionAssignments = [];
+    this.selectedActionForFailedExperiment = null;
   }
 
   private setupPanelObserver() {

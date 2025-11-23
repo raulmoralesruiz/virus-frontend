@@ -65,9 +65,14 @@ export interface MedicalErrorTarget {
   playerId: string; // solo jugador
 }
 
+export interface FailedExperimentTarget extends PlayCardTarget {
+  action: 'cure' | 'extirpate' | 'remove-medicine' | 'immunize';
+}
+
 /** Unión de targets posibles que puede enviar el front */
 export type AnyPlayTarget =
   | PlayCardTarget
   | TransplantTarget
   | MedicalErrorTarget
-  | ContagionTarget[];
+  | ContagionTarget[]
+  | FailedExperimentTarget;

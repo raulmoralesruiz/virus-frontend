@@ -15,6 +15,7 @@
     [isMyTurn]="isMyTurn()"
     (targetChange)="onTargetChange($event.value, $event.which)"
     (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
+    (actionChange)="selectedActionForFailedExperiment = $event"
     (confirm)="confirmPlayCard()"
     (cancel)="clearSelection()"
   />
