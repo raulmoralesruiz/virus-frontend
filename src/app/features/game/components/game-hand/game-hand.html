@@ -3,60 +3,34 @@
 @if (hand().length) {
 <div class="hand-panel" #handPanel [class.is-my-turn]="isMyTurn()">
   @if (selectedCard) {
-  <game-target-select
-    [selectedCard]="selectedCard"
-    [targetOptions]="targetOptions"
-    [contagionAssignments]="contagionAssignments"
-    [publicState]="publicState()"
-    [selectedTarget]="selectedTarget"
-    [selectedTargetA]="selectedTargetA"
-    [selectedTargetB]="selectedTargetB"
-    [confirmDisabled]="!canConfirmSelection"
-    [isMyTurn]="isMyTurn()"
+  <game-target-select [selectedCard]="selectedCard" [targetOptions]="targetOptions"
+    [contagionAssignments]="contagionAssignments" [publicState]="publicState()" [selectedTarget]="selectedTarget"
+    [selectedTargetA]="selectedTargetA" [selectedTargetB]="selectedTargetB" [confirmDisabled]="!canConfirmSelection"
+    [selectedAction]="selectedActionForFailedExperiment" [isMyTurn]="isMyTurn()"
     (targetChange)="onTargetChange($event.value, $event.which)"
     (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
-    (actionChange)="selectedActionForFailedExperiment = $event"
-    (confirm)="confirmPlayCard()"
-    (cancel)="clearSelection()"
-  />
+    (actionChange)="selectedActionForFailedExperiment = $event" (confirm)="confirmPlayCard()"
+    (cancel)="clearSelection()" />
   }
 
-  <div
-    class="hand-container"
-    [class.is-my-turn]="isMyTurn()"
-    cdkDropList
-    [id]="'handList-' + (apiPlayer.player()?.id || '')"
-    [cdkDropListData]="hand()"
-    [cdkDropListConnectedTo]="boardIds()"
-    (cdkDropListExited)="onExitHand($event)"
-  >
+  <div class="hand-container" [class.is-my-turn]="isMyTurn()" cdkDropList
+    [id]="'handList-' + (apiPlayer.player()?.id || '')" [cdkDropListData]="hand()" [cdkDropListConnectedTo]="boardIds()"
+    (cdkDropListExited)="onExitHand($event)">
     @for (card of hand(); track card.id) {
-    <app-hand-card
-      [card]="card"
-      [isSelected]="isCardSelected(card)"
-      [isMyTurn]="isMyTurn()"
-      [infoOpen]="selectedCard?.id === card.id"
-      (toggleSelect)="toggleDiscardSelection($event)"
-      (play)="selectCardToPlay($event)"
-    ></app-hand-card>
+    <app-hand-card [card]="card" [isSelected]="isCardSelected(card)" [isMyTurn]="isMyTurn()"
+      [infoOpen]="selectedCard?.id === card.id" (toggleSelect)="toggleDiscardSelection($event)"
+      (play)="selectCardToPlay($event)"></app-hand-card>
     }
   </div>
 
   @if (selectedDiscardCount()) {
-  <button
-    class="discard-btn"
-    (click)="discardSelectedCards()"
-    [disabled]="!isMyTurn() || !selectedDiscardCount() || gameEnded()"
-  >
+  <button class="discard-btn" (click)="discardSelectedCards()"
+    [disabled]="!isMyTurn() || !selectedDiscardCount() || gameEnded()">
     Descartar seleccionadas ({{ selectedDiscardCount() }})
   </button>
   }
 </div>
-<div
-  class="hand-panel-spacer"
-  aria-hidden="true"
-  [style.height.px]="panelSpacerHeight"
-></div>
+<div class="hand-panel-spacer" aria-hidden="true" [style.height.px]="panelSpacerHeight"></div>
 <!-- Jugador no tiene cartas -->
 } @else {
 <div class="hand-empty">

@@ -66,7 +66,7 @@ export interface MedicalErrorTarget {
 }
 
 export interface FailedExperimentTarget extends PlayCardTarget {
-  action: 'cure' | 'extirpate' | 'remove-medicine' | 'immunize';
+  action: 'medicine' | 'virus';
 }
 
 /** Unión de targets posibles que puede enviar el front */

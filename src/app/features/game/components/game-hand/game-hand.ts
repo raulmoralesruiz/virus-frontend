@@ -30,7 +30,7 @@ import {
   TargetSelectComponent,
   type TargetSelectOption,
 } from './target-select/target-select.component';
-import { isInfected, isVaccinated } from '../../../../core/utils/organ.utils';
+import { isInfected, isVaccinated, isImmune } from '../../../../core/utils/organ.utils';
 
 @Component({
   selector: 'game-hand',
@@ -69,7 +69,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectedTargetA: PlayCardTarget | null = null;
   selectedTargetB: PlayCardTarget | null = null;
   panelSpacerHeight = 0;
-  selectedActionForFailedExperiment: 'cure' | 'extirpate' | 'remove-medicine' | 'immunize' | null = null;
+  selectedActionForFailedExperiment: 'medicine' | 'virus' | null = null;
 
   contagionAssignments: {
     fromOrganId: string;
@@ -243,7 +243,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
         case TreatmentSubtype.failedExperiment:
           for (const p of st.players) {
             for (const o of p.board) {
-              if (isInfected(o) || isVaccinated(o)) {
+              if ((isInfected(o) || isVaccinated(o)) && !isImmune(o)) {
                 this.targetOptions.push({
                   playerName: p.player.name,
                   playerId: p.player.id,

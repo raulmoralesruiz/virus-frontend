@@ -45,10 +45,11 @@ export class TargetSelectComponent {
   selectedTarget = input<PlayCardTarget | null>(null);
   selectedTargetA = input<PlayCardTarget | null>(null);
   selectedTargetB = input<PlayCardTarget | null>(null);
+  selectedAction = input<'medicine' | 'virus' | null>(null);
 
   targetChange = output<{ value: string; which: 'A' | 'B' | 'single' }>();
   contagionTargetChange = output<{ value: string; index: number }>();
-  actionChange = output<'cure' | 'extirpate' | 'remove-medicine' | 'immunize' | null>();
+  actionChange = output<'medicine' | 'virus' | null>();
   confirm = output<void>();
   cancel = output<void>();
 
@@ -150,7 +151,7 @@ export class TargetSelectComponent {
         return 'Elige al jugador cuyo cuerpo quedará maldito con Truco o Trato.';
       }
       if (card.subtype === TreatmentSubtype.failedExperiment) {
-        return 'Elige un órgano infectado o vacunado y una de las acciones.';
+        return 'Elige un órgano infectado o vacunado y decide si usarla como Medicina o Virus.';
       }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
@@ -451,7 +452,7 @@ export class TargetSelectComponent {
           case TreatmentSubtype.trickOrTreat:
             return 'Maldecirás a un jugador impidiendo su victoria hasta que cure a otro rival.';
           case TreatmentSubtype.failedExperiment:
-            return 'Actúa como un virus o una medicina de cualquier color para curar, extirpar, eliminar medicina o inmunizar un órgano.';
+            return 'Actúa como un virus o una medicina de cualquier color sobre un órgano infectado o vacunado.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }
