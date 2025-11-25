@@ -457,6 +457,11 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this._resizeObserver = undefined;
   }
 
+  selectCardAndTarget(card: Card, target: PlayCardTarget) {
+    this.selectCardToPlay(card);
+    this.selectedTarget = target;
+  }
+
   private resetDiscardSelection() {
     this.selectedDiscardIds.set(new Set());
   }

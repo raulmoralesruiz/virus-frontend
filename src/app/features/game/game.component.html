@@ -1,34 +1,21 @@
 <div class="game-layout" [class.game-layout--empty]="!publicState()">
   <!-- Winner -->
   @if (winner(); as w) {
-  <game-winner
-    [winner]="w"
-    [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
-    (reset)="resetGame()"
-    (leave)="leaveAfterWin()"
-  ></game-winner>
+  <game-winner [winner]="w" [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
+    (reset)="resetGame()" (leave)="leaveAfterWin()"></game-winner>
   }
 
   <!-- Información de la partida -->
   @if (publicState(); as st) {
-  <game-info
-    [state]="st"
-    [historyCount]="history().length"
-    (historyRequested)="openHistory()"
-    (leaveRequested)="leaveGame()"
-  ></game-info>
+  <game-info [state]="st" [historyCount]="history().length" (historyRequested)="openHistory()"
+    (leaveRequested)="leaveGame()"></game-info>
 
   <!-- Tablero de la partida -->
-  <game-board [state]="st"></game-board>
+  <game-board [state]="st" (startFailedExperiment)="handleFailedExperiment($event)"></game-board>
 
   <!-- Mano del jugador -->
-  <game-hand
-    [hand]="hand()"
-    [isMyTurn]="isMyTurn()"
-    [roomId]="roomId"
-    [publicState]="st"
-    [gameEnded]="isGameEnded()"
-  ></game-hand>
+  <game-hand [hand]="hand()" [isMyTurn]="isMyTurn()" [roomId]="roomId" [publicState]="st"
+    [gameEnded]="isGameEnded()"></game-hand>
   }
   <!-- Home -->
   @else {
@@ -47,12 +34,7 @@
     <div class="history-modal" (click)="$event.stopPropagation()">
       <div class="history-header">
         <h3>Historial de movimientos</h3>
-        <button
-          type="button"
-          class="history-close"
-          aria-label="Cerrar historial"
-          (click)="closeHistory()"
-        >
+        <button type="button" class="history-close" aria-label="Cerrar historial" (click)="closeHistory()">
           ✕
         </button>
       </div>
@@ -75,13 +57,8 @@
   <game-error [error]="lastError()" (closed)="dismissError()"></game-error>
 
   @if (confirmingLeave) {
-  <div
-    class="confirm-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="leave-confirm-title"
-    aria-describedby="leave-confirm-description"
-  >
+  <div class="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="leave-confirm-title"
+    aria-describedby="leave-confirm-description">
     <div class="confirm-modal">
       <h3 id="leave-confirm-title">¿Salir de la partida?</h3>
       <p id="leave-confirm-description">

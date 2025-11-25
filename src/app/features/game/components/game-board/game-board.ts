@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnChanges } from '@angular/core';
+import { Component, computed, inject, input, OnChanges, output } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { PlayerBoardComponent } from './player-board/player-board';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
@@ -227,6 +227,11 @@ export class GameBoardComponent implements OnChanges {
 
     this.transplantState = null;
   }
+
+  startFailedExperiment = output<{
+    card: Card;
+    target: { organId: string; playerId: string };
+  }>();
 
   cancelTransplant() {
     this.transplantState = null;

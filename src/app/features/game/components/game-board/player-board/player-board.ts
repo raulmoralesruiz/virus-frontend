@@ -14,6 +14,7 @@ import {
   describeOrgan,
   organWithArticle,
 } from '../../../../../core/utils/card-label.utils';
+import { isInfected, isVaccinated, isImmune } from '../../../../../core/utils/organ.utils';
 import {
   MedicalErrorTarget,
   OrganOnBoard,
@@ -196,6 +197,11 @@ export class PlayerBoardComponent {
   }>();
 
   finishTransplant = output<{ organId: string; playerId: string }>();
+
+  startFailedExperiment = output<{
+    card: Card;
+    target: { organId: string; playerId: string };
+  }>();
 
   // ------------------------------------------------------------
   // Eventos de drag & drop
@@ -538,6 +544,10 @@ export class PlayerBoardComponent {
         this.playTrickOrTreat(card);
         break;
 
+      case TreatmentSubtype.failedExperiment:
+        this.playFailedExperiment(card, color);
+        break;
+
       default:
         this._gameStore.setClientError(
           `Tratamiento ${card.subtype} aún no implementado por drag-and-drop`
@@ -644,7 +654,7 @@ export class PlayerBoardComponent {
     }
   }
 
-  private playContagion(card: Card) {
+  playContagion(card: Card) {
     if (!this.isMe()) {
       this._gameStore.setClientError(
         'Solo puedes usar Contagio en tu propio turno.'
@@ -652,6 +662,29 @@ export class PlayerBoardComponent {
       return;
     }
     this.startContagion.emit({ card });
+  }
+
+  private playFailedExperiment(card: Card, color: CardColor) {
+    const organ = this.getOrganByColor(color);
+    if (!organ) {
+      this._gameStore.setClientError(
+        'Debes soltar la carta sobre un órgano válido.'
+      );
+      return;
+    }
+
+    // Validar que el órgano sea infectado o vacunado, y NO inmune
+    if ((!isInfected(organ) && !isVaccinated(organ)) || isImmune(organ)) {
+      this._gameStore.setClientError(
+        'Solo puedes usar Experimento Fallido sobre órganos infectados o vacunados (no inmunes).'
+      );
+      return;
+    }
+
+    this.startFailedExperiment.emit({
+      card,
+      target: { organId: organ.id, playerId: this.player().player.id },
+    });
   }
 
   /**

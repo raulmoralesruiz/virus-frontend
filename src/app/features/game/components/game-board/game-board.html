@@ -1,23 +1,15 @@
 <!-- <h3>Tablero</h3> -->
 <div class="players">
   @for (p of state().players; let i = $index; track p.player.id) {
-  <player-board
-    [player]="p"
-    [isMe]="p.player.id === meId"
-    [isActive]="i === state().turnIndex"
-    [roomId]="state().roomId"
-    [allSlotIds]="allSlotIds()"
-    [gameState]="state()"
+  <player-board [player]="p" [isMe]="p.player.id === meId" [isActive]="i === state().turnIndex"
+    [roomId]="state().roomId" [allSlotIds]="allSlotIds()" [gameState]="state()"
     [remainingSeconds]="gameStore.remainingSeconds()"
     [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan.bind(this)"
-    [hasTemporaryVirus]="hasTemporaryVirus.bind(this)"
-    [transplantState]="transplantState"
-    (startTransplant)="startTransplant($event.card, $event.firstOrgan)"
-    (finishTransplant)="finishTransplant($event)"
-    [contagionState]="contagionState"
-    (virusMoved)="addAssignment($event)"
+    [hasTemporaryVirus]="hasTemporaryVirus.bind(this)" [transplantState]="transplantState"
+    (startTransplant)="startTransplant($event.card, $event.firstOrgan)" (finishTransplant)="finishTransplant($event)"
+    [contagionState]="contagionState" (virusMoved)="addAssignment($event)" (virusMoved)="addAssignment($event)"
     (startContagion)="startContagion($event.card)"
-  ></player-board>
+    (startFailedExperiment)="startFailedExperiment.emit($event)"></player-board>
   }
 </div>
 
@@ -31,13 +23,9 @@
 <!-- Botones modo contagio -->
 @if (contagionState) {
 <div class="contagion-controls">
-  <button
-    (click)="finishContagion()"
-    [disabled]="contagionState.assignments.length === 0"
-    class="finish-contagion"
-  >
+  <button (click)="finishContagion()" [disabled]="contagionState.assignments.length === 0" class="finish-contagion">
     Finalizar contagio ({{ contagionState.assignments.length }} virus{{
-      contagionState.assignments.length !== 1 ? "es" : ""
+    contagionState.assignments.length !== 1 ? "es" : ""
     }}
     movido{{ contagionState.assignments.length !== 1 ? "s" : "" }})
   </button>

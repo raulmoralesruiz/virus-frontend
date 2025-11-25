@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, inject } from '@angular/core';
+import { Component, OnInit, Signal, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { RoomStoreService } from '../../core/services/room-store.service';
@@ -124,5 +124,14 @@ export class GameComponent implements OnInit {
 
   dismissError() {
     this.gameStore.clearError();
+  }
+
+  @ViewChild(GameHandComponent) gameHand!: GameHandComponent;
+
+  handleFailedExperiment(event: {
+    card: Card;
+    target: { organId: string; playerId: string };
+  }) {
+    this.gameHand.selectCardAndTarget(event.card, event.target);
   }
 }
