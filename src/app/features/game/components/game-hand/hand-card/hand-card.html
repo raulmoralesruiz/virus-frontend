@@ -1,25 +1,15 @@
 @let cardValue = card();
 
-<div
-  class="hand-card"
-  [ngClass]="[
+<div class="hand-card" [ngClass]="[
     'hand-card--' + cardValue.color,
     'hand-card--' + cardValue.kind,
     isSelected() ? 'is-selected' : '',
     isMyTurn() ? 'is-my-turn' : ''
-  ]"
-  (click)="onToggleSelect()"
-  cdkDrag
-  [cdkDragData]="cardValue"
-  [cdkDragDisabled]="!isMyTurn()"
->
+  ]" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue" [cdkDragDisabled]="!isMyTurn()">
   <div class="card-content">
     @if (hasSubtype && subtypeImagePath) {
-    <img
-      class="card-subtype-image"
-      [src]="subtypeImagePath"
-      [alt]="formattedSubtype ?? 'Tratamiento'"
-    />
+    <img class="card-subtype-image" [src]="subtypeImagePath" [alt]="formattedSubtype ?? 'Tratamiento'" draggable="false"
+      (contextmenu)="$event.preventDefault()" />
     } @else {
     <span class="card-icon">{{ icon }}</span>
     }
