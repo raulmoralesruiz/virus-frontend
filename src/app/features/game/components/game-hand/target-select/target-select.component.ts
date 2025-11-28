@@ -46,6 +46,7 @@ export class TargetSelectComponent {
   selectedTargetA = input<PlayCardTarget | null>(null);
   selectedTargetB = input<PlayCardTarget | null>(null);
   selectedAction = input<'medicine' | 'virus' | null>(null);
+  isDragDrop = input(false);
 
   targetChange = output<{ value: string; which: 'A' | 'B' | 'single' }>();
   contagionTargetChange = output<{ value: string; index: number }>();
@@ -205,6 +206,9 @@ export class TargetSelectComponent {
   }
 
   get showSingleTarget(): boolean {
+    if (this.isFailedExperiment && this.isDragDrop()) {
+      return false;
+    }
     return this.requiresSingleTarget && !this.isPlayerOnly;
   }
 

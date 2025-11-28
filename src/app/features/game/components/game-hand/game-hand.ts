@@ -70,6 +70,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectedTargetB: PlayCardTarget | null = null;
   panelSpacerHeight = 0;
   selectedActionForFailedExperiment: 'medicine' | 'virus' | null = null;
+  isDragDropSelection = false;
 
   contagionAssignments: {
     fromOrganId: string;
@@ -177,6 +178,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTargetA = null;
     this.selectedTargetB = null;
     this.selectedActionForFailedExperiment = null;
+    this.isDragDropSelection = false;
 
     const st = this.publicState();
     if (!st) return;
@@ -408,6 +410,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.targetOptions = [];
     this.contagionAssignments = [];
     this.selectedActionForFailedExperiment = null;
+    this.isDragDropSelection = false;
   }
 
   private setupPanelObserver() {
@@ -460,6 +463,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectCardAndTarget(card: Card, target: PlayCardTarget) {
     this.selectCardToPlay(card);
     this.selectedTarget = target;
+    this.isDragDropSelection = true;
   }
 
   private resetDiscardSelection() {

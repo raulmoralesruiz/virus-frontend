@@ -6,7 +6,7 @@
   <game-target-select [selectedCard]="selectedCard" [targetOptions]="targetOptions"
     [contagionAssignments]="contagionAssignments" [publicState]="publicState()" [selectedTarget]="selectedTarget"
     [selectedTargetA]="selectedTargetA" [selectedTargetB]="selectedTargetB" [confirmDisabled]="!canConfirmSelection"
-    [selectedAction]="selectedActionForFailedExperiment" [isMyTurn]="isMyTurn()"
+    [selectedAction]="selectedActionForFailedExperiment" [isMyTurn]="isMyTurn()" [isDragDrop]="isDragDropSelection"
     (targetChange)="onTargetChange($event.value, $event.which)"
     (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
     (actionChange)="selectedActionForFailedExperiment = $event" (confirm)="confirmPlayCard()"
