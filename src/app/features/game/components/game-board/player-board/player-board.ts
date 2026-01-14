@@ -524,6 +524,19 @@ export class PlayerBoardComponent {
         this.playOrganThief(color, card);
         break;
 
+      case TreatmentSubtype.colorThiefRed:
+        this.playColorThief(card, color, CardColor.Red);
+        break;
+      case TreatmentSubtype.colorThiefGreen:
+        this.playColorThief(card, color, CardColor.Green);
+        break;
+      case TreatmentSubtype.colorThiefBlue:
+        this.playColorThief(card, color, CardColor.Blue);
+        break;
+      case TreatmentSubtype.colorThiefYellow:
+        this.playColorThief(card, color, CardColor.Yellow);
+        break;
+
       case TreatmentSubtype.Transplant:
         this.startTransplantSelection(card, color);
         break;
@@ -570,6 +583,36 @@ export class PlayerBoardComponent {
     if (!organ) {
       this._gameStore.setClientError(
         `No hay órgano en hueco ${color} para aplicar ${card.kind}`
+      );
+      return;
+    }
+
+    this._gameStore.playCard(rid, card.id, {
+      organId: organ.id,
+      playerId: this.player().player.id,
+    });
+  }
+
+  playColorThief(card: Card, slotColor: CardColor, requiredColor: CardColor) {
+    const rid = this.roomId();
+    const organ = this.getOrganByColor(slotColor);
+
+    if (this.isMe()) {
+      this._gameStore.setClientError('No puedes robarte a ti mismo.');
+      return;
+    }
+
+    if (!organ) {
+      this._gameStore.setClientError(
+        `No hay órgano en hueco ${slotColor} para aplicar ${card.kind}`
+      );
+      return;
+    }
+
+    // Validar organ color real vs required color
+    if (organ.color !== requiredColor) {
+       this._gameStore.setClientError(
+        `No coincide el color del órgano`
       );
       return;
     }

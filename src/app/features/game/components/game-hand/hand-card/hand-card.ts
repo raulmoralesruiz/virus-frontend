@@ -103,6 +103,10 @@ export class HandCard {
     [TreatmentSubtype.MedicalError]: 'medicalError.svg',
     [TreatmentSubtype.failedExperiment]: 'failedExperiment.svg',
     [TreatmentSubtype.trickOrTreat]: 'emoji:🎃',
+    [TreatmentSubtype.colorThiefRed]: 'colorThiefRed.svg',
+    [TreatmentSubtype.colorThiefGreen]: 'colorThiefGreen.svg',
+    [TreatmentSubtype.colorThiefBlue]: 'colorThiefBlue.svg',
+    [TreatmentSubtype.colorThiefYellow]: 'colorThiefYellow.svg',
   };
 
   private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {

@@ -200,6 +200,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
       switch (card.subtype) {
         case TreatmentSubtype.Transplant:
         case TreatmentSubtype.OrganThief:
+        case TreatmentSubtype.colorThiefRed:
+        case TreatmentSubtype.colorThiefGreen:
+        case TreatmentSubtype.colorThiefBlue:
+        case TreatmentSubtype.colorThiefYellow:
           for (const p of st.players) {
             for (const o of p.board) {
               this.targetOptions.push({
@@ -298,6 +302,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
             this.selectedTargetA.organId !== this.selectedTargetB.organId
           );
         case TreatmentSubtype.OrganThief:
+        case TreatmentSubtype.colorThiefRed:
+        case TreatmentSubtype.colorThiefGreen:
+        case TreatmentSubtype.colorThiefBlue:
+        case TreatmentSubtype.colorThiefYellow:
         case TreatmentSubtype.MedicalError:
         case TreatmentSubtype.trickOrTreat:
           return !!this.selectedTarget;
@@ -344,6 +352,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           target = { a: this.selectedTargetA, b: this.selectedTargetB };
           break;
         case TreatmentSubtype.OrganThief:
+        case TreatmentSubtype.colorThiefRed:
+        case TreatmentSubtype.colorThiefGreen:
+        case TreatmentSubtype.colorThiefBlue:
+        case TreatmentSubtype.colorThiefYellow:
           if (!this.selectedTarget) {
             alert('Debes seleccionar un órgano');
             return;

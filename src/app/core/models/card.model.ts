@@ -22,6 +22,10 @@ export enum TreatmentSubtype {
   MedicalError = 'medicalError', // Error Médico
   failedExperiment = 'failedExperiment', // Experimento fallido
   trickOrTreat = 'trickOrTreat', // Truco o Trato
+  colorThiefRed = 'colorThiefRed',
+  colorThiefGreen = 'colorThiefGreen',
+  colorThiefBlue = 'colorThiefBlue',
+  colorThiefYellow = 'colorThiefYellow',
 }
 
 export interface Card {
