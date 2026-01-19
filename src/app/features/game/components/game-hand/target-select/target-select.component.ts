@@ -107,6 +107,10 @@ export class TargetSelectComponent {
     [TreatmentSubtype.MedicalError]: 'Error médico',
     [TreatmentSubtype.trickOrTreat]: 'Truco o Trato',
     [TreatmentSubtype.failedExperiment]: 'Experimento fallido',
+    [TreatmentSubtype.colorThiefRed]: 'Ladrón Corazón',
+    [TreatmentSubtype.colorThiefGreen]: 'Ladrón Estómago',
+    [TreatmentSubtype.colorThiefBlue]: 'Ladrón Cerebro',
+    [TreatmentSubtype.colorThiefYellow]: 'Ladrón Hueso',
   };
 
   get cardKindLabel(): string {
@@ -144,6 +148,14 @@ export class TargetSelectComponent {
       }
       if (card.subtype === TreatmentSubtype.OrganThief) {
         return 'Elige el órgano que vas a robar para añadirlo a tu cuerpo.';
+      }
+      if (
+        card.subtype === TreatmentSubtype.colorThiefRed ||
+        card.subtype === TreatmentSubtype.colorThiefGreen ||
+        card.subtype === TreatmentSubtype.colorThiefBlue ||
+        card.subtype === TreatmentSubtype.colorThiefYellow
+      ) {
+        return 'Elige el órgano de ese color que vas a robar.';
       }
       if (card.subtype === TreatmentSubtype.MedicalError) {
         return 'Selecciona al jugador con el que intercambiarás todos tus órganos.';
@@ -199,7 +211,11 @@ export class TargetSelectComponent {
         card.subtype === TreatmentSubtype.MedicalError ||
         card.subtype === TreatmentSubtype.Contagion ||
         card.subtype === TreatmentSubtype.trickOrTreat ||
-        card.subtype === TreatmentSubtype.failedExperiment
+        card.subtype === TreatmentSubtype.failedExperiment ||
+        card.subtype === TreatmentSubtype.colorThiefRed ||
+        card.subtype === TreatmentSubtype.colorThiefGreen ||
+        card.subtype === TreatmentSubtype.colorThiefBlue ||
+        card.subtype === TreatmentSubtype.colorThiefYellow
       );
     }
     return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
