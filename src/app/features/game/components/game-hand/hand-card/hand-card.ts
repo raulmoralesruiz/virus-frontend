@@ -103,10 +103,10 @@ export class HandCard {
     [TreatmentSubtype.MedicalError]: 'medicalError.svg',
     [TreatmentSubtype.failedExperiment]: 'failedExperiment.svg',
     [TreatmentSubtype.trickOrTreat]: 'emoji:🎃',
-    [TreatmentSubtype.colorThiefRed]: 'colorThiefRed.svg',
-    [TreatmentSubtype.colorThiefGreen]: 'colorThiefGreen.svg',
-    [TreatmentSubtype.colorThiefBlue]: 'colorThiefBlue.svg',
-    [TreatmentSubtype.colorThiefYellow]: 'colorThiefYellow.svg',
+    [TreatmentSubtype.colorThiefRed]: 'colorThief.svg',
+    [TreatmentSubtype.colorThiefGreen]: 'colorThief.svg',
+    [TreatmentSubtype.colorThiefBlue]: 'colorThief.svg',
+    [TreatmentSubtype.colorThiefYellow]: 'colorThief.svg',
   };
 
   private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {
@@ -116,5 +116,21 @@ export class HandCard {
       return icon.slice('emoji:'.length);
     }
     return null;
+  }
+
+  get colorThiefColor(): string | null {
+    const card = this.card();
+    switch (card.subtype) {
+      case TreatmentSubtype.colorThiefRed:
+        return 'var(--organ-red)';
+      case TreatmentSubtype.colorThiefGreen:
+        return 'var(--organ-green)';
+      case TreatmentSubtype.colorThiefBlue:
+        return 'var(--organ-blue)';
+      case TreatmentSubtype.colorThiefYellow:
+        return 'var(--organ-yellow)';
+      default:
+        return null;
+    }
   }
 }
