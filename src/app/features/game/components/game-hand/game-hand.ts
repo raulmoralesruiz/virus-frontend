@@ -433,7 +433,9 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     const element = this._handPanel.nativeElement;
     const updateHeight = (height: number) => {
       this._ngZone.run(() => {
-        this.panelSpacerHeight = Math.max(0, Math.round(height));
+        setTimeout(() => {
+          this.panelSpacerHeight = Math.max(0, Math.round(height));
+        });
       });
     };
 
