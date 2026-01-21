@@ -20,7 +20,7 @@
   font-weight: 500;
 }
 
-:host-context(body.theme-dark) .player-list li {
+:host-context(.theme-dark) .player-list li {
   background: #223253;
   color: #f8fafc;
 }

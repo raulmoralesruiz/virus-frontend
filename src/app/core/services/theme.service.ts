@@ -39,13 +39,13 @@ export class ThemeService {
   }
 
   private applyTheme(theme: ThemeMode): void {
-    const body = this.document?.body;
-    if (!body) {
+    const element = this.document?.documentElement;
+    if (!element) {
       return;
     }
 
-    body.classList.remove('theme-light', 'theme-dark');
-    body.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+    element.classList.remove('theme-light', 'theme-dark');
+    element.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
   }
 
   private readStoredTheme(): ThemeMode | null {

@@ -21,7 +21,7 @@
   gap: 1rem;
 }
 
-:host-context(body.theme-dark) .player-name-modal {
+:host-context(.theme-dark) .player-name-modal {
   background: rgba(15, 23, 42, 0.92);
 }
 
@@ -56,7 +56,7 @@
   color: var(--color-text-primary);
 }
 
-:host-context(body.theme-dark) .player-name-input {
+:host-context(.theme-dark) .player-name-input {
   border-color: rgba(248, 250, 252, 0.1);
   background: rgba(15, 23, 42, 0.95);
   color: var(--color-text-primary);

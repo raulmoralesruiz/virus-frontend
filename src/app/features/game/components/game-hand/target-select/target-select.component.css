@@ -13,7 +13,7 @@
   color: var(--color-text-primary);
 }
 
-:host-context(body.theme-dark) .target-select {
+:host-context(.theme-dark) .target-select {
   background: #101a2e;
   color: #f8fafc;
 }
@@ -170,8 +170,7 @@
   font-size: 0.95rem;
 }
 
-.target-select__field select:focus {
-}
+.target-select__field select:focus {}
 
 .target-select__organs {
   display: flex;

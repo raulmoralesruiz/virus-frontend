@@ -5,11 +5,9 @@
   min-height: 100vh;
   min-height: 100dvh;
   padding: 2rem 1.5rem;
-  background: linear-gradient(
-    180deg,
-    var(--color-bg-gradient-start) 0%,
-    var(--color-bg-gradient-end) 100%
-  );
+  background: linear-gradient(180deg,
+      var(--color-bg-gradient-start) 0%,
+      var(--color-bg-gradient-end) 100%);
 }
 
 .room-list-screen {
@@ -36,7 +34,7 @@
   text-align: center;
 }
 
-:host-context(body.theme-dark) .room-panel {
+:host-context(.theme-dark) .room-panel {
   background: rgba(15, 23, 42, 0.9);
 }
 
@@ -78,7 +76,7 @@
   color: #0f172a;
 }
 
-:host-context(body.theme-dark) .create-actions .secondary-button {
+:host-context(.theme-dark) .create-actions .secondary-button {
   background: #223253;
   color: #f8fafc;
 }
@@ -91,7 +89,7 @@
   color: var(--color-text-primary);
 }
 
-:host-context(body.theme-dark) .room-list li .secondary-button {
+:host-context(.theme-dark) .room-list li .secondary-button {
   background: rgba(15, 23, 42, 0.9);
   color: var(--color-text-primary);
 }
@@ -110,19 +108,17 @@
   margin: 0;
 }
 
-.private-hint p + p {
+.private-hint p+p {
   margin-top: 0.35rem;
 }
 
 .section-divider {
   width: 100%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(148, 163, 184, 0),
-    rgba(148, 163, 184, 0.45),
-    rgba(148, 163, 184, 0)
-  );
+  background: linear-gradient(90deg,
+      rgba(148, 163, 184, 0),
+      rgba(148, 163, 184, 0.45),
+      rgba(148, 163, 184, 0));
   border-radius: 999px;
 }
 
@@ -164,12 +160,12 @@
   background: #c5d4ef;
 }
 
-:host-context(body.theme-dark) .join-input-row input {
+:host-context(.theme-dark) .join-input-row input {
   background: #223253;
   color: #f8fafc;
 }
 
-:host-context(body.theme-dark) .join-input-row input:focus {
+:host-context(.theme-dark) .join-input-row input:focus {
   background: #2c3f68;
 }
 
@@ -275,7 +271,7 @@
   color: #0f172a;
 }
 
-:host-context(body.theme-dark) .room-list li {
+:host-context(.theme-dark) .room-list li {
   background: #223253;
   color: #f8fafc;
 }
@@ -320,10 +316,11 @@
   letter-spacing: 0.02em;
 }
 
-:host-context(body.theme-dark) .secondary-button {
+:host-context(.theme-dark) .secondary-button {
   background: rgba(248, 250, 252, 0.12);
   color: #f8fafc;
 }
+
 .empty-copy {
   color: var(--color-text-secondary);
   line-height: 1.5;
@@ -336,7 +333,7 @@
   margin: 0;
 }
 
-.empty-copy p + p {
+.empty-copy p+p {
   margin-top: 0.35rem;
 }
 

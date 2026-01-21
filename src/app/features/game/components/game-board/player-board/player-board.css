@@ -134,20 +134,24 @@
 }
 
 @keyframes playerTurnPulse {
+
   0%,
   100% {
     transform: translateY(-4px);
   }
+
   50% {
     transform: translateY(-6px);
   }
 }
 
 @keyframes turnTimerBlink {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.35;
   }
@@ -176,7 +180,7 @@
   color: var(--color-text-primary);
 }
 
-:host-context(body.theme-dark) .board-drop-wrapper {
+:host-context(.theme-dark) .board-drop-wrapper {
   background: rgba(248, 250, 252, 0.08);
 }
 
@@ -194,13 +198,11 @@
   border-radius: 12px;
   color: var(--color-text-secondary);
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.08));
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(148, 163, 184, 0.12),
-    rgba(148, 163, 184, 0.12) 10px,
-    transparent 10px,
-    transparent 16px
-  );
+  background-image: repeating-linear-gradient(-45deg,
+      rgba(148, 163, 184, 0.12),
+      rgba(148, 163, 184, 0.12) 10px,
+      transparent 10px,
+      transparent 16px);
   text-align: center;
   font-weight: 500;
 }
@@ -217,21 +219,21 @@
   background: var(--color-player-me-background);
 }
 
-:host-context(body.theme-dark) .player-board.is-me {
+:host-context(.theme-dark) .player-board.is-me {
   background: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
 }
 
-:host-context(body.theme-dark) .player-board:not(.is-me):not(.is-active) {
+:host-context(.theme-dark) .player-board:not(.is-me):not(.is-active) {
   background: #223253;
   color: #f8fafc;
 }
 
-:host-context(body.theme-dark) .player-board.is-me .player-header {
+:host-context(.theme-dark) .player-board.is-me .player-header {
   background: rgba(34, 197, 159, 0.16);
   color: var(--color-player-me-text);
 }
 
-:host-context(body.theme-dark) .player-board.is-me .player-header strong {
+:host-context(.theme-dark) .player-board.is-me .player-header strong {
   color: var(--color-player-me-text);
 }
 
@@ -242,21 +244,17 @@
 }
 
 .player-board.is-me.is-active {
-  background: linear-gradient(
-    170deg,
-    rgba(255, 247, 237, 0.9) 4%,
-    rgba(228, 254, 246, 0.88) 45%,
-    rgba(207, 250, 254, 0.9) 100%
-  );
+  background: linear-gradient(170deg,
+      rgba(255, 247, 237, 0.9) 4%,
+      rgba(228, 254, 246, 0.88) 45%,
+      rgba(207, 250, 254, 0.9) 100%);
 }
 
-:host-context(body.theme-dark) .player-board.is-me.is-active {
-  background: linear-gradient(
-    170deg,
-    rgba(34, 197, 159, 0.18) 0%,
-    rgba(14, 165, 233, 0.16) 55%,
-    rgba(37, 99, 235, 0.14) 100%
-  );
+:host-context(.theme-dark) .player-board.is-me.is-active {
+  background: linear-gradient(170deg,
+      rgba(34, 197, 159, 0.18) 0%,
+      rgba(14, 165, 233, 0.16) 55%,
+      rgba(37, 99, 235, 0.14) 100%);
 }
 
 /* cuando estamos en modo trasplante */
@@ -290,8 +288,7 @@
   background: rgba(59, 130, 246, 0.08);
 }
 
-.board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving {
-}
+.board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving {}
 
 .board-slot .card.organ.cdk-drop-list {
   transition:
@@ -304,8 +301,7 @@
   transform: translateY(-2px);
 }
 
-.board-slot .card.organ.cdk-drop-list.cdk-drop-list-receiving {
-}
+.board-slot .card.organ.cdk-drop-list.cdk-drop-list-receiving {}
 
 @media (min-width: 768px) {
   /* .player-board {

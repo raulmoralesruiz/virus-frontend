@@ -111,7 +111,7 @@
   --organ-border-empty: transparent;
 }
 
-body.theme-dark {
+html.theme-dark {
   color-scheme: dark;
   --color-bg-body: #030712;
   --color-bg-gradient-start: #030712;
@@ -249,7 +249,7 @@ button:disabled {
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(14, 165, 233, 0.08));
 }
 
-body.theme-dark :is(button, input, textarea, select):focus-visible {
+html.theme-dark :is(button, input, textarea, select):focus-visible {
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(14, 165, 233, 0.14));
 }
 
@@ -280,7 +280,7 @@ app-home .join-card {
   backdrop-filter: blur(18px);
 }
 
-body.theme-dark app-home .join-card {
+html.theme-dark app-home .join-card {
   background: #101a2e;
 }
 
@@ -316,12 +316,12 @@ app-home input[type='text']:focus {
   background: #e0f2ff;
 }
 
-body.theme-dark app-home input[type='text'] {
+html.theme-dark app-home input[type='text'] {
   background: rgba(17, 34, 64, 0.95);
   color: var(--color-text-primary);
 }
 
-body.theme-dark app-home input[type='text']:focus {
+html.theme-dark app-home input[type='text']:focus {
   background: rgba(24, 96, 128, 0.95);
 }
 
@@ -334,6 +334,7 @@ app-home #nameInput:focus::placeholder {
 }
 
 @keyframes homePlaceholderGlow {
+
   0%,
   100% {
     color: var(--color-text-muted);

@@ -63,7 +63,7 @@
   animation: handPanelPulse 2.4s ease-in-out infinite;
 }
 
-:host-context(body.theme-dark) .hand-panel:not(.is-my-turn) {
+:host-context(.theme-dark) .hand-panel:not(.is-my-turn) {
   background: #223253;
   color: #f8fafc;
 }
@@ -108,23 +108,17 @@
   margin: 1rem 0 0;
   padding: 1.1rem;
   border-radius: 18px;
-  background: linear-gradient(
-    160deg,
-    var(--color-bg-gradient-start) 0%,
-    var(--color-bg-gradient-end) 100%
-  );
-  background-image: repeating-linear-gradient(
-      45deg,
+  background: linear-gradient(160deg,
+      var(--color-bg-gradient-start) 0%,
+      var(--color-bg-gradient-end) 100%);
+  background-image: repeating-linear-gradient(45deg,
       rgba(15, 23, 42, 0.05),
       rgba(15, 23, 42, 0.05) 10px,
       transparent 10px,
-      transparent 18px
-    ),
-    linear-gradient(
-      160deg,
+      transparent 18px),
+    linear-gradient(160deg,
       var(--color-bg-gradient-start) 0%,
-      var(--color-bg-gradient-end) 100%
-    );
+      var(--color-bg-gradient-end) 100%);
   text-align: center;
   color: var(--color-text-secondary);
   user-select: none;
@@ -135,10 +129,12 @@
 }
 
 @keyframes handPanelPulse {
+
   0%,
   100% {
     transform: translate(var(--hand-panel-base-x), 0);
   }
+
   50% {
     transform: translate(var(--hand-panel-base-x), -4px);
   }

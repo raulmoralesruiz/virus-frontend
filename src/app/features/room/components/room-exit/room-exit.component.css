@@ -23,7 +23,7 @@
   text-align: center;
 }
 
-:host-context(body.theme-dark) .confirm-modal {
+:host-context(.theme-dark) .confirm-modal {
   background: rgba(15, 23, 42, 0.92);
   color: var(--color-text-primary);
 }
@@ -63,7 +63,7 @@
   color: #0f172a;
 }
 
-:host-context(body.theme-dark) .confirm-cancel {
+:host-context(.theme-dark) .confirm-cancel {
   background: #223253;
   color: #f8fafc;
 }
@@ -73,7 +73,7 @@
   letter-spacing: 0.02em;
 }
 
-:host-context(body.theme-dark) .confirm-cancel:hover {
+:host-context(.theme-dark) .confirm-cancel:hover {
   background: #2c3f68;
 }
 

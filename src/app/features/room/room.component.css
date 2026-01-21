@@ -5,11 +5,9 @@
   min-height: 100vh;
   min-height: 100dvh;
   padding: 2rem 1.5rem;
-  background: linear-gradient(
-    180deg,
-    var(--color-bg-gradient-start) 0%,
-    var(--color-bg-gradient-end) 100%
-  );
+  background: linear-gradient(180deg,
+      var(--color-bg-gradient-start) 0%,
+      var(--color-bg-gradient-end) 100%);
 }
 
 .room-screen {
@@ -29,7 +27,7 @@
   text-align: center;
 }
 
-:host-context(body.theme-dark) .room-panel {
+:host-context(.theme-dark) .room-panel {
   background: rgba(15, 23, 42, 0.9);
 }
 

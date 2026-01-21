@@ -41,13 +41,13 @@
   background: #d9e2f4;
 }
 
-:host-context(body.theme-dark) .room-label,
-:host-context(body.theme-dark) .room-actions {
+:host-context(.theme-dark) .room-label,
+:host-context(.theme-dark) .room-actions {
   background: #223253;
   color: #f8fafc;
 }
 
-:host-context(body.theme-dark) .room-label {
+:host-context(.theme-dark) .room-label {
   color: #f8fafc;
 }
 
@@ -78,8 +78,8 @@
   opacity: 0.95;
 }
 
-:host-context(body.theme-dark) .room-copy-icon,
-:host-context(body.theme-dark) .room-share-icon {
+:host-context(.theme-dark) .room-copy-icon,
+:host-context(.theme-dark) .room-share-icon {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
 }

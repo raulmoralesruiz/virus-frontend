@@ -34,7 +34,7 @@
   filter: drop-shadow(0 0 1px rgb(0, 0, 0, 0.75));
 }
 
-:host-context(body.theme-dark) .theme-toggle {
+:host-context(.theme-dark) .theme-toggle {
   background-color: #223253;
   color: #f8fafc;
 }
