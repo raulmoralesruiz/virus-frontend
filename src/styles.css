@@ -214,12 +214,15 @@ html.theme-dark {
   --organ-border-empty: transparent;
 }
 
+html {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.55;
+}
+
 body {
   margin: 0;
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: linear-gradient(180deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
   color: var(--color-text-primary);
-  line-height: 1.55;
   transition: var(--transition-theme);
 }
 
