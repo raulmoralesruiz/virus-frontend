@@ -69,6 +69,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectedTargetA: PlayCardTarget | null = null;
   selectedTargetB: PlayCardTarget | null = null;
   panelSpacerHeight = 0;
+  selectedDirection: 'clockwise' | 'counter-clockwise' | null = null;
   selectedActionForFailedExperiment: 'medicine' | 'virus' | null = null;
   isDragDropSelection = false;
 
@@ -177,6 +178,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTarget = null;
     this.selectedTargetA = null;
     this.selectedTargetB = null;
+    this.selectedDirection = null;
     this.selectedActionForFailedExperiment = null;
     this.isDragDropSelection = false;
 
@@ -290,6 +292,10 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.contagionAssignments[idx].toPlayerId = playerId;
   }
 
+  onDirectionChange(direction: 'clockwise' | 'counter-clockwise' | null) {
+    this.selectedDirection = direction;
+  }
+
   get canConfirmSelection(): boolean {
     if (!this.selectedCard) return false;
 
@@ -318,6 +324,8 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           );
         case TreatmentSubtype.failedExperiment:
           return !!this.selectedTarget && !!this.selectedActionForFailedExperiment;
+        case TreatmentSubtype.BodySwap:
+          return !!this.selectedDirection;
         default:
           return true;
       }
@@ -392,6 +400,13 @@ export class GameHandComponent implements OnChanges, OnDestroy {
             action: this.selectedActionForFailedExperiment,
           };
           break;
+        case TreatmentSubtype.BodySwap:
+          if (!this.selectedDirection) {
+            alert('Debes seleccionar un sentido');
+            return;
+          }
+          target = { direction: this.selectedDirection };
+          break;
       }
     } else if (
       this.selectedCard.kind === CardKind.Virus ||
@@ -419,6 +434,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     this.selectedTarget = null;
     this.selectedTargetA = null;
     this.selectedTargetB = null;
+    this.selectedDirection = null;
     this.targetOptions = [];
     this.contagionAssignments = [];
     this.selectedActionForFailedExperiment = null;

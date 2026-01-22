@@ -48,9 +48,12 @@ export class TargetSelectComponent {
   selectedAction = input<'medicine' | 'virus' | null>(null);
   isDragDrop = input(false);
 
+  selectedDirection = input<'clockwise' | 'counter-clockwise' | null>(null);
+
   targetChange = output<{ value: string; which: 'A' | 'B' | 'single' }>();
   contagionTargetChange = output<{ value: string; index: number }>();
   actionChange = output<'medicine' | 'virus' | null>();
+  directionChange = output<'clockwise' | 'counter-clockwise' | null>();
   confirm = output<void>();
   cancel = output<void>();
 
@@ -111,6 +114,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.colorThiefGreen]: 'Ladrón Estómago',
     [TreatmentSubtype.colorThiefBlue]: 'Ladrón Cerebro',
     [TreatmentSubtype.colorThiefYellow]: 'Ladrón Hueso',
+    [TreatmentSubtype.BodySwap]: 'Cambio de Cuerpos',
   };
 
   get cardKindLabel(): string {
@@ -166,6 +170,9 @@ export class TargetSelectComponent {
       if (card.subtype === TreatmentSubtype.failedExperiment) {
         return 'Elige un órgano infectado o vacunado y decide si usarla como Medicina o Virus.';
       }
+      if (card.subtype === TreatmentSubtype.BodySwap) {
+        return 'Elige el sentido en el que rotarán todos los cuerpos.';
+      }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
     return `${this.cardEffectDescription} Confirma para jugarla.`;
@@ -202,6 +209,13 @@ export class TargetSelectComponent {
     );
   }
 
+  get isBodySwap(): boolean {
+    const card = this.selectedCard();
+    return (
+      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.BodySwap
+    );
+  }
+
   get requiresTargetSelection(): boolean {
     const card = this.selectedCard();
     if (card.kind === CardKind.Treatment) {
@@ -215,7 +229,8 @@ export class TargetSelectComponent {
         card.subtype === TreatmentSubtype.colorThiefRed ||
         card.subtype === TreatmentSubtype.colorThiefGreen ||
         card.subtype === TreatmentSubtype.colorThiefBlue ||
-        card.subtype === TreatmentSubtype.colorThiefYellow
+        card.subtype === TreatmentSubtype.colorThiefYellow ||
+        card.subtype === TreatmentSubtype.BodySwap
       );
     }
     return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
@@ -232,13 +247,17 @@ export class TargetSelectComponent {
     return (
       this.requiresTargetSelection &&
       !this.isTransplant &&
-      !this.isContagion
+      !this.isContagion &&
+      !this.isBodySwap
     );
   }
 
   get hasNoOptionsAvailable(): boolean {
     if (this.isPlayerOnly) {
       return this.playerOptions.length === 0;
+    }
+    if (this.isBodySwap) {
+      return false; // Siempre se puede elegir sentido (excepto si solo hay 1 jugador, pero eso se maneja en backend)
     }
     if (this.requiresSingleTarget) {
       return this.playerOptions.length === 0 || this.targetOptions().length === 0;
@@ -403,7 +422,7 @@ export class TargetSelectComponent {
         return 'color-dot--red';
       case 'green':
         return 'color-dot--green';
-      case 'blue':
+        case 'blue':
         return 'color-dot--blue';
       case 'yellow':
         return 'color-dot--yellow';
@@ -473,6 +492,8 @@ export class TargetSelectComponent {
             return 'Maldecirás a un jugador impidiendo su victoria hasta que cure a otro rival.';
           case TreatmentSubtype.failedExperiment:
             return 'Actúa como un virus o una medicina de cualquier color sobre un órgano infectado o vacunado.';
+          case TreatmentSubtype.BodySwap:
+            return 'Todos los jugadores pasan su cuerpo al jugador de al lado en el sentido elegido.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }

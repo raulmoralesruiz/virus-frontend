@@ -11,7 +11,8 @@
     (leaveRequested)="leaveGame()"></game-info>
 
   <!-- Tablero de la partida -->
-  <game-board [state]="st" (startFailedExperiment)="handleFailedExperiment($event)"></game-board>
+  <game-board [state]="st" (startFailedExperiment)="handleFailedExperiment($event)"
+    (startBodySwap)="handleBodySwap($event)"></game-board>
 
   <!-- Mano del jugador -->
   <game-hand [hand]="hand()" [isMyTurn]="isMyTurn()" [roomId]="roomId" [publicState]="st"

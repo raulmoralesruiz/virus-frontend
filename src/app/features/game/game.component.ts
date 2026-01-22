@@ -134,4 +134,8 @@ export class GameComponent implements OnInit {
   }) {
     this.gameHand.selectCardAndTarget(event.card, event.target);
   }
+
+  handleBodySwap(event: { card: Card }) {
+    this.gameHand.selectCardToPlay(event.card);
+  }
 }

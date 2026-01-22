@@ -233,6 +233,8 @@ export class GameBoardComponent implements OnChanges {
     target: { organId: string; playerId: string };
   }>();
 
+  startBodySwap = output<{ card: Card }>();
+
   cancelTransplant() {
     this.transplantState = null;
     this.gameStore.setClientError('Trasplante cancelado.');

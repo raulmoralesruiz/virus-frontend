@@ -8,8 +8,8 @@
     [hasTemporaryVirus]="hasTemporaryVirus.bind(this)" [transplantState]="transplantState"
     (startTransplant)="startTransplant($event.card, $event.firstOrgan)" (finishTransplant)="finishTransplant($event)"
     [contagionState]="contagionState" (virusMoved)="addAssignment($event)" (virusMoved)="addAssignment($event)"
-    (startContagion)="startContagion($event.card)"
-    (startFailedExperiment)="startFailedExperiment.emit($event)"></player-board>
+    (startContagion)="startContagion($event.card)" (startFailedExperiment)="startFailedExperiment.emit($event)"
+    (startBodySwap)="startBodySwap.emit($event)"></player-board>
   }
 </div>
 

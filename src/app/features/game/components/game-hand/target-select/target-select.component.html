@@ -273,6 +273,31 @@
   </section>
   }
 
+  @if (isBodySwap) {
+  <section class="target-select__group">
+    <div class="target-select__field">
+      <label>
+        <span class="target-select__label-main">
+          <span class="target-select__label-icon" aria-hidden="true">🔄</span>
+          <span>Sentido</span>
+        </span>
+      </label>
+      <div class="target-select__organs">
+        <button type="button" class="target-select__organ" [class.is-active]="selectedDirection() === 'clockwise'"
+          (click)="directionChange.emit('clockwise')">
+          <span>🔃</span>
+          <span>Horario</span>
+        </button>
+        <button type="button" class="target-select__organ" [class.is-active]="selectedDirection() === 'counter-clockwise'"
+          (click)="directionChange.emit('counter-clockwise')">
+          <span>🔄</span>
+          <span>Anti-horario</span>
+        </button>
+      </div>
+    </div>
+  </section>
+  }
+
   @if (hasNoOptionsAvailable) {
   <p class="target-select__empty">
     No hay objetivos disponibles por ahora.
