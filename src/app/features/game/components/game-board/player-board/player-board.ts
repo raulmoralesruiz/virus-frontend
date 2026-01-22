@@ -247,7 +247,7 @@ export class PlayerBoardComponent {
             return this.isMe();
 
           case TreatmentSubtype.BodySwap:
-            return this.isMe();
+            return true;
 
           default:
             return false;
