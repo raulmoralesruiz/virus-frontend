@@ -25,6 +25,13 @@ export interface PublicGameState {
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
   history: string[];
+  pendingAction?: ApparitionDecision;
+}
+
+export interface ApparitionDecision {
+  type: 'ApparitionDecision';
+  playerId: string;
+  cardId: string;
 }
 
 export interface GameState {

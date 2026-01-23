@@ -95,6 +95,7 @@ export class GameInfoHeaderComponent {
     'colorThiefBlue': 'colorThief.svg',
     'colorThiefYellow': 'colorThief.svg',
     'bodySwap': 'bodySwap.svg',
+    'apparition': 'apparition.svg',
   };
   onHistoryClick(event: MouseEvent): void {
     event.stopPropagation();

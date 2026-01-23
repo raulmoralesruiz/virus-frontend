@@ -73,6 +73,19 @@ export class GameHandComponent implements OnChanges, OnDestroy {
   selectedActionForFailedExperiment: 'medicine' | 'virus' | null = null;
   isDragDropSelection = false;
 
+  readonly mustPlayCardId = computed(() => {
+    const st = this.publicState();
+    const me = this.apiPlayer.player();
+    if (!st || !me || !st.pendingAction) return null;
+    if (
+      st.pendingAction.type === 'ApparitionDecision' &&
+      st.pendingAction.playerId === me.id
+    ) {
+      return st.pendingAction.cardId;
+    }
+    return null;
+  });
+
   contagionAssignments: {
     fromOrganId: string;
     toOrganId: string;
@@ -339,6 +352,16 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     }
 
     return true;
+  }
+
+  keepApparitionCard() {
+    // Si el usuario decide quedarse la carta y pasar turno
+    if (!this.mustPlayCardId()) return;
+
+    const st = this.publicState();
+    if (!st) return;
+
+    this._gameStore.endTurn(st.roomId);
   }
 
   confirmPlayCard() {

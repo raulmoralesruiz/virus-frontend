@@ -115,6 +115,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.colorThiefBlue]: 'Ladrón Cerebro',
     [TreatmentSubtype.colorThiefYellow]: 'Ladrón Hueso',
     [TreatmentSubtype.BodySwap]: 'Cambio de Cuerpos',
+    [TreatmentSubtype.Apparition]: 'Aparición',
   };
 
   get cardKindLabel(): string {
@@ -494,6 +495,8 @@ export class TargetSelectComponent {
             return 'Actúa como un virus o una medicina de cualquier color sobre un órgano infectado o vacunado.';
           case TreatmentSubtype.BodySwap:
             return 'Todos los jugadores pasan su cuerpo al jugador de al lado en el sentido elegido.';
+          case TreatmentSubtype.Apparition:
+            return 'Roba la carta del mazo de descartes, después puedes jugar esa carta o quedártela en la mano.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }

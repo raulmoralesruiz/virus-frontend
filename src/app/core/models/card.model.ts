@@ -27,6 +27,7 @@ export enum TreatmentSubtype {
   colorThiefBlue = 'colorThiefBlue',
   colorThiefYellow = 'colorThiefYellow',
   BodySwap = 'bodySwap',
+  Apparition = 'apparition', // Aparición
 }
 
 export interface Card {

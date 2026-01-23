@@ -20,12 +20,13 @@ export class HandCard {
   isSelected = input(false);
   isMyTurn = input(false);
   infoOpen = input(false);
+  isDisabled = input(false);
 
   toggleSelect = output<Card>();
   play = output<Card>();
 
   onToggleSelect() {
-    if (!this.isMyTurn()) return;
+    if (!this.isMyTurn() || this.isDisabled()) return;
     this.toggleSelect.emit(this.card());
   }
 
@@ -35,6 +36,7 @@ export class HandCard {
   }
 
   get actionLabel(): string {
+    if (this.isDisabled()) return '...';
     if (this.isMyTurn()) {
       return 'Jugar';
     }
@@ -108,6 +110,7 @@ export class HandCard {
     [TreatmentSubtype.colorThiefBlue]: 'colorThief.svg',
     [TreatmentSubtype.colorThiefYellow]: 'colorThief.svg',
     [TreatmentSubtype.BodySwap]: 'bodySwap.svg',
+    [TreatmentSubtype.Apparition]: 'apparition.svg',
   };
 
   private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {

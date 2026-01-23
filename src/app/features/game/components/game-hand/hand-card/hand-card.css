@@ -19,6 +19,13 @@
   will-change: transform;
 }
 
+.hand-card.disabled {
+  opacity: 0.5;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+
 .hand-card:hover {
   transform: translateY(-6px);
 }
