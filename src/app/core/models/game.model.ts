@@ -16,6 +16,7 @@ export interface PublicPlayerInfo {
 export interface PublicGameState {
   roomId: string;
   discardCount: number;
+  topDiscard?: Card;
   deckCount: number;
   players: PublicPlayerInfo[];
   startedAt: string;
