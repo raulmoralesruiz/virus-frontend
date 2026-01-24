@@ -3,6 +3,7 @@ import { Component, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   Card,
+  CardColor,
   CardKind,
   TreatmentSubtype,
 } from '../../../../../core/models/card.model';
@@ -85,6 +86,14 @@ export class TargetSelectComponent {
       this.transplantSelectionB = this.toOptionValue(value);
       this.transplantPlayerB = value?.playerId ?? '';
     });
+
+    effect(() => {
+      // Auto-select self for Mutant Organ if options available
+      if (this.isSelfTarget && this.playerOptions.length >= 1 && !this.singlePlayerSelection) {
+        // Always select the first option (which should be 'me' based on game-hand construction)
+        this.handlePlayerChange(this.playerOptions[0].id, 'single');
+      }
+    });
   }
 
   private readonly kindLabels: Record<CardKind, string> = {
@@ -100,6 +109,7 @@ export class TargetSelectComponent {
     blue: 'Cerebro',
     yellow: 'Hueso',
     multi: 'Multicolor',
+    orange: 'Mutante',
   };
 
   private readonly treatmentLabels: Partial<Record<TreatmentSubtype, string>> = {
@@ -178,6 +188,9 @@ export class TargetSelectComponent {
       if (card.subtype === TreatmentSubtype.BodySwap) {
         return 'Elige el sentido en el que rotarán todos los cuerpos.';
       }
+      if (card.color === 'orange') {
+        return 'Elige cuál de tus órganos será reemplazado por el Órgano Mutante.';
+      }
       return `Selecciona el objetivo para esta carta. ${this.cardEffectDescription}`;
     }
     return `${this.cardEffectDescription} Confirma para jugarla.`;
@@ -223,6 +236,11 @@ export class TargetSelectComponent {
     );
   }
 
+  get isSelfTarget(): boolean {
+      const card = this.selectedCard();
+      return card.kind === CardKind.Organ && card.color === CardColor.Orange;
+  }
+
   get requiresTargetSelection(): boolean {
     const card = this.selectedCard();
     if (card.kind === CardKind.Treatment) {
@@ -240,6 +258,9 @@ export class TargetSelectComponent {
         card.subtype === TreatmentSubtype.colorThiefYellow ||
         card.subtype === TreatmentSubtype.BodySwap
       );
+    }
+    if (card.kind === CardKind.Organ && card.color === 'orange') {
+      return true;
     }
     return card.kind === CardKind.Virus || card.kind === CardKind.Medicine;
   }

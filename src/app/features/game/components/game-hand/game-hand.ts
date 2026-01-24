@@ -278,6 +278,22 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           break;
       }
     }
+
+    // Logic for Mutant Organ (Orange)
+    if (card.kind === CardKind.Organ && card.color === CardColor.Orange) {
+        const me = this._apiPlayer.player();
+        const self = st.players.find((p) => p.player.id === me?.id);
+        if (self) {
+            for (const o of self.board) {
+                this.targetOptions.push({
+                    playerName: self.player.name,
+                    playerId: self.player.id,
+                    organId: o.id,
+                    organColor: o.color,
+                });
+            }
+        }
+    }
   }
 
   onTargetChange(value: string, which: 'A' | 'B' | 'single' = 'single') {
@@ -443,6 +459,15 @@ export class GameHandComponent implements OnChanges, OnDestroy {
         return;
       }
       target = this.selectedTarget;
+    } else if (
+        this.selectedCard.kind === CardKind.Organ && 
+        this.selectedCard.color === CardColor.Orange
+    ) {
+        if (!this.selectedTarget) {
+            alert('Debes seleccionar un órgano para reemplazar');
+            return;
+        }
+        target = this.selectedTarget;
     }
 
     this.playCard(this.selectedCard.id, target);

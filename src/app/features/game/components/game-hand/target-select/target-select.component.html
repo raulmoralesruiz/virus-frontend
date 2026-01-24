@@ -199,6 +199,7 @@
 
   @if (showSingleTarget) {
   <section class="target-select__group target-select__group--with-organs">
+    @if (!isSelfTarget) {
     <div class="target-select__field target-select__field--player" [class.is-active]="!!singlePlayerSelection">
       <label for="card-target-player">
         <span class="target-select__label-main">
@@ -214,6 +215,7 @@
         }
       </select>
     </div>
+    }
 
     <div class="target-select__field target-select__field--organs" [class.is-active]="!!singleSelectionValue"
       [class.is-disabled]="!singlePlayerSelection">

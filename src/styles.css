@@ -97,12 +97,16 @@
   --card-halloween-start: #fcd34d;
   --card-halloween-end: #fb923c;
   --card-halloween-border: transparent;
+  --card-orange-start: #fee2e2;
+  --card-orange-end: #fecaca;
+  --card-orange-border: transparent;
 
   /* Board organ palette */
   --organ-red: #fca5a5;
   --organ-green: #86efac;
   --organ-blue: #93c5fd;
   --organ-yellow: #facc15;
+  --organ-orange: #facc15;
   --organ-multi-start: #fbe8ff;
   --organ-multi-middle: #e9d5ff;
   --organ-multi-start: rgba(192, 132, 252, 0.7);
@@ -205,6 +209,9 @@ html.theme-dark {
   --card-halloween-start: #9a3412;
   --card-halloween-end: #f97316;
   --card-halloween-border: transparent;
+  --card-orange-start: #facc15;
+  --card-orange-end: #f59e0b;
+  --card-orange-border: transparent;
 
   --organ-red: rgba(248, 113, 113, 0.7);
   --organ-green: rgba(52, 211, 153, 0.7);
@@ -215,6 +222,8 @@ html.theme-dark {
   --organ-multi-end: rgba(56, 189, 248, 0.7);
   --organ-multi: var(--organ-multi-middle);
   --organ-halloween: var(--card-halloween-start);
+  --organ-orange: var(--card-orange-start);
+
   --organ-border: transparent;
   --organ-border-occupied: transparent;
   --organ-border-empty: transparent;

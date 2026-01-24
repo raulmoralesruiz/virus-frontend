@@ -189,6 +189,10 @@
   background: linear-gradient(180deg, var(--card-halloween-start) 0%, var(--card-halloween-end) 100%);
 }
 
+.hand-card--orange {
+  background: linear-gradient(180deg, var(--card-orange-start) 0%, var(--card-orange-end) 100%);
+}
+
 .hand-card--treatment .card-icon {
   font-size: 2rem;
 }

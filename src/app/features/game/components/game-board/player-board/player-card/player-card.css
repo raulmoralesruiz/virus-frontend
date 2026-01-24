@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-:host > * {
+:host>* {
   flex: 1 1 auto;
   height: 100%;
 }
@@ -48,12 +48,15 @@
 
 .multi,
 .card.organ.multi {
-  background: linear-gradient(
-    145deg,
-    var(--organ-multi-start) 0%,
-    var(--organ-multi-middle) 50%,
-    var(--organ-multi-end) 100%
-  );
+  background: linear-gradient(145deg,
+      var(--organ-multi-start) 0%,
+      var(--organ-multi-middle) 50%,
+      var(--organ-multi-end) 100%);
+}
+
+.orange,
+.card.organ.orange {
+  background: var(--organ-orange);
 }
 
 .chip {
@@ -138,13 +141,11 @@
 
 /* Estilo para virus temporales */
 .attached-card.temporary-virus {
-  background-image: repeating-linear-gradient(
-    120deg,
-    rgba(239, 68, 68, 0.12),
-    rgba(239, 68, 68, 0.12) 6px,
-    transparent 6px,
-    transparent 12px
-  );
+  background-image: repeating-linear-gradient(120deg,
+      rgba(239, 68, 68, 0.12),
+      rgba(239, 68, 68, 0.12) 6px,
+      transparent 6px,
+      transparent 12px);
   opacity: 0.8;
 }
 

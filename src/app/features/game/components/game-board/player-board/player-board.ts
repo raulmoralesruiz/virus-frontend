@@ -66,6 +66,7 @@ export class PlayerBoardComponent {
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
     [CardColor.Halloween]: '🎃',
+    [CardColor.Orange]: '☣️', // Órgano Mutante
   };
 
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
@@ -226,6 +227,9 @@ export class PlayerBoardComponent {
 
     switch (card.kind) {
       case CardKind.Organ:
+        // Órgano Mutante: NO permitir drop en tablero general (debe ser en un slot)
+        // Órganos restantes: OK si es mi tablero
+        if (card.color === CardColor.Orange) return false;
         return this.isMe();
 
       case CardKind.Treatment:
@@ -270,7 +274,9 @@ export class PlayerBoardComponent {
     const card = data as Card;
 
     if (card.kind === CardKind.Organ) {
-      return false; // órganos caen en el tablero completo
+      // Permitir soltar Órgano Mutante (Orange) en los huecos para reemplazar
+      if (card.color === CardColor.Orange) return true;
+      return false; // órganos restantes caen en el tablero completo
     }
 
     if (card.kind === CardKind.Treatment) {
@@ -484,7 +490,13 @@ export class PlayerBoardComponent {
       return;
     }
 
-    if (color && card.color !== color && card.color !== CardColor.Multi) {
+    // Validación de color (Multicolor y Orange son comodines)
+    if (
+      color &&
+      card.color !== color &&
+      card.color !== CardColor.Multi &&
+      card.color !== CardColor.Orange
+    ) {
       const organLabel = describeOrgan(card.color);
       const slotLabel = describeColor(color);
       this._gameStore.setClientError(
@@ -493,7 +505,19 @@ export class PlayerBoardComponent {
       return;
     }
 
-    this._gameStore.playCard(rid, card.id);
+    // Lógica de reemplazo para Órgano Mutante
+    let target: any = undefined;
+    if (card.color === CardColor.Orange && color) {
+      const existingOrgan = this.getOrganByColor(color);
+      if (existingOrgan) {
+         target = { 
+           organId: existingOrgan.id,
+           playerId: this.player().player.id 
+         };
+      }
+    }
+
+    this._gameStore.playCard(rid, card.id, target);
   }
 
   private handleMedicineOrVirusDrop(card: Card, color: CardColor, rid: string) {
