@@ -111,6 +111,7 @@ export class HandCard {
     [TreatmentSubtype.colorThiefYellow]: 'colorThief.svg',
     [TreatmentSubtype.BodySwap]: 'bodySwap.svg',
     [TreatmentSubtype.Apparition]: 'apparition.svg',
+    [TreatmentSubtype.AlienTransplant]: 'alienTransplant.svg',
   };
 
   private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {

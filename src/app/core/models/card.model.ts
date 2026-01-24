@@ -28,6 +28,7 @@ export enum TreatmentSubtype {
   colorThiefYellow = 'colorThiefYellow',
   BodySwap = 'bodySwap',
   Apparition = 'apparition', // Aparición
+  AlienTransplant = 'alienTransplant', // Trasplante Alienígena
 }
 
 export interface Card {

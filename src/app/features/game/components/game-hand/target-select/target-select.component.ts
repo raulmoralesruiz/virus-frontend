@@ -116,6 +116,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.colorThiefYellow]: 'Ladrón Hueso',
     [TreatmentSubtype.BodySwap]: 'Cambio de Cuerpos',
     [TreatmentSubtype.Apparition]: 'Aparición',
+    [TreatmentSubtype.AlienTransplant]: 'Trasplante Alienígena',
   };
 
   get cardKindLabel(): string {
@@ -182,7 +183,9 @@ export class TargetSelectComponent {
   get isTransplant(): boolean {
     const card = this.selectedCard();
     return (
-      card.kind === CardKind.Treatment && card.subtype === TreatmentSubtype.Transplant
+      card.kind === CardKind.Treatment &&
+      (card.subtype === TreatmentSubtype.Transplant ||
+        card.subtype === TreatmentSubtype.AlienTransplant)
     );
   }
 
@@ -222,6 +225,7 @@ export class TargetSelectComponent {
     if (card.kind === CardKind.Treatment) {
       return (
         card.subtype === TreatmentSubtype.Transplant ||
+        card.subtype === TreatmentSubtype.AlienTransplant ||
         card.subtype === TreatmentSubtype.OrganThief ||
         card.subtype === TreatmentSubtype.MedicalError ||
         card.subtype === TreatmentSubtype.Contagion ||
@@ -497,6 +501,8 @@ export class TargetSelectComponent {
             return 'Todos los jugadores pasan su cuerpo al jugador de al lado en el sentido elegido.';
           case TreatmentSubtype.Apparition:
             return 'Roba la carta del mazo de descartes, después puedes jugar esa carta o quedártela en la mano.';
+          case TreatmentSubtype.AlienTransplant:
+            return 'Intercambia dos órganos entre jugadores respetando los colores disponibles, incluso órganos inmunes.';
           default:
             return 'Aplica un efecto especial sobre la partida.';
         }

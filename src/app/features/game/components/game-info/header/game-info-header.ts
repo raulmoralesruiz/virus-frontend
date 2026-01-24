@@ -96,6 +96,7 @@ export class GameInfoHeaderComponent {
     'colorThiefYellow': 'colorThief.svg',
     'bodySwap': 'bodySwap.svg',
     'apparition': 'apparition.svg',
+    'alienTransplant': 'alienTransplant.svg',
   };
   onHistoryClick(event: MouseEvent): void {
     event.stopPropagation();

@@ -214,6 +214,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     if (card.kind === CardKind.Treatment) {
       switch (card.subtype) {
         case TreatmentSubtype.Transplant:
+        case TreatmentSubtype.AlienTransplant:
         case TreatmentSubtype.OrganThief:
         case TreatmentSubtype.colorThiefRed:
         case TreatmentSubtype.colorThiefGreen:
@@ -315,6 +316,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     if (this.selectedCard.kind === CardKind.Treatment) {
       switch (this.selectedCard.subtype) {
         case TreatmentSubtype.Transplant:
+        case TreatmentSubtype.AlienTransplant:
           return (
             !!this.selectedTargetA &&
             !!this.selectedTargetB &&
@@ -376,6 +378,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     if (this.selectedCard.kind === CardKind.Treatment) {
       switch (this.selectedCard.subtype) {
         case TreatmentSubtype.Transplant:
+        case TreatmentSubtype.AlienTransplant:
           if (!this.selectedTargetA || !this.selectedTargetB) {
             alert('Debes seleccionar 2 órganos para el trasplante');
             return;
