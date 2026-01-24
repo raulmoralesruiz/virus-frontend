@@ -545,6 +545,7 @@ export class PlayerBoardComponent {
         break;
 
       case TreatmentSubtype.Transplant:
+      case TreatmentSubtype.AlienTransplant:
         this.startTransplantSelection(card, color);
         break;
 

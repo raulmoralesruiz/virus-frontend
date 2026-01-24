@@ -139,6 +139,9 @@ export class TargetSelectComponent {
 
   get instruction(): string {
     if (this.isTransplant) {
+      if (this.selectedCard().subtype === TreatmentSubtype.AlienTransplant) {
+        return 'Elige dos órganos distintos para intercambiarlos entre jugadores sin repetir colores, incluso órganos inmunes.';
+      }
       return 'Elige dos órganos distintos para intercambiarlos entre jugadores sin repetir colores.';
     }
     if (this.isContagion) {
