@@ -16,7 +16,8 @@
   @if (mustPlayCardId()) {
   <div class="apparition-banner">
     <p>👻 ¡Has jugado Aparición!</p>
-    <p>Debes jugar la nueva carta o pasar turno.</p>
+    <p>Debes <strong class="highlight-action">jugar la nueva carta</strong> o <strong
+        class="highlight-action">conservarla</strong>.</p>
     <button (click)="keepApparitionCard()" class="keep-btn">
       Conservar carta y Pasar Turno
     </button>

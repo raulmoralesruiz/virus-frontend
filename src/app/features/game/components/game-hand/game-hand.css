@@ -193,7 +193,7 @@
 
 .apparition-banner {
   background-color: var(--color-surface-card);
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--color-text-primary);
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -209,7 +209,6 @@
 }
 
 .keep-btn {
-  background-color: var(--color-secondary);
   color: white;
   border: none;
   padding: 0.5rem 1rem;
