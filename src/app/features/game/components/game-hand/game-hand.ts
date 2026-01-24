@@ -369,6 +369,13 @@ export class GameHandComponent implements OnChanges, OnDestroy {
       return !!this.selectedTarget;
     }
 
+    if (
+      this.selectedCard.kind === CardKind.Organ &&
+      this.selectedCard.color === CardColor.Orange
+    ) {
+      return !!this.selectedTarget;
+    }
+
     return true;
   }
 
@@ -395,8 +402,8 @@ export class GameHandComponent implements OnChanges, OnDestroy {
       switch (this.selectedCard.subtype) {
         case TreatmentSubtype.Transplant:
         case TreatmentSubtype.AlienTransplant:
-          if (!this.selectedTargetA || !this.selectedTargetB) {
-            alert('Debes seleccionar 2 órganos para el trasplante');
+            if (!this.selectedTargetA || !this.selectedTargetB) {
+            this._gameStore.setClientError('Debes seleccionar 2 órganos para el trasplante');
             return;
           }
           target = { a: this.selectedTargetA, b: this.selectedTargetB };
@@ -407,7 +414,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
         case TreatmentSubtype.colorThiefBlue:
         case TreatmentSubtype.colorThiefYellow:
           if (!this.selectedTarget) {
-            alert('Debes seleccionar un órgano');
+            this._gameStore.setClientError('Debes seleccionar un órgano');
             return;
           }
           target = this.selectedTarget;
@@ -415,14 +422,14 @@ export class GameHandComponent implements OnChanges, OnDestroy {
         case TreatmentSubtype.MedicalError:
         case TreatmentSubtype.trickOrTreat:
           if (!this.selectedTarget) {
-            alert('Debes seleccionar un jugador');
+            this._gameStore.setClientError('Debes seleccionar un jugador');
             return;
           }
           target = { playerId: this.selectedTarget.playerId };
           break;
         case TreatmentSubtype.Contagion:
           if (!this.contagionAssignments.length) {
-            alert('Debes seleccionar los contagios');
+            this._gameStore.setClientError('Debes seleccionar los contagios');
             return;
           }
           this._gameStore.playCard(
@@ -434,7 +441,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           return;
         case TreatmentSubtype.failedExperiment:
           if (!this.selectedTarget || !this.selectedActionForFailedExperiment) {
-            alert('Debes seleccionar un órgano y una acción');
+            this._gameStore.setClientError('Debes seleccionar un órgano y una acción');
             return;
           }
           target = {
@@ -444,7 +451,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
           break;
         case TreatmentSubtype.BodySwap:
           if (!this.selectedDirection) {
-            alert('Debes seleccionar un sentido');
+            this._gameStore.setClientError('Debes seleccionar un sentido');
             return;
           }
           target = { direction: this.selectedDirection };
@@ -455,7 +462,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
       this.selectedCard.kind === CardKind.Medicine
     ) {
       if (!this.selectedTarget) {
-        alert('Debes seleccionar un órgano');
+        this._gameStore.setClientError('Debes seleccionar un órgano');
         return;
       }
       target = this.selectedTarget;
@@ -464,7 +471,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
         this.selectedCard.color === CardColor.Orange
     ) {
         if (!this.selectedTarget) {
-            alert('Debes seleccionar un órgano para reemplazar');
+            this._gameStore.setClientError('Debes seleccionar un órgano para reemplazar');
             return;
         }
         target = this.selectedTarget;

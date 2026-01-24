@@ -66,7 +66,7 @@ export class PlayerBoardComponent {
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
     [CardColor.Halloween]: '🎃',
-    [CardColor.Orange]: '☣️', // Órgano Mutante
+    [CardColor.Orange]: 'assets/organs/orange.svg', // Órgano Mutante
   };
 
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)

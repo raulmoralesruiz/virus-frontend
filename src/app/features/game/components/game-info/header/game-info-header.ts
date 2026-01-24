@@ -32,9 +32,13 @@ export class GameInfoHeaderComponent {
       return null; // It's an image
     }
 
+    if (card.kind === 'organ') {
+      const icon = this.organIcons[card.color];
+      if (icon?.includes('/')) return null; // Image path, handled by subtypeImagePath (or need new getter)
+      return icon ?? '❔';
+    }
+
     switch (card.kind) {
-      case 'organ':
-        return this.organIcons[card.color] ?? '❔';
       case 'medicine':
         return '💊';
       case 'virus':
@@ -72,6 +76,13 @@ export class GameInfoHeaderComponent {
     return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 
+  get organImagePath(): string | null {
+    const card = this.topDiscard();
+    if (!card || card.kind !== 'organ') return null;
+    const icon = this.organIcons[card.color];
+    return icon?.includes('/') ? icon : null;
+  }
+
   private readonly organIcons: Record<string, string> = {
     'red': '❤️',
     'green': '🫃',
@@ -79,6 +90,7 @@ export class GameInfoHeaderComponent {
     'yellow': '🦴',
     'multi': '🌈',
     'halloween': '🎃',
+    'orange': 'assets/organs/orange.svg',
   };
 
   // Keep in sync with HandCard

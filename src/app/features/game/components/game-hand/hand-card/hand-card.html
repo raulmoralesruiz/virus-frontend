@@ -41,7 +41,11 @@
       (contextmenu)="$event.preventDefault()" />
     }
     } @else {
+    @if (icon.includes('/')) {
+    <img class="card-icon-img" [src]="icon" alt="Icono" draggable="false" (contextmenu)="$event.preventDefault()" />
+    } @else {
     <span class="card-icon">{{ icon }}</span>
+    }
     }
   </div>
 

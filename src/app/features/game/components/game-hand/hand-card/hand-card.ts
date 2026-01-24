@@ -95,8 +95,7 @@ export class HandCard {
     [CardColor.Yellow]: '🦴',
     [CardColor.Multi]: '🌈',
     [CardColor.Halloween]: '🎃',
-    [CardColor.Orange]: '🍊',
-    // [CardColor.Orange]: 'orange.svg',
+    [CardColor.Orange]: 'assets/organs/orange.svg',
   };
 
   private readonly treatmentIcons: Record<TreatmentSubtype, string> = {

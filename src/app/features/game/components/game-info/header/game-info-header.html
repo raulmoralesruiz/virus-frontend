@@ -38,8 +38,8 @@
           fill="#fff" />
       </g>
     </svg>
-    } @else if (subtypeImagePath) {
-    <img class="discard-icon-img" [src]="subtypeImagePath" alt="" draggable="false" />
+    } @else if (subtypeImagePath || organImagePath) {
+    <img class="discard-icon-img" [src]="subtypeImagePath || organImagePath" alt="" draggable="false" />
     } @else {
     <span class="discard-icon">{{ topDiscardIcon }}</span>
     }
