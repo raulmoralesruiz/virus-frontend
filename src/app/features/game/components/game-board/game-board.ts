@@ -234,6 +234,7 @@ export class GameBoardComponent implements OnChanges {
   }>();
 
   startBodySwap = output<{ card: Card }>();
+  startApparition = output<{ card: Card }>();
 
   cancelTransplant() {
     this.transplantState = null;

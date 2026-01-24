@@ -182,9 +182,9 @@ export class PlayerBoardComponent {
     virus: Card;
   }>();
 
-  // 👇 nuevo output para contagio
   startContagion = output<{ card: Card }>();
   startBodySwap = output<{ card: Card }>();
+  startApparition = output<{ card: Card }>();
 
   // recibe el estado global de trasplante
   transplantState = input<{
@@ -247,6 +247,7 @@ export class PlayerBoardComponent {
             return this.isMe();
 
           case TreatmentSubtype.BodySwap:
+          case TreatmentSubtype.Apparition:
             return true;
 
           default:
@@ -278,7 +279,8 @@ export class PlayerBoardComponent {
         card.subtype === TreatmentSubtype.MedicalError ||
         card.subtype === TreatmentSubtype.Contagion ||
         card.subtype === TreatmentSubtype.trickOrTreat ||
-        card.subtype === TreatmentSubtype.BodySwap
+        card.subtype === TreatmentSubtype.BodySwap ||
+        card.subtype === TreatmentSubtype.Apparition
       ) {
         return false;
       }
@@ -696,6 +698,10 @@ export class PlayerBoardComponent {
 
       case TreatmentSubtype.BodySwap:
         this.startBodySwap.emit({ card });
+        break;
+
+      case TreatmentSubtype.Apparition:
+        this.startApparition.emit({ card });
         break;
 
       default:
