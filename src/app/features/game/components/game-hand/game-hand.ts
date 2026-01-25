@@ -101,6 +101,7 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     CardColor.Blue,
     CardColor.Yellow,
     CardColor.Multi,
+    CardColor.Orange,
   ];
 
   @ViewChild('handPanel')
