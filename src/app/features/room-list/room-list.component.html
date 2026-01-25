@@ -21,29 +21,13 @@
       <div class="join-by-code">
         <label class="input-label" for="roomCodeInput">Unirse con identificador</label>
         <div class="join-input-row">
-          <input
-            id="roomCodeInput"
-            #roomCodeInput
-            type="text"
-            placeholder="ID sala"
-            maxlength="6"
-            (keyup.enter)="joinRoomByCode(roomCodeInput)"
-          />
-          <button
-            class="join-submit"
-            type="button"
-            aria-label="Unirse a la sala"
-            (click)="joinRoomByCode(roomCodeInput)"
-          >
+          <input id="roomCodeInput" #roomCodeInput type="text" placeholder="ID sala" maxlength="6"
+            (keyup.enter)="joinRoomByCode(roomCodeInput)" />
+          <button class="join-submit" type="button" aria-label="Unirse a la sala"
+            (click)="joinRoomByCode(roomCodeInput)">
             <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
-              <path
-                d="M5 12h12m0 0-4-4m4 4-4 4"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
+              <path d="M5 12h12m0 0-4-4m4 4-4 4" fill="none" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2" />
             </svg>
           </button>
         </div>
@@ -62,18 +46,18 @@
               jugador{{ room.players.length === 1 ? '' : 'es' }}
             </span>
             @if (room.visibility === 'private') {
-              <span class="room-info__visibility">Privada</span>
-            }
-            @if (room.inProgress) {
-              <span class="room-info__status">En partida</span>
+            <span class="room-info__visibility">Privada</span>
             }
           </div>
-          <button
-            class="secondary-button"
-            [disabled]="room.inProgress"
-            (click)="joinRoom(room.id)"
-          >
-            {{ room.inProgress ? 'En partida' : 'Unirse' }}
+          <button class="secondary-button" [disabled]="room.inProgress || room.players.length >= 6"
+            (click)="joinRoom(room.id)">
+            @if (room.inProgress) {
+            En partida
+            } @else if (room.players.length >= 6) {
+            Sala llena
+            } @else {
+            Unirse
+            }
           </button>
         </li>
         }
