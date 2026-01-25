@@ -139,4 +139,17 @@ export class HandCard {
         return null;
     }
   }
+
+  get cardColorClass(): string {
+    const card = this.card();
+    // Tratamientos de Halloween deben tener el estilo de BASE_DECK_CONFIG (Multi/Morado)
+    if (card.kind === CardKind.Treatment && card.color === CardColor.Halloween) {
+      return 'hand-card--multi';
+    }
+    // Órgano mutante (Orange) debe tener el estilo de Halloween (Naranja)
+    if (card.kind === CardKind.Organ && card.color === CardColor.Orange) {
+      return 'hand-card--halloween';
+    }
+    return 'hand-card--' + card.color;
+  }
 }

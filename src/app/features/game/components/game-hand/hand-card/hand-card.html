@@ -1,7 +1,7 @@
 @let cardValue = card();
 
 <div class="hand-card" [ngClass]="[
-    'hand-card--' + cardValue.color,
+    cardColorClass,
     'hand-card--' + cardValue.kind,
     isSelected() ? 'is-selected' : '',
     isMyTurn() ? 'is-my-turn' : '',
