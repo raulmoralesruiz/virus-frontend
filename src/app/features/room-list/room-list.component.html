@@ -49,11 +49,10 @@
             <span class="room-info__visibility">Privada</span>
             }
           </div>
-          <button class="secondary-button" [disabled]="room.inProgress || room.players.length >= 6"
-            (click)="joinRoom(room.id)">
+          <button class="secondary-button" [disabled]="room.inProgress || isRoomFull(room)" (click)="joinRoom(room.id)">
             @if (room.inProgress) {
             En partida
-            } @else if (room.players.length >= 6) {
+            } @else if (isRoomFull(room)) {
             Sala llena
             } @else {
             Unirse

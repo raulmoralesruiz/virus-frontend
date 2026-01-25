@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Room } from '../../core/models/room.model';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
 import { RoomStoreService } from '../../core/services/room-store.service';
+import { MAX_ROOM_PLAYERS } from '../../core/constants/room.constants';
 
 @Component({
   selector: 'app-room-list',
@@ -17,6 +18,7 @@ export class RoomListComponent implements OnInit {
 
   roomList = this.store.rooms;
   player = this.apiPlayerService.player;
+  readonly MAX_PLAYERS = MAX_ROOM_PLAYERS;
 
   ngOnInit() {
     if (!this.player()) {
@@ -32,7 +34,7 @@ export class RoomListComponent implements OnInit {
 
   joinRoom(roomId: string) {
     const room = this.roomList().find((r) => r.id === roomId);
-    if (room?.inProgress) return;
+    if (!room || this.isRoomFull(room) || room.inProgress) return;
     this.store.joinRoom(roomId, this.player()!);
   }
 
@@ -41,5 +43,9 @@ export class RoomListComponent implements OnInit {
     if (!roomId) return;
     this.store.joinRoom(roomId, this.player()!);
     input.value = '';
+  }
+
+  isRoomFull(room: Room): boolean {
+    return room.players.length >= this.MAX_PLAYERS;
   }
 }
