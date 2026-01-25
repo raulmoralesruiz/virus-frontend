@@ -106,7 +106,7 @@
   --organ-green: #86efac;
   --organ-blue: #93c5fd;
   --organ-yellow: #facc15;
-  --organ-orange: #facc15;
+  --organ-orange: #fb923c;
   --organ-multi-start: #fbe8ff;
   --organ-multi-middle: #e9d5ff;
   --organ-multi-start: rgba(192, 132, 252, 0.7);
@@ -222,7 +222,7 @@ html.theme-dark {
   --organ-multi-end: rgba(56, 189, 248, 0.7);
   --organ-multi: var(--organ-multi-middle);
   --organ-halloween: var(--card-halloween-start);
-  --organ-orange: var(--card-orange-start);
+  --organ-orange: var(--card-orange-end);
 
   --organ-border: transparent;
   --organ-border-occupied: transparent;

@@ -110,6 +110,23 @@ export class GameInfoHeaderComponent {
     'apparition': 'apparition.svg',
     'alienTransplant': 'alienTransplant.svg',
   };
+  get discardBackgroundColor(): string {
+    const card = this.topDiscard();
+    if (!card) return 'transparent';
+
+    // Halloween Treatment -> Multi (Purple)
+    if (card.kind === 'treatment' && card.color === 'halloween') {
+      return 'var(--organ-multi)';
+    }
+
+    // Mutant Organ (Orange) -> Halloween (Orange)
+    if (card.kind === 'organ' && card.color === 'orange') {
+      return 'var(--organ-halloween)';
+    }
+
+    return 'var(--organ-' + card.color + ')';
+  }
+
   onHistoryClick(event: MouseEvent): void {
     event.stopPropagation();
     this.historyRequested.emit();

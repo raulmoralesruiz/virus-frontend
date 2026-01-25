@@ -9,7 +9,7 @@
   </div>
 
   @if (topDiscard(); as card) {
-  <div class="discard-preview" [style.background-color]="'var(--organ-' + card.color + ')'"
+  <div class="discard-preview" [style.background-color]="discardBackgroundColor"
     [attr.aria-label]="'Última carta: ' + card.id + '. Total descartes: ' + discardCount()">
     @if (colorThiefColor) {
     <svg class="discard-icon-svg" viewBox="0 0 279.9 300" xmlns="http://www.w3.org/2000/svg">
