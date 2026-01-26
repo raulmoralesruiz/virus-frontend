@@ -114,7 +114,7 @@ export class TargetSelectComponent {
 
   private readonly treatmentLabels: Partial<Record<TreatmentSubtype, string>> = {
     [TreatmentSubtype.Transplant]: 'Trasplante',
-    [TreatmentSubtype.OrganThief]: 'Robo de órgano',
+    [TreatmentSubtype.OrganThief]: 'Ladrón de órganos',
     [TreatmentSubtype.Contagion]: 'Contagio',
     [TreatmentSubtype.Gloves]: 'Guantes de látex',
     [TreatmentSubtype.MedicalError]: 'Error médico',

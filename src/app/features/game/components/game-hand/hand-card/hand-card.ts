@@ -106,7 +106,7 @@ export class HandCard {
     [TreatmentSubtype.Gloves]: 'gloves.svg',
     [TreatmentSubtype.MedicalError]: 'medicalError.svg',
     [TreatmentSubtype.failedExperiment]: 'failedExperiment.svg',
-    [TreatmentSubtype.trickOrTreat]: 'emoji:🎃',
+    [TreatmentSubtype.trickOrTreat]: 'trickOrTreat.svg',
     [TreatmentSubtype.colorThiefRed]: 'colorThief.svg',
     [TreatmentSubtype.colorThiefGreen]: 'colorThief.svg',
     [TreatmentSubtype.colorThiefBlue]: 'colorThief.svg',
