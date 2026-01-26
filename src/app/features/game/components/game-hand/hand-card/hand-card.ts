@@ -21,6 +21,7 @@ export class HandCard {
   isMyTurn = input(false);
   infoOpen = input(false);
   isDisabled = input(false);
+  isPlaying = input(false);
 
   toggleSelect = output<Card>();
   play = output<Card>();

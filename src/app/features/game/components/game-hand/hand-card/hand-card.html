@@ -5,7 +5,8 @@
     'hand-card--' + cardValue.kind,
     isSelected() ? 'is-selected' : '',
     isMyTurn() ? 'is-my-turn' : '',
-    isDisabled() ? 'disabled' : ''
+    isDisabled() ? 'disabled' : '',
+    isPlaying() ? 'is-playing' : ''
   ]" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue"
   [cdkDragDisabled]="!isMyTurn() || isDisabled() || isSelected()">
   <div class="card-content">
