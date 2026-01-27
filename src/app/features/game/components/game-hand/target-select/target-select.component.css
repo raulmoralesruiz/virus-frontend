@@ -170,7 +170,7 @@
   font-size: 0.95rem;
 }
 
-.target-select__field select:focus {}
+
 
 .target-select__organs {
   display: flex;
@@ -314,4 +314,10 @@
 
 .color-dot--neutral {
   background: rgba(148, 163, 184, 0.4);
+}
+
+.target-select__action-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
 }

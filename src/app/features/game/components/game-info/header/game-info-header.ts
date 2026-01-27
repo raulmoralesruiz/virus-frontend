@@ -38,11 +38,12 @@ export class GameInfoHeaderComponent {
       return icon ?? '❔';
     }
 
+    // Medicine and Virus now have SVGs handled by generalImagePath
+    if (card.kind === 'medicine' || card.kind === 'virus') {
+      return null;
+    }
+
     switch (card.kind) {
-      case 'medicine':
-        return '💊';
-      case 'virus':
-        return '🦠';
       case 'treatment':
         return '🧪';
       default:
@@ -76,21 +77,29 @@ export class GameInfoHeaderComponent {
     return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 
-  get organImagePath(): string | null {
+  get generalImagePath(): string | null {
     const card = this.topDiscard();
-    if (!card || card.kind !== 'organ') return null;
-    const icon = this.organIcons[card.color];
-    return icon?.includes('/') ? icon : null;
+    if (!card) return null;
+
+    if (card.kind === 'organ') {
+      const icon = this.organIcons[card.color];
+      return icon?.includes('/') ? icon : null;
+    }
+
+    if (card.kind === 'medicine') return 'assets/modifiers/medicine.svg';
+    if (card.kind === 'virus') return 'assets/modifiers/virus.svg';
+
+    return null;
   }
 
   private readonly organIcons: Record<string, string> = {
-    'red': '❤️',
-    'green': '🫃',
-    'blue': '🧠',
-    'yellow': '🦴',
-    'multi': '🌈',
-    'halloween': '🎃',
-    'orange': 'assets/organs/orange.svg',
+    'red': 'assets/organs/red.svg', // ❤️
+    'green': 'assets/organs/green.svg', // 🫃
+    'blue': 'assets/organs/blue.svg', // 🧠
+    'yellow': 'assets/organs/yellow.svg', // 🦴
+    'multi': 'assets/organs/multi.svg', // 🌈
+    'halloween': 'assets/organs/halloween.svg', // 🎃
+    'orange': 'assets/organs/orange.svg', // Órgano Mutante
   };
 
   // Keep in sync with HandCard
@@ -101,7 +110,7 @@ export class GameInfoHeaderComponent {
     'gloves': 'gloves.svg',
     'medicalError': 'medicalError.svg',
     'failedExperiment': 'failedExperiment.svg',
-    'trickOrTreat': 'emoji:🎃',
+    'trickOrTreat': 'trickOrTreat.svg',
     'colorThiefRed': 'colorThief.svg',
     'colorThiefGreen': 'colorThief.svg',
     'colorThiefBlue': 'colorThief.svg',

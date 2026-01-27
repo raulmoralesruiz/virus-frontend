@@ -70,9 +70,14 @@
 }
 
 .card-subtype-image {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
+  width: 5em;
+  height: 5em;
+  /* object-fit: contain; */
+}
+
+.card-icon-img {
+  width: 5em;
+  height: 5em;
 }
 
 .play-btn {
@@ -207,11 +212,6 @@
 
 .hand-card--organ .card-icon {
   font-size: 2.6rem;
-}
-
-.card-icon-img {
-  width: 3em;
-  height: 3em;
 }
 
 .hand-card.is-playing {

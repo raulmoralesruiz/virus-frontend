@@ -82,6 +82,12 @@
   line-height: 1;
 }
 
+.chip img.icon {
+  width: 1.75em;
+  height: 1.75em;
+  object-fit: contain;
+}
+
 /* Fondos y bordes oscuros según color */
 .chip.red {
   background: linear-gradient(160deg, var(--card-red-start) 0%, var(--card-red-end) 100%);

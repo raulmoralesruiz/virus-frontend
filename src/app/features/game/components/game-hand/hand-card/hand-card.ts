@@ -57,9 +57,9 @@ export class HandCard {
       case CardKind.Organ:
         return this.organIcons[card.color] ?? '❔';
       case CardKind.Medicine:
-        return '💊';
+        return 'assets/modifiers/medicine.svg';
       case CardKind.Virus:
-        return '🦠';
+        return 'assets/modifiers/virus.svg';
       case CardKind.Treatment:
         return '🧪';
       default:
@@ -90,13 +90,13 @@ export class HandCard {
   }
 
   private readonly organIcons: Record<CardColor, string> = {
-    [CardColor.Red]: '❤️',
-    [CardColor.Green]: '🫃',
-    [CardColor.Blue]: '🧠',
-    [CardColor.Yellow]: '🦴',
-    [CardColor.Multi]: '🌈',
-    [CardColor.Halloween]: '🎃',
-    [CardColor.Orange]: 'assets/organs/orange.svg',
+    [CardColor.Red]: 'assets/organs/red.svg', // ❤️
+    [CardColor.Green]: 'assets/organs/green.svg', // 🫃
+    [CardColor.Blue]: 'assets/organs/blue.svg', // 🧠
+    [CardColor.Yellow]: 'assets/organs/yellow.svg', // 🦴
+    [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
+    [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
+    [CardColor.Orange]: 'assets/organs/orange.svg', // Órgano Mutante
   };
 
   private readonly treatmentIcons: Record<TreatmentSubtype, string> = {

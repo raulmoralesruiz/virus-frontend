@@ -60,12 +60,12 @@ export class PlayerBoardComponent {
     input.required<(organId: string, playerId: string) => boolean>();
 
   private readonly organIcons: Record<CardColor, string> = {
-    [CardColor.Red]: '❤️',
-    [CardColor.Green]: '🫃',
-    [CardColor.Blue]: '🧠',
-    [CardColor.Yellow]: '🦴',
-    [CardColor.Multi]: '🌈',
-    [CardColor.Halloween]: '🎃',
+    [CardColor.Red]: 'assets/organs/red.svg', // ❤️
+    [CardColor.Green]: 'assets/organs/green.svg', // 🫃
+    [CardColor.Blue]: 'assets/organs/blue.svg', // 🧠
+    [CardColor.Yellow]: 'assets/organs/yellow.svg', // 🦴
+    [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
+    [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
     [CardColor.Orange]: 'assets/organs/orange.svg', // Órgano Mutante
   };
 
