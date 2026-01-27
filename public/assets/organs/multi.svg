@@ -1,13 +1,84 @@
-<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-  <g id="color">
-    <path fill="#B399C8" fill-rule="evenodd" d="M33.7447 63L17.8143 53.8022H54.1857L38.2553 63H33.7447Z" clip-rule="evenodd"/>
-    <path fill="#92D3F5" fill-rule="evenodd" d="M17.8142 53.8022L12.4655 50.714C11.8615 50.3656 11.4896 49.7215 11.4896 49.0237V44.9011H60.5103V49.0237C60.5103 49.7215 60.1385 50.3656 59.5344 50.714L54.1857 53.8022H17.8142Z" clip-rule="evenodd"/>
-    <path fill="#B1CC33" fill-rule="evenodd" d="M11.4896 44.9011V36H60.5103V44.9011H11.4896Z" clip-rule="evenodd"/>
-    <path fill="#FCEA2B" fill-rule="evenodd" d="M11.4896 36V27.0989H60.5103V36H11.4896Z" clip-rule="evenodd"/>
-    <path fill="#F4AA41" fill-rule="evenodd" d="M11.4896 27.0989V22.9763C11.4896 22.2785 11.8615 21.6344 12.4655 21.286L17.8142 18.1978H54.1857L59.5344 21.286C60.1385 21.6344 60.5103 22.2785 60.5103 22.9763V27.0989H11.4896Z" clip-rule="evenodd"/>
-    <path fill="#EA5A47" fill-rule="evenodd" d="M17.8142 18.1978L33.7446 9H38.2553L54.1857 18.1978H17.8142Z" clip-rule="evenodd"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="emoji"
+   viewBox="0 0 51.020699 57.998695"
+   version="1.1"
+   sodipodi:docname="multi.svg"
+   width="51.020699"
+   height="57.998695"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="8.9124917"
+     inkscape:cx="111.97766"
+     inkscape:cy="50.434829"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="emoji" />
+  <g
+     id="color"
+     transform="translate(-10.4896,-7.0006516)">
+    <path
+       fill="#b399c8"
+       fill-rule="evenodd"
+       d="M 33.7447,63 17.8143,53.8022 H 54.1857 L 38.2553,63 Z"
+       clip-rule="evenodd"
+       id="path1" />
+    <path
+       fill="#92d3f5"
+       fill-rule="evenodd"
+       d="M 17.8142,53.8022 12.4655,50.714 c -0.604,-0.3484 -0.9759,-0.9925 -0.9759,-1.6903 v -4.1226 h 49.0207 v 4.1226 c 0,0.6978 -0.3718,1.3419 -0.9759,1.6903 l -5.3487,3.0882 z"
+       clip-rule="evenodd"
+       id="path2" />
+    <path
+       fill="#b1cc33"
+       fill-rule="evenodd"
+       d="M 11.4896,44.9011 V 36 h 49.0207 v 8.9011 z"
+       clip-rule="evenodd"
+       id="path3" />
+    <path
+       fill="#fcea2b"
+       fill-rule="evenodd"
+       d="M 11.4896,36 V 27.0989 H 60.5103 V 36 Z"
+       clip-rule="evenodd"
+       id="path4" />
+    <path
+       fill="#f4aa41"
+       fill-rule="evenodd"
+       d="m 11.4896,27.0989 v -4.1226 c 0,-0.6978 0.3719,-1.3419 0.9759,-1.6903 l 5.3487,-3.0882 h 36.3715 l 5.3487,3.0882 c 0.6041,0.3484 0.9759,0.9925 0.9759,1.6903 v 4.1226 z"
+       clip-rule="evenodd"
+       id="path5" />
+    <path
+       fill="#ea5a47"
+       fill-rule="evenodd"
+       d="M 17.8142,18.1978 33.7446,9 h 4.5107 l 15.9304,9.1978 z"
+       clip-rule="evenodd"
+       id="path6" />
   </g>
-  <g id="line">
-    <path fill="none" stroke="#000" stroke-width="2" d="M35.024 8.2613C35.6281 7.9129 36.3718 7.9129 36.9759 8.2613L59.5344 21.286C60.1385 21.6344 60.5103 22.2785 60.5103 22.9763V49.0237C60.5103 49.7215 60.1385 50.3656 59.5344 50.714L36.9759 63.7387C36.3718 64.0871 35.6281 64.0871 35.024 63.7387L12.4655 50.714C11.8615 50.3656 11.4896 49.7215 11.4896 49.0237V22.9763C11.4896 22.2785 11.8615 21.6344 12.4655 21.286L35.024 8.2613Z"/>
+  <g
+     id="line"
+     transform="translate(-10.4896,-7.0006516)">
+    <path
+       fill="none"
+       stroke="#000000"
+       stroke-width="2"
+       d="m 35.024,8.2613 c 0.6041,-0.3484 1.3478,-0.3484 1.9519,0 L 59.5344,21.286 c 0.6041,0.3484 0.9759,0.9925 0.9759,1.6903 v 26.0474 c 0,0.6978 -0.3718,1.3419 -0.9759,1.6903 L 36.9759,63.7387 c -0.6041,0.3484 -1.3478,0.3484 -1.9519,0 L 12.4655,50.714 c -0.604,-0.3484 -0.9759,-0.9925 -0.9759,-1.6903 V 22.9763 c 0,-0.6978 0.3719,-1.3419 0.9759,-1.6903 z"
+       id="path7" />
   </g>
 </svg>

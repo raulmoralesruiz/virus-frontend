@@ -125,6 +125,18 @@ export class HandCard {
     return null;
   }
 
+  get displayImage(): string | null {
+    if (this.subtypeImagePath) {
+      return this.subtypeImagePath;
+    }
+    const icon = this.icon;
+    if (icon && icon.includes('/')) {
+      return icon;
+    }
+    // If icon is '❔' or emojis (though not expected), we treat as no image.
+    return null;
+  }
+
   get colorThiefColor(): string | null {
     const card = this.card();
     switch (card.subtype) {

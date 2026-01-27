@@ -69,15 +69,9 @@
   font-size: 2.4rem;
 }
 
-.card-subtype-image {
-  width: 5em;
-  height: 5em;
-  /* object-fit: contain; */
-}
-
-.card-icon-img {
-  width: 5em;
-  height: 5em;
+.card-image {
+  width: 4em;
+  height: 4em;
 }
 
 .play-btn {
