@@ -141,13 +141,13 @@ export class HandCard {
     const card = this.card();
     switch (card.subtype) {
       case TreatmentSubtype.colorThiefRed:
-        return 'var(--organ-red)';
+        return 'var(--card-red-end)';
       case TreatmentSubtype.colorThiefGreen:
-        return 'var(--organ-green)';
+        return 'var(--card-green-end)';
       case TreatmentSubtype.colorThiefBlue:
-        return 'var(--organ-blue)';
+        return 'var(--card-blue-end)';
       case TreatmentSubtype.colorThiefYellow:
-        return 'var(--organ-yellow)';
+        return 'var(--card-yellow-end)';
       default:
         return null;
     }

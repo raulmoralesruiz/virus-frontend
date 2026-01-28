@@ -21,34 +21,27 @@ export class GameInfoHeaderComponent {
     });
   }
 
-  get topDiscardIcon(): string | null {
+  get displayImage(): string | null {
     const card = this.topDiscard();
-    if (!card) return '∅';
+    if (!card) return null;
 
-    if (card.kind === 'treatment' && card.subtype) {
-      if (this.treatmentIcons[card.subtype]?.startsWith('emoji:')) {
-        return this.treatmentIcons[card.subtype].slice(6);
-      }
-      return null; // It's an image
+    if (this.subtypeImagePath) {
+      return this.subtypeImagePath;
     }
 
     if (card.kind === 'organ') {
       const icon = this.organIcons[card.color];
-      if (icon?.includes('/')) return null; // Image path, handled by subtypeImagePath (or need new getter)
-      return icon ?? '❔';
+      return icon?.includes('/') ? icon : null;
     }
 
-    // Medicine and Virus now have SVGs handled by generalImagePath
-    if (card.kind === 'medicine' || card.kind === 'virus') {
-      return null;
-    }
-
-    switch (card.kind) {
-      case 'treatment':
-        return '🧪';
-      default:
-        return '❔';
-    }
+    if (card.kind === 'medicine') return 'assets/modifiers/medicine.svg';
+    if (card.kind === 'virus') return 'assets/modifiers/virus.svg';
+    
+    // Fallback if treatment has no subtype but we need an image? 
+    // Usually treatments have subtypes. If generic treatment existed it would need an asset.
+    // For now assuming subtype covers treatments.
+    
+    return null;
   }
 
   get colorThiefColor(): string | null {
@@ -57,13 +50,13 @@ export class GameInfoHeaderComponent {
 
     switch (card.subtype) {
       case 'colorThiefRed':
-        return 'var(--organ-red)';
+        return 'var(--card-red-end)';
       case 'colorThiefGreen':
-        return 'var(--organ-green)';
+        return 'var(--card-green-end)';
       case 'colorThiefBlue':
-        return 'var(--organ-blue)';
+        return 'var(--card-blue-end)';
       case 'colorThiefYellow':
-        return 'var(--organ-yellow)';
+        return 'var(--card-yellow-end)';
       default:
         return null;
     }
@@ -77,20 +70,7 @@ export class GameInfoHeaderComponent {
     return iconFile ? `assets/treatment/${iconFile}` : null;
   }
 
-  get generalImagePath(): string | null {
-    const card = this.topDiscard();
-    if (!card) return null;
-
-    if (card.kind === 'organ') {
-      const icon = this.organIcons[card.color];
-      return icon?.includes('/') ? icon : null;
-    }
-
-    if (card.kind === 'medicine') return 'assets/modifiers/medicine.svg';
-    if (card.kind === 'virus') return 'assets/modifiers/virus.svg';
-
-    return null;
-  }
+  // Removed generalImagePath as it is merged into displayImage
 
   private readonly organIcons: Record<string, string> = {
     'red': 'assets/organs/red.svg', // ❤️
