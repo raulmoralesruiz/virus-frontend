@@ -99,21 +99,36 @@ export class GameInfoHeaderComponent {
     'apparition': 'apparition.svg',
     'alienTransplant': 'alienTransplant.svg',
   };
-  get discardBackgroundColor(): string {
+  get discardBackground(): string {
     const card = this.topDiscard();
     if (!card) return 'transparent';
 
-    // Halloween Treatment -> Multi (Purple)
+    // Treatment -> Multi (Purple)
+    if (card.kind === 'treatment' && card.color === 'treatment') {
+      return 'linear-gradient(145deg, var(--card-multi-start) 0%, var(--card-multi-middle) 45%, var(--card-multi-end) 100%)';
+    }
+
+    // Halloween treatment -> Multi (Purple Orange)
     if (card.kind === 'treatment' && card.color === 'halloween') {
-      return 'var(--organ-multi)';
+       return 'linear-gradient(135deg, var(--card-multi-start) 30%, var(--card-halloween-end) 70%)';
     }
 
     // Mutant Organ (Orange) -> Halloween (Orange)
     if (card.kind === 'organ' && card.color === 'orange') {
-      return 'var(--organ-halloween)';
+      return 'linear-gradient(180deg, var(--card-halloween-start) 0%, var(--card-halloween-end) 100%)';
     }
 
-    return 'var(--organ-' + card.color + ')';
+    // Multi -> Multi (5 colors)
+    if (card.color === 'multi') {
+      return 'linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange))';
+    }
+
+    // Organo, medicina o virus 
+    if (card.kind === 'organ' || card.kind === 'medicine' || card.kind === 'virus') {
+      return 'linear-gradient(180deg, var(--card-' + card.color + '-start) 0%, var(--card-' + card.color + '-end) 100%)';
+    }
+
+    return 'transparent';
   }
 
   onHistoryClick(event: MouseEvent): void {

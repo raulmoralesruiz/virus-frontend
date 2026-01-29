@@ -110,6 +110,8 @@ export class TargetSelectComponent {
     yellow: 'Hueso',
     multi: 'Multicolor',
     orange: 'Mutante',
+    treatment: 'Tratamiento',
+    halloween: 'Halloween',
   };
 
   private readonly treatmentLabels: Partial<Record<TreatmentSubtype, string>> = {
@@ -118,7 +120,7 @@ export class TargetSelectComponent {
     [TreatmentSubtype.Contagion]: 'Contagio',
     [TreatmentSubtype.Gloves]: 'Guantes de látex',
     [TreatmentSubtype.MedicalError]: 'Error médico',
-    [TreatmentSubtype.trickOrTreat]: 'Truco o Trato',
+    [TreatmentSubtype.trickOrTreat]: 'Truco o trato',
     [TreatmentSubtype.failedExperiment]: 'Experimento fallido',
     [TreatmentSubtype.colorThiefRed]: 'Ladrón Corazón',
     [TreatmentSubtype.colorThiefGreen]: 'Ladrón Estómago',

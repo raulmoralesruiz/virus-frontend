@@ -97,6 +97,7 @@ export class HandCard {
     [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
     [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
     [CardColor.Orange]: 'assets/organs/orange.svg', // Órgano Mutante
+    [CardColor.Treatment]: '', // No usado para órganos
   };
 
   private readonly treatmentIcons: Record<TreatmentSubtype, string> = {
@@ -155,14 +156,16 @@ export class HandCard {
 
   get cardColorClass(): string {
     const card = this.card();
-    // Tratamientos de Halloween deben tener el estilo de BASE_DECK_CONFIG (Multi/Morado)
+    // Tratamientos de Halloween deben tener el estilo mixto (Morado/Naranja)
     if (card.kind === CardKind.Treatment && card.color === CardColor.Halloween) {
-      return 'hand-card--multi';
+      return 'hand-card--treatment-halloween';
     }
+
     // Órgano mutante (Orange) debe tener el estilo de Halloween (Naranja)
     if (card.kind === CardKind.Organ && card.color === CardColor.Orange) {
       return 'hand-card--halloween';
     }
+
     return 'hand-card--' + card.color;
   }
 }

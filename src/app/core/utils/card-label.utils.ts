@@ -13,6 +13,7 @@ export const CARD_COLOR_LABELS: Record<CardColor, string> = {
   [CardColor.Multi]: 'Multicolor',
   [CardColor.Halloween]: 'Halloween',
   [CardColor.Orange]: 'Mutante',
+  [CardColor.Treatment]: 'Tratamiento',
 };
 
 export const CARD_KIND_LABELS: Record<CardKind, string> = {

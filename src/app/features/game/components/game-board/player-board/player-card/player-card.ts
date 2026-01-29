@@ -53,6 +53,7 @@ export class PlayerCardComponent {
     [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
     [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
     [CardColor.Orange]: 'assets/organs/orange.svg',
+    [CardColor.Treatment]: '',
   };
 
   // Método para obtener todos los virus (reales + temporales)
