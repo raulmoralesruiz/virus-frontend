@@ -166,39 +166,40 @@
 
 /* Colores por tipo de carta */
 .hand-card--red {
-  background: linear-gradient(180deg, var(--card-red-start) 0%, var(--card-red-end) 100%);
+  background: var(--card-red-end);
 }
 
 .hand-card--green {
-  background: linear-gradient(180deg, var(--card-green-start) 0%, var(--card-green-end) 100%);
+  background: var(--card-green-end);
 }
 
 .hand-card--blue {
-  background: linear-gradient(180deg, var(--card-blue-start) 0%, var(--card-blue-end) 100%);
+  background: var(--card-blue-end);
 }
 
 .hand-card--yellow {
-  background: linear-gradient(180deg, var(--card-yellow-start) 0%, var(--card-yellow-end) 100%);
+  background: var(--card-yellow-end);
 }
 
 .hand-card--multi {
+  /* Multicolor stays as gradient */
   background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
 }
 
 .hand-card--treatment {
-  background: linear-gradient(145deg, var(--card-multi-start) 0%, var(--card-multi-middle) 45%, var(--card-multi-end) 100%);
+  background: var(--card-multi-middle);
 }
 
 .hand-card--treatment-halloween {
-  background: linear-gradient(135deg, var(--card-multi-start) 30%, var(--card-halloween-end) 70%);
+  background: linear-gradient(135deg, var(--card-multi-middle) 80%, var(--card-halloween-end));
 }
 
 .hand-card--halloween {
-  background: linear-gradient(180deg, var(--card-halloween-start) 0%, var(--card-halloween-end) 100%);
+  background: var(--card-halloween-end);
 }
 
 .hand-card--orange {
-  background: linear-gradient(180deg, var(--card-orange-start) 0%, var(--card-orange-end) 100%);
+  background: var(--card-orange-end);
 }
 
 .hand-card--treatment .card-icon {

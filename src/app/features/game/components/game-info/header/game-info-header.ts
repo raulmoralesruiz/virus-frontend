@@ -99,29 +99,29 @@ export class GameInfoHeaderComponent {
     const card = this.topDiscard();
     if (!card) return 'transparent';
 
-    // Treatment -> Multi (Purple)
+    // Treatment -> Multi (Purple) - Solid
     if (card.kind === 'treatment' && card.color === 'treatment') {
-      return 'linear-gradient(145deg, var(--card-multi-start) 0%, var(--card-multi-middle) 45%, var(--card-multi-end) 100%)';
+      return 'var(--card-multi-middle)';
     }
 
-    // Halloween treatment -> Multi (Purple Orange)
+    // Halloween treatment -> Multi (Purple Orange) - Solid (Orange dominant)
     if (card.kind === 'treatment' && card.color === 'halloween') {
-       return 'linear-gradient(135deg, var(--card-multi-start) 30%, var(--card-halloween-end) 70%)';
+      return 'linear-gradient(135deg, var(--card-multi-middle) 80%, var(--card-halloween-end))';
     }
 
-    // Mutant Organ (Orange) -> Halloween (Orange)
+    // Mutant Organ (Orange) -> Halloween (Orange) - Solid
     if (card.kind === 'organ' && card.color === 'orange') {
-      return 'linear-gradient(180deg, var(--card-halloween-start) 0%, var(--card-halloween-end) 100%)';
+      return 'var(--card-halloween-end)';
     }
 
-    // Multi -> Multi (5 colors)
+    // Multi -> Multi (5 colors) - KEEP GRADIENT
     if (card.color === 'multi') {
       return 'linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange))';
     }
 
-    // Organo, medicina o virus 
+    // Organo, medicina o virus (Red, Green, Blue, Yellow) - Solid
     if (card.kind === 'organ' || card.kind === 'medicine' || card.kind === 'virus') {
-      return 'linear-gradient(180deg, var(--card-' + card.color + '-start) 0%, var(--card-' + card.color + '-end) 100%)';
+      return `var(--card-${card.color}-end)`;
     }
 
     return 'transparent';

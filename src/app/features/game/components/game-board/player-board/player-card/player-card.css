@@ -85,19 +85,19 @@
 
 /* Fondos y bordes oscuros según color */
 .chip.red {
-  background: linear-gradient(160deg, var(--card-red-start) 0%, var(--card-red-end) 100%);
+  background: var(--card-red-end);
 }
 
 .chip.green {
-  background: linear-gradient(160deg, var(--card-green-start) 0%, var(--card-green-end) 100%);
+  background: var(--card-green-end);
 }
 
 .chip.blue {
-  background: linear-gradient(160deg, var(--card-blue-start) 0%, var(--card-blue-end) 100%);
+  background: var(--card-blue-end);
 }
 
 .chip.yellow {
-  background: linear-gradient(160deg, var(--card-yellow-start) 0%, var(--card-yellow-end) 100%);
+  background: var(--card-yellow-end);
 }
 
 .chip.multi {
