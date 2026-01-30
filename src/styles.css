@@ -190,39 +190,50 @@ html.theme-dark {
   --color-focus-ring: rgba(56, 189, 248, 0.45);
   --color-focus-ring-strong: rgba(94, 234, 212, 0.5);
 
-  --card-red-start: #7f1d1d;
-  --card-red-end: #b91c1c;
+  --card-red-start: #f87171;
+  --card-red-end: #ef4444;
+  /* Red 500 */
   --card-red-border: transparent;
-  --card-green-start: #064e3b;
-  --card-green-end: #047857;
+  --card-green-start: #4ade80;
+  --card-green-end: #22c55e;
+  /* Green 500 */
   --card-green-border: transparent;
-  --card-blue-start: #1e3a8a;
-  --card-blue-end: #2563eb;
+  --card-blue-start: #60a5fa;
+  --card-blue-end: #3b82f6;
+  /* Blue 500 */
   --card-blue-border: transparent;
-  --card-yellow-start: #92400e;
-  --card-yellow-end: #f59e0b;
+  --card-yellow-start: #facc15;
+  --card-yellow-end: #eab308;
+  /* Yellow 500 (True Yellow) */
   --card-yellow-border: transparent;
   --card-multi-start: #581c87;
-  --card-multi-middle: #7c3aed;
-  --card-multi-end: #312e81;
+  --card-multi-middle: #9333ea;
+  /* Purple 600 */
+  --card-multi-end: #7e22ce;
+  /* Purple 700 */
   --card-multi-border: transparent;
   --card-halloween-start: #9a3412;
   --card-halloween-end: #f97316;
   --card-halloween-border: transparent;
-  --card-orange-start: #facc15;
-  --card-orange-end: #f59e0b;
+  --card-orange-start: #fbbf24;
+  --card-orange-end: #fb923c;
   --card-orange-border: transparent;
 
-  --organ-red: rgba(248, 113, 113, 0.7);
-  --organ-green: rgba(52, 211, 153, 0.7);
-  --organ-blue: rgba(96, 165, 250, 0.7);
-  --organ-yellow: rgba(250, 204, 21, 0.7);
+  /* Harmonized Organ Colors (using similar hues to cards but lighter/transparent) */
+  --organ-red: rgba(239, 68, 68, 0.7);
+  /* Red 500 */
+  --organ-green: rgba(34, 197, 94, 0.7);
+  /* Green 500 */
+  --organ-blue: rgba(59, 130, 246, 0.7);
+  /* Blue 500 */
+  --organ-yellow: rgba(234, 179, 8, 0.7);
+  /* Yellow 500 */
+  --organ-orange: rgba(251, 146, 60, 0.8);
   --organ-multi-start: rgba(192, 132, 252, 0.7);
   --organ-multi-middle: rgba(129, 140, 248, 0.7);
   --organ-multi-end: rgba(56, 189, 248, 0.7);
   --organ-multi: var(--organ-multi-middle);
   --organ-halloween: var(--card-halloween-start);
-  --organ-orange: var(--card-orange-end);
 
   --organ-border: transparent;
   --organ-border-occupied: transparent;
