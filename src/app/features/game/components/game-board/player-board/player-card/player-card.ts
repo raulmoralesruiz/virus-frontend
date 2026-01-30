@@ -8,11 +8,12 @@ import {
   CdkDropList,
   DragDropModule,
 } from '@angular/cdk/drag-drop';
+import { CardIconComponent } from '../../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'player-card',
   standalone: true,
-  imports: [DragDropModule],
+  imports: [DragDropModule, CardIconComponent],
   templateUrl: './player-card.html',
   styleUrl: './player-card.css',
 })
@@ -46,13 +47,13 @@ export class PlayerCardComponent {
   } | null>(null);
 
   private readonly organIcons: Record<CardColor, string> = {
-    [CardColor.Red]: 'assets/organs/red.svg', // ❤️
-    [CardColor.Green]: 'assets/organs/green.svg', // 🫃
-    [CardColor.Blue]: 'assets/organs/blue.svg', // 🧠
-    [CardColor.Yellow]: 'assets/organs/yellow.svg', // 🦴
-    [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
-    [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
-    [CardColor.Orange]: 'assets/organs/orange.svg',
+    [CardColor.Red]: 'organ-red', // ❤️
+    [CardColor.Green]: 'organ-green', // 🫃
+    [CardColor.Blue]: 'organ-blue', // 🧠
+    [CardColor.Yellow]: 'organ-yellow', // 🦴
+    [CardColor.Multi]: 'organ-multi', // 🌈
+    [CardColor.Halloween]: 'organ-halloween', // 🎃
+    [CardColor.Orange]: 'organ-orange',
     [CardColor.Treatment]: '',
   };
 
@@ -78,10 +79,10 @@ export class PlayerCardComponent {
   }
 
   getMedicineIcon(): string {
-    return 'assets/modifiers/medicine.svg';
+    return 'modifier-medicine';
   }
 
   getVirusIcon(): string {
-    return 'assets/modifiers/virus.svg';
+    return 'modifier-virus';
   }
 }

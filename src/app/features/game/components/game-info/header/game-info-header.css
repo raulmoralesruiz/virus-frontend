@@ -129,7 +129,8 @@
 }
 
 .discard-icon-image,
-.discard-icon-svg {
+.discard-icon-svg,
+.discard-preview card-icon {
   width: 65%;
   height: 65%;
   object-fit: contain;

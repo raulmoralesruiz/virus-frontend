@@ -4,11 +4,12 @@ import { filter, map, startWith } from 'rxjs/operators';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { SvgSpriteComponent } from './core/components/svg-sprite/svg-sprite.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ThemeToggleComponent],
+  imports: [RouterOutlet, ThemeToggleComponent, SvgSpriteComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

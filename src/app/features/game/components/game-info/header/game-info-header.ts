@@ -1,9 +1,11 @@
 import { Component, input, output, effect } from '@angular/core';
 import { Card } from '../../../../../core/models/card.model';
+import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'game-info-header',
   standalone: true,
+  imports: [CardIconComponent],
   templateUrl: './game-info-header.html',
   styleUrl: './game-info-header.css',
 })
@@ -25,21 +27,17 @@ export class GameInfoHeaderComponent {
     const card = this.topDiscard();
     if (!card) return null;
 
-    if (this.subtypeImagePath) {
-      return this.subtypeImagePath;
+    if (this.subtypeIconName) {
+      return this.subtypeIconName;
     }
 
     if (card.kind === 'organ') {
       const icon = this.organIcons[card.color];
-      return icon?.includes('/') ? icon : null;
+      return icon || null;
     }
 
-    if (card.kind === 'medicine') return 'assets/modifiers/medicine.svg';
-    if (card.kind === 'virus') return 'assets/modifiers/virus.svg';
-    
-    // Fallback if treatment has no subtype but we need an image? 
-    // Usually treatments have subtypes. If generic treatment existed it would need an asset.
-    // For now assuming subtype covers treatments.
+    if (card.kind === 'medicine') return 'modifier-medicine';
+    if (card.kind === 'virus') return 'modifier-virus';
     
     return null;
   }
@@ -62,42 +60,40 @@ export class GameInfoHeaderComponent {
     }
   }
 
-  get subtypeImagePath(): string | null {
+  get subtypeIconName(): string | null {
     const card = this.topDiscard();
     if (!card || card.kind !== 'treatment' || !card.subtype) return null;
-    const iconFile = this.treatmentIcons[card.subtype];
-    if (iconFile?.startsWith('emoji:')) return null;
-    return iconFile ? `assets/treatment/${iconFile}` : null;
+    const iconName = this.treatmentIcons[card.subtype];
+    if (iconName?.startsWith('emoji:')) return null;
+    return iconName || null;
   }
 
-  // Removed generalImagePath as it is merged into displayImage
-
   private readonly organIcons: Record<string, string> = {
-    'red': 'assets/organs/red.svg', // ❤️
-    'green': 'assets/organs/green.svg', // 🫃
-    'blue': 'assets/organs/blue.svg', // 🧠
-    'yellow': 'assets/organs/yellow.svg', // 🦴
-    'multi': 'assets/organs/multi.svg', // 🌈
-    'halloween': 'assets/organs/halloween.svg', // 🎃
-    'orange': 'assets/organs/orange.svg', // Órgano Mutante
+    'red': 'organ-red', // ❤️
+    'green': 'organ-green', // 🫃
+    'blue': 'organ-blue', // 🧠
+    'yellow': 'organ-yellow', // 🦴
+    'multi': 'organ-multi', // 🌈
+    'halloween': 'organ-halloween', // 🎃
+    'orange': 'organ-orange', // Órgano Mutante
   };
 
   // Keep in sync with HandCard
   private readonly treatmentIcons: Record<string, string> = {
-    'transplant': 'transplant.svg',
-    'organThief': 'organThief.svg',
-    'contagion': 'contagion.svg',
-    'gloves': 'gloves.svg',
-    'medicalError': 'medicalError.svg',
-    'failedExperiment': 'failedExperiment.svg',
-    'trickOrTreat': 'trickOrTreat.svg',
-    'colorThiefRed': 'colorThief.svg',
-    'colorThiefGreen': 'colorThief.svg',
-    'colorThiefBlue': 'colorThief.svg',
-    'colorThiefYellow': 'colorThief.svg',
-    'bodySwap': 'bodySwap.svg',
-    'apparition': 'apparition.svg',
-    'alienTransplant': 'alienTransplant.svg',
+    'transplant': 'treatment-transplant',
+    'organThief': 'treatment-organThief',
+    'contagion': 'treatment-contagion',
+    'gloves': 'treatment-gloves',
+    'medicalError': 'treatment-medicalError',
+    'failedExperiment': 'treatment-failedExperiment',
+    'trickOrTreat': 'treatment-trickOrTreat',
+    'colorThiefRed': 'treatment-colorThief',
+    'colorThiefGreen': 'treatment-colorThief',
+    'colorThiefBlue': 'treatment-colorThief',
+    'colorThiefYellow': 'treatment-colorThief',
+    'bodySwap': 'treatment-bodySwap',
+    'apparition': 'treatment-apparition',
+    'alienTransplant': 'treatment-alienTransplant',
   };
   get discardBackground(): string {
     const card = this.topDiscard();

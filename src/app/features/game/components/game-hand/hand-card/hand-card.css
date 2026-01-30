@@ -69,9 +69,10 @@
   font-size: 2.4rem;
 }
 
+
 .card-image {
-  width: 3.75em;
-  height: 3.75em;
+  width: 3.5em;
+  height: 3.5em;
 }
 
 .play-btn {
@@ -91,8 +92,6 @@
 .play-btn:not(:disabled):hover {
   transform: translateY(-2px);
 }
-
-
 
 .hand-card.cdk-drag-dragging {
   transition: none !important;

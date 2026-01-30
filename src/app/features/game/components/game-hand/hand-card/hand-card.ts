@@ -7,11 +7,12 @@ import {
 } from '../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'app-hand-card',
   standalone: true,
-  imports: [DragDropModule, CommonModule],
+  imports: [DragDropModule, CommonModule, CardIconComponent],
   templateUrl: './hand-card.html',
   styleUrl: './hand-card.css',
 })
@@ -57,9 +58,9 @@ export class HandCard {
       case CardKind.Organ:
         return this.organIcons[card.color] ?? '❔';
       case CardKind.Medicine:
-        return 'assets/modifiers/medicine.svg';
+        return 'modifier-medicine';
       case CardKind.Virus:
-        return 'assets/modifiers/virus.svg';
+        return 'modifier-virus';
       case CardKind.Treatment:
         return '🧪';
       default:
@@ -79,42 +80,42 @@ export class HandCard {
     return withSpaces.replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
-  get subtypeImagePath(): string | null {
+  get subtypeIconName(): string | null {
     const card = this.card();
     if (!this.hasSubtype || !card.subtype) return null;
-    const iconFile = this.treatmentIcons[card.subtype];
-    if (iconFile?.startsWith('emoji:')) {
+    const iconName = this.treatmentIcons[card.subtype];
+    if (iconName?.startsWith('emoji:')) {
       return null;
     }
-    return iconFile ? `assets/treatment/${iconFile}` : null;
+    return iconName || null;
   }
 
   private readonly organIcons: Record<CardColor, string> = {
-    [CardColor.Red]: 'assets/organs/red.svg', // ❤️
-    [CardColor.Green]: 'assets/organs/green.svg', // 🫃
-    [CardColor.Blue]: 'assets/organs/blue.svg', // 🧠
-    [CardColor.Yellow]: 'assets/organs/yellow.svg', // 🦴
-    [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
-    [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
-    [CardColor.Orange]: 'assets/organs/orange.svg', // Órgano Mutante
+    [CardColor.Red]: 'organ-red', // ❤️
+    [CardColor.Green]: 'organ-green', // 🫃
+    [CardColor.Blue]: 'organ-blue', // 🧠
+    [CardColor.Yellow]: 'organ-yellow', // 🦴
+    [CardColor.Multi]: 'organ-multi', // 🌈
+    [CardColor.Halloween]: 'organ-halloween', // 🎃
+    [CardColor.Orange]: 'organ-orange', // Órgano Mutante
     [CardColor.Treatment]: '', // No usado para órganos
   };
 
   private readonly treatmentIcons: Record<TreatmentSubtype, string> = {
-    [TreatmentSubtype.Transplant]: 'transplant.svg',
-    [TreatmentSubtype.OrganThief]: 'organThief.svg',
-    [TreatmentSubtype.Contagion]: 'contagion.svg',
-    [TreatmentSubtype.Gloves]: 'gloves.svg',
-    [TreatmentSubtype.MedicalError]: 'medicalError.svg',
-    [TreatmentSubtype.failedExperiment]: 'failedExperiment.svg',
-    [TreatmentSubtype.trickOrTreat]: 'trickOrTreat.svg',
-    [TreatmentSubtype.colorThiefRed]: 'colorThief.svg',
-    [TreatmentSubtype.colorThiefGreen]: 'colorThief.svg',
-    [TreatmentSubtype.colorThiefBlue]: 'colorThief.svg',
-    [TreatmentSubtype.colorThiefYellow]: 'colorThief.svg',
-    [TreatmentSubtype.BodySwap]: 'bodySwap.svg',
-    [TreatmentSubtype.Apparition]: 'apparition.svg',
-    [TreatmentSubtype.AlienTransplant]: 'alienTransplant.svg',
+    [TreatmentSubtype.Transplant]: 'treatment-transplant',
+    [TreatmentSubtype.OrganThief]: 'treatment-organThief',
+    [TreatmentSubtype.Contagion]: 'treatment-contagion',
+    [TreatmentSubtype.Gloves]: 'treatment-gloves',
+    [TreatmentSubtype.MedicalError]: 'treatment-medicalError',
+    [TreatmentSubtype.failedExperiment]: 'treatment-failedExperiment',
+    [TreatmentSubtype.trickOrTreat]: 'treatment-trickOrTreat',
+    [TreatmentSubtype.colorThiefRed]: 'treatment-colorThief',
+    [TreatmentSubtype.colorThiefGreen]: 'treatment-colorThief',
+    [TreatmentSubtype.colorThiefBlue]: 'treatment-colorThief',
+    [TreatmentSubtype.colorThiefYellow]: 'treatment-colorThief',
+    [TreatmentSubtype.BodySwap]: 'treatment-bodySwap',
+    [TreatmentSubtype.Apparition]: 'treatment-apparition',
+    [TreatmentSubtype.AlienTransplant]: 'treatment-alienTransplant',
   };
 
   private treatmentEmoji(subtype: TreatmentSubtype | undefined): string | null {
@@ -127,14 +128,25 @@ export class HandCard {
   }
 
   get displayImage(): string | null {
-    if (this.subtypeImagePath) {
-      return this.subtypeImagePath;
+    if (this.subtypeIconName) {
+      return this.subtypeIconName;
     }
     const icon = this.icon;
-    if (icon && icon.includes('/')) {
+    // Check if it's an icon name key
+    if (
+      icon.startsWith('organ-') || 
+      icon.startsWith('modifier-') || 
+      icon.startsWith('treatment-')
+    ) {
       return icon;
     }
-    // If icon is '❔' or emojis (though not expected), we treat as no image.
+    // If icon is '❔' or emojis, we return null so no card-icon is shown 
+    // (emoji handling logic not fully shown here but presumably rendered elsewhere if needed, 
+    // or maybe the original logic relied on displayImage returning path OR null).
+    
+    // Original logic: if (icon && icon.includes('/')) return icon;
+    // So if it was a path, return it. If emoji, return null.
+    // My new logic covers this.
     return null;
   }
 

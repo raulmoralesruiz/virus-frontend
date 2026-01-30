@@ -23,8 +23,7 @@
       </g>
     </svg>
     } @else if (displayImage) {
-    <img class="card-image" [src]="displayImage" [alt]="formattedSubtype ?? 'Carta'" draggable="false"
-      (contextmenu)="$event.preventDefault()" />
+    <card-icon class="card-image" [name]="displayImage" />
     }
   </div>
 

@@ -24,7 +24,7 @@
       </g>
     </svg>
     } @else if (displayImage) {
-    <img class="discard-icon-image" [src]="displayImage" alt="" draggable="false" />
+    <card-icon class="discard-icon-image" [name]="displayImage" />
     }
     <span class="discard-count">{{ discardCount() }}</span>
   </div>

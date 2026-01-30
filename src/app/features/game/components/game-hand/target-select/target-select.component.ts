@@ -25,10 +25,12 @@ type PlayerOption = {
   name: string;
 };
 
+import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
+
 @Component({
   selector: 'game-target-select',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CardIconComponent],
   templateUrl: './target-select.component.html',
   styleUrl: './target-select.component.css',
 })

@@ -59,17 +59,6 @@ export class PlayerBoardComponent {
   hasTemporaryVirus =
     input.required<(organId: string, playerId: string) => boolean>();
 
-  private readonly organIcons: Record<CardColor, string> = {
-    [CardColor.Red]: 'assets/organs/red.svg', // ❤️
-    [CardColor.Green]: 'assets/organs/green.svg', // 🫃
-    [CardColor.Blue]: 'assets/organs/blue.svg', // 🧠
-    [CardColor.Yellow]: 'assets/organs/yellow.svg', // 🦴
-    [CardColor.Multi]: 'assets/organs/multi.svg', // 🌈
-    [CardColor.Halloween]: 'assets/organs/halloween.svg', // 🎃
-    [CardColor.Orange]: 'assets/organs/orange.svg',
-    [CardColor.Treatment]: ''
-  };
-
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
   connectedTo = computed(() => {
     const me = this._apiPlayer.player();
@@ -335,10 +324,6 @@ export class PlayerBoardComponent {
     } else {
       this.onSlotDrop(event, color);
     }
-  }
-
-  getOrganIcon(color: CardColor): string {
-    return this.organIcons[color] ?? '❔';
   }
 
   /**
