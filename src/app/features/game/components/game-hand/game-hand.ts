@@ -116,16 +116,19 @@ export class GameHandComponent implements OnChanges, OnDestroy {
     }
   }
 
-  // Construye la lista de ids de TODOS los slots (player x color).
-  // El hand list se conectará a todos esos slots.
+  // Construye la lista de ids de TODOS los slots (player x color) EXISTENTES en el tablero.
+  // El hand list se conectará solo a los slots que realmente existen.
   boardIds(): string[] {
     const publicState = this.publicState();
     if (!publicState) return [];
     const ids: string[] = [];
     for (const p of publicState.players) {
+      // Conectar con el tablero general del jugador (para jugar órganos nuevos o tratamientos generales)
       ids.push(`board-${p.player.id}`);
-      for (const color of this.cardColors) {
-        ids.push(`slot-${p.player.id}-${color}`);
+      
+      // Conectar con cada órgano existente (para jugar medicinas, virus o tratamientos sobre órganos)
+      for (const organ of p.board) {
+        ids.push(`slot-${p.player.id}-${organ.color}`);
       }
     }
     return ids;

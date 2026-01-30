@@ -73,6 +73,8 @@
 .card-image {
   width: 3.5em;
   height: 3.5em;
+  pointer-events: none;
+  /* Prevent drag/click interference */
 }
 
 .play-btn {

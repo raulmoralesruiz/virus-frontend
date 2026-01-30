@@ -37,11 +37,12 @@ export class GameBoardComponent implements OnChanges {
   allSlotIds = computed(() => {
     const st = this.state();
     if (!st) return [];
-    const colors = Object.values(CardColor);
+    
     const ids: string[] = [];
     for (const p of st.players) {
-      for (const c of colors) {
-        ids.push(`slot-${p.player.id}-${c}`);
+      // Solo generar IDs para huecos que realmente existen (tienen órgano)
+      for (const organ of p.board) {
+        ids.push(`slot-${p.player.id}-${organ.color}`);
       }
     }
     return ids;
