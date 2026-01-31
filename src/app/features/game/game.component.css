@@ -1,7 +1,12 @@
 :host {
   --game-padding-block: 0.25rem;
   display: block;
+  min-height: 100vh;
   padding: var(--game-padding-block) 0.5rem;
+
+  background-image: url('/assets/images/background.svg');
+  background-size: 200px;
+  background-repeat: repeat;
 }
 
 .game-layout {
