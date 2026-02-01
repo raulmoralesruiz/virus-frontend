@@ -2,6 +2,7 @@
   --game-padding-block: 0.25rem;
   display: block;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: var(--game-padding-block) 0.5rem;
 
   background-image: url('/assets/images/background.svg');
@@ -40,6 +41,7 @@
   justify-content: center;
   gap: 1.5rem;
   min-height: 70vh;
+  min-height: 70dvh;
   padding: 2.5rem 1.75rem;
   border-radius: 24px;
   background: linear-gradient(180deg,
