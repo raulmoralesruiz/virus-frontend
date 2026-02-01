@@ -1,4 +1,5 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
+import { DragDropService } from '../../../../../../core/services/drag-drop.service';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
 import { Card, CardKind, CardColor } from '../../../../../../core/models/card.model';
 import {
@@ -85,4 +86,48 @@ export class PlayerCardComponent {
   getVirusIcon(): string {
     return 'modifier-virus';
   }
+
+  private dragDropService = inject(DragDropService);
+
+  onVirusDragStarted(virus: Card, fromOrganId: string) {
+    this.dragDropService.draggedItem.set({ 
+      fromOrganId, 
+      virusId: virus.id, 
+      virus, // Incluimos el objeto card para chequear color
+      kind: 'virus-token' // diferenciador
+    });
+  }
+
+  onVirusDragEnded() {
+    this.dragDropService.draggedItem.set(null);
+  }
+
+  isValidTarget = computed(() => {
+    const dragged = this.dragDropService.draggedItem();
+    if (!dragged) return false;
+
+    const organ = this.organ();
+    
+    // 1. Carta desde la mano
+    if ('kind' in dragged && dragged.kind !== 'virus-token') {
+      const card = dragged as Card;
+
+      if (card.kind === CardKind.Medicine || card.kind === CardKind.Virus) {
+        if (card.color === CardColor.Multi || organ.color === CardColor.Multi) return true;
+        return card.color === organ.color;
+      }
+      
+      // TODO: Manejar Tratamientos si se requiere animation específica
+      return false; 
+    }
+
+    // 2. Virus desde otro órgano (Contagio)
+    if ('virus' in dragged) {
+      const virus = dragged.virus as Card;
+      if (virus.color === CardColor.Multi || organ.color === CardColor.Multi) return true;
+      return virus.color === organ.color;
+    }
+
+    return false;
+  });
 }

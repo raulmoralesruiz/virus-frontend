@@ -186,12 +186,12 @@
   background: linear-gradient(135deg, rgba(148, 163, 184, 0.2), rgba(148, 163, 184, 0.05));
 }
 
-.card.organ.cdk-drop-list-receiving {
+.card.organ.cdk-drop-list-receiving.valid-target {
   transform: translateY(-4px) scale(1.03);
   background: rgba(59, 130, 246, 0.18);
 }
 
-.card.organ.cdk-drop-list-receiving::after {
+.card.organ.cdk-drop-list-receiving.valid-target::after {
   content: '';
   position: absolute;
   inset: -4px;
@@ -200,7 +200,7 @@
   pointer-events: none;
 }
 
-.card.organ.cdk-drop-list-receiving .attachments {
+.card.organ.cdk-drop-list-receiving.valid-target .attachments {
   background: rgba(15, 23, 42, 0.08);
   border-radius: 6px;
 }

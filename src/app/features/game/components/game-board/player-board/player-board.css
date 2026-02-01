@@ -288,7 +288,11 @@
   background: rgba(59, 130, 246, 0.08);
 }
 
-.board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving {}
+.board-drop-wrapper.cdk-drop-list.cdk-drop-list-receiving.valid-board-target {
+  background: rgba(34, 197, 94, 0.15);
+  /* Greenish tint for valid */
+  border: 2px dashed rgba(34, 197, 94, 0.4);
+}
 
 .board-slot .card.organ.cdk-drop-list {
   transition:

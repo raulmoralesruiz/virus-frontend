@@ -8,6 +8,8 @@ import {
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
+import { DragDropService } from '../../../../../core/services/drag-drop.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-hand-card',
@@ -179,5 +181,14 @@ export class HandCard {
     }
 
     return 'hand-card--' + card.color;
+  }
+
+  private dragDropService = inject(DragDropService);
+  onDragStarted() {
+    this.dragDropService.draggedItem.set(this.card());
+  }
+
+  onDragEnded() {
+    this.dragDropService.draggedItem.set(null);
   }
 }

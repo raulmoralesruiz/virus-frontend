@@ -30,6 +30,7 @@ import {
 import { GameStoreService } from '../../../../../core/services/game-store.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
 import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
+import { DragDropService } from '../../../../../core/services/drag-drop.service';
 
 @Component({
   selector: 'player-board',
@@ -41,6 +42,8 @@ import { TimerSoundService } from '../../../../../core/services/timer-sound.serv
 export class PlayerBoardComponent {
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
+  private dragDropService = inject(DragDropService);
+
   get apiPlayer() {
     return this._apiPlayer;
   }
@@ -58,6 +61,23 @@ export class PlayerBoardComponent {
     input.required<(organId: string, playerId: string) => Card[]>();
   hasTemporaryVirus =
     input.required<(organId: string, playerId: string) => boolean>();
+
+  isValidBoardTarget = computed(() => {
+    const dragged = this.dragDropService.draggedItem();
+    if (!dragged) return false;
+
+    // Solo nos interesa si es un Órgano y es MI tablero
+    // dragged puede ser Card o {virusId...}
+    if ('kind' in dragged && dragged.kind === CardKind.Organ) {
+      if ((dragged as Card).color === CardColor.Orange) {
+          // Órgano mutante: NO se puede soltar en el tablero general (solo en slots)
+          return false;
+      }
+      return this.isMe();
+    }
+    
+    return false;
+  });
 
   // connectedTo devuelve el id de la mano local (para permitir drops desde tu mano)
   connectedTo = computed(() => {

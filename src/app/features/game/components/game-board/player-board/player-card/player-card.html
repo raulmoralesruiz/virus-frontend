@@ -4,7 +4,7 @@
   [cdkDropListConnectedTo]="dropListConnectedTo()"
   [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
   [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="dropListDropped.emit($event)"
-  (cdkDropListEntered)="dropListEntered.emit($event)">
+  (cdkDropListEntered)="dropListEntered.emit($event)" [class.valid-target]="isValidTarget()">
   @if (organValue.attached.length === 0) {
   <div class="title">
     <card-icon class="organ-icon-img" [name]="organIcon()" />
@@ -16,7 +16,8 @@
     @if (contagionMode() && isVirus(a) && !isTemporaryVirus(a.id)) {
     <!-- Virus arrastrable en modo contagio (solo los reales, no temporales) -->
     <div class="attached-card chip virus {{ a.color }}" cdkDrag
-      [cdkDragData]="{ fromOrganId: organValue.id, virusId: a.id }">
+      [cdkDragData]="{ fromOrganId: organValue.id, virusId: a.id }"
+      (cdkDragStarted)="onVirusDragStarted(a, organValue.id)" (cdkDragEnded)="onVirusDragEnded()">
       <card-icon class="icon" [name]="getVirusIcon()" />
     </div>
     } @else {

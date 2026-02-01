@@ -21,4 +21,6 @@ export class DragDropService {
   boardListId(playerId: string): string | null {
     return this.boardLists()[playerId] ?? null;
   }
+
+  draggedItem = signal<any | null>(null);
 }
