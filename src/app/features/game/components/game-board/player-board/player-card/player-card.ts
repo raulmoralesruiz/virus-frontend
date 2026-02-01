@@ -1,7 +1,8 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { DragDropService } from '../../../../../../core/services/drag-drop.service';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
-import { Card, CardKind, CardColor } from '../../../../../../core/models/card.model';
+import { Card, CardKind, CardColor, TreatmentSubtype } from '../../../../../../core/models/card.model';
+import { isInfected, isVaccinated, isImmune } from '../../../../../../core/utils/organ.utils';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -20,6 +21,7 @@ import { CardIconComponent } from '../../../../../../shared/components/card-icon
 })
 export class PlayerCardComponent {
   organ = input.required<OrganOnBoard>();
+  isMe = input(false);
   contagionMode = input(false);
   temporaryViruses = input<Card[]>([]);
 
@@ -116,8 +118,61 @@ export class PlayerCardComponent {
         if (card.color === CardColor.Multi || organ.color === CardColor.Multi) return true;
         return card.color === organ.color;
       }
+
+      if (card.kind === CardKind.Organ && card.color === CardColor.Orange) {
+        // Órgano Mutante: debe animar todos los órganos del propio jugador
+        return this.isMe();
+      }
+
+      if (card.kind === CardKind.Treatment) {
+        switch (card.subtype) {
+          case TreatmentSubtype.OrganThief:
+            // "debe animar los órganos de todos los jugadores (menos los órganos inmunes u órganos que ya tenga el propio jugador)"
+            // Si ya lo tiene, no se puede robar (lógica de gameStore). Aquí simplificamos:
+            // !isMe() && !isImmune
+            // TODO: verificar si el jugador YA tiene ese color (requiere access a mi board)
+            // Por simplicidad visual: todos los rivales no inmunes.
+            return !this.isMe() && !isImmune(organ);
+
+          case TreatmentSubtype.Transplant:
+            // "debe animar todos los órganos de todos los tableros (sin tener en cuenta lor órganos inmunes)"
+            return !isImmune(organ);
+
+          case TreatmentSubtype.AlienTransplant:
+            // "debe animar todos los órganos de todos los tableros"
+            return true;
+
+          case TreatmentSubtype.failedExperiment:
+            // "debe animar los órganos infectados o vacunados (no inmunes)"
+            return (isInfected(organ) || isVaccinated(organ)) && !isImmune(organ);
+
+          case TreatmentSubtype.colorThiefRed:
+          case TreatmentSubtype.colorThiefGreen:
+          case TreatmentSubtype.colorThiefBlue:
+          case TreatmentSubtype.colorThiefYellow:
+            // "solo debe animar los órganos correspondientes"
+            if (this.isMe()) return false;
+            
+            // Map subtype to color
+            let targetColor: CardColor | null = null;
+            if (card.subtype === TreatmentSubtype.colorThiefRed) targetColor = CardColor.Red;
+            if (card.subtype === TreatmentSubtype.colorThiefGreen) targetColor = CardColor.Green;
+            if (card.subtype === TreatmentSubtype.colorThiefBlue) targetColor = CardColor.Blue;
+            if (card.subtype === TreatmentSubtype.colorThiefYellow) targetColor = CardColor.Yellow;
+
+            if (!targetColor) return false;
+            
+            // Si es multicolor o coincide exacto
+            // "por ejemplo si es ColorThiefRed, solo los órganos rojos".
+            // Asumimos que Multicolor NO cuenta para ColorThief específico salvo que las reglas digan lo contrario.
+            // Dado el prompt "solo los órganos rojos", seremos estrictos con el color base.
+            return organ.color === targetColor;
+
+          default:
+            return false;
+        }
+      }
       
-      // TODO: Manejar Tratamientos si se requiere animation específica
       return false; 
     }
 

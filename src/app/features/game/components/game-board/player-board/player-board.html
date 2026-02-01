@@ -38,8 +38,8 @@
         [dropListId]="'slot-' + player().player.id + '-' + organ.color" [dropListData]="[organ]"
         [dropListConnectedTo]="getConnectedIdsForSlot(organ.color)" [dropListEnterPredicate]="slotEnterPredicate"
         (dropListDropped)="onDrop($event, organ.color, organ)" (dropListEntered)="onEnterBoard($event)"
-        (click)="onSlotClick(organ, player().player.id)" [organ]="organ" [contagionMode]="contagionState()! && isMe()"
-        [temporaryViruses]="
+        (click)="onSlotClick(organ, player().player.id)" [organ]="organ" [isMe]="isMe()"
+        [contagionMode]="contagionState()! && isMe()" [temporaryViruses]="
           getTemporaryVirusesForOrgan()(organ.id, player().player.id)
         "></player-card>
       }

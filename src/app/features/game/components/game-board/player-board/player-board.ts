@@ -68,12 +68,32 @@ export class PlayerBoardComponent {
 
     // Solo nos interesa si es un Órgano y es MI tablero
     // dragged puede ser Card o {virusId...}
-    if ('kind' in dragged && dragged.kind === CardKind.Organ) {
-      if ((dragged as Card).color === CardColor.Orange) {
-          // Órgano mutante: NO se puede soltar en el tablero general (solo en slots)
-          return false;
+    if ('kind' in dragged) {
+      const card = dragged as Card;
+      
+      if (card.kind === CardKind.Organ) {
+          if (card.color === CardColor.Orange) {
+              // Órgano mutante: NO se puede soltar en el tablero general (solo en slots)
+              return false;
+          }
+          return this.isMe();
       }
-      return this.isMe();
+
+      if (card.kind === CardKind.Treatment) {
+        switch (card.subtype) {
+          case TreatmentSubtype.Gloves:
+          case TreatmentSubtype.BodySwap:
+          case TreatmentSubtype.Apparition:
+            return true; // Todos los tableros
+
+          case TreatmentSubtype.MedicalError:
+          case TreatmentSubtype.trickOrTreat:
+            return !this.isMe(); // Solo rivales
+
+          case TreatmentSubtype.Contagion:
+            return this.isMe(); // Solo propio
+        }
+      }
     }
     
     return false;
