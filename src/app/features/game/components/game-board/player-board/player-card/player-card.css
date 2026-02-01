@@ -187,7 +187,7 @@
 }
 
 .card.organ.cdk-drop-list-receiving.valid-target {
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-4px);
   background: rgba(59, 130, 246, 0.18);
 }
 

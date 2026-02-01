@@ -26,7 +26,9 @@
 
   <div class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"
     [cdkDropListConnectedTo]="connectedTo()" [cdkDropListEnterPredicate]="boardEnterPredicate"
-    (cdkDropListDropped)="onBoardDrop($event)" [class.valid-board-target]="isValidBoardTarget()">
+    (cdkDropListDropped)="onBoardDrop($event)" (cdkDropListEntered)="onBoardEnter($event)"
+    (cdkDropListExited)="onBoardExit($event)" [class.valid-board-target]="isValidBoardTarget()"
+    [class.drag-over]="isDragOver()">
     @if (player().board.length === 0) {
     <div class="board-empty" aria-label="Tablero vacío">
       Tablero de {{ player().player.name }}

@@ -325,6 +325,17 @@ export class PlayerBoardComponent {
     return true;
   };
 
+  // Drag over state for visual feedback
+  isDragOver = signal(false);
+
+  onBoardEnter(_event: any) {
+    this.isDragOver.set(true);
+  }
+
+  onBoardExit(_event: any) {
+    this.isDragOver.set(false);
+  }
+
   onBoardDrop(event: CdkDragDrop<any>) {
     const rid = this.roomId();
     const card = event.item.data as Card | undefined;
