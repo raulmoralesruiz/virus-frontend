@@ -262,12 +262,12 @@
       <div class="target-select__organs">
         <button type="button" class="target-select__organ" [class.is-active]="selectedAction() === 'medicine'"
           (click)="actionChange.emit('medicine')">
-          <card-icon class="target-select__action-icon" name="modifier-medicine" />
+          <card-icon class="target-select__action-icon" name="modifier-medicine" color="white" />
           <span>Usar Medicina</span>
         </button>
         <button type="button" class="target-select__organ" [class.is-active]="selectedAction() === 'virus'"
           (click)="actionChange.emit('virus')">
-          <card-icon class="target-select__action-icon" name="modifier-virus" />
+          <card-icon class="target-select__action-icon" name="modifier-virus" color="white" />
           <span>Usar Virus</span>
         </button>
       </div>

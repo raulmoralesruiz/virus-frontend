@@ -21,10 +21,14 @@ import { Component, input, computed } from '@angular/core';
       height: 100%;
       fill: currentColor;
     }
-  `]
+  `],
+  host: {
+    '[style.color]': 'color()'
+  }
 })
 export class CardIconComponent {
   name = input.required<string>();
+  color = input<string>('#000');
   
   href = computed(() => `#icon-${this.name()}`);
 }
