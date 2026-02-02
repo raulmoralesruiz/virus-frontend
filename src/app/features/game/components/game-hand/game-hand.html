@@ -1,124 +1,51 @@
-<!-- <h3>Tu mano: {{ hand.length }} cartas</h3> -->
+<!-- <h3>Tu mano: {{ hand().length }} cartas</h3> -->
 
-@if (hand.length) {
-<div
-  class="hand-container"
-  cdkDropList
-  [id]="'handList-' + (apiPlayer.player()?.id || '')"
-  [cdkDropListData]="hand"
-  [cdkDropListConnectedTo]="boardIds()"
-  (cdkDropListExited)="onExitHand($event)"
->
-  @for (card of hand; track card.id) {
-  <app-hand-card
-    [card]="card"
-    [isSelected]="selectedCardsToDiscard.includes(card)"
-    [isMyTurn]="isMyTurn"
-    (toggleSelect)="toggleDiscardSelection($event)"
-    (play)="selectCardToPlay($event)"
-    cdkDrag
-    [cdkDragData]="card"
-  ></app-hand-card>
+@if (hand().length) {
+<div class="hand-panel" #handPanel [class.is-my-turn]="isMyTurn()">
+  @if (selectedCard) {
+  <game-target-select [selectedCard]="selectedCard" [targetOptions]="targetOptions"
+    [contagionAssignments]="contagionAssignments" [publicState]="publicState()" [selectedTarget]="selectedTarget"
+    [selectedTargetA]="selectedTargetA" [selectedTargetB]="selectedTargetB" [confirmDisabled]="!canConfirmSelection"
+    [selectedAction]="selectedActionForFailedExperiment" [isMyTurn]="isMyTurn()" [isDragDrop]="isDragDropSelection"
+    [selectedDirection]="selectedDirection" (targetChange)="onTargetChange($event.value, $event.which)"
+    (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
+    (actionChange)="selectedActionForFailedExperiment = $event" (directionChange)="onDirectionChange($event)"
+    (confirm)="confirmPlayCard()" (cancel)="clearSelection()" />
+  }
+
+  @if (mustPlayCardId()) {
+  <div class="apparition-banner">
+    <p>👻 ¡Has jugado Aparición!</p>
+    <p>Debes <strong class="highlight-action">jugar la nueva carta</strong> o <strong
+        class="highlight-action">conservarla</strong>.</p>
+    <button (click)="keepApparitionCard()" class="keep-btn">
+      Conservar carta y Pasar Turno
+    </button>
+  </div>
+  }
+
+  <div class="hand-container" [class.is-my-turn]="isMyTurn()" cdkDropList
+    [id]="'handList-' + (apiPlayer.player()?.id || '')" [cdkDropListData]="hand()" [cdkDropListConnectedTo]="boardIds()"
+    (cdkDropListExited)="onExitHand($event)">
+    @for (card of hand(); track card.id) {
+    <app-hand-card [card]="card" [isSelected]="isCardSelected(card)" [isMyTurn]="isMyTurn()"
+      [infoOpen]="selectedCard?.id === card.id" [isDisabled]="mustPlayCardId() !== null && mustPlayCardId() !== card.id"
+      [isPlaying]="selectedCard?.id === card.id" (toggleSelect)="toggleDiscardSelection($event)"
+      (play)="selectCardToPlay($event)"></app-hand-card>
+    }
+  </div>
+
+  @if (selectedDiscardCount()) {
+  <button class="discard-btn" (click)="discardSelectedCards()"
+    [disabled]="!isMyTurn() || !selectedDiscardCount() || gameEnded()">
+    Descartar seleccionadas ({{ selectedDiscardCount() }})
+  </button>
   }
 </div>
-
-@if (selectedCardsToDiscard.length) {
-<button
-  class="discard-btn"
-  (click)="discardSelectedCards()"
-  [disabled]="!isMyTurn || selectedCardsToDiscard.length === 0 || gameEnded"
->
-  Descartar seleccionadas ({{ selectedCardsToDiscard.length }})
-</button>
-}
+<div class="hand-panel-spacer" aria-hidden="true" [style.height.px]="panelSpacerHeight"></div>
 <!-- Jugador no tiene cartas -->
 } @else {
-<p>Sin cartas</p>
-}
-
-<!-- UI para seleccionar objetivo -->
-@if (selectedCard && isMyTurn) {
-<div class="target-select">
-  <p>
-    Has seleccionado:
-    <strong>
-      {{ selectedCard.kind }} - {{ selectedCard.color }} @if (selectedCard.kind
-      === CardKind.Treatment && selectedCard.subtype) { ({{
-        selectedCard.subtype
-      }}) }
-    </strong>
-  </p>
-
-  <!-- Transplante -->
-  @if (selectedCard.kind === CardKind.Treatment && selectedCard.subtype ===
-  TreatmentSubtype.Transplant) {
-  <div class="field">
-    <label for="transplant-organ-a">Órgano A:</label>
-    <select id="transplant-organ-a" (change)="onTargetChange($event, 'A')">
-      <option value="">-- Selecciona --</option>
-      @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">
-        {{ opt.label }}
-      </option>
-      }
-    </select>
-  </div>
-
-  <div class="field">
-    <label for="transplant-organ-b">Órgano B:</label>
-    <select id="transplant-organ-b" (change)="onTargetChange($event, 'B')">
-      <option value="">-- Selecciona --</option>
-      @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">
-        {{ opt.label }}
-      </option>
-      }
-    </select>
-  </div>
-  }
-
-  <!-- Contagion -->
-  @if (selectedCard.kind === CardKind.Treatment && selectedCard.subtype ===
-  TreatmentSubtype.Contagion) {
-  <h4>Asigna cada virus a un órgano libre de otro jugador</h4>
-  @for (assignment of contagionAssignments; let i = $index; track i) {
-  <div class="contagion-assignment">
-    <label [attr.for]="'contagion-target-' + i">
-      Virus desde órgano {{ assignment.fromOrganId }} →
-    </label>
-    <select
-      (change)="onContagionTargetChange($event, i)"
-      [attr.id]="'contagion-target-' + i"
-    >
-      <option value="">-- Selecciona destino --</option>
-      @for (p of publicState?.players; track p.player.id) { @for (o of p.board;
-      track o.id) { @if (!o.attached.length) {
-      <option [value]="o.id + '|' + p.player.id">
-        {{ p.player.name }} · {{ o.color }}
-      </option>
-      } } }
-    </select>
-  </div>
-  } }
-
-  <!-- Virus, Medicina, Ladrón, Error Médico -->
-  @if (targetOptions.length && !(selectedCard.kind === CardKind.Treatment &&
-  (selectedCard.subtype === TreatmentSubtype.Transplant || selectedCard.subtype
-  === TreatmentSubtype.Contagion))) {
-  <div class="field">
-    <label for="card-target">Objetivo:</label>
-    <select id="card-target" (change)="onTargetChange($event)">
-      <option value="">-- Selecciona --</option>
-      @for (opt of targetOptions; track opt.organId) {
-      <option [value]="opt.organId + '|' + opt.playerId">
-        {{ opt.label }}
-      </option>
-      }
-    </select>
-  </div>
-  }
-
-  <button (click)="confirmPlayCard()">Confirmar</button>
-  <button (click)="clearSelection()">Cancelar</button>
+<div class="hand-empty">
+  <p>Sin cartas</p>
 </div>
 }

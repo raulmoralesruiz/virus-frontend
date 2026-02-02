@@ -1,31 +1,38 @@
-<div class="card organ {{ organ.color }}">
-  @if (organ.attached.length === 0) {
-  <div class="title">{{ organIcon() }}</div>
-  } @if (getAllAttachedCards().length) {
+@let organValue = organ();
+
+<div class="card organ {{ organValue.color }}" cdkDropList [id]="dropListId()" [cdkDropListData]="dropListData()"
+  [cdkDropListConnectedTo]="dropListConnectedTo()"
+  [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
+  [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="onDropped(); dropListDropped.emit($event)"
+  (cdkDropListEntered)="onDragEntered(); dropListEntered.emit($event)" (cdkDropListExited)="onDragExited();"
+  [class.valid-target]="isValidTarget()" [class.drag-over]="isDragOver()">
+  @if (organValue.attached.length === 0) {
+  <div class="title">
+    <card-icon class="organ-icon-img" [name]="organIcon()" />
+  </div>
+  }
+  @if (getAllAttachedCards().length) {
   <div class="attachments">
-    @for (a of getAllAttachedCards(); track a.id) { @if (contagionMode &&
-    isVirus(a) && !isTemporaryVirus(a.id)) {
+    @for (a of getAllAttachedCards(); track a.id) {
+    @if (contagionMode() && isVirus(a) && !isTemporaryVirus(a.id)) {
     <!-- Virus arrastrable en modo contagio (solo los reales, no temporales) -->
-    <div
-      class="attached-card chip virus {{ a.color }}"
-      cdkDrag
-      [cdkDragData]="{ fromOrganId: organ.id, virusId: a.id }"
-    >
-      <span class="icon">🦠</span>
+    <div class="attached-card chip virus {{ a.color }}" cdkDrag
+      [cdkDragData]="{ fromOrganId: organValue.id, virusId: a.id }"
+      (cdkDragStarted)="onVirusDragStarted(a, organValue.id)" (cdkDragEnded)="onVirusDragEnded()">
+      <card-icon class="icon" [name]="getVirusIcon()" />
     </div>
     } @else {
     <!-- Cualquier otra carta (virus temporal, estático o medicina) -->
-    <div
-      class="attached-card chip {{ a.kind }} {{ a.color }}"
-      [class.temporary-virus]="isVirus(a) && isTemporaryVirus(a.id)"
-    >
+    <div class="attached-card chip {{ a.kind }} {{ a.color }}"
+      [class.temporary-virus]="isVirus(a) && isTemporaryVirus(a.id)">
       @if (isVirus(a)) {
-      <span class="icon">🦠</span>
+      <card-icon class="icon" [name]="getVirusIcon()" />
       } @else {
-      <span class="icon">💊</span>
+      <card-icon class="icon" [name]="getMedicineIcon()" />
       }
     </div>
-    } }
+    }
+    }
   </div>
   }
 </div>

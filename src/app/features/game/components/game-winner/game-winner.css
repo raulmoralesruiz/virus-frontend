@@ -1,13 +1,117 @@
-.victory {
-  margin-top: 2rem;
-  padding: 1rem;
-  border: 2px solid gold;
-  border-radius: 8px;
-  background: #fffbe6;
+.winner-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(4, 9, 18, 0.65);
+  backdrop-filter: blur(3px);
+  z-index: 1100;
+}
+
+.winner-modal {
+  position: relative;
+  width: min(420px, 100%);
+  border-radius: 12px;
+  background: var(--color-victory-background, #0f172a);
+  padding: 2.25rem 2.5rem 1.75rem;
+  color: var(--color-victory-text, #f8fafc);
+  user-select: none;
+}
+
+.winner-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 120ms ease-in-out, transform 120ms ease-in-out;
+}
+
+.winner-close:hover,
+.winner-close:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.05);
+}
+
+.winner-content {
   text-align: center;
 }
 
-.victory h2 {
-  color: #d4af37;
-  margin-bottom: 0.5rem;
+.winner-heading {
+  margin: 0 0 0.5rem;
+  color: var(--color-victory-text, #f8fafc);
+  font-size: 2rem;
+}
+
+.winner-message {
+  margin: 0 0 1.75rem;
+  font-size: 1.1rem;
+}
+
+.winner-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.winner-reset {
+  padding: 0.65rem 1.75rem;
+  border-radius: 9999px;
+  background: var(--color-primary, #38bdf8);
+  color: #020617;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease-in-out, transform 120ms ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.winner-reset:hover,
+.winner-reset:focus-visible {
+  transform: translateY(-1px);
+  background: rgba(56, 189, 248, 0.9);
+}
+
+.winner-leave {
+  padding: 0.65rem 1.5rem;
+  border-radius: 9999px;
+  background: #b91c1c;
+  color: #fef2f2;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease-in-out, transform 120ms ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.winner-leave:hover,
+.winner-leave:focus-visible {
+  transform: translateY(-1px);
+  background: #991b1b;
+}
+.winner-leave__icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+.winner-reset__icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
 }

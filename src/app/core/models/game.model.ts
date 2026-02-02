@@ -10,11 +10,13 @@ export interface PublicPlayerInfo {
   player: Player;
   board: OrganOnBoard[]; // cartas visibles en mesa
   handCount: number; // solo el número de cartas en mano, no cuáles son
+  hasTrickOrTreat?: boolean;
 }
 
 export interface PublicGameState {
   roomId: string;
   discardCount: number;
+  topDiscard?: Card;
   deckCount: number;
   players: PublicPlayerInfo[];
   startedAt: string;
@@ -23,6 +25,13 @@ export interface PublicGameState {
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
   history: string[];
+  pendingAction?: ApparitionDecision;
+}
+
+export interface ApparitionDecision {
+  type: 'ApparitionDecision';
+  playerId: string;
+  cardId: string;
 }
 
 export interface GameState {
@@ -64,9 +73,14 @@ export interface MedicalErrorTarget {
   playerId: string; // solo jugador
 }
 
+export interface FailedExperimentTarget extends PlayCardTarget {
+  action: 'medicine' | 'virus';
+}
+
 /** Unión de targets posibles que puede enviar el front */
 export type AnyPlayTarget =
   | PlayCardTarget
   | TransplantTarget
   | MedicalErrorTarget
-  | ContagionTarget[];
+  | ContagionTarget[]
+  | FailedExperimentTarget;

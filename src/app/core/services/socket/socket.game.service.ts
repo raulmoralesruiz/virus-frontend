@@ -13,13 +13,14 @@ import { ApiPlayerService } from '../api/api.player.service';
 export class SocketGameService {
   private socketService = inject(SocketService);
   private apiPlayerService = inject(ApiPlayerService);
+  private activeRoomId: string | null = null;
 
   publicState = signal<PublicGameState | null>(null);
   hand = signal<Card[]>([]);
   lastError = signal<string | null>(null);
   winner = signal<PublicPlayerInfo | null>(null);
 
-  ERROR_TIMEOUT: number = 3000;
+  ERROR_TIMEOUT: number = 5000;
 
   constructor() {
     this.registerListeners();
@@ -31,6 +32,11 @@ export class SocketGameService {
       GAME_CONSTANTS.GAME_STARTED,
       (state: PublicGameState) => {
         console.log('[SocketGameService] GAME_STARTED', state);
+        if (this.activeRoomId && state.roomId !== this.activeRoomId) {
+          return;
+        }
+
+        this.activeRoomId = state.roomId;
         this.publicState.set(state);
         this.winner.set(null); // limpiar ganador de partida anterior
       }
@@ -43,7 +49,11 @@ export class SocketGameService {
         console.log('[SocketGameService] GAME_HAND', data);
         // this.hand.set(data.hand);
         const myId = this.apiPlayerService.player()?.id;
-        if (myId && data.playerId === myId) {
+        if (
+          (!this.activeRoomId || data.roomId === this.activeRoomId) &&
+          myId &&
+          data.playerId === myId
+        ) {
           console.log('[SocketGameService] ✅ Actualizando mi mano', data.hand);
           this.hand.set(data.hand);
         } else {
@@ -55,8 +65,20 @@ export class SocketGameService {
     // 🔄 Estado público en cualquier momento
     this.socketService.on(
       GAME_CONSTANTS.GAME_STATE,
-      (state: PublicGameState) => {
-        // console.log('[SocketGameService] GAME_STATE', state);
+      (state: PublicGameState | null) => {
+        if (!state) {
+          this.publicState.set(null);
+          this.hand.set([]);
+          this.winner.set(null);
+          this.activeRoomId = null;
+          return;
+        }
+
+        if (this.activeRoomId && state.roomId !== this.activeRoomId) {
+          return;
+        }
+
+        this.activeRoomId = state.roomId;
         this.publicState.set(state);
       }
     );
@@ -78,7 +100,21 @@ export class SocketGameService {
     // 🏆 detectar fin de partida
     this.socketService.on(
       GAME_CONSTANTS.GAME_END,
-      (data: { roomId: string; winner: PublicPlayerInfo }) => {
+      (data: { roomId: string; winner: PublicPlayerInfo | null }) => {
+        if (this.activeRoomId && data.roomId !== this.activeRoomId) {
+          return;
+        }
+
+        const hasPublicState = !!this.publicState();
+
+        if (!data.winner) {
+          if (!hasPublicState) {
+            this.activeRoomId = null;
+            this.publicState.set(null);
+            this.hand.set([]);
+          }
+        }
+
         this.winner.set(data.winner);
         console.log('🏆 Partida terminada, ganador:', data.winner);
       }
@@ -88,18 +124,25 @@ export class SocketGameService {
       GAME_CONSTANTS.ROOM_RESET,
       (data: { roomId: string }) => {
         console.log('[SocketGameService] ROOM_RESET', data);
+        if (this.activeRoomId && data.roomId !== this.activeRoomId) {
+          return;
+        }
+
         this.publicState.set(null);
         this.hand.set([]);
         this.winner.set(null);
+        this.activeRoomId = null;
       }
     );
   }
 
   startGame(roomId: string) {
+    this.activeRoomId = roomId;
     this.socketService.emit(GAME_CONSTANTS.GAME_START, { roomId });
   }
 
   requestGameState(roomId: string) {
+    this.activeRoomId = roomId;
     this.socketService.emit(GAME_CONSTANTS.GAME_GET_STATE, { roomId });
   }
 
@@ -133,10 +176,26 @@ export class SocketGameService {
     this.winner.set(null);
     this.publicState.set(null);
     this.hand.set([]);
+    this.activeRoomId = null;
   }
 
   setClientError(msg: string) {
     this.lastError.set(msg);
     setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
+  }
+
+  clearLastError() {
+    this.lastError.set(null);
+  }
+
+  leaveGame(roomId?: string) {
+    if (!roomId || this.activeRoomId === roomId) {
+      this.activeRoomId = null;
+    }
+
+    this.publicState.set(null);
+    this.hand.set([]);
+    this.winner.set(null);
+    this.lastError.set(null);
   }
 }

@@ -1,0 +1,53 @@
+@if (action(); as action) {
+<div
+  class="action-feed"
+  role="button"
+  tabindex="0"
+  (click)="dismiss()"
+  (keydown)="handleKeydown($event)"
+  [class.is-visible]="isVisible()"
+  [class.is-leaving]="isLeaving()"
+  (transitionend)="handleTransitionEnd($event)"
+>
+  <div class="action-feed__identity">
+    <!-- <div [class]="iconClass()">
+      <span class="action-feed__icon-inner">{{ icon() }}</span>
+    </div> -->
+    @if (action.actor) {
+    <span class="action-feed__actor">{{ action.actor }}</span>
+    }
+    @else {
+    <span class="action-feed__actor action-feed__actor--system">Sistema</span>
+    }
+  </div>
+  <button
+    type="button"
+    class="action-feed__close"
+    aria-label="Cerrar notificación"
+  >
+    &times;
+  </button>
+  <div class="action-feed__message">
+    @switch (action.type) {
+      @case ('play-card') {
+      <span class="action-feed__verb">{{ action.verb ?? 'jugó' }}</span>
+      <span class="action-feed__card">{{ action.cardLabel }}</span>
+      @if (detailFor(action); as detail) {
+      <span class="action-feed__detail">{{ detail }}</span>
+      }
+      }
+      @case ('discard') {
+      <span class="action-feed__verb">descartó</span>
+      <span class="action-feed__card">{{ cardsLabel(action.quantity) }}</span>
+      }
+      @case ('draw') {
+      <span class="action-feed__verb">robó</span>
+      <span class="action-feed__card">una carta</span>
+      }
+      @default {
+      <span class="action-feed__detail">{{ action.message }}</span>
+      }
+    }
+  </div>
+</div>
+}

@@ -3,12 +3,14 @@ import { SocketGameService } from '../services/socket/socket.game.service';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from './api/api.player.service';
 import { AnyPlayTarget } from '../models/game.model';
+import { RoomStoreService } from './room-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
   private socketGame = inject(SocketGameService);
   private apiPlayer = inject(ApiPlayerService);
   private router = inject(Router);
+  private roomStore = inject(RoomStoreService);
 
   // Estado público de la partida (mazo, descarte, jugadores...)
   publicState = this.socketGame.publicState;
@@ -41,6 +43,20 @@ export class GameStoreService {
     effect(() => {
       const state = this.publicState();
       if (!state) return;
+
+      const player = this.apiPlayer.player();
+      if (!player) return;
+
+      const isPlayerInGame = state.players.some(
+        (info) => info.player.id === player.id
+      );
+
+      if (!isPlayerInGame) {
+        if (this.router.url.startsWith('/game/')) {
+          this.router.navigate(['/room-list']);
+        }
+        return;
+      }
 
       const targetUrl = `/game/${state.roomId}`;
       if (!this.router.url.startsWith(targetUrl)) {
@@ -113,8 +129,26 @@ export class GameStoreService {
     this.router.navigate(['/home']);
   }
 
+  goToRoomList() {
+    this.router.navigate(['/room-list']);
+  }
+
+  leaveGame(roomId: string) {
+    const player = this.apiPlayer.player();
+    if (!player) return;
+
+    this.socketGame.leaveGame(roomId);
+    this.roomStore.leaveRoom(roomId, player);
+    this.historyVisible.set(false);
+    this.router.navigate(['/room-list']);
+  }
+
   setClientError(msg: string) {
     this.socketGame.setClientError(msg);
+  }
+
+  clearError() {
+    this.socketGame.clearLastError();
   }
 
   openHistoryModal() {

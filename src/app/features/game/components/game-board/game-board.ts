@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnChanges } from '@angular/core';
+import { Component, computed, inject, input, OnChanges, output } from '@angular/core';
 import { PublicGameState } from '../../../../core/models/game.model';
 import { PlayerBoardComponent } from './player-board/player-board';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
@@ -37,11 +37,12 @@ export class GameBoardComponent implements OnChanges {
   allSlotIds = computed(() => {
     const st = this.state();
     if (!st) return [];
-    const colors = Object.values(CardColor);
+    
     const ids: string[] = [];
     for (const p of st.players) {
-      for (const c of colors) {
-        ids.push(`slot-${p.player.id}-${c}`);
+      // Solo generar IDs para huecos que realmente existen (tienen órgano)
+      for (const organ of p.board) {
+        ids.push(`slot-${p.player.id}-${organ.color}`);
       }
     }
     return ids;
@@ -227,6 +228,14 @@ export class GameBoardComponent implements OnChanges {
 
     this.transplantState = null;
   }
+
+  startFailedExperiment = output<{
+    card: Card;
+    target: { organId: string; playerId: string };
+  }>();
+
+  startBodySwap = output<{ card: Card }>();
+  startApparition = output<{ card: Card }>();
 
   cancelTransplant() {
     this.transplantState = null;

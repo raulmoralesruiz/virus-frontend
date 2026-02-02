@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from '../../core/services/api/api.player.service';
 import { Player } from '../../core/models/player.model';
-import { TestDndComponent } from '../game/components/prueba/test-dnd.component';
-// import { TestDndComponent2 } from '../game/components/prueba/test-dnd2.component';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +13,13 @@ import { TestDndComponent } from '../game/components/prueba/test-dnd.component';
 export class HomeComponent implements OnInit {
   private apiPlayerService = inject(ApiPlayerService);
   private router = inject(Router);
+  greeting = '¡Hola!';
+  welcomeMessage = 'Bienvenido al juego más contagioso.';
+  tagline =
+    'Prepárate para contagiar la diversión, desafía a tus amigos y protege tus órganos.';
 
   ngOnInit() {
+    this.greeting = this.buildGreeting();
     const player = this.apiPlayerService.player();
     if (player) {
       this.redirectRoomList(player);
@@ -41,5 +44,20 @@ export class HomeComponent implements OnInit {
       next: () => this.router.navigate(['/room-list']),
       error: () => localStorage.removeItem('player'),
     });
+  }
+
+  private buildGreeting(): string {
+    const hour = new Date().getHours();
+    let greeting = '¡Hola';
+
+    if (hour >= 5 && hour < 12) {
+      greeting = '¡Buenos días';
+    } else if (hour < 18) {
+      greeting = '¡Buenas tardes';
+    } else {
+      greeting = '¡Buenas noches';
+    }
+
+    return `${greeting}!`;
   }
 }

@@ -2,100 +2,38 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0.85rem 1rem;
-  border: 1px solid #e5e7eb;
+  padding: 0.5rem 1rem;
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+  background: var(--color-info-bg);
   cursor: pointer;
   user-select: none;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.game-info:focus-visible {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
+  transition: transform 0.15s ease, background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 0;
 }
 
 .game-info--expanded {
-  box-shadow: 0 16px 32px -22px rgba(15, 23, 42, 0.55);
-}
-
-.game-info__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.game-info__header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: #0f172a;
-}
-
-.history-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 1rem;
-  border: none;
-  border-radius: 999px;
-  background: #0f172a;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-  box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.7);
-}
-
-.history-toggle:hover {
-  transform: translateY(-1px);
-  background: #1e293b;
-  box-shadow: 0 18px 34px -20px rgba(15, 23, 42, 0.75);
-}
-
-.history-toggle:focus-visible {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
-}
-
-.history-badge {
-  min-width: 1.5rem;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
-  background: #f97316;
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.game-info__details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.game-info__details p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #475569;
+  background: var(--color-info-bg-expanded);
 }
 
 @media (min-width: 768px) {
   .game-info {
     padding: 1rem 1.5rem;
   }
+}
 
-  .game-info__header h2 {
-    font-size: 1.35rem;
-  }
+.game-info[aria-disabled='true'] {
+  cursor: default;
+}
 
-  .game-info__details {
-    flex-direction: row;
-    gap: 1.5rem;
-  }
+.game-info__content,
+.game-info__notification {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.game-info__notification {
+  cursor: default;
 }

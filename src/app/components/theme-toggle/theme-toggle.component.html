@@ -1,0 +1,9 @@
+<button
+  type="button"
+  class="theme-toggle"
+  (click)="toggle()"
+  [attr.aria-pressed]="isDark()"
+  [attr.aria-label]="isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+>
+  <span aria-hidden="true">{{ isDark() ? '☀️' : '🌙' }}</span>
+</button>

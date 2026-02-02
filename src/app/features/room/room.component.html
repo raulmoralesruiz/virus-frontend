@@ -1,17 +1,26 @@
 <div class="room-screen">
   @if (room()) {
   <div class="room-panel">
-    <h2>{{ room()!.name }}</h2>
-    <p class="subtitle">
-      {{ room()!.players.length }} jugador{{ room()!.players.length === 1 ?
-      "" : "es" }} conectad{{ room()!.players.length === 1 ? "o" : "os" }}
-    </p>
+    <app-room-top
+      [room]="room"
+      [shareMessage]="shareMessage"
+      (copyRoomCode)="copyRoomCode()"
+      (copyRoomLink)="copyRoomLink()"
+      (leaveRoom)="leaveRoom()"
+    />
 
-    <ul class="player-list">
-      @for (player of room()!.players; track player.id) {
-      <li>{{ player.name }}</li>
-      }
-    </ul>
+    <app-room-players [room]="room" />
+
+    <app-room-config
+      [canEditConfig]="canEditConfig()"
+      [roomConfig]="getRoomConfig()"
+      [gameModeOptions]="gameModeOptions"
+      [timerOptions]="timerOptions"
+      [sliderIndex]="getSliderIndex()"
+      [sliderProgress]="getSliderProgress()"
+      (gameModeSelect)="onGameModeSelect($event)"
+      (timerSelect)="onTimerSelect($event)"
+    />
 
     @if (isHost()) {
     <button
@@ -31,5 +40,17 @@
     <p class="subtitle">Regresa al inicio para crear o unirte a una partida.</p>
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
   </div>
+  } @if (confirmingLeave) {
+  <app-room-exit
+    (cancelLeave)="cancelLeave()"
+    (confirmLeave)="confirmLeave()"
+  />
+  } @if (!player()) {
+  <app-room-enter
+    [isCreatingPlayer]="isCreatingPlayer"
+    [creationError]="creationError"
+    (creationErrorChange)="creationError = $event"
+    (createPlayerAndJoin)="createPlayerAndJoin($event)"
+  />
   }
 </div>

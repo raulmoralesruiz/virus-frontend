@@ -71,4 +71,21 @@ describe('GameInfo', () => {
     expect(historySpy).toHaveBeenCalled();
     expect(component.showDetails).toBeFalse();
   });
+
+  it('muestra el tiempo jugado en su propia pila cuando se despliegan los detalles', () => {
+    const host: HTMLElement = fixture.nativeElement.querySelector('.game-info');
+    host.click();
+    fixture.detectChanges();
+
+    const durationPile: HTMLElement = fixture.nativeElement.querySelector(
+      '.game-info__pile--duration'
+    );
+    expect(durationPile).withContext('debería existir la pila de duración').not.toBeNull();
+    expect(durationPile.getAttribute('aria-label') || '').toContain('Tiempo jugado');
+
+    const durationElement: HTMLElement =
+      fixture.nativeElement.querySelector('.game-info__pile--duration .game-info__pile-count');
+    expect(durationElement).withContext('debería mostrar la duración').not.toBeNull();
+    expect(durationElement.textContent || '').toMatch(/^\d{2}:\d{2}$/);
+  });
 });

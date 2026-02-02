@@ -1,36 +1,50 @@
 <div class="player-board" [class.is-me]="isMe()" [class.is-active]="isActive()">
   <div class="player-header">
     <strong>{{ player().player.name }}</strong>
-    @if (isActive()) {
-    <span class="turn-timer">{{ remainingSeconds() }}s</span>
+    @if (player().hasTrickOrTreat) {
+    <span class="player-badge player-badge--curse" title="Este jugador no puede ganar hasta pasar Truco o Trato">
+      <!-- 🎃 Truco o Trato -->
+      <card-icon name="organ-halloween" class="icon-trick-or-treat" /> Truco o Trato
+    </span>
+    }
+    @if (isActive() && turnDurationSeconds() > 0) {
+    <div class="turn-progress">
+      <div class="turn-progress__track" role="progressbar" aria-label="Tiempo restante del turno"
+        [attr.aria-valuemin]="0" [attr.aria-valuenow]="remainingSeconds()" [attr.aria-valuemax]="turnDurationSeconds()">
+        <div class="turn-progress__bar" [class.turn-progress__bar--warning]="turnTimerState() === 'warning'"
+          [class.turn-progress__bar--critical]="turnTimerState() === 'critical'"
+          [style.width.%]="turnProgressPercent()"></div>
+      </div>
+    </div>
+    } @if (isActive()) {
+    <span class="turn-timer" [class.turn-timer--warning]="turnTimerState() === 'warning'"
+      [class.turn-timer--critical]="turnTimerState() === 'critical'">
+      {{ remainingSeconds() }}s
+    </span>
     }
     <!-- <span class="handcount">{{ player().handCount }} en mano</span> -->
   </div>
 
-  <div class="board-grid">
-    @for (color of cardColors; track color) { @let organ =
-    getOrganByColor(color);
-    <div
-      class="board-slot"
-      [id]="'slot-' + player().player.id + '-' + color"
-      cdkDropList
-      [cdkDropListData]="organ ? [organ] : []"
-      [cdkDropListConnectedTo]="getConnectedIdsForSlot(color)"
-      (cdkDropListDropped)="onDrop($event, color, organ!)"
-      (cdkDropListEntered)="onEnterBoard($event)"
-      (click)="onSlotClick(organ, player().player.id)"
-      [class.transplant-mode]="transplantState()"
-    >
-      @if (organ) {
-      <player-card
-        [organ]="organ"
-        [contagionMode]="contagionState()! && isMe()"
-        [temporaryViruses]="
+  <div class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"
+    [cdkDropListConnectedTo]="connectedTo()" [cdkDropListEnterPredicate]="boardEnterPredicate"
+    (cdkDropListDropped)="onBoardDrop($event)" (cdkDropListEntered)="onBoardEnter($event)"
+    (cdkDropListExited)="onBoardExit($event)" [class.valid-board-target]="isValidBoardTarget()"
+    [class.drag-over]="isDragOver()">
+    @if (player().board.length === 0) {
+    <div class="board-empty" aria-label="Tablero vacío">
+      Tablero de {{ player().player.name }}
+    </div>
+    } @else {
+    <div class="board-grid" cdkDropListGroup>
+      @for (organ of player().board; track organ.id) {
+      <player-card class="board-slot" [class.transplant-mode]="transplantState()"
+        [dropListId]="'slot-' + player().player.id + '-' + organ.color" [dropListData]="[organ]"
+        [dropListConnectedTo]="getConnectedIdsForSlot(organ.color)" [dropListEnterPredicate]="slotEnterPredicate"
+        (dropListDropped)="onDrop($event, organ.color, organ)" (dropListEntered)="onEnterBoard($event)"
+        (click)="onSlotClick(organ, player().player.id)" [organ]="organ" [isMe]="isMe()"
+        [contagionMode]="contagionState()! && isMe()" [temporaryViruses]="
           getTemporaryVirusesForOrgan()(organ.id, player().player.id)
-        "
-      ></player-card>
-      } @else {
-      <div class="slot-empty {{ color }}">{{ getOrganIcon(color) }}</div>
+        "></player-card>
       }
     </div>
     }

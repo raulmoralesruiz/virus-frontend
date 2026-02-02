@@ -1,0 +1,40 @@
+:host {
+  display: inline-block;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  background-color: #d9e2f4;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  opacity: 0.95;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.theme-toggle:focus-visible {
+  transform: translateY(-1px);
+}
+
+.theme-toggle span {
+  font-size: 1.25rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 1px rgb(0, 0, 0, 0.75));
+}
+
+:host-context(.theme-dark) .theme-toggle {
+  background-color: #223253;
+  color: #f8fafc;
+}

@@ -1,8 +1,10 @@
-import { Component, OnInit, Signal, inject } from '@angular/core';
+import { Component, OnInit, Signal, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '../../core/services/game-store.service';
+import { RoomStoreService } from '../../core/services/room-store.service';
 import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
+import { ThemeToggleComponent } from '../../components/theme-toggle/theme-toggle.component';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameInfoComponent } from './components/game-info/game-info';
 import { GameBoardComponent } from './components/game-board/game-board';
@@ -17,6 +19,7 @@ import { GameWinnerComponent } from './components/game-winner/game-winner';
     GameBoardComponent,
     GameHandComponent,
     GameWinnerComponent,
+    ThemeToggleComponent,
   ],
   standalone: true,
   templateUrl: './game.component.html',
@@ -25,8 +28,10 @@ import { GameWinnerComponent } from './components/game-winner/game-winner';
 export class GameComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private gameStore = inject(GameStoreService);
+  private roomStore = inject(RoomStoreService);
 
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
+  currentRoom = this.roomStore.currentRoom;
   hand: Signal<Card[]> = this.gameStore.hand;
   history: Signal<string[]> = this.gameStore.history;
   roomId!: string;
@@ -36,6 +41,7 @@ export class GameComponent implements OnInit {
   remainingSeconds = this.gameStore.remainingSeconds;
   winner = this.gameStore.winner;
   showHistory = this.gameStore.historyOpen;
+  confirmingLeave = false;
 
   ngOnInit() {
     const roomId = this.route.snapshot.paramMap.get('id');
@@ -70,6 +76,31 @@ export class GameComponent implements OnInit {
     this.gameStore.goHome();
   }
 
+  leaveAfterWin() {
+    if (this.roomId) {
+      this.gameStore.leaveGame(this.roomId);
+    } else {
+      this.gameStore.goToRoomList();
+    }
+  }
+
+  leaveGame() {
+    this.confirmingLeave = true;
+  }
+
+  confirmLeave() {
+    if (!this.roomId) {
+      this.confirmingLeave = false;
+      return;
+    }
+    this.gameStore.leaveGame(this.roomId);
+    this.confirmingLeave = false;
+  }
+
+  cancelLeave() {
+    this.confirmingLeave = false;
+  }
+
   openHistory(event?: MouseEvent) {
     event?.stopPropagation();
     this.gameStore.openHistoryModal();
@@ -89,5 +120,26 @@ export class GameComponent implements OnInit {
 
     // descartar automáticamente esa carta
     this.gameStore.discardCards(this.roomId, [randomCard.id]);
+  }
+
+  dismissError() {
+    this.gameStore.clearError();
+  }
+
+  @ViewChild(GameHandComponent) gameHand!: GameHandComponent;
+
+  handleFailedExperiment(event: {
+    card: Card;
+    target: { organId: string; playerId: string };
+  }) {
+    this.gameHand.selectCardAndTarget(event.card, event.target);
+  }
+
+  handleBodySwap(event: { card: Card }) {
+    this.gameHand.selectCardToPlay(event.card);
+  }
+
+  handleApparition(event: { card: Card }) {
+    this.gameHand.selectCardToPlay(event.card);
   }
 }

@@ -4,16 +4,14 @@
   align-items: flex-start;
   gap: 0.25rem;
   padding: 0.75rem 1rem;
-  border: 1px solid #e5e7eb;
   border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 8px 20px -18px rgba(15, 23, 42, 0.45);
+  background: var(--section-turn-background);
   justify-content: space-between;
 }
 
 .game-turn p {
   margin: 0;
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 @media (min-width: 768px) {

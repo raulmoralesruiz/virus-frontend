@@ -11,6 +11,9 @@ export enum CardColor {
   Blue = 'blue', // Cerebro
   Yellow = 'yellow', // Hueso
   Multi = 'multi', // Multicolor (afecta a todos)
+  Halloween = 'halloween', // Especial expansión
+  Orange = 'orange', // Órgano Mutante
+  Treatment = 'treatment', // Tratamientos
 }
 
 export enum TreatmentSubtype {
@@ -19,6 +22,15 @@ export enum TreatmentSubtype {
   Contagion = 'contagion', // Contagio
   Gloves = 'gloves', // Guantes de Látex
   MedicalError = 'medicalError', // Error Médico
+  failedExperiment = 'failedExperiment', // Experimento fallido
+  trickOrTreat = 'trickOrTreat', // Truco o Trato
+  colorThiefRed = 'colorThiefRed',
+  colorThiefGreen = 'colorThiefGreen',
+  colorThiefBlue = 'colorThiefBlue',
+  colorThiefYellow = 'colorThiefYellow',
+  BodySwap = 'bodySwap',
+  Apparition = 'apparition', // Aparición
+  AlienTransplant = 'alienTransplant', // Trasplante Alienígena
 }
 
 export interface Card {

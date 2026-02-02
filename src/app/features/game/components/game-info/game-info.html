@@ -1,27 +1,24 @@
-<div
-  class="game-info"
-  [class.game-info--expanded]="showDetails"
-  (click)="toggleDetails()"
-  (keydown)="onKeyDown($event)"
-  role="button"
-  tabindex="0"
-  [attr.aria-expanded]="showDetails"
->
-  <div class="game-info__header">
-    <h2>Partida {{ shortRoomId }}</h2>
-    <button type="button" class="history-toggle" (click)="onHistoryClick($event)">
-      Historial
-      @if (historyCount) {
-      <span class="history-badge">{{ historyCount }}</span>
-      }
-    </button>
+<div class="game-info" [class.game-info--expanded]="showDetails && !isShowingNotification()" (click)="toggleDetails()"
+  (keydown)="onKeyDown($event)" role="button" [attr.tabindex]="isShowingNotification() ? -1 : 0"
+  [attr.aria-expanded]="isShowingNotification() ? null : showDetails"
+  [attr.aria-disabled]="isShowingNotification() ? true : null">
+  @if (isShowingNotification()) {
+  <div class="game-info__notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+    <game-action-feed></game-action-feed>
   </div>
+  }
+  @else {
+  <div class="game-info__content">
+    <game-info-header [roomId]="shortRoomId" [showDetails]="showDetails" [historyCount]="historyCount()"
+      [topDiscard]="state().topDiscard" [discardCount]="state().discardCount"
+      (historyRequested)="requestHistory()"></game-info-header>
 
-  @if (showDetails) {
-  <div class="game-info__details">
-    <p>Iniciada: {{ state.startedAt | date : "dd/MM/yyyy HH:mm" }}</p>
-    <p>Mazo: {{ state.deckCount }} cartas</p>
-    <p>Descarte: {{ state.discardCount }} cartas</p>
+    @if (showDetails) {
+    <game-info-details [state]="state()" [gameDuration]="gameDuration" [isMuted]="isMuted()"
+      [isDarkTheme]="isDarkTheme()" [isFullscreenActive]="isFullscreenActive" (leaveRequested)="requestLeave()"
+      (muteToggled)="toggleMute()" (themeToggled)="toggleTheme()"
+      (fullscreenToggled)="toggleFullscreen()"></game-info-details>
+    }
   </div>
   }
 </div>

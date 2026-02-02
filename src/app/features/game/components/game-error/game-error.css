@@ -4,11 +4,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+  pointer-events: auto;
   z-index: 10;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--color-overlay);
   animation: fade-in 150ms ease-out;
+  user-select: none;
+  cursor: pointer;
 }
 
 .error-toast {
@@ -19,11 +21,10 @@
   max-width: min(90vw, 420px);
   padding: 1rem 1.5rem;
   border-radius: 16px;
-  background: #fff4f4;
-  color: #7a0000;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(122, 0, 0, 0.15);
+  background: var(--color-error-background);
+  color: var(--color-error-text);
   font-weight: 600;
+  cursor: default;
 }
 
 .error-icon {
@@ -33,6 +34,30 @@
 .error-message {
   margin: 0;
   line-height: 1.4;
+  flex: 1;
+}
+
+.error-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background 120ms ease-in;
+}
+
+.error-close:focus-visible {
+}
+
+.error-close:hover {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 @keyframes fade-in {

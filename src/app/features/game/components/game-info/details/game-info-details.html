@@ -1,0 +1,51 @@
+@let stateValue = state();
+
+<div class="game-info__details">
+  <div class="game-info__row game-info__row--times">
+    <game-info-pile
+      label="Inicio"
+      [value]="stateValue.startedAt | date : 'HH:mm'"
+      [ariaLabel]="
+        stateValue.startedAt
+          ? 'Hora de inicio: ' + (stateValue.startedAt | date : 'HH:mm')
+          : 'Hora de inicio no disponible'
+      "
+      modifierClass="game-info__pile--start"
+      iconClass="game-info__pile-icon--start"
+    ></game-info-pile>
+    @if (gameDuration()) {
+    <game-info-pile
+      label="Jugado"
+      [value]="gameDuration()"
+      [ariaLabel]="'Tiempo jugado: ' + gameDuration()"
+      modifierClass="game-info__pile--duration"
+      iconClass="game-info__pile-icon--duration"
+    ></game-info-pile>
+    }
+  </div>
+  <div class="game-info__row game-info__row--piles">
+    <game-info-pile
+      label="Mazo"
+      [value]="stateValue.deckCount"
+      [ariaLabel]="'Cartas en el mazo: ' + stateValue.deckCount"
+      iconClass="game-info__pile-icon--deck"
+    ></game-info-pile>
+    <game-info-pile
+      label="Descarte"
+      [value]="stateValue.discardCount"
+      [ariaLabel]="'Cartas en el descarte: ' + stateValue.discardCount"
+      iconClass="game-info__pile-icon--discard"
+    ></game-info-pile>
+  </div>
+  <div class="game-info__row game-info__row--controls">
+    <game-info-controls
+      [isMuted]="isMuted()"
+      [isDarkTheme]="isDarkTheme()"
+      [isFullscreenActive]="isFullscreenActive()"
+      (leaveRequested)="onLeaveRequested()"
+      (muteToggled)="onMuteToggled()"
+      (themeToggled)="onThemeToggled()"
+      (fullscreenToggled)="onFullscreenToggled()"
+    ></game-info-controls>
+  </div>
+</div>

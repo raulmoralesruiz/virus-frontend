@@ -1,59 +1,66 @@
-# Frontend
+# Virus Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+Cliente web para el juego de cartas Virus.
 
-## Development server
+Este repositorio contiene la interfaz de usuario desarrollada en Angular, encargada de visualizar el estado del juego y permitir la interacción del jugador en tiempo real.
 
-To start a local development server, run:
+## 🛠️ Tech Stack
 
-```bash
-ng serve
-```
+-   **Framework**: Angular (Latest)
+-   **WebSocket**: Socket.IO Client
+-   **Lenguaje**: TypeScript
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📁 Rol en el Sistema
 
-## Code scaffolding
+El frontend es la capa de presentación. Sus responsabilidades incluyen:
+-   Conexión con el backend mediante Socket.IO.
+-   Renderizado reactivo del tablero, cartas y estado de los jugadores.
+-   Animaciones y feedback visual de las acciones.
+-   Gestión de la lógica de UI (drag & drop, selección de cartas).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Instalación Rápida
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Requisitos: Node.js (v18+) y pnpm (recomendado).
 
 ```bash
-ng build
+# Clonar el repositorio
+git clone <url-del-repo>
+cd virus-frontend
+
+# Instalar dependencias
+pnpm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📜 Scripts Disponibles
 
-## Running unit tests
+| Script | Descripción |
+| :--- | :--- |
+| `pnpm start` | Inicia el servidor de desarrollo en `http://localhost:4200`. |
+| `pnpm build` | Compila la aplicación para producción en `dist/`. |
+| `pnpm test` | Ejecuta las pruebas unitarias (Karma/Jasmine). |
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## ⚙️ Variables de Entorno
 
-```bash
-ng test
-```
+La configuración se maneja a través de los archivos `src/environments/`:
 
-## Running end-to-end tests
+-   `production`: Indica si es entorno de producción.
+-   `socketUrl`: URL del servidor de Socket.IO.
+-   `baseUrl`: URL base para la API REST.
 
-For end-to-end (e2e) testing, run:
+## 📚 Documentación
 
-```bash
-ng e2e
-```
+La documentación completa, incluyendo guías de componentes y eventos, se encuentra centralizada en:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+👉 [**Virus Documentation**](../virus-docs) (Enlace relativo o URL al repo de docs)
 
-## Additional Resources
+## 🤝 Guía para Contribuir
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1.  Asegúrate de seguir las reglas de linting del proyecto.
+2.  Para cambios visuales, verifica la responsividad.
+3.  Sigue el flujo estándar de PR (Fork -> Branch -> PR).
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia **GNU AGPLv3**. Consulta el archivo `LICENSE` para más detalles.
+
+> **Disclaimer**: Este es un proyecto open source desarrollado por fans y para fans. No tiene afiliación con Tranjis Games. El arte y diseño original pertenecen a sus respectivos creadores.

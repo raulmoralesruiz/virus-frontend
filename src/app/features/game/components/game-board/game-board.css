@@ -6,12 +6,11 @@
 
 .cancel-transplant {
   margin-top: 0.75rem;
-  background: #e2e8f0;
-  border: 1px solid #cbd5f5;
+  background: var(--color-muted-button-bg);
   border-radius: 8px;
   padding: 0.5rem 0.75rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--color-text-primary);
   width: 100%;
 }
 
@@ -27,8 +26,8 @@
 }
 
 .finish-contagion {
-  background: #059669;
-  color: #fff;
+  background: var(--color-success);
+  color: var(--color-success-contrast);
   border: 0;
   border-radius: 8px;
   padding: 0.6rem 0.9rem;
@@ -36,14 +35,14 @@
 }
 
 .finish-contagion:disabled {
-  background: #34d399;
+  background: var(--color-success-disabled);
   cursor: not-allowed;
   opacity: 0.65;
 }
 
 .cancel-contagion {
-  background: #f97316;
-  color: #fff;
+  background: var(--color-warning);
+  color: var(--color-text-inverted);
   border: 0;
   border-radius: 8px;
   padding: 0.6rem 0.9rem;
