@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, effect } from '@angular/core';
 import {
   Card,
   CardColor,
@@ -184,11 +184,35 @@ export class HandCard {
   }
 
   private dragDropService = inject(DragDropService);
+  
+  constructor() {
+    // Si el componente se destruye o se deshabilita mientras se arrastra, limpiar el estado
+    effect((onCleanup) => {
+      const disabled = this.isDisabled();
+      const dragging = this.dragDropService.draggedItem();
+      const currentCard = this.card();
+
+      if (disabled && dragging && dragging.id === currentCard.id) {
+         this.dragDropService.draggedItem.set(null);
+      }
+    });
+  }
+
   onDragStarted() {
     this.dragDropService.draggedItem.set(this.card());
   }
 
   onDragEnded() {
     this.dragDropService.draggedItem.set(null);
+  }
+
+  ngOnDestroy() {
+    const dragging = this.dragDropService.draggedItem();
+    const currentCard = this.card();
+    
+    // Si me destruyo y yo era el que estaba siendo arrastrado -> limpiar
+    if (dragging && dragging.id === currentCard.id) {
+      this.dragDropService.draggedItem.set(null);
+    }
   }
 }

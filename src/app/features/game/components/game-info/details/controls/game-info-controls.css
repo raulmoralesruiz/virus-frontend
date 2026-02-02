@@ -7,7 +7,7 @@
   margin-top: 0.35rem;
 }
 
-.game-info__controls > * {
+.game-info__controls>* {
   flex: 1 0 calc(50% - 0.25rem);
   max-width: calc(50% - 0.25rem);
 }
@@ -17,7 +17,7 @@
     flex-wrap: nowrap;
   }
 
-  .game-info__controls > * {
+  .game-info__controls>* {
     flex: 0 0 auto;
     max-width: none;
   }
@@ -55,13 +55,10 @@
   transform: translateY(-1px);
 }
 
-.game-info__leave:focus-visible {
-}
-
 .theme-toggle {
   padding: 0.4rem 0.95rem;
   border-radius: 999px;
-  background: transparent;
+  background: var(--color-muted-button-bg);
   color: var(--color-text-primary);
   font-size: 0.85rem;
   font-weight: 600;
@@ -70,11 +67,8 @@
 }
 
 .theme-toggle:hover {
-  background: var(--color-muted-button-bg);
+  background: var(--color-muted-button-hover);
   transform: translateY(-1px);
-}
-
-.theme-toggle:focus-visible {
 }
 
 .theme-toggle[aria-pressed='true'] {
@@ -102,8 +96,7 @@
 }
 
 .sound-toggle:focus-visible,
-.fullscreen-toggle:focus-visible {
-}
+.fullscreen-toggle:focus-visible {}
 
 .sound-toggle[aria-pressed='true'],
 .fullscreen-toggle[aria-pressed='true'] {

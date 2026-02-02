@@ -32,10 +32,12 @@ import { ApiPlayerService } from '../../../../../core/services/api/api.player.se
 import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
 import { DragDropService } from '../../../../../core/services/drag-drop.service';
 
+import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
+
 @Component({
   selector: 'player-board',
   standalone: true,
-  imports: [PlayerCardComponent, DragDropModule],
+  imports: [PlayerCardComponent, DragDropModule, CardIconComponent],
   templateUrl: './player-board.html',
   styleUrl: './player-board.css',
 })
@@ -161,6 +163,12 @@ export class PlayerBoardComponent {
       }
 
       this.playTickForState(timerState);
+    });
+    effect(() => {
+      // Resetear el estado visual de drag-over cuando termina un arrastre globalmente
+      if (!this.dragDropService.draggedItem()) {
+        this.isDragOver.set(false);
+      }
     });
   }
 
@@ -339,6 +347,9 @@ export class PlayerBoardComponent {
   onBoardDrop(event: CdkDragDrop<any>) {
     const rid = this.roomId();
     const card = event.item.data as Card | undefined;
+    
+    // Asegurar que el efecto visual se limpia al soltar
+    this.isDragOver.set(false);
 
     if (!rid || !card) return;
 

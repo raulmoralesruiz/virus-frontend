@@ -55,6 +55,10 @@
   color: var(--color-danger-strong);
 }
 
+.icon-trick-or-treat {
+  font-size: 1.2rem;
+}
+
 .player-header .handcount {
   font-size: 0.9rem;
   color: var(--color-text-secondary);
@@ -283,7 +287,7 @@
     background 0.2s ease,
     border-color 0.2s ease;
   background: rgba(15, 23, 42, 0.02);
-  border: 2px dashed transparent;
+  border: 2px solid transparent;
   position: relative;
 }
 

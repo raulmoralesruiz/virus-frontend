@@ -3,8 +3,9 @@
 <div class="card organ {{ organValue.color }}" cdkDropList [id]="dropListId()" [cdkDropListData]="dropListData()"
   [cdkDropListConnectedTo]="dropListConnectedTo()"
   [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
-  [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="dropListDropped.emit($event)"
-  (cdkDropListEntered)="dropListEntered.emit($event)" [class.valid-target]="isValidTarget()">
+  [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="onDropped(); dropListDropped.emit($event)"
+  (cdkDropListEntered)="onDragEntered(); dropListEntered.emit($event)" (cdkDropListExited)="onDragExited();"
+  [class.valid-target]="isValidTarget()" [class.drag-over]="isDragOver()">
   @if (organValue.attached.length === 0) {
   <div class="title">
     <card-icon class="organ-icon-img" [name]="organIcon()" />

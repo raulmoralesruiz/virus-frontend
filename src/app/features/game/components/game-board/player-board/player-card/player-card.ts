@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output, signal, effect } from '@angular/core';
 import { DragDropService } from '../../../../../../core/services/drag-drop.service';
 import { OrganOnBoard } from '../../../../../../core/models/game.model';
 import { Card, CardKind, CardColor, TreatmentSubtype } from '../../../../../../core/models/card.model';
@@ -185,4 +185,36 @@ export class PlayerCardComponent {
 
     return false;
   });
+
+
+  // Drag over state for visual feedback
+  isDragOver = computed(() => {
+    // Si no es válido, no puede estar dragOver (protección extra)
+    if (!this.isValidTarget()) return false;
+    return this._isDragOver();
+  });
+  private _isDragOver = signal(false);
+
+  constructor() {
+    // Resetear el estado visual si se cancela el drag globalmente
+    effect(() => {
+      if (!this.dragDropService.draggedItem()) {
+        this._isDragOver.set(false);
+      }
+    });
+  }
+
+  onDragEntered() {
+    if (this.isValidTarget()) {
+      this._isDragOver.set(true);
+    }
+  }
+
+  onDragExited() {
+    this._isDragOver.set(false);
+  }
+
+  onDropped() {
+    this._isDragOver.set(false);
+  }
 }
