@@ -51,7 +51,7 @@ La configuración se maneja a través de los archivos `src/environments/`:
 
 La documentación completa, incluyendo guías de componentes y eventos, se encuentra centralizada en:
 
-👉 [**Virus Documentation**](../virus-docs) (Enlace relativo o URL al repo de docs)
+👉 [**Virus Documentation**](https://virusdocs.raulmorales.eu) (Enlace relativo o URL al repo de docs)
 
 ## 🤝 Guía para Contribuir
 
