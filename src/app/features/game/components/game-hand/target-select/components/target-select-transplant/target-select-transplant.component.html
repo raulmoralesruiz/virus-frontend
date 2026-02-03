@@ -1,0 +1,95 @@
+<section class="target-select__group target-select__group--with-organs">
+  <div class="target-select__field target-select__field--player" [class.is-active]="!!transplantPlayerA()">
+    <label for="transplant-player-a">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Jugador A</span>
+      </span>
+    </label>
+    <select id="transplant-player-a" [ngModel]="transplantPlayerA()" (ngModelChange)="handlePlayerChange($event, 'A')">
+      <option value="">-- Selecciona jugador --</option>
+      @for (player of playerOptions(); track player.id) {
+      <option [value]="player.id">{{ player.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="target-select__field target-select__field--organs" [class.is-active]="!!transplantSelectionA()"
+    [class.is-disabled]="!transplantPlayerA()">
+    <label>
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+        <span>Órgano A</span>
+      </span>
+    </label>
+    @if (transplantPlayerA() && organsForPlayer(transplantPlayerA()).length) {
+    <div class="target-select__organs">
+      @for (opt of organsForPlayer(transplantPlayerA()); track opt.organId) {
+      <button type="button" class="target-select__organ"
+        [class.is-active]="transplantSelectionA() === toOptionValue(opt)" (click)="selectOrgan(opt, 'A')">
+        <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+        <span>{{ organColorLabel(opt.organColor) }}</span>
+      </button>
+      }
+    </div>
+    } @else if (transplantPlayerA()) {
+    <p class="target-select__empty target-select__empty--inline">
+      Ese jugador no tiene órganos disponibles.
+    </p>
+    } @else {
+    <p class="target-select__empty target-select__empty--inline">
+      Selecciona primero un jugador.
+    </p>
+    }
+  </div>
+
+  <div class="target-select__field target-select__field--player" [class.is-active]="!!transplantPlayerB()">
+    <label for="transplant-player-b">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Jugador B</span>
+      </span>
+    </label>
+    <select id="transplant-player-b" [ngModel]="transplantPlayerB()" (ngModelChange)="handlePlayerChange($event, 'B')">
+      <option value="">-- Selecciona jugador --</option>
+      @for (player of playerOptions(); track player.id) {
+      <option [value]="player.id">{{ player.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="target-select__field target-select__field--organs" [class.is-active]="!!transplantSelectionB()"
+    [class.is-disabled]="!transplantPlayerB()">
+    <label>
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+        <span>Órgano B</span>
+      </span>
+    </label>
+    @if (transplantPlayerB() && organsForPlayer(transplantPlayerB()).length) {
+    <div class="target-select__organs">
+      @for (opt of organsForPlayer(transplantPlayerB()); track opt.organId) {
+      <button type="button" class="target-select__organ"
+        [class.is-active]="transplantSelectionB() === toOptionValue(opt)" (click)="selectOrgan(opt, 'B')">
+        <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+        <span>{{ organColorLabel(opt.organColor) }}</span>
+      </button>
+      }
+    </div>
+    } @else if (transplantPlayerB()) {
+    <p class="target-select__empty target-select__empty--inline">
+      Ese jugador no tiene órganos disponibles.
+    </p>
+    } @else {
+    <p class="target-select__empty target-select__empty--inline">
+      Selecciona primero un jugador.
+    </p>
+    }
+  </div>
+
+  @if (!targetOptions().length) {
+  <p class="target-select__empty">
+    No hay órganos disponibles para intercambiar ahora mismo.
+  </p>
+  }
+</section>

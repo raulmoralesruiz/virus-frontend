@@ -1,0 +1,16 @@
+<section class="target-select__group">
+  <div class="target-select__field target-select__field--player" [class.is-active]="!!singlePlayerSelection()">
+    <label for="target-player">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Jugador</span>
+      </span>
+    </label>
+    <select id="target-player" [ngModel]="singlePlayerSelection()" (ngModelChange)="handlePlayerChange($event)">
+      <option value="">-- Selecciona jugador --</option>
+      @for (player of playerOptions(); track player.id) {
+      <option [value]="player.id">{{ player.name }}</option>
+      }
+    </select>
+  </div>
+</section>
