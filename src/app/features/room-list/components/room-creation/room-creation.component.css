@@ -1,0 +1,108 @@
+.room-panel {
+  background: var(--color-surface);
+  border-radius: 24px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.94);
+  text-align: center;
+}
+
+:host-context(.theme-dark) .room-panel {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.room-block h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.create-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.cta-button,
+.secondary-button {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, letter-spacing 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.create-actions .cta-button,
+.create-actions .secondary-button {
+  width: auto;
+  max-width: none;
+  flex: 1 1 100px;
+}
+
+.cta-button {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  opacity: 0.95;
+}
+
+.cta-button:hover {
+  letter-spacing: 0.02em;
+}
+
+.secondary-button {
+  background: #d9e2f4;
+  color: #0f172a;
+}
+
+:host-context(.theme-dark) .create-actions .secondary-button {
+  background: #223253;
+  color: #f8fafc;
+}
+
+.secondary-button:hover {
+  letter-spacing: 0.02em;
+}
+
+.input-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+@media (min-width: 360px) {
+  .create-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: auto;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .create-actions .cta-button,
+  .create-actions .secondary-button {
+    width: auto;
+    min-width: 0;
+    flex: 0 1 180px;
+    margin: 0;
+  }
+}
