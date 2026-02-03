@@ -1,7 +1,6 @@
 <div class="player-board" [class.is-me]="isMe()" [class.is-active]="isActive()">
   <player-board-header [player]="player()" [isActive]="isActive()" [isMe]="isMe()"
-    [remainingSeconds]="remainingSeconds()" [turnDurationSeconds]="turnDurationSeconds()"
-    [turnTimerState]="turnTimerState()" [turnProgressPercent]="turnProgressPercent()">
+    [remainingSeconds]="remainingSeconds()">
   </player-board-header>
 
   <div class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"

@@ -29,7 +29,6 @@ import {
 } from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../core/services/game-store.service';
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
-import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
 import { DragDropService } from '../../../../../core/services/drag-drop.service';
 
 
@@ -124,62 +123,9 @@ export class PlayerBoardComponent {
     return [`handList-${me.id}`];
   });
 
-  turnTimerState = computed<'idle' | 'running' | 'warning' | 'critical'>(() => {
-    if (!this.isActive()) return 'idle';
 
-    const seconds = this.remainingSeconds();
-    if (seconds <= 5) return 'critical';
-    if (seconds <= 10) return 'warning';
-    return 'running';
-  });
-
-  turnDurationSeconds = signal(0);
-
-  turnProgressPercent = computed(() => {
-    const duration = this.turnDurationSeconds();
-    if (duration <= 0) return 0;
-
-    const ratio = this.remainingSeconds() / duration;
-    return Math.max(0, Math.min(100, ratio * 100));
-  });
-
-  private readonly timerSoundService = inject(TimerSoundService);
-  isMuted = this.timerSoundService.isMuted;
 
   constructor() {
-    effect(() => {
-      const remaining = this.remainingSeconds();
-      const currentDuration = this.turnDurationSeconds();
-
-      if (remaining > currentDuration) {
-        this.turnDurationSeconds.set(remaining);
-      }
-    });
-
-    let wasActive = false;
-    effect(() => {
-      const isActive = this.isActive();
-      const isMe = this.isMe();
-      const seconds = this.remainingSeconds(); // fuerza ejecución cada segundo
-      const timerState = this.turnTimerState();
-
-      if (!isMe) {
-        wasActive = false;
-        return;
-      }
-
-      if (isActive && !wasActive) {
-        this.timerSoundService.playTurnStart();
-      }
-
-      wasActive = isActive;
-
-      if (!isActive) {
-        return;
-      }
-
-      this.playTickForState(timerState);
-    });
     effect(() => {
       // Resetear el estado visual de drag-over cuando termina un arrastre globalmente
       if (!this.dragDropService.draggedItem()) {
@@ -188,28 +134,7 @@ export class PlayerBoardComponent {
     });
   }
 
-  private playTickForState(
-    timerState: 'idle' | 'running' | 'warning' | 'critical'
-  ) {
-    if (this.isMuted()) {
-      return; // No hacer nada si está silenciado
-    }
 
-    switch (timerState) {
-      case 'warning':
-        this.timerSoundService.playTick('warning');
-        break;
-      case 'critical':
-        this.timerSoundService.playTick('critical');
-        break;
-      default:
-        break;
-    }
-  }
-
-  toggleMute() {
-    this.timerSoundService.toggleMute();
-  }
 
   // recibir la lista global de ids de huecos
   allSlotIds = input.required<string[]>();
