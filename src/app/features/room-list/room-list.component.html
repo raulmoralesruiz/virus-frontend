@@ -1,64 +1,17 @@
 <div class="room-list-screen">
   <div class="room-cards">
-    <section class="room-panel room-block room-block__greeting">
+    <section class="room-panel room-block__greeting">
       <h2>Hola, {{ player()?.name }}</h2>
       <p>Elige una sala existente o crea una nueva para comenzar la partida.</p>
     </section>
 
-    <section class="room-panel room-block room-block__create">
-      <h3>Crear sala</h3>
-      <div class="create-form">
-        <p class="input-label">Selecciona el tipo de sala</p>
-        <div class="create-actions">
-          <button class="cta-button" (click)="createRoom('private')">Privada</button>
-          <button class="secondary-button" (click)="createRoom('public')">Pública</button>
-        </div>
-      </div>
-    </section>
+    <app-room-creation (create)="handleCreateRoom($event)"></app-room-creation>
 
-    <section class="room-panel room-block room-block__join">
-      <h3>Unirse a una partida</h3>
-      <div class="join-by-code">
-        <label class="input-label" for="roomCodeInput">Unirse con identificador</label>
-        <div class="join-input-row">
-          <input id="roomCodeInput" #roomCodeInput type="text" placeholder="ID sala" maxlength="6"
-            (keyup.enter)="joinRoomByCode(roomCodeInput)" />
-          <button class="join-submit" type="button" aria-label="Unirse a la sala"
-            (click)="joinRoomByCode(roomCodeInput)">
-            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
-              <path d="M5 12h12m0 0-4-4m4 4-4 4" fill="none" stroke="currentColor" stroke-linecap="round"
-                stroke-linejoin="round" stroke-width="2" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="section-divider" aria-hidden="true"></div>
-
+    <app-room-join (join)="handleJoinRoom($event)">
       @if (roomList().length > 0) {
       <ul class="room-list">
         @for (room of roomList(); track room.id) {
-        <li>
-          <div class="room-info">
-            <strong>{{ room.name }}</strong>
-            <span>
-              {{ room.players.length }}
-              jugador{{ room.players.length === 1 ? '' : 'es' }}
-            </span>
-            @if (room.visibility === 'private') {
-            <span class="room-info__visibility">Privada</span>
-            }
-          </div>
-          <button class="secondary-button" [disabled]="room.inProgress || isRoomFull(room)" (click)="joinRoom(room.id)">
-            @if (room.inProgress) {
-            En partida
-            } @else if (isRoomFull(room)) {
-            Sala llena
-            } @else {
-            Unirse
-            }
-          </button>
-        </li>
+        <app-room-item [room]="room" (join)="handleJoinRoom($event)"></app-room-item>
         }
       </ul>
       } @else {
@@ -67,6 +20,6 @@
         <p>¡Crea la primera!</p>
       </div>
       }
-    </section>
+    </app-room-join>
   </div>
 </div>
