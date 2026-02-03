@@ -26,10 +26,8 @@ import {
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
 import { GameStoreService } from '../../../../core/services/game-store.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {
-  TargetSelectComponent,
-  type TargetSelectOption,
-} from './target-select/target-select.component';
+import { TargetSelectComponent } from './target-select/target-select.component';
+import { type TargetSelectOption } from './target-select/target-select.models';
 import { isInfected, isVaccinated, isImmune } from '../../../../core/utils/organ.utils';
 
 @Component({

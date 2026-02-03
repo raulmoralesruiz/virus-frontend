@@ -1,0 +1,77 @@
+.target-select__group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .target-select__group {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: end;
+  }
+}
+
+.target-select__field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.08);
+  transition:
+    background 0.18s ease,
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.target-select__field label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.target-select__label-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.target-select__label-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.target-select__field--player {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.target-select__field--player .target-select__label-icon {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.target-select__field--player.is-active {
+  background: rgba(37, 99, 235, 0.18);
+  transform: translateY(-2px);
+}
+
+.target-select__field--player.is-active .target-select__label-icon {
+  background: rgba(37, 99, 235, 0.32);
+  color: #0f172a;
+}
+
+.target-select__field select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+}

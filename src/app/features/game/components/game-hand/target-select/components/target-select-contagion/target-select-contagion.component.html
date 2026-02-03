@@ -1,0 +1,60 @@
+@if (contagionAssignments().length) {
+@for (assignment of contagionAssignments(); let i = $index; track i) {
+<section class="target-select__group target-select__group--with-organs">
+  <div class="target-select__field target-select__field--player" [class.is-active]="!!assignment.toPlayerId">
+    <label [attr.for]="'contagion-player-' + i">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Virus {{ i + 1 }}</span>
+      </span>
+      <span>{{ contagionSourceLabel(assignment) }}</span>
+    </label>
+    <select [attr.id]="'contagion-player-' + i" [ngModel]="assignment.toPlayerId"
+      (ngModelChange)="handleContagionPlayerChange($event, i)">
+      <option value="">-- Selecciona jugador --</option>
+      @for (player of contagionPlayerOptions; track player.id) {
+      <option [value]="player.id">{{ player.name }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="target-select__field target-select__field--organs" [class.is-active]="!!assignment.toOrganId"
+    [class.is-disabled]="!assignment.toPlayerId">
+    <label>
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+        <span>Órgano destino</span>
+      </span>
+    </label>
+    @let organs = contagionOrgansForPlayer(assignment.toPlayerId);
+    @if (
+    assignment.toPlayerId &&
+    organs.length
+    ) {
+    <div class="target-select__organs">
+      @for (opt of organs; track opt.organId) {
+      <button type="button" class="target-select__organ"
+        [class.is-active]="contagionSelectionValue(assignment) === toOptionValue(opt)"
+        (click)="selectContagionOrgan(opt, i)">
+        <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+        <span>{{ organColorLabel(opt.organColor) }}</span>
+      </button>
+      }
+    </div>
+    } @else if (assignment.toPlayerId) {
+    <p class="target-select__empty target-select__empty--inline">
+      Ese jugador no tiene órganos libres.
+    </p>
+    } @else {
+    <p class="target-select__empty target-select__empty--inline">
+      Selecciona primero un jugador.
+    </p>
+    }
+  </div>
+</section>
+}
+} @else {
+<p class="target-select__empty">
+  No tienes virus disponibles para contagiar.
+</p>
+}

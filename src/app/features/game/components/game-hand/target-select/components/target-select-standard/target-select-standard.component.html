@@ -1,0 +1,74 @@
+@if (!isDragDrop()) {
+<section class="target-select__group target-select__group--with-organs">
+  @if (!isSelfTarget()) {
+  <div class="target-select__field target-select__field--player" [class.is-active]="!!singlePlayerSelection()">
+    <label for="card-target-player">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Jugador</span>
+      </span>
+    </label>
+    <select id="card-target-player" [ngModel]="singlePlayerSelection()" (ngModelChange)="handlePlayerChange($event)">
+      <option value="">-- Selecciona jugador --</option>
+      @for (player of playerOptions(); track player.id) {
+      <option [value]="player.id">{{ player.name }}</option>
+      }
+    </select>
+  </div>
+  }
+
+  <div class="target-select__field target-select__field--organs" [class.is-active]="!!singleSelectionValue()"
+    [class.is-disabled]="!singlePlayerSelection()">
+    <label>
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">🫀</span>
+        <span>Órgano</span>
+      </span>
+    </label>
+    @if (singlePlayerSelection() && organsForPlayer(singlePlayerSelection()).length) {
+    <div class="target-select__organs">
+      @for (opt of organsForPlayer(singlePlayerSelection()); track opt.organId) {
+      <button type="button" class="target-select__organ"
+        [class.is-active]="singleSelectionValue() === toOptionValue(opt)" (click)="selectOrgan(opt)">
+        <span class="color-dot" [ngClass]="organColorClass(opt.organColor)"></span>
+        <span>{{ organColorLabel(opt.organColor) }}</span>
+      </button>
+      }
+    </div>
+    } @else if (singlePlayerSelection()) {
+    <p class="target-select__empty target-select__empty--inline">
+      Ese jugador no tiene órganos disponibles.
+    </p>
+    } @else {
+    <p class="target-select__empty target-select__empty--inline">
+      Selecciona primero un jugador.
+    </p>
+    }
+  </div>
+</section>
+}
+
+@if (isFailedExperiment() && singleSelectionValue()) {
+<section class="target-select__group">
+  <div class="target-select__field">
+    <label>
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">💥</span>
+        <span>Acción</span>
+      </span>
+    </label>
+    <div class="target-select__organs">
+      <button type="button" class="target-select__organ" [class.is-active]="selectedAction() === 'medicine'"
+        (click)="actionChange.emit('medicine')">
+        <card-icon class="target-select__action-icon" name="modifier-medicine" color="white" />
+        <span>Usar Medicina</span>
+      </button>
+      <button type="button" class="target-select__organ" [class.is-active]="selectedAction() === 'virus'"
+        (click)="actionChange.emit('virus')">
+        <card-icon class="target-select__action-icon" name="modifier-virus" color="white" />
+        <span>Usar Virus</span>
+      </button>
+    </div>
+  </div>
+</section>
+}
