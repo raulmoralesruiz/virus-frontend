@@ -1,0 +1,27 @@
+<div class="player-header">
+  <strong>{{ player().player.name }}</strong>
+
+  @if (player().hasTrickOrTreat) {
+  <span class="player-badge player-badge--curse" title="Este jugador no puede ganar hasta pasar Truco o Trato">
+    <card-icon name="organ-halloween" class="icon-trick-or-treat" color="orange" /> Truco o Trato
+  </span>
+  }
+
+  @if (isActive() && turnDurationSeconds() > 0) {
+  <div class="turn-progress">
+    <div class="turn-progress__track" role="progressbar" aria-label="Tiempo restante del turno" [attr.aria-valuemin]="0"
+      [attr.aria-valuenow]="remainingSeconds()" [attr.aria-valuemax]="turnDurationSeconds()">
+      <div class="turn-progress__bar" [class.turn-progress__bar--warning]="turnTimerState() === 'warning'"
+        [class.turn-progress__bar--critical]="turnTimerState() === 'critical'" [style.width.%]="turnProgressPercent()">
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (isActive()) {
+  <span class="turn-timer" [class.turn-timer--warning]="turnTimerState() === 'warning'"
+    [class.turn-timer--critical]="turnTimerState() === 'critical'">
+    {{ remainingSeconds() }}s
+  </span>
+  }
+</div>
