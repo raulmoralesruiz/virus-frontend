@@ -3,6 +3,7 @@ import { GameStoreService } from '../../../../../../core/services/game-store.ser
 import { Card, CardColor } from '../../../../../../core/models/card.model';
 import { OrganOnBoard, PublicPlayerInfo } from '../../../../../../core/models/game.model';
 import { isInfected, isVaccinated, isImmune } from '../../../../../../core/utils/organ.utils';
+import { FailedExperimentEvent, TransplantSelectionEvent, TransplantState } from '../player-board.models';
 
 @Injectable()
 export class BoardActionService {
@@ -18,7 +19,7 @@ export class BoardActionService {
     return true;
   }
 
-  validateFailedExperiment(card: Card, color: CardColor, player: PublicPlayerInfo): { card: Card; target: { organId: string; playerId: string } } | null {
+  validateFailedExperiment(card: Card, color: CardColor, player: PublicPlayerInfo): FailedExperimentEvent | null {
     const organ = player.board.find((o: OrganOnBoard) => o.color === color);
     if (!organ) {
       this._gameStore.setClientError(
@@ -40,7 +41,7 @@ export class BoardActionService {
     };
   }
 
-  validateTransplantSelection(card: Card, color: CardColor, player: PublicPlayerInfo): { card: Card; firstOrgan: { organId: string; playerId: string } } | null {
+  validateTransplantSelection(card: Card, color: CardColor, player: PublicPlayerInfo): TransplantSelectionEvent | null {
     const organ = player.board.find((o: OrganOnBoard) => o.color === color);
     if (!organ) {
       this._gameStore.setClientError(
@@ -55,7 +56,7 @@ export class BoardActionService {
     };
   }
 
-  validateSlotClick(organ: OrganOnBoard | undefined, playerId: string, transplantState: any): { organId: string; playerId: string } | null {
+  validateSlotClick(organ: OrganOnBoard | undefined, playerId: string, transplantState: TransplantState | null): { organId: string; playerId: string } | null {
     if (!transplantState) return null;
 
     if (!organ) {

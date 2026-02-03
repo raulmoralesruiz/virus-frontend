@@ -39,6 +39,7 @@ import { PlayerBoardDropService } from './services/player-board-drop.service';
 import { BoardDragPredicates } from './logic/board-drag-predicates';
 import { BoardContagionService } from './services/board-contagion.service';
 import { BoardActionService } from './services/board-action.service';
+import { ContagionState, FailedExperimentEvent, TransplantSelectionEvent, TransplantState, VirusDropEvent } from './player-board.models';
 
 @Component({
   selector: 'player-board',
@@ -214,49 +215,15 @@ export class PlayerBoardComponent {
   allSlotIds = input.required<string[]>();
 
   // --- Inputs / Outputs ---
-  contagionState = input<{
-    card: Card;
-    assignments: {
-      fromOrganId: string;
-      toOrganId: string;
-      toPlayerId: string;
-    }[];
-    temporaryViruses: {
-      organId: string;
-      playerId: string;
-      virus: Card;
-      isTemporary: true;
-    }[];
-  } | null>(null);
-
-  virusMoved = output<{
-    fromOrganId: string;
-    toOrganId: string;
-    toPlayerId: string;
-    virus: Card;
-  }>();
-
+  contagionState = input<ContagionState | null>(null);
+  virusMoved = output<VirusDropEvent>();
   startContagion = output<{ card: Card }>();
   startBodySwap = output<{ card: Card }>();
   startApparition = output<{ card: Card }>();
-
-  // recibe el estado global de trasplante
-  transplantState = input<{
-    card: Card;
-    firstOrgan: { organId: string; playerId: string } | null;
-  } | null>(null);
-
-  startTransplant = output<{
-    card: Card;
-    firstOrgan: { organId: string; playerId: string };
-  }>();
-
+  transplantState = input<TransplantState | null>(null);
+  startTransplant = output<TransplantSelectionEvent>();
   finishTransplant = output<{ organId: string; playerId: string }>();
-
-  startFailedExperiment = output<{
-    card: Card;
-    target: { organId: string; playerId: string };
-  }>();
+  startFailedExperiment = output<FailedExperimentEvent>();
 
   // ------------------------------------------------------------
   // Eventos de drag & drop
@@ -351,7 +318,6 @@ export class PlayerBoardComponent {
     const contagionState = this.contagionState();
     if (!contagionState) return;
 
-    console.log(`onVirusDrop - data:${JSON.stringify(data)}`);
     const result = this.contagionService.validateVirusDrop(
       event,
       organ,
@@ -416,20 +382,10 @@ export class PlayerBoardComponent {
     }
   }
 
-  // ------------------------------------------------------------
-  // Helpers para estilos visuales
-  // ------------------------------------------------------------
-
   isTransplantMode(): boolean {
     return !!this.transplantState;
   }
 
-  // ------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------
-  // getOrganByColor(color: CardColor): OrganOnBoard {
-  //   return this.player().board.find((o) => o.color === color)!;
-  // }
   getOrganByColor(color: CardColor): OrganOnBoard | null {
     return this.player().board.find((o) => o.color === color) ?? null;
   }
@@ -452,10 +408,4 @@ export class PlayerBoardComponent {
     return result;
   }
 
-  onEnterBoard(event: any) {
-    // entrada visual / debugging
-    const card = event.item?.data;
-    const who = this.player()?.player?.name;
-    console.log(`[ENTER] Carta ${card?.id ?? card} entró en tablero de ${who}`);
-  }
 }

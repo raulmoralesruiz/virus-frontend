@@ -3,6 +3,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { GameStoreService } from '../../../../../../core/services/game-store.service';
 import { Card, CardColor } from '../../../../../../core/models/card.model';
 import { OrganOnBoard, PublicGameState, PublicPlayerInfo } from '../../../../../../core/models/game.model';
+import { ContagionState, VirusDropEvent } from '../player-board.models';
 
 @Injectable()
 export class BoardContagionService {
@@ -11,12 +12,12 @@ export class BoardContagionService {
   validateVirusDrop(
     event: CdkDragDrop<any>,
     organ: OrganOnBoard,
-    contagionState: any, // Typed in component
+    contagionState: ContagionState | null,
     isMe: boolean,
     currentPlayerId: string,
     hasTemporaryVirus: (organId: string, playerId: string) => boolean,
     gameState: PublicGameState
-  ): { fromOrganId: string; toOrganId: string; toPlayerId: string; virus: Card } | null {
+  ): VirusDropEvent | null {
     const data = event.item.data; // { fromOrganId, virusId }
     if (!contagionState) return null;
 
