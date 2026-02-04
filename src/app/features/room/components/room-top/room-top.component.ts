@@ -10,11 +10,12 @@ import { Room } from '../../../../core/models/room.model';
 import { RoomLabelComponent } from './components/room-label/room-label.component';
 import { RoomActionsComponent } from './components/room-actions/room-actions.component';
 import { RoomActionBtnComponent } from './components/room-action-btn/room-action-btn.component';
+import { CardIconComponent } from '../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'app-room-top',
   standalone: true,
-  imports: [RoomLabelComponent, RoomActionsComponent, RoomActionBtnComponent],
+  imports: [RoomLabelComponent, RoomActionsComponent, RoomActionBtnComponent, CardIconComponent],
   templateUrl: './room-top.component.html',
   styleUrl: './room-top.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
