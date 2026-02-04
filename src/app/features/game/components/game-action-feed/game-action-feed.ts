@@ -1,29 +1,23 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import {
-  GameAction,
-  GameActionFeedService,
-} from '../../../../core/services/game-action-feed.service';
+import { GameActionFeedService } from './services/game-action-feed.service';
+import { GameActionContentComponent } from './game-action-content/game-action-content';
+import { GameAction } from './types/game-action.types';
 
 @Component({
   selector: 'game-action-feed',
   standalone: true,
+  imports: [GameActionContentComponent],
   templateUrl: './game-action-feed.html',
   styleUrl: './game-action-feed.css',
 })
 export class GameActionFeedComponent {
   private feed = inject(GameActionFeedService);
-
   private display = signal<GameAction | null>(null);
   private visible = signal(false);
 
   readonly action = this.display.asReadonly();
   readonly isVisible = this.visible.asReadonly();
   readonly isLeaving = computed(() => !this.visible() && !!this.display());
-
-  icon = computed(() => this.iconFor(this.display()));
-  iconClass = computed(
-    () => `action-feed__icon ${this.classFor(this.display())}`
-  );
 
   constructor() {
     effect(() => {
@@ -33,114 +27,31 @@ export class GameActionFeedComponent {
       if (next) {
         const nextId = next.id;
         this.display.set(next);
-
         const scheduleEnter = () => {
-          if (this.feed.currentAction()?.id === nextId) {
-            this.visible.set(true);
-          }
+          if (this.feed.currentAction()?.id === nextId) this.visible.set(true);
         };
-
-        if (typeof queueMicrotask === 'function') {
-          queueMicrotask(scheduleEnter);
-        } else {
-          Promise.resolve().then(scheduleEnter);
-        }
-
+        typeof queueMicrotask === 'function' ? queueMicrotask(scheduleEnter) : Promise.resolve().then(scheduleEnter);
         return;
       }
 
-      if (current) {
-        this.visible.set(false);
-      }
+      if (current) this.visible.set(false);
     });
   }
 
   dismiss(): void {
-    if (!this.display()) {
-      return;
-    }
-
-    this.feed.dismissCurrent();
+    if (this.display()) this.feed.dismissCurrent();
   }
 
   handleKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
+    if ((event.key === 'Enter' || event.key === ' ') && this.display()) {
+      event.preventDefault();
+      this.dismiss();
     }
-
-    event.preventDefault();
-    this.dismiss();
   }
 
   handleTransitionEnd(event: TransitionEvent): void {
-    if (event.target !== event.currentTarget || event.propertyName !== 'opacity') {
-      return;
-    }
-
-    if (!this.visible()) {
+    if (event.target === event.currentTarget && event.propertyName === 'opacity' && !this.visible()) {
       this.display.set(null);
-    }
-  }
-
-  cardsLabel(quantity?: number | null): string {
-    const total = quantity ?? 0;
-    if (total === 1) {
-      return '1 carta';
-    }
-    return `${total} cartas`;
-  }
-
-  detailFor(action: GameAction | null): string | null {
-    if (!action?.detail) {
-      return null;
-    }
-
-    if (action.type === 'play-card') {
-      const match = action.detail.match(
-        /^→\s*contagi(?:o|ó)\s+a\s+(?<target>.+)$/i
-      );
-      const target = match?.groups?.['target'];
-      if (target) {
-        return `contra ${target.trim()}`;
-      }
-    }
-
-    return action.detail;
-  }
-
-  private iconFor(action: GameAction | null): string {
-    if (!action) {
-      return '🃏';
-    }
-
-    switch (action.type) {
-      case 'play-card':
-        return '🃏';
-      case 'discard':
-        return '🗑️';
-      case 'draw':
-        return '📥';
-      case 'system':
-      default:
-        return 'ℹ️';
-    }
-  }
-
-  private classFor(action: GameAction | null): string {
-    if (!action) {
-      return 'is-play';
-    }
-
-    switch (action.type) {
-      case 'play-card':
-        return 'is-play';
-      case 'discard':
-        return 'is-discard';
-      case 'draw':
-        return 'is-draw';
-      case 'system':
-      default:
-        return 'is-system';
     }
   }
 }

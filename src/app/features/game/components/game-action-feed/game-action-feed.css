@@ -5,7 +5,6 @@
 }
 
 .action-feed {
-  --action-feed-icon-size: 36px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-template-areas: 'identity message close';
@@ -14,11 +13,7 @@
   padding: 0.5rem 0.75rem;
   border-radius: 10px;
   background: var(--section-feed-background);
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 255, 255, 0.02)
-  );
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
   backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   width: 100%;
@@ -45,11 +40,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at top left,
-    rgba(255, 255, 255, 0.25),
-    rgba(255, 255, 255, 0)
-  );
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
   opacity: 0;
   transition: opacity 220ms ease;
   pointer-events: none;
@@ -60,9 +51,6 @@
   opacity: 1;
 }
 
-.action-feed:focus-visible {
-}
-
 .action-feed.is-leaving {
   opacity: 0;
   transform: translateY(6px) scale(0.97);
@@ -71,135 +59,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .action-feed {
+
+  .action-feed,
+  .action-feed.is-leaving {
     transition-duration: 0ms;
     transition-timing-function: linear;
   }
-
-  .action-feed.is-leaving {
-    transition-duration: 0ms;
-  }
-}
-
-.action-feed__identity {
-  grid-area: identity;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  min-width: 0;
-}
-
-.action-feed__icon {
-  width: var(--action-feed-icon-size);
-  height: var(--action-feed-icon-size);
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  background-clip: padding-box;
-}
-
-.action-feed__icon-inner {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-.action-feed__icon.is-play {
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-}
-
-.action-feed__icon.is-discard {
-  background: var(--color-danger);
-  color: var(--color-primary-contrast);
-}
-
-.action-feed__icon.is-draw {
-  background: var(--color-success);
-  color: var(--color-success-contrast);
-}
-
-.action-feed__icon.is-system {
-  background: var(--color-text-muted);
-  color: var(--color-surface);
-}
-
-.action-feed__actor {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  background: var(--color-surface-soft);
-  color: var(--color-text-primary);
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.action-feed__actor--system {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--color-text-secondary);
-}
-
-.action-feed__message {
-  grid-area: message;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem;
-  font-size: 0.95rem;
-  line-height: 1.25;
-  min-width: 0;
-}
-
-.action-feed__verb {
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.action-feed__card {
-  font-weight: 600;
-  color: var(--color-primary);
-}
-
-.action-feed__detail {
-  color: var(--color-text-secondary);
-}
-
-.action-feed__close {
-  grid-area: close;
-  margin-left: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 78, 114, 0.95), rgba(255, 33, 86, 0.9));
-  color: var(--color-primary-contrast);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  transition: background 140ms ease, transform 140ms ease;
-  justify-self: end;
-  align-self: center;
-}
-
-.action-feed__close:hover,
-.action-feed__close:focus-visible {
-  background: linear-gradient(135deg, rgba(255, 102, 140, 0.98), rgba(255, 45, 120, 0.95));
-  transform: translateY(-1px);
-}
-
-.action-feed__close:focus-visible {
 }
 
 @media (min-width: 768px) {
@@ -218,16 +83,7 @@
 
 @media (max-width: 640px) {
   .action-feed {
-    --action-feed-icon-size: 32px;
     padding: 0.45rem 0.65rem;
     gap: 0.35rem 0.65rem;
-  }
-
-  .action-feed__icon-inner {
-    font-size: 1rem;
-  }
-
-  .action-feed__message {
-    font-size: 0.88rem;
   }
 }

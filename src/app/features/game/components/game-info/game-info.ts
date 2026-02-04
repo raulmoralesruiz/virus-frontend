@@ -16,7 +16,7 @@ import { ThemeService } from '../../../../core/services/theme.service';
 import { GameInfoHeaderComponent } from './header/game-info-header';
 import { GameInfoDetailsComponent } from './details/game-info-details';
 import { GameActionFeedComponent } from '../game-action-feed/game-action-feed';
-import { GameActionFeedService } from '../../../../core/services/game-action-feed.service';
+import { GameActionFeedService } from '../game-action-feed/services/game-action-feed.service';
 
 @Component({
   selector: 'game-info',
