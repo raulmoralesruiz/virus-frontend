@@ -1,0 +1,109 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.attachments {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.chip {
+  padding: 2px 2px;
+  border-radius: 8px;
+  text-align: center;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  min-width: 0;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip .icon {
+  display: inline-flex;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.chip card-icon,
+.chip img.icon {
+  width: 1.5em;
+  height: 1.5em;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Colores de "chips" */
+.chip.red {
+  background: var(--card-red-end);
+}
+
+.chip.green {
+  background: var(--card-green-end);
+}
+
+.chip.blue {
+  background: var(--card-blue-end);
+}
+
+.chip.yellow {
+  background: var(--card-yellow-end);
+}
+
+.chip.multi {
+  background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
+}
+
+@media (min-width: 768px) {
+  .chip {
+    font-size: 0.72rem;
+  }
+
+  .chip .icon {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .chip {
+    font-size: 0.78rem;
+  }
+
+  .chip .icon {
+    font-size: 1rem;
+  }
+}
+
+/* Estilo para virus temporales */
+.attached-card.temporary-virus {
+  background-image: repeating-linear-gradient(120deg,
+      rgba(239, 68, 68, 0.12),
+      rgba(239, 68, 68, 0.12) 6px,
+      transparent 6px,
+      transparent 12px);
+  opacity: 0.8;
+}
+
+.attached-card.cdk-drag {
+  cursor: grab;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.attached-card.cdk-drag.cdk-drag-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.attached-card.cdk-drag.cdk-drag-dragging {
+  cursor: grabbing;
+  transform: scale(1.05);
+}
