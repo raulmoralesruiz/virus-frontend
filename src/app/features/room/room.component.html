@@ -1,7 +1,7 @@
 <div class="room-screen">
   @if (room()) {
   <div class="room-panel">
-    <app-room-top [room]="room" (leaveRoom)="leaveRoom()" />
+    <app-room-top [room]="room()" (leaveRoom)="leaveRoom()" />
 
     <app-room-players [room]="room" />
 

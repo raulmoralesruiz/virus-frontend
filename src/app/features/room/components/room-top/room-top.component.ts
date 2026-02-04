@@ -3,7 +3,6 @@ import {
   Component,
   input,
   output,
-  Signal,
   signal,
 } from '@angular/core';
 import { Room } from '../../../../core/models/room.model';
@@ -21,20 +20,20 @@ import { CardIconComponent } from '../../../../shared/components/card-icon/card-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomTopComponent {
-  room = input.required<Signal<Room | null>>();
+  room = input.required<Room | null>();
   shareMessage = signal<string | null>(null);
   leaveRoom = output<void>();
   private shareMessageTimeout: ReturnType<typeof setTimeout> | null = null;
 
   copyRoomCode() {
-    const currentRoom = this.room()();
+    const currentRoom = this.room();
     const code = currentRoom?.name ?? currentRoom?.id?.slice(0, 6) ?? '';
     if (!code) return;
     this.copyToClipboard(code, 'ID de sala copiado');
   }
 
   copyRoomLink() {
-    const currentRoom = this.room()();
+    const currentRoom = this.room();
     if (!currentRoom) return;
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     if (!origin) return;
@@ -44,35 +43,18 @@ export class RoomTopComponent {
 
   private copyToClipboard(value: string, message: string) {
     if (!value) return;
-    const navigatorClipboard =
-      typeof navigator !== 'undefined' ? navigator.clipboard : null;
-    if (navigatorClipboard && navigatorClipboard.writeText) {
-      navigatorClipboard
-        .writeText(value)
+    
+    // Check if Clipboard API is supported and available
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(value)
         .then(() => this.setShareMessage(message))
-        .catch(() => this.fallbackCopy(value, message));
+        .catch(err => {
+          console.error('Failed to copy via Clipboard API:', err);
+          this.setShareMessage('Error al copiar');
+        });
     } else {
-      this.fallbackCopy(value, message);
-    }
-  }
-
-  private fallbackCopy(value: string, message: string) {
-    if (typeof document === 'undefined') return;
-    const textarea = document.createElement('textarea');
-    textarea.value = value;
-    textarea.style.position = 'fixed'; // Avoid scrolling to bottom
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-
-    try {
-      document.execCommand('copy');
-      this.setShareMessage(message);
-    } catch (error) {
-      console.warn('No se pudo copiar al portapapeles', error);
-    } finally {
-      document.body.removeChild(textarea);
+      console.warn('Clipboard API not available');
+      this.setShareMessage('Copiado no soportado');
     }
   }
 
