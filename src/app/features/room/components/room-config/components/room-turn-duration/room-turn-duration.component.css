@@ -1,0 +1,132 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.room-config__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.room-config__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 0.75rem;
+}
+
+.room-config__label {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.room-slider {
+  --slider-thumb-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.room-slider__input {
+  padding: 0rem;
+  width: calc(100% - var(--slider-thumb-size));
+  margin: 0 calc(var(--slider-thumb-size) / 2);
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,
+      var(--color-primary) 0%,
+      var(--color-primary) calc(var(--slider-progress, 0) * 100%),
+      rgba(15, 23, 42, 0.2) calc(var(--slider-progress, 0) * 100%),
+      rgba(15, 23, 42, 0.2) 100%);
+  cursor: pointer;
+  position: relative;
+}
+
+:host-context(.theme-dark) .room-slider__input {
+  background: linear-gradient(90deg,
+      var(--color-primary) 0%,
+      var(--color-primary) calc(var(--slider-progress, 0) * 100%),
+      rgba(248, 250, 252, 0.25) calc(var(--slider-progress, 0) * 100%),
+      rgba(248, 250, 252, 0.25) 100%);
+}
+
+.room-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-primary-contrast);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+}
+
+.room-slider__input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-primary-contrast);
+  background: var(--color-primary);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+}
+
+.room-slider__input::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.2);
+}
+
+.room-slider__input::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-primary);
+}
+
+:host-context(.theme-dark) .room-slider__input::-moz-range-track {
+  background: rgba(248, 250, 252, 0.25);
+}
+
+.room-slider__ticks {
+  width: calc(100% - var(--slider-thumb-size));
+  margin: 0 calc(var(--slider-thumb-size) / 2);
+  position: relative;
+  height: 1.2rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.room-slider__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.room-slider__tick:first-child {
+  transform: translateX(0);
+}
+
+.room-slider__tick:last-child {
+  transform: translateX(-100%);
+}
+
+.room-slider__value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.room-slider--disabled {
+  opacity: 0.7;
+}
+
+.room-slider__input:disabled {
+  cursor: not-allowed;
+}

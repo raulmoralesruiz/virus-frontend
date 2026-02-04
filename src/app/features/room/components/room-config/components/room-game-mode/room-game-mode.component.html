@@ -1,0 +1,14 @@
+<div class="room-config__group">
+  <p class="room-config__label">Modo de juego</p>
+  <div class="room-select-button" role="group" aria-label="Modo de juego"
+    [class.room-select-button--disabled]="!canEditConfig()">
+    @for (option of gameModeOptions; track option.value) {
+    <button type="button" class="room-select-button__option" [class.room-select-button__option--active]="
+        getRoomConfig()?.mode === option.value
+      " [disabled]="!canEditConfig()" [attr.aria-pressed]="getRoomConfig()?.mode === option.value"
+      (click)="onGameModeSelect(option.value)">
+      {{ option.label }}
+    </button>
+    }
+  </div>
+</div>
