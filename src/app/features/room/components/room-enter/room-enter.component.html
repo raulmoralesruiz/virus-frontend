@@ -1,35 +1,19 @@
-<div
-  class="confirm-overlay player-name-overlay"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="player-name-title"
-  aria-describedby="player-name-description"
->
+<div class="confirm-overlay player-name-overlay" role="dialog" aria-modal="true" aria-labelledby="player-name-title"
+  aria-describedby="player-name-description">
   <div class="player-name-modal">
     <h3 id="player-name-title">Crea tu jugador</h3>
     <p id="player-name-description">Introduce tu nombre para unirte.</p>
     <label class="player-name-label" for="playerNameInput">
       Nombre
-      <input
-        id="playerNameInput"
-        #playerNameInput
-        type="text"
-        maxlength="20"
-        class="player-name-input"
-        [disabled]="isCreatingPlayer()"
-        (keyup.enter)="createPlayerAndJoin.emit(playerNameInput)"
-        (input)="creationErrorChange.emit(null)"
-      />
+      <input id="playerNameInput" #playerNameInput type="text" maxlength="20" class="player-name-input"
+        [disabled]="isCreatingPlayer()" (keyup.enter)="createPlayerAndJoin(playerNameInput)"
+        (input)="creationError.set(null)" />
     </label>
     @if (creationError()) {
     <p class="player-name-error">{{ creationError() }}</p>
     }
-    <button
-      type="button"
-      class="cta-button"
-      [disabled]="isCreatingPlayer()"
-      (click)="createPlayerAndJoin.emit(playerNameInput)"
-    >
+    <button type="button" class="cta-button" [disabled]="isCreatingPlayer()"
+      (click)="createPlayerAndJoin(playerNameInput)">
       {{ isCreatingPlayer() ? "Guardando..." : "Guardar y unirse" }}
     </button>
   </div>
