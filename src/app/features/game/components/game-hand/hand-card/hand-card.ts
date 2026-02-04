@@ -1,17 +1,18 @@
 
-import { Component, input, output, effect, inject } from '@angular/core';
+import { Component, input, output, effect, inject, computed } from '@angular/core';
 import { Card, CardKind, CardColor } from '../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { DragDropService } from '../../../../../core/services/drag-drop.service';
 import { HandCardContentComponent } from './hand-card-content/hand-card-content.component';
+import { HandCardButtonComponent } from './button/hand-card-button.component';
 
 @Component({
   selector: 'app-hand-card',
   standalone: true,
-  imports: [DragDropModule, CommonModule, HandCardContentComponent],
+  imports: [DragDropModule, CommonModule, HandCardContentComponent, HandCardButtonComponent],
   templateUrl: './hand-card.html',
-  styleUrls: ['./hand-card.css', './hand-card-colors.css'],
+  styleUrls: ['./hand-card.css', './styles/hand-card-colors.css'],
 })
 export class HandCard {
   card = input.required<Card>();
@@ -20,10 +21,8 @@ export class HandCard {
   infoOpen = input(false);
   isDisabled = input(false);
   isPlaying = input(false);
-
   toggleSelect = output<Card>();
   play = output<Card>();
-
   private dragDropService = inject(DragDropService);
 
   constructor() {
@@ -38,13 +37,24 @@ export class HandCard {
     });
   }
 
+  containerClasses = computed(() => {
+    const card = this.card();
+    return [
+      this.cardColorClass,
+      'hand-card--' + card.kind,
+      this.isSelected() ? 'is-selected' : '',
+      this.isMyTurn() ? 'is-my-turn' : '',
+      this.isDisabled() ? 'disabled' : '',
+      this.isPlaying() ? 'is-playing' : ''
+    ];
+  });
+
   onToggleSelect() {
     if (!this.isMyTurn() || this.isDisabled()) return;
     this.toggleSelect.emit(this.card());
   }
 
   onPlay(event: MouseEvent) {
-    event.stopPropagation();
     this.play.emit(this.card());
   }
 

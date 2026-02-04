@@ -1,19 +1,11 @@
 @let cardValue = card();
 
-<div class="hand-card" [ngClass]="[
-    cardColorClass,
-    'hand-card--' + cardValue.kind,
-    isSelected() ? 'is-selected' : '',
-    isMyTurn() ? 'is-my-turn' : '',
-    isDisabled() ? 'disabled' : '',
-    isPlaying() ? 'is-playing' : ''
-  ]" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue"
+<div class="hand-card" [ngClass]="containerClasses()" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue"
   [cdkDragDisabled]="!isMyTurn() || isDisabled() || isSelected()" (cdkDragStarted)="onDragStarted()"
   (cdkDragEnded)="onDragEnded()">
 
   <app-hand-card-content [card]="cardValue"></app-hand-card-content>
 
-  <button class="play-btn" (click)="onPlay($event)" [disabled]="isDisabled()">
-    {{ actionLabel }}
-  </button>
+  <app-hand-card-button [label]="actionLabel" [disabled]="isDisabled()"
+    (action)="onPlay($event)"></app-hand-card-button>
 </div>

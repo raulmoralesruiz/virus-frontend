@@ -25,10 +25,6 @@
   pointer-events: none;
 }
 
-.hand-card:hover {
-  transform: translateY(-6px);
-}
-
 .hand-card.is-selected::after {
   content: '';
   position: absolute;
@@ -39,42 +35,23 @@
   border: 4px solid rgba(23, 7, 7, 0.8);
 }
 
+.hand-card.is-playing {
+  border: 3px solid #fff;
+}
+
 .hand-card.is-selected {
   animation: selectedCardShake 0.8s ease-in-out infinite;
 }
 
-.hand-card.is-selected .play-btn {
+.hand-card.is-selected app-hand-card-button {
   visibility: hidden;
-}
-
-.hand-card:active {
-  cursor: grabbing;
-}
-
-
-.play-btn {
-  font-size: 0.7rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.play-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
-.play-btn:not(:disabled):hover {
-  transform: translateY(-2px);
 }
 
 .hand-card.cdk-drag-dragging {
   transition: none !important;
 }
 
-.hand-card.cdk-drag-dragging .play-btn {
+.hand-card.cdk-drag-dragging ::ng-deep app-hand-card-button {
   transition: none !important;
 }
 
@@ -93,10 +70,6 @@
     height: 140px;
     margin: 6px 4px;
   }
-
-  .play-btn {
-    font-size: 0.75rem;
-  }
 }
 
 @media (min-width: 768px) {
@@ -105,7 +78,6 @@
     height: 156px;
   }
 }
-
 
 @keyframes selectedCardGlow {
 
@@ -137,8 +109,4 @@
   75% {
     transform: rotate(3deg);
   }
-}
-
-.hand-card.is-playing {
-  border: 3px solid #fff;
 }

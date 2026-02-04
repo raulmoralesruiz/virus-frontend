@@ -1,5 +1,6 @@
 
-import { CardColor, TreatmentSubtype } from '../../../../../core/models/card.model';
+
+import { CardColor, TreatmentSubtype } from '../../../../../../core/models/card.model';
 
 export const ORGAN_ICONS: Record<CardColor, string> = {
   [CardColor.Red]: 'organ-red',
