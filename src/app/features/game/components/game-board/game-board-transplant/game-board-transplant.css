@@ -1,0 +1,15 @@
+.cancel-transplant {
+  margin-top: 0.75rem;
+  background: var(--color-muted-button-bg);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .cancel-transplant {
+    width: auto;
+  }
+}

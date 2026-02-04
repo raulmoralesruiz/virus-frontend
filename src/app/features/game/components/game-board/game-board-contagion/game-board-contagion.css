@@ -1,0 +1,50 @@
+.contagion-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.contagion-controls button {
+  width: 100%;
+}
+
+.finish-contagion {
+  background: var(--color-success);
+  color: var(--color-success-contrast);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+}
+
+.finish-contagion:disabled {
+  background: var(--color-success-disabled);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.cancel-contagion {
+  background: var(--color-warning);
+  color: var(--color-text-inverted);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+}
+
+.cancel-contagion:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (min-width: 1024px) {
+  .contagion-controls {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .contagion-controls button {
+    width: auto;
+  }
+}
