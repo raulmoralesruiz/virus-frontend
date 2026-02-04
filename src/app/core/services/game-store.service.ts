@@ -38,6 +38,8 @@ export class GameStoreService {
   history = computed(() => this.publicState()?.history ?? []);
   private historyVisible = signal(false);
   historyOpen = this.historyVisible.asReadonly();
+  private leavingVisible = signal(false);
+  leavingOpen = this.leavingVisible.asReadonly();
 
   constructor() {
     effect(() => {
@@ -140,6 +142,7 @@ export class GameStoreService {
     this.socketGame.leaveGame(roomId);
     this.roomStore.leaveRoom(roomId, player);
     this.historyVisible.set(false);
+    this.leavingVisible.set(false);
     this.router.navigate(['/room-list']);
   }
 
@@ -157,5 +160,21 @@ export class GameStoreService {
 
   closeHistoryModal() {
     this.historyVisible.set(false);
+  }
+
+  openLeaveModal() {
+    this.leavingVisible.set(true);
+  }
+
+  closeLeaveModal() {
+    this.leavingVisible.set(false);
+  }
+
+  handleTurnTimeout(roomId: string) {
+    const hand = this.hand();
+    if (!hand.length) return;
+    const randomIdx = Math.floor(Math.random() * hand.length);
+    const randomCard = hand[randomIdx];
+    this.discardCards(roomId, [randomCard.id]);
   }
 }

@@ -1,0 +1,21 @@
+<div class="history-overlay" (click)="closeHistory()">
+  <div class="history-modal" (click)="$event.stopPropagation()">
+    <div class="history-header">
+      <h3>Historial de movimientos</h3>
+      <button type="button" class="history-close" aria-label="Cerrar historial" (click)="closeHistory()">
+        ✕
+      </button>
+    </div>
+
+    @if (history().length) {
+    <ul class="history-list">
+      @for (entry of history(); track $index) {
+      <li class="history-item">{{ entry }}</li>
+      }
+    </ul>
+    }
+    @else {
+    <p class="history-empty">Aún no hay movimientos registrados.</p>
+    }
+  </div>
+</div>
