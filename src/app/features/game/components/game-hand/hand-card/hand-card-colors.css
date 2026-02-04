@@ -1,0 +1,36 @@
+/* Colores por tipo de carta */
+.hand-card--red {
+  background: var(--card-red-end);
+}
+
+.hand-card--green {
+  background: var(--card-green-end);
+}
+
+.hand-card--blue {
+  background: var(--card-blue-end);
+}
+
+.hand-card--yellow {
+  background: var(--card-yellow-end);
+}
+
+.hand-card--multi {
+  background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
+}
+
+.hand-card--treatment {
+  background: var(--card-multi-middle);
+}
+
+.hand-card--treatment-halloween {
+  background: linear-gradient(135deg, var(--card-multi-middle) 80%, var(--card-halloween-end));
+}
+
+.hand-card--halloween {
+  background: var(--card-halloween-end);
+}
+
+.hand-card--orange {
+  background: var(--card-orange-end);
+}
