@@ -7,11 +7,14 @@ import {
   signal,
 } from '@angular/core';
 import { Room } from '../../../../core/models/room.model';
+import { RoomLabelComponent } from './components/room-label/room-label.component';
+import { RoomActionsComponent } from './components/room-actions/room-actions.component';
+import { RoomActionBtnComponent } from './components/room-action-btn/room-action-btn.component';
 
 @Component({
   selector: 'app-room-top',
   standalone: true,
-  imports: [],
+  imports: [RoomLabelComponent, RoomActionsComponent, RoomActionBtnComponent],
   templateUrl: './room-top.component.html',
   styleUrl: './room-top.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
