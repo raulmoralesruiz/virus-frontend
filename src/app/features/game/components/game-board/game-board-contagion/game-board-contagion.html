@@ -1,10 +1,7 @@
 @if (state) {
 <div class="contagion-controls">
   <button (click)="finishContagion()" [disabled]="state.assignments.length === 0" class="finish-contagion">
-    Finalizar contagio ({{ state.assignments.length }} virus{{
-    state.assignments.length !== 1 ? "es" : ""
-    }}
-    movido{{ state.assignments.length !== 1 ? "s" : "" }})
+    Finalizar contagio ({{ state.assignments.length }} virus movido{{ state.assignments.length !== 1 ? "s" : "" }})
   </button>
   <button (click)="cancelContagion()" class="cancel-contagion">Cancelar</button>
 </div>
