@@ -1,0 +1,47 @@
+:host {
+  width: 100%;
+}
+
+.discard-btn {
+  margin-top: 0;
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  background: #991b1b;
+  color: #fef2f2;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.discard-btn:not(:disabled):hover {
+  filter: brightness(0.97);
+}
+
+.discard-btn.is-active-turn:not(:disabled) {
+  background: #88340c;
+  color: #fff7ed;
+}
+
+.discard-btn.is-active-turn:not(:disabled):hover {
+  filter: brightness(1.02);
+}
+
+.discard-btn:disabled {
+  background: var(--color-muted-button-bg);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  :host {
+    width: auto;
+    align-self: flex-end;
+  }
+
+  .discard-btn {
+    width: auto;
+    padding-inline: 1.2rem;
+  }
+}
