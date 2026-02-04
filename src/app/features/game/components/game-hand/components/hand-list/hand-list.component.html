@@ -1,0 +1,10 @@
+<div class="hand-container" [class.is-my-turn]="isMyTurn()" cdkDropList [id]="'handList-' + (playerId() || '')"
+  [cdkDropListData]="hand()" [cdkDropListConnectedTo]="connectedTo()" (cdkDropListExited)="exitHand.emit($event)">
+  @for (card of hand(); track card.id) {
+  <app-hand-card [card]="card" [isSelected]="selectedDiscardIds().has(card.id)" [isMyTurn]="isMyTurn()"
+    [infoOpen]="selectedPlayingCardId() === card.id"
+    [isDisabled]="mustPlayCardId() !== null && mustPlayCardId() !== card.id"
+    [isPlaying]="selectedPlayingCardId() === card.id" (toggleSelect)="toggleSelect.emit(card)" (play)="play.emit(card)">
+  </app-hand-card>
+  }
+</div>
