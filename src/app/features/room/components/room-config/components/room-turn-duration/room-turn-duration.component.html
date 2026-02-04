@@ -1,0 +1,20 @@
+<div class="room-config__group">
+  <div class="room-config__label-row">
+    <p class="room-config__label">Duración del turno</p>
+    <span class="room-slider__value">
+      {{ getRoomConfig().timerSeconds }} segundos
+    </span>
+  </div>
+  <div class="room-slider" [class.room-slider--disabled]="!canEditConfig()">
+    <input type="range" class="room-slider__input" [min]="0" [max]="timerOptions.length - 1" step="1"
+      [value]="getSliderIndex()" [style.--slider-progress]="getSliderProgress()" [disabled]="!canEditConfig()"
+      (input)="onTimerSelect($any($event.target).value)" aria-label="Duración del turno" />
+    <div class="room-slider__ticks">
+      @for (seconds of timerOptions; track seconds; let idx = $index) {
+      <span class="room-slider__tick" [style.left.%]="getTickPosition(idx)">
+        {{ seconds }}s
+      </span>
+      }
+    </div>
+  </div>
+</div>

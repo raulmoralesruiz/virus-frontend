@@ -1,33 +1,14 @@
 <div class="room-screen">
   @if (room()) {
   <div class="room-panel">
-    <app-room-top
-      [room]="room"
-      [shareMessage]="shareMessage"
-      (copyRoomCode)="copyRoomCode()"
-      (copyRoomLink)="copyRoomLink()"
-      (leaveRoom)="leaveRoom()"
-    />
+    <app-room-top [room]="room()" (leaveRoom)="leaveRoom()" />
 
     <app-room-players [room]="room" />
 
-    <app-room-config
-      [canEditConfig]="canEditConfig()"
-      [roomConfig]="getRoomConfig()"
-      [gameModeOptions]="gameModeOptions"
-      [timerOptions]="timerOptions"
-      [sliderIndex]="getSliderIndex()"
-      [sliderProgress]="getSliderProgress()"
-      (gameModeSelect)="onGameModeSelect($event)"
-      (timerSelect)="onTimerSelect($event)"
-    />
+    <app-room-config [canEditConfig]="canEditConfig()" [room]="room" />
 
     @if (isHost()) {
-    <button
-      class="cta-button"
-      (click)="startGame()"
-      [disabled]="!isHost() || isIncorrectNumberPlayers()"
-    >
+    <button class="cta-button" (click)="startGame()" [disabled]="!isHost() || isIncorrectNumberPlayers()">
       Iniciar partida
     </button>
     } @else {
@@ -41,16 +22,8 @@
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
   </div>
   } @if (confirmingLeave) {
-  <app-room-exit
-    (cancelLeave)="cancelLeave()"
-    (confirmLeave)="confirmLeave()"
-  />
+  <app-room-exit (cancelLeave)="cancelLeave()" (confirmLeave)="confirmLeave()" />
   } @if (!player()) {
-  <app-room-enter
-    [isCreatingPlayer]="isCreatingPlayer"
-    [creationError]="creationError"
-    (creationErrorChange)="creationError = $event"
-    (createPlayerAndJoin)="createPlayerAndJoin($event)"
-  />
+  <app-room-enter [roomId]="roomId" />
   }
 </div>

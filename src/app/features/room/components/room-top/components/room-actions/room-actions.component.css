@@ -1,0 +1,28 @@
+.room-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  min-height: 2.8rem;
+  margin-left: auto;
+  padding: 0.4rem 0.5rem;
+  border-radius: 999px;
+  background: #d9e2f4;
+}
+
+:host-context(.theme-dark) .room-actions {
+  background: #223253;
+  color: #f8fafc;
+}
+
+@media (max-width: 330px) {
+  .room-actions {
+    margin: 0;
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+    text-align: center;
+    margin-left: 0;
+  }
+}
