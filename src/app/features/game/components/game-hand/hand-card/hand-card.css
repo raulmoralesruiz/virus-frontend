@@ -25,11 +25,18 @@
   pointer-events: none;
 }
 
-
-.hand-card:hover {
-  transform: translateY(-6px);
+.hand-card.is-playing {
+  border: 3px solid #fff;
 }
 
+.hand-card:active,
+.cdk-drag-preview.hand-card {
+  cursor: grabbing;
+}
+
+.hand-card.is-selected {
+  animation: selectedCardShake 0.8s ease-in-out infinite;
+}
 
 .hand-card.is-selected::after {
   content: '';
@@ -37,75 +44,19 @@
   inset: 0;
   border-radius: 14px;
   pointer-events: none;
-  /* background: radial-gradient(circle, rgba(23, 7, 7, 0.8), transparent 70%); */
   animation: selectedCardGlow 1.6s ease-in-out infinite;
   border: 4px solid rgba(23, 7, 7, 0.8);
 }
 
-.hand-card.is-selected {
-  animation: selectedCardShake 0.8s ease-in-out infinite;
-}
-
-.hand-card.is-selected .play-btn {
+.hand-card.is-selected app-hand-card-button {
   visibility: hidden;
 }
 
-.hand-card:active {
-  cursor: grabbing;
-}
-
-.card-content {
-  text-align: center;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-
-.card-icon {
-  font-size: 2.4rem;
-}
-
-
-.card-image {
-  width: 3.5em;
-  height: 3.5em;
-  pointer-events: none;
-  /* Prevent drag/click interference */
-}
-
-.play-btn {
-  font-size: 0.7rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.play-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
-.play-btn:not(:disabled):hover {
-  transform: translateY(-2px);
-}
-
-.hand-card.cdk-drag-dragging {
-  transition: none !important;
-}
-
-.hand-card.cdk-drag-dragging .play-btn {
-  transition: none !important;
-}
-
+/* Drag states */
+.hand-card.cdk-drag-dragging,
+.hand-card.cdk-drag-dragging ::ng-deep app-hand-card-button,
 .cdk-drag-preview.hand-card {
   transition: none !important;
-  cursor: grabbing;
 }
 
 .hand-card.cdk-drag-placeholder {
@@ -118,10 +69,6 @@
     height: 140px;
     margin: 6px 4px;
   }
-
-  .play-btn {
-    font-size: 0.75rem;
-  }
 }
 
 @media (min-width: 768px) {
@@ -130,7 +77,6 @@
     height: 156px;
   }
 }
-
 
 @keyframes selectedCardGlow {
 
@@ -147,6 +93,7 @@
 @keyframes selectedCardShake {
 
   0%,
+  50%,
   100% {
     transform: rotate(0deg);
   }
@@ -155,69 +102,7 @@
     transform: rotate(-3deg);
   }
 
-  50% {
-    transform: rotate(0deg);
-  }
-
   75% {
     transform: rotate(3deg);
   }
-}
-
-/* Colores por tipo de carta */
-.hand-card--red {
-  background: var(--card-red-end);
-}
-
-.hand-card--green {
-  background: var(--card-green-end);
-}
-
-.hand-card--blue {
-  background: var(--card-blue-end);
-}
-
-.hand-card--yellow {
-  background: var(--card-yellow-end);
-}
-
-.hand-card--multi {
-  /* Multicolor stays as gradient */
-  background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
-}
-
-.hand-card--treatment {
-  background: var(--card-multi-middle);
-}
-
-.hand-card--treatment-halloween {
-  background: linear-gradient(135deg, var(--card-multi-middle) 80%, var(--card-halloween-end));
-}
-
-.hand-card--halloween {
-  background: var(--card-halloween-end);
-}
-
-.hand-card--orange {
-  background: var(--card-orange-end);
-}
-
-.hand-card--treatment .card-icon {
-  font-size: 2rem;
-}
-
-.hand-card--virus .card-icon {
-  font-size: 2.8rem;
-}
-
-.hand-card--medicine .card-icon {
-  font-size: 2.3rem;
-}
-
-.hand-card--organ .card-icon {
-  font-size: 2.6rem;
-}
-
-.hand-card.is-playing {
-  border: 3px solid #fff;
 }
