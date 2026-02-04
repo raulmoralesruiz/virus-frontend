@@ -1,8 +1,8 @@
 
 import { Component, input, output, effect, inject, computed } from '@angular/core';
-import { Card, CardKind, CardColor } from '../../../../../core/models/card.model';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
+import { Card, CardKind, CardColor } from '../../../../../core/models/card.model';
 import { DragDropService } from '../../../../../core/services/drag-drop.service';
 import { HandCardContentComponent } from './hand-card-content/hand-card-content.component';
 import { HandCardButtonComponent } from './button/hand-card-button.component';
@@ -21,27 +21,30 @@ export class HandCard {
   infoOpen = input(false);
   isDisabled = input(false);
   isPlaying = input(false);
+
   toggleSelect = output<Card>();
   play = output<Card>();
-  private dragDropService = inject(DragDropService);
+
+  private ddService = inject(DragDropService);
 
   constructor() {
     effect(() => {
-      const disabled = this.isDisabled();
-      const dragging = this.dragDropService.draggedItem();
-      const currentCard = this.card();
-
-      if (disabled && dragging && dragging.id === currentCard.id) {
-         this.dragDropService.draggedItem.set(null);
+      const { id } = this.card();
+      if (this.isDisabled() && this.ddService.draggedItem()?.id === id) {
+         this.ddService.draggedItem.set(null);
       }
     });
   }
 
   containerClasses = computed(() => {
-    const card = this.card();
+    const c = this.card();
+    const isHalloween = c.color === CardColor.Halloween;
+    const colorClass = (c.kind === CardKind.Treatment && isHalloween) ? 'hand-card--treatment-halloween' :
+                       (c.kind === CardKind.Organ && c.color === CardColor.Orange) ? 'hand-card--halloween' :
+                       `hand-card--${c.color}`;
+    
     return [
-      this.cardColorClass,
-      'hand-card--' + card.kind,
+      colorClass, `hand-card--${c.kind}`,
       this.isSelected() ? 'is-selected' : '',
       this.isMyTurn() ? 'is-my-turn' : '',
       this.isDisabled() ? 'disabled' : '',
@@ -49,51 +52,31 @@ export class HandCard {
     ];
   });
 
+  actionLabel = computed(() => 
+    this.isDisabled() ? '...' : 
+    this.isMyTurn() ? 'Jugar' : 
+    this.infoOpen() ? 'Cancelar' : 'Info'
+  );
+
   onToggleSelect() {
-    if (!this.isMyTurn() || this.isDisabled()) return;
-    this.toggleSelect.emit(this.card());
+    if (this.isMyTurn() && !this.isDisabled()) this.toggleSelect.emit(this.card());
   }
 
-  onPlay(event: MouseEvent) {
+  onPlay() {
     this.play.emit(this.card());
   }
 
   onDragStarted() {
-    this.dragDropService.draggedItem.set(this.card());
+    this.ddService.draggedItem.set(this.card());
   }
 
   onDragEnded() {
-    this.dragDropService.draggedItem.set(null);
-  }
-
-  get actionLabel(): string {
-    if (this.isDisabled()) return '...';
-    if (this.isMyTurn()) {
-      return 'Jugar';
-    }
-
-    return this.infoOpen() ? 'Cancelar' : 'Info';
-  }
-
-  get cardColorClass(): string {
-    const card = this.card();
-    if (card.kind === CardKind.Treatment && card.color === CardColor.Halloween) {
-      return 'hand-card--treatment-halloween';
-    }
-
-    if (card.kind === CardKind.Organ && card.color === CardColor.Orange) {
-      return 'hand-card--halloween';
-    }
-
-    return 'hand-card--' + card.color;
+    this.ddService.draggedItem.set(null);
   }
 
   ngOnDestroy() {
-    const dragging = this.dragDropService.draggedItem();
-    const currentCard = this.card();
-    
-    if (dragging && dragging.id === currentCard.id) {
-      this.dragDropService.draggedItem.set(null);
+    if (this.ddService.draggedItem()?.id === this.card().id) {
+      this.ddService.draggedItem.set(null);
     }
   }
 }

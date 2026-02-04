@@ -12,10 +12,6 @@
   opacity: 0.45;
 }
 
-.play-btn:not(:disabled):hover {
-  transform: translateY(-2px);
-}
-
 @media (min-width: 480px) {
   .play-btn {
     font-size: 0.75rem;

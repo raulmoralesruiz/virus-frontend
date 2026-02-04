@@ -6,6 +6,5 @@
 
   <app-hand-card-content [card]="cardValue"></app-hand-card-content>
 
-  <app-hand-card-button [label]="actionLabel" [disabled]="isDisabled()"
-    (action)="onPlay($event)"></app-hand-card-button>
+  <app-hand-card-button [label]="actionLabel()" [disabled]="isDisabled()" (action)="onPlay()"></app-hand-card-button>
 </div>
