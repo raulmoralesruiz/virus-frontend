@@ -1,29 +1,15 @@
-<div class="player-board" [class.is-me]="isMe()" [class.is-active]="isActive()">
-  <player-board-header [player]="player()" [isActive]="isActive()" [isMe]="isMe()"
-    [remainingSeconds]="remainingSeconds()">
-  </player-board-header>
+<player-board-header [player]="player()" [isActive]="isActive()" [isMe]="isMe()"
+  [remainingSeconds]="remainingSeconds()">
+</player-board-header>
 
-  <div class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"
-    [cdkDropListConnectedTo]="connectedTo()" [cdkDropListEnterPredicate]="boardEnterPredicate"
-    (cdkDropListDropped)="onBoardDrop($event)" (cdkDropListEntered)="onBoardEnter($event)"
-    (cdkDropListExited)="onBoardExit($event)" [class.valid-board-target]="isValidBoardTarget()"
-    [class.drag-over]="isDragOver()">
-    @if (player().board.length === 0) {
-    <div class="board-empty" aria-label="Tablero vacío">
-      Tablero de {{ player().player.name }}
-    </div>
-    } @else {
-    <div class="board-grid" cdkDropListGroup>
-      @for (organ of player().board; track organ.id) {
-      <player-card class="board-slot" [class.transplant-mode]="transplantState()"
-        [dropListId]="'slot-' + player().player.id + '-' + organ.color" [dropListData]="[organ]"
-        [dropListConnectedTo]="getConnectedIdsForSlot(organ.color)" [dropListEnterPredicate]="slotEnterPredicate"
-        (dropListDropped)="onDrop($event, organ.color, organ)" (click)="onSlotClick(organ, player().player.id)"
-        [organ]="organ" [isMe]="isMe()" [contagionMode]="contagionState()! && isMe()" [temporaryViruses]="
-          getTemporaryVirusesForOrgan()(organ.id, player().player.id)
-        "></player-card>
-      }
-    </div>
-    }
-  </div>
-</div>
+<player-board-slots class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"
+  [cdkDropListConnectedTo]="connectedTo()" [cdkDropListEnterPredicate]="boardEnterPredicate"
+  (cdkDropListDropped)="onBoardDrop($event)" (cdkDropListEntered)="onBoardEnter($event)"
+  (cdkDropListExited)="onBoardExit($event)" [class.valid-board-target]="isValidBoardTarget()"
+  [class.drag-over]="isDragOver()" [player]="player()" [isMe]="isMe()" [roomId]="roomId()" [gameState]="gameState()"
+  [allSlotIds]="allSlotIds()" [contagionState]="contagionState()" [transplantState]="transplantState()"
+  [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan()" [hasTemporaryVirus]="hasTemporaryVirus()"
+  (virusMoved)="virusMoved.emit($event)" (startContagion)="startContagion.emit($event)"
+  (startFailedExperiment)="startFailedExperiment.emit($event)" (startTransplant)="startTransplant.emit($event)"
+  (finishTransplant)="finishTransplant.emit($event)">
+</player-board-slots>

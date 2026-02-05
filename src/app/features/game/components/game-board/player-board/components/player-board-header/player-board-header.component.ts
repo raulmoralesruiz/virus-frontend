@@ -1,12 +1,20 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { TimerSoundService } from '../../../../../../../core/services/timer-sound.service';
 import { PublicPlayerInfo } from '../../../../../../../core/models/game.model';
-import { CardIconComponent } from '../../../../../../../shared/components/card-icon/card-icon.component';
+import { PlayerBoardNameComponent } from './components/player-board-name/player-board-name.component';
+import { PlayerBoardTrickOrTreatComponent } from './components/player-board-trick-or-treat/player-board-trick-or-treat.component';
+import { PlayerBoardTurnProgressComponent } from './components/player-board-turn-progress/player-board-turn-progress.component';
+import { PlayerBoardTurnTimerComponent } from './components/player-board-turn-timer/player-board-turn-timer.component';
 
 @Component({
   selector: 'player-board-header',
   standalone: true,
-  imports: [CardIconComponent],
+  imports: [
+    PlayerBoardNameComponent,
+    PlayerBoardTrickOrTreatComponent,
+    PlayerBoardTurnProgressComponent,
+    PlayerBoardTurnTimerComponent
+  ],
   templateUrl: './player-board-header.component.html',
   styleUrl: './player-board-header.component.css'
 })
@@ -28,15 +36,6 @@ export class PlayerBoardHeaderComponent {
   });
 
   turnDurationSeconds = signal(0);
-
-  turnProgressPercent = computed(() => {
-    const duration = this.turnDurationSeconds();
-    if (duration <= 0) return 0;
-
-    const ratio = this.remainingSeconds() / duration;
-    return Math.max(0, Math.min(100, ratio * 100));
-  });
-
   isMuted = this.timerSoundService.isMuted;
 
   constructor() {

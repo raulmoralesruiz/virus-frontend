@@ -1,0 +1,4 @@
+<span class="turn-timer" [class.turn-timer--warning]="timerState() === 'warning'"
+  [class.turn-timer--critical]="timerState() === 'critical'">
+  {{ remainingSeconds() }}s
+</span>

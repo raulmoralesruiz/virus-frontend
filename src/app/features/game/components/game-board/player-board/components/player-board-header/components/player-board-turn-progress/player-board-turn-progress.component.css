@@ -1,0 +1,39 @@
+:host {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.turn-progress {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.turn-progress__track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.35);
+  overflow: hidden;
+}
+
+.turn-progress__bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--color-success);
+  transition: width 0.35s linear, background 0.2s ease;
+}
+
+.turn-progress__bar--warning {
+  background: var(--color-warning);
+}
+
+.turn-progress__bar--critical {
+  background: var(--color-danger);
+}

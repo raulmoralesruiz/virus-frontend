@@ -1,16 +1,13 @@
-.player-board {
+:host {
   border-radius: 18px;
   padding: 1.5rem 0.75rem 0.75rem;
-  transition:
-    background 0.3s ease,
-    transform 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
   background: #d9e2f4;
   color: #0f172a;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
-  /* --board-slot-min-width: 72px; */
   --board-slot-gap: 0.35rem;
   --board-slot-height: 50px;
   user-select: none;
@@ -33,6 +30,9 @@
   display: flex;
   background: rgba(15, 23, 42, 0.08);
   border-radius: 16px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent;
+  position: relative;
 }
 
 .board-drop-wrapper:not(.is-active) {
@@ -43,114 +43,44 @@
   background: rgba(248, 250, 252, 0.08);
 }
 
-.board-grid {
-  flex: 1;
-  display: grid;
-  gap: var(--board-slot-gap, 0.5rem);
-  grid-template-columns: repeat(4, minmax(var(--board-slot-min-width, 40px), 1fr));
-  grid-auto-rows: var(--board-slot-height, 132px);
-}
-
-.board-empty {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 12px;
-  color: var(--color-text-secondary);
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.08));
-  background-image: repeating-linear-gradient(-45deg,
-      rgba(148, 163, 184, 0.12),
-      rgba(148, 163, 184, 0.12) 10px,
-      transparent 10px,
-      transparent 16px);
-  text-align: center;
-  font-weight: 500;
-}
-
-.board-slot {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  height: 100%;
-  border-radius: 12px;
-}
-
-.player-board.is-me {
+:host.is-me {
   background: var(--color-player-me-background);
 }
 
-:host-context(.theme-dark) .player-board.is-me {
+:host-context(.theme-dark).is-me {
   background: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
 }
 
-:host-context(.theme-dark) .player-board:not(.is-me):not(.is-active) {
+:host-context(.theme-dark):not(.is-me):not(.is-active) {
   background: #223253;
   color: #f8fafc;
 }
 
-.player-board.is-active {
+:host.is-active {
   background: var(--color-player-active-background);
   transform: translateY(-4px);
   animation: playerTurnPulse 2.2s ease-in-out infinite;
 }
 
-.player-board.is-me.is-active {
-  background: linear-gradient(170deg,
-      rgba(255, 247, 237, 0.9) 4%,
-      rgba(228, 254, 246, 0.88) 45%,
-      rgba(207, 250, 254, 0.9) 100%);
+:host.is-me.is-active {
+  background: linear-gradient(170deg, rgba(255, 247, 237, 0.9) 4%, rgba(228, 254, 246, 0.88) 45%, rgba(207, 250, 254, 0.9) 100%);
 }
 
-:host-context(.theme-dark) .player-board.is-me.is-active {
-  background: linear-gradient(170deg,
-      rgba(34, 197, 159, 0.18) 0%,
-      rgba(14, 165, 233, 0.16) 55%,
-      rgba(37, 99, 235, 0.14) 100%);
+:host-context(.theme-dark).is-me.is-active {
+  background: linear-gradient(170deg, rgba(34, 197, 159, 0.18) 0%, rgba(14, 165, 233, 0.16) 55%, rgba(37, 99, 235, 0.14) 100%);
 }
 
-/* cuando estamos en modo trasplante */
-.board-slot {
-  position: relative;
-  border-radius: 12px;
-}
-
-.board-slot.transplant-mode {
-  cursor: pointer;
-  background: rgba(249, 115, 22, 0.12);
-}
-
-.board-slot.first-selected {
-  background: rgba(239, 68, 68, 0.12);
-}
-
-.board-slot.valid-second {
-  background: rgba(34, 197, 94, 0.15);
-}
-
-.board-drop-wrapper.cdk-drop-list {
-  border-radius: 12px;
-  box-sizing: border-box;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
-  background: rgba(15, 23, 42, 0.02);
-  border: 2px solid transparent;
-  position: relative;
-}
-
-.board-drop-wrapper.cdk-drop-list.cdk-drop-list-dragging {
+.board-drop-wrapper.cdk-drop-list-dragging {
   background: rgba(59, 130, 246, 0.08);
 }
 
-/* Simplificamos selectores para asegurar que se apliquen */
 .board-drop-wrapper.valid-board-target {
   background: rgba(34, 197, 94, 0.15);
-  /* Greenish tint for valid */
   border-color: rgba(34, 197, 94, 0.4);
 }
 
 .board-drop-wrapper.valid-board-target.drag-over {
   background: rgba(255, 255, 255, 0.1) !important;
-  /* White tint */
   border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
@@ -158,13 +88,6 @@
   display: none;
 }
 
-.board-slot .card.organ.cdk-drop-list {
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.board-slot .card.organ.cdk-drop-list.cdk-drop-list-dragging {
-  opacity: 0.85;
-  transform: translateY(-2px);
+player-board-slots {
+  width: 100%;
 }
