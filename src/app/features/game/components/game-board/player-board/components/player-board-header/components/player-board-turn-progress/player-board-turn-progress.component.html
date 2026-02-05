@@ -1,0 +1,8 @@
+<div class="turn-progress">
+  <div class="turn-progress__track" role="progressbar" aria-label="Tiempo restante del turno" [attr.aria-valuemin]="0"
+    [attr.aria-valuenow]="remainingSeconds()" [attr.aria-valuemax]="turnDurationSeconds()">
+    <div class="turn-progress__bar" [class.turn-progress__bar--warning]="timerState() === 'warning'"
+      [class.turn-progress__bar--critical]="timerState() === 'critical'" [style.width.%]="turnProgressPercent()">
+    </div>
+  </div>
+</div>

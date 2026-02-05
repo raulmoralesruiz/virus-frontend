@@ -1,0 +1,20 @@
+strong {
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+:host-context(.player-board.is-active) strong,
+:host-context(.player-board.is-me) strong,
+:host-context(.theme-dark) :host-context(.player-board.is-me) strong {
+  /* Inherit colors from parent context if needed, or define specific overrides here */
+}
+
+/* Specific overrides based on parent state */
+:host-context(.player-board.is-active) strong {
+  color: var(--color-player-active-text);
+}
+
+:host-context(.player-board.is-me) strong {
+  color: var(--color-player-me-text);
+}

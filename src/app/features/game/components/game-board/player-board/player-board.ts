@@ -1,5 +1,4 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
-import { PlayerCardComponent } from './player-card/player-card';
 import {
   Card,
   CardColor,
@@ -7,17 +6,6 @@ import {
   TreatmentSubtype,
 } from '../../../../../core/models/card.model';
 import {
-  articleForCard,
-  cardWithArticle,
-  describeCard,
-  describeColor,
-  describeOrgan,
-  organWithArticle,
-} from '../../../../../core/utils/card-label.utils';
-import { isInfected, isVaccinated, isImmune } from '../../../../../core/utils/organ.utils';
-import {
-  MedicalErrorTarget,
-  OrganOnBoard,
   PublicGameState,
   PublicPlayerInfo,
 } from '../../../../../core/models/game.model';
@@ -31,8 +19,8 @@ import { GameStoreService } from '../../../../../core/services/game-store.servic
 import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
 import { DragDropService } from '../../../../../core/services/drag-drop.service';
 
-
 import { PlayerBoardHeaderComponent } from './components/player-board-header/player-board-header.component';
+import { PlayerBoardSlotsComponent } from './components/player-board-slots/player-board-slots.component';
 
 import { PlayerBoardDropService } from './services/player-board-drop.service';
 import { BoardDragPredicates } from './logic/board-drag-predicates';
@@ -43,7 +31,7 @@ import { ContagionState, FailedExperimentEvent, TransplantSelectionEvent, Transp
 @Component({
   selector: 'player-board',
   standalone: true,
-  imports: [PlayerCardComponent, DragDropModule, PlayerBoardHeaderComponent],
+  imports: [DragDropModule, PlayerBoardHeaderComponent, PlayerBoardSlotsComponent],
   providers: [
     PlayerBoardDropService,
     BoardContagionService,
@@ -51,6 +39,11 @@ import { ContagionState, FailedExperimentEvent, TransplantSelectionEvent, Transp
   ],
   templateUrl: './player-board.html',
   styleUrl: './player-board.css',
+  host: {
+    '[class.is-me]': 'isMe()',
+    '[class.is-active]': 'isActive()',
+    'class': 'player-board' // Mantener la clase para selectores externos si es necesario, o migrar estilos a :host
+  }
 })
 export class PlayerBoardComponent {
   private _apiPlayer = inject(ApiPlayerService);
@@ -58,7 +51,6 @@ export class PlayerBoardComponent {
   private dragDropService = inject(DragDropService);
   private dropService = inject(PlayerBoardDropService);
   private predicates = inject(BoardDragPredicates);
-  private contagionService = inject(BoardContagionService);
   private actionService = inject(BoardActionService);
 
   get apiPlayer() {
@@ -123,8 +115,6 @@ export class PlayerBoardComponent {
     return [`handList-${me.id}`];
   });
 
-
-
   constructor() {
     effect(() => {
       // Resetear el estado visual de drag-over cuando termina un arrastre globalmente
@@ -133,8 +123,6 @@ export class PlayerBoardComponent {
       }
     });
   }
-
-
 
   // recibir la lista global de ids de huecos
   allSlotIds = input.required<string[]>();
@@ -163,9 +151,6 @@ export class PlayerBoardComponent {
   boardEnterPredicate = (drag: CdkDrag, drop: CdkDropList<any>) =>
     this.predicates.checkBoardEnter(drag, drop, this.player(), this.isMe());
 
-  slotEnterPredicate = (drag: CdkDrag, drop: CdkDropList<any>) =>
-    this.predicates.checkSlotEnter(drag, drop, this.player(), this.isMe());
-
   onBoardEnter(_event: any) {
     this.isDragOver.set(true);
   }
@@ -189,148 +174,10 @@ export class PlayerBoardComponent {
     this.dropService.handleBoardDrop(event, rid, this.player(), this.isMe());
   }
 
-  onDrop(
-    event: CdkDragDrop<any>,
-    color: CardColor,
-    organ?: OrganOnBoard | null
-  ) {
-    if (this.contagionState()) {
-      if (!organ) {
-        this._gameStore.setClientError(
-          'Debes contagiar un órgano válido.'
-        );
-        return;
-      }
-      this.onVirusDrop(event, organ);
-    } else {
-      this.onSlotDrop(event, color);
-    }
-  }
-
-  /**
-   * Maneja el drop sobre un hueco concreto (color).
-   * Delegamos por tipo de carta a métodos auxiliares.
-   */
-  onSlotDrop(event: CdkDragDrop<any>, color: CardColor) {
-    const card: Card = event.item.data;
-    const rid = this.roomId();
-    const meId = this._apiPlayer.player()?.id;
-
-    if (!rid || !meId) return;
-
-    // Handle special mode initiators locally
-    if (card.kind === CardKind.Treatment) {
-       switch (card.subtype) {
-          case TreatmentSubtype.Transplant:
-          case TreatmentSubtype.AlienTransplant:
-             this.startTransplantSelection(card, color);
-             return;
-          case TreatmentSubtype.failedExperiment:
-             this.playFailedExperiment(card, color);
-             return;
-          case TreatmentSubtype.Contagion:
-             this.playContagion(card);
-             return;
-       }
-    }
-
-    this.dropService.handleSlotDrop(event, rid, this.player(), this.isMe(), color);
-  }
-
-  // Método mejorado para manejar el drop de virus
-  onVirusDrop(event: CdkDragDrop<any>, organ: OrganOnBoard) {
-    const data = event.item.data; // { fromOrganId, virusId }
-    const contagionState = this.contagionState();
-    if (!contagionState) return;
-
-    const result = this.contagionService.validateVirusDrop(
-      event,
-      organ,
-      this.contagionState(),
-      this.isMe(),
-      this.player().player.id,
-      this.hasTemporaryVirus(),
-      this.gameState()
-    );
-
-    if (result) {
-      this.virusMoved.emit(result);
-    }
-  }
-
-  // Método helper para verificar si un virus es temporal
-  isTemporaryVirus(organId: string, virusId: string): boolean {
-    const contagionState = this.contagionState();
-    if (!contagionState) return false;
-
-    return contagionState.temporaryViruses.some(
-      (tv) => tv.organId === organId && tv.virus.id === virusId
-    );
-  }
-
-  // ------------------------------------------------------------
-  // Métodos auxiliares por tipo de carta
-  // ------------------------------------------------------------
-
   playContagion(card: Card) {
     if (this.actionService.validateContagion(card, this.isMe())) {
       this.startContagion.emit({ card });
     }
-  }
-
-  private playFailedExperiment(card: Card, color: CardColor) {
-    const result = this.actionService.validateFailedExperiment(card, color, this.player());
-    if (result) {
-      this.startFailedExperiment.emit(result);
-    }
-  }
-
-  /**
-   * Comienza la selección para Trasplante: guardamos el primer órgano (A)
-   * y avisamos al usuario para que seleccione el segundo órgano (B) haciendo click.
-   */
-  private startTransplantSelection(card: Card, color: CardColor) {
-    const result = this.actionService.validateTransplantSelection(card, color, this.player());
-    if (result) {
-      this.startTransplant.emit(result);
-    }
-  }
-
-  /**
-   * Método público llamado al hacer click en un hueco cuando estamos en modo Transplant.
-   * Si se pulsa en un órgano válido, termina el trasplante enviando la jugada al servidor.
-   */
-  onSlotClick(organ: any, playerId: string) {
-    const result = this.actionService.validateSlotClick(organ, playerId, this.transplantState());
-    if (result) {
-      this.finishTransplant.emit(result);
-    }
-  }
-
-  isTransplantMode(): boolean {
-    return !!this.transplantState;
-  }
-
-  getOrganByColor(color: CardColor): OrganOnBoard | null {
-    return this.player().board.find((o) => o.color === color) ?? null;
-  }
-
-  // helper para construir la lista de ids a conectar para UN hueco concreto (excluye el propio)
-  getConnectedIdsForSlot(color: CardColor): string[] {
-    const me = this._apiPlayer.player();
-    const result: string[] = [];
-
-    // 1) la mano local (si existe)
-    if (me) {
-      result.push(`handList-${me.id}`);
-    }
-
-    // 2) todos los demás huecos (excepto este hueco concreto)
-    const mySlotId = `slot-${this.player().player.id}-${color}`;
-    const others = this.allSlotIds().filter((id) => id !== mySlotId);
-    result.push(...others);
-
-    return result;
   }
 
 }

@@ -1,27 +1,16 @@
-<div class="player-header">
-  <strong>{{ player().player.name }}</strong>
+<player-board-name [name]="player().player.name"></player-board-name>
 
-  @if (player().hasTrickOrTreat) {
-  <span class="player-badge player-badge--curse" title="Este jugador no puede ganar hasta pasar Truco o Trato">
-    <card-icon name="organ-halloween" class="icon-trick-or-treat" color="orange" /> Truco o Trato
-  </span>
-  }
+@if (player().hasTrickOrTreat) {
+<player-board-trick-or-treat></player-board-trick-or-treat>
+}
 
-  @if (isActive() && turnDurationSeconds() > 0) {
-  <div class="turn-progress">
-    <div class="turn-progress__track" role="progressbar" aria-label="Tiempo restante del turno" [attr.aria-valuemin]="0"
-      [attr.aria-valuenow]="remainingSeconds()" [attr.aria-valuemax]="turnDurationSeconds()">
-      <div class="turn-progress__bar" [class.turn-progress__bar--warning]="turnTimerState() === 'warning'"
-        [class.turn-progress__bar--critical]="turnTimerState() === 'critical'" [style.width.%]="turnProgressPercent()">
-      </div>
-    </div>
-  </div>
-  }
+@if (isActive() && turnDurationSeconds() > 0) {
+<player-board-turn-progress [remainingSeconds]="remainingSeconds()" [turnDurationSeconds]="turnDurationSeconds()"
+  [timerState]="turnTimerState()">
+</player-board-turn-progress>
+}
 
-  @if (isActive()) {
-  <span class="turn-timer" [class.turn-timer--warning]="turnTimerState() === 'warning'"
-    [class.turn-timer--critical]="turnTimerState() === 'critical'">
-    {{ remainingSeconds() }}s
-  </span>
-  }
-</div>
+@if (isActive()) {
+<player-board-turn-timer [remainingSeconds]="remainingSeconds()" [timerState]="turnTimerState()">
+</player-board-turn-timer>
+}

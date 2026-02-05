@@ -1,4 +1,4 @@
-.player-header {
+:host {
   position: absolute;
   top: 0;
   left: 1rem;
@@ -12,137 +12,24 @@
   border-radius: 8px;
 }
 
-.player-header strong {
-  font-size: 1rem;
-  color: var(--color-text-primary);
-  font-weight: 600;
-}
-
-.player-header .turn-timer {
-  margin-left: auto;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.player-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.15rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  line-height: 1.2;
-}
-
-.player-badge--curse {
-  background: var(--color-danger-soft);
-  border-color: rgba(249, 115, 22, 0.35);
-  color: var(--color-danger-strong);
-}
-
-.icon-trick-or-treat {
-  font-size: 1.2rem;
-}
-
-.turn-progress {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.turn-progress__track {
-  position: relative;
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(148, 163, 184, 0.35);
-  overflow: hidden;
-}
-
-.turn-progress__bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0%;
-  background: var(--color-success);
-  transition: width 0.35s linear, background 0.2s ease;
-}
-
-.turn-progress__bar--warning {
-  background: var(--color-warning);
-}
-
-.turn-progress__bar--critical {
-  background: var(--color-danger);
-}
-
-.turn-timer--warning {
-  color: var(--color-warning) !important;
-}
-
-.turn-timer--critical {
-  color: var(--color-danger) !important;
-  animation: turnTimerBlink 1s ease-in-out infinite;
-}
-
-@keyframes turnTimerBlink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.35;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .turn-timer--critical {
-    animation: none;
-  }
-}
-
 /* Parent state styling inherited via host-context or specific selectors in parent */
 /* But we need some base styles here that depend on context if passed */
 
-/* We will handle context-dependent styling by host classes or passed inputs classes if needed, 
-   but for now we rely on the component being structured simply. 
-   The complex active/me state styling was previously on .player-header inside .player-board.is-active
-   We might need to adjust parent CSS to target this component or pass "is-active" class to header.
-*/
-:host-context(.player-board.is-active) .player-header {
+:host-context(.player-board.is-active) {
   background: rgba(251, 191, 36, 0.18);
   color: var(--color-player-active-text);
 }
 
-:host-context(.player-board.is-active) .player-header strong,
-:host-context(.player-board.is-active) .player-header .turn-timer {
-  color: var(--color-player-active-text);
-}
-
-:host-context(.player-board.is-me) .player-header {
+:host-context(.player-board.is-me) {
   background: rgba(34, 197, 159, 0.18);
   color: var(--color-player-me-text);
 }
 
-:host-context(.player-board.is-me) .player-header strong {
-  color: var(--color-player-me-text);
-}
-
-:host-context(.player-board.is-me.is-active) .player-header {
+:host-context(.player-board.is-me.is-active) {
   background: rgba(45, 212, 191, 0.22);
 }
 
-:host-context(.theme-dark) .player-board.is-me .player-header {
+:host-context(.theme-dark) :host-context(.player-board.is-me) {
   background: rgba(34, 197, 159, 0.16);
-  color: var(--color-player-me-text);
-}
-
-:host-context(.theme-dark) .player-board.is-me .player-header strong {
   color: var(--color-player-me-text);
 }

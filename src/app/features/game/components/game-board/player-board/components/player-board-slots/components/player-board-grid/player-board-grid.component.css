@@ -1,0 +1,45 @@
+:host {
+  flex: 1;
+  display: grid;
+  gap: var(--board-slot-gap, 0.5rem);
+  grid-template-columns: repeat(4, minmax(var(--board-slot-min-width, 40px), 1fr));
+  grid-auto-rows: var(--board-slot-height, 132px);
+}
+
+.board-slot {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* cuando estamos en modo trasplante */
+.board-slot {
+  position: relative;
+  border-radius: 12px;
+}
+
+.board-slot.transplant-mode {
+  cursor: pointer;
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.board-slot.first-selected {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.board-slot.valid-second {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.board-slot .card.organ.cdk-drop-list {
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.board-slot .card.organ.cdk-drop-list.cdk-drop-list-dragging {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
