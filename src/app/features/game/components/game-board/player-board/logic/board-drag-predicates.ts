@@ -9,6 +9,40 @@ import { isImmune, isInfected, isVaccinated } from '../../../../../../core/utils
 export class BoardDragPredicates {
   private _apiPlayer: ApiPlayerService = inject(ApiPlayerService);
 
+  isCardValidForBoard(card: Card, isMe: boolean, playerInfoId?: string): boolean {
+    switch (card.kind) {
+      case CardKind.Organ:
+        if (card.color === CardColor.Orange) return false;
+        return isMe;
+
+      case CardKind.Treatment:
+        switch (card.subtype) {
+          case TreatmentSubtype.Gloves:
+          case TreatmentSubtype.BodySwap:
+          case TreatmentSubtype.Apparition:
+            return true;
+
+          case TreatmentSubtype.MedicalError:
+          case TreatmentSubtype.trickOrTreat: {
+            if (!this._apiPlayer.player()) return false;
+            // If checking "isMe", then playerInfoId is my ID.
+            // But this check is for "Rivales". So if isMe is true, it's my board, returning false is correct.
+            // If isMe is false, it's a rival board, returning true is correct.
+            return !isMe;
+          }
+
+          case TreatmentSubtype.Contagion:
+            return isMe;
+
+          default:
+            return false;
+        }
+
+      default:
+        return false;
+    }
+  }
+
   checkBoardEnter(drag: CdkDrag, _drop: CdkDropList<any>, playerInfo: PublicPlayerInfo, isMe: boolean): boolean {
     const data = drag.data as Card | { virusId: string } | undefined;
     if (!data) return false;
@@ -18,37 +52,7 @@ export class BoardDragPredicates {
     }
 
     const card = data as Card;
-
-    switch (card.kind) {
-      case CardKind.Organ:
-        if (card.color === CardColor.Orange) return false;
-        return isMe;
-
-      case CardKind.Treatment:
-        switch (card.subtype) {
-          case TreatmentSubtype.Gloves:
-            return true;
-
-          case TreatmentSubtype.MedicalError:
-          case TreatmentSubtype.trickOrTreat: {
-            const me = this._apiPlayer.player();
-            return !!me && playerInfo.player.id !== me.id;
-          }
-
-          case TreatmentSubtype.Contagion:
-            return isMe;
-
-          case TreatmentSubtype.BodySwap:
-          case TreatmentSubtype.Apparition:
-            return true;
-
-          default:
-            return false;
-        }
-
-      default:
-        return false;
-    }
+    return this.isCardValidForBoard(card, isMe, playerInfo.player.id);
   }
 
   checkSlotEnter(drag: CdkDrag, drop: CdkDropList<any>, playerInfo: PublicPlayerInfo, isMe: boolean): boolean {

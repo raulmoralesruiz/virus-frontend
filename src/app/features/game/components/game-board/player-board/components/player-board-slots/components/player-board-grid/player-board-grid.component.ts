@@ -32,14 +32,10 @@ export class PlayerBoardGridComponent {
   allSlotIds = input.required<string[]>();
   roomId = input.required<string>();
   gameState = input.required<PublicGameState>();
-  
   contagionState = input<ContagionState | null>(null);
   transplantState = input<TransplantState | null>(null);
-  
   getTemporaryVirusesForOrgan = input.required<(organId: string, playerId: string) => Card[]>();
   hasTemporaryVirus = input.required<(organId: string, playerId: string) => boolean>();
-
-  // Outputs corresponding to actions handled in slots
   virusMoved = output<VirusDropEvent>();
   startContagion = output<{ card: Card }>();
   startTransplant = output<TransplantSelectionEvent>();
@@ -51,10 +47,7 @@ export class PlayerBoardGridComponent {
 
   onDrop(event: CdkDragDrop<any>, color: CardColor, organ?: OrganOnBoard | null) {
     if (this.contagionState()) {
-      if (!organ) {
-        this._gameStore.setClientError('Debes contagiar un órgano válido.');
-        return;
-      }
+      if (!organ) return this._gameStore.setClientError('Debes contagiar un órgano válido.');
       this.onVirusDrop(event, organ);
     } else {
       this.onSlotDrop(event, color);
@@ -63,87 +56,44 @@ export class PlayerBoardGridComponent {
 
   onSlotDrop(event: CdkDragDrop<any>, color: CardColor) {
     const card: Card = event.item.data;
-    const rid = this.roomId();
-    const meId = this._apiPlayer.player()?.id;
-
-    if (!rid || !meId) return;
+    if (!this.roomId() || !this._apiPlayer.player()?.id) return;
 
     if (card.kind === CardKind.Treatment) {
-      switch (card.subtype) {
-        case TreatmentSubtype.Transplant:
-        case TreatmentSubtype.AlienTransplant:
-          this.startTransplantSelection(card, color);
-          return;
-        case TreatmentSubtype.failedExperiment:
-          this.playFailedExperiment(card, color);
-          return;
-        case TreatmentSubtype.Contagion:
-          this.playContagion(card);
-          return;
+      if (card.subtype === TreatmentSubtype.Transplant || card.subtype === TreatmentSubtype.AlienTransplant) {
+        const result = this.actionService.validateTransplantSelection(card, color, this.player());
+        if (result) this.startTransplant.emit(result);
+        return;
+      }
+      if (card.subtype === TreatmentSubtype.failedExperiment) {
+        const result = this.actionService.validateFailedExperiment(card, color, this.player());
+        if (result) this.startFailedExperiment.emit(result);
+        return;
+      }
+      if (card.subtype === TreatmentSubtype.Contagion) {
+        if (this.actionService.validateContagion(card, this.isMe())) this.startContagion.emit({ card });
+        return;
       }
     }
-
-    this.dropService.handleSlotDrop(event, rid, this.player(), this.isMe(), color);
+    this.dropService.handleSlotDrop(event, this.roomId(), this.player(), this.isMe(), color);
   }
 
   onVirusDrop(event: CdkDragDrop<any>, organ: OrganOnBoard) {
-    const contagionState = this.contagionState();
-    if (!contagionState) return;
-
-    const result = this.contagionService.validateVirusDrop(
-      event,
-      organ,
-      contagionState,
-      this.isMe(),
-      this.player().player.id,
-      this.hasTemporaryVirus(),
-      this.gameState()
+    const state = this.contagionState();
+    if (!state) return;
+    const res = this.contagionService.validateVirusDrop(
+      event, organ, state, this.isMe(), this.player().player.id, this.hasTemporaryVirus(), this.gameState()
     );
-
-    if (result) {
-      this.virusMoved.emit(result);
-    }
-  }
-
-  playContagion(card: Card) {
-    if (this.actionService.validateContagion(card, this.isMe())) {
-      this.startContagion.emit({ card });
-    }
-  }
-
-  private playFailedExperiment(card: Card, color: CardColor) {
-    const result = this.actionService.validateFailedExperiment(card, color, this.player());
-    if (result) {
-      this.startFailedExperiment.emit(result);
-    }
-  }
-
-  private startTransplantSelection(card: Card, color: CardColor) {
-    const result = this.actionService.validateTransplantSelection(card, color, this.player());
-    if (result) {
-      this.startTransplant.emit(result);
-    }
+    if (res) this.virusMoved.emit(res);
   }
 
   onSlotClick(organ: any, playerId: string) {
-    const result = this.actionService.validateSlotClick(organ, playerId, this.transplantState());
-    if (result) {
-      this.finishTransplant.emit(result);
-    }
+    const res = this.actionService.validateSlotClick(organ, playerId, this.transplantState());
+    if (res) this.finishTransplant.emit(res);
   }
 
   getConnectedIdsForSlot(color: CardColor): string[] {
     const me = this._apiPlayer.player();
-    const result: string[] = [];
-
-    if (me) {
-      result.push(`handList-${me.id}`);
-    }
-
-    const mySlotId = `slot-${this.player().player.id}-${color}`;
-    const others = this.allSlotIds().filter((id) => id !== mySlotId);
-    result.push(...others);
-
-    return result;
+    const others = this.allSlotIds().filter((id) => id !== `slot-${this.player().player.id}-${color}`);
+    return me ? [`handList-${me.id}`, ...others] : others;
   }
 }
