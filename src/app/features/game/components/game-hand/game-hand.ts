@@ -1,11 +1,4 @@
-import {
-  Component,
-  inject,
-  OnChanges,
-  SimpleChanges,
-  input,
-  computed,
-} from '@angular/core';
+import { Component, inject, OnChanges, SimpleChanges, input, computed } from '@angular/core';
 import { Card } from '../../../../core/models/card.model';
 import { PublicGameState, PlayCardTarget } from '../../../../core/models/game.model';
 import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
