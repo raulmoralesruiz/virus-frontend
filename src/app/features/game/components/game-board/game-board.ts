@@ -6,6 +6,7 @@ import { GameStoreService } from '../../../../core/services/game-store.service';
 import { Card } from '../../../../core/models/card.model';
 import { GameBoardTransplantComponent } from './game-board-transplant/game-board-transplant';
 import { GameBoardContagionComponent } from './game-board-contagion/game-board-contagion';
+import { GameInfoComponent } from './game-info/game-info';
 
 @Component({
   selector: 'game-board',
@@ -14,6 +15,7 @@ import { GameBoardContagionComponent } from './game-board-contagion/game-board-c
     PlayerBoardComponent,
     GameBoardTransplantComponent,
     GameBoardContagionComponent,
+    GameInfoComponent,
   ],
   templateUrl: './game-board.html',
   styleUrl: './game-board.css',
@@ -29,6 +31,7 @@ export class GameBoardComponent {
   }
 
   state = input.required<PublicGameState>();
+  historyCount = input(0);
 
   get meId(): string | null {
     return this._apiPlayer.player()?.id ?? null;

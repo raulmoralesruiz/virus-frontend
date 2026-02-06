@@ -1,35 +1,33 @@
 @if (hand().length) {
-<div class="hand-panel" #handPanel [class.is-my-turn]="isMyTurn()">
-  @if (selectedCard(); as card) {
-  <game-target-select [selectedCard]="card" [targetOptions]="targetOptions()"
-    [contagionAssignments]="contagionAssignments()" [publicState]="publicState()" [selectedTarget]="selectedTarget()"
-    [selectedTargetA]="selectedTargetA()" [selectedTargetB]="selectedTargetB()"
-    [confirmDisabled]="!canConfirmSelection()" [selectedAction]="selectedActionForFailedExperiment()"
-    [isMyTurn]="isMyTurn()" [isDragDrop]="isDragDropSelection()" [selectedDirection]="selectedDirection()"
-    (targetChange)="onTargetChange($event.value, $event.which)"
-    (contagionTargetChange)="onContagionTargetChange($event.value, $event.index)"
-    (actionChange)="handAction.setActionForFailedExperiment($event)" (directionChange)="onDirectionChange($event)"
-    (confirm)="confirmPlayCard()" (cancel)="handAction.clearSelection()" />
-  }
+@if (handAction.selectedCard(); as card) {
+<game-target-select [selectedCard]="card" [targetOptions]="handAction.targetOptions()"
+  [contagionAssignments]="handAction.contagionAssignments()" [publicState]="publicState()"
+  [selectedTarget]="handAction.selectedTarget()" [selectedTargetA]="handAction.selectedTargetA()"
+  [selectedTargetB]="handAction.selectedTargetB()" [confirmDisabled]="!handAction.canConfirmSelection()"
+  [selectedAction]="handAction.selectedActionForFailedExperiment()" [isMyTurn]="isMyTurn()"
+  [isDragDrop]="handAction.isDragDropSelection()" [selectedDirection]="handAction.selectedDirection()"
+  (targetChange)="handUIHelper.setTargetFromIdString($event.value, $event.which)"
+  (contagionTargetChange)="handUIHelper.setContagionFromIdString($event.value, $event.index)"
+  (actionChange)="handUIHelper.setActionForFailedExperiment($event)"
+  (directionChange)="handUIHelper.setDirection($event)" (confirm)="handAction.confirmPlay(roomId()!)"
+  (cancel)="handAction.clearSelection()" />
+}
 
-  @if (mustPlayCardId()) {
-  <game-apparition-banner (keep)="keepApparitionCard()"></game-apparition-banner>
-  }
+@if (mustPlayCardId()) {
+<game-apparition-banner (keep)="keepApparitionCard()"></game-apparition-banner>
+}
 
-  <game-hand-list [hand]="hand()" [isMyTurn]="isMyTurn()" [playerId]="apiPlayer.player()?.id" [connectedTo]="boardIds()"
-    [selectedDiscardIds]="selectedDiscardIds()" [selectedPlayingCardId]="selectedCard()?.id"
-    [mustPlayCardId]="mustPlayCardId()" (toggleSelect)="toggleDiscardSelection($event)"
-    (play)="selectCardToPlay($event)">
-  </game-hand-list>
+<game-hand-list [hand]="hand()" [isMyTurn]="isMyTurn()" [playerId]="apiPlayer.player()?.id" [connectedTo]="boardIds()"
+  [selectedDiscardIds]="handDiscard.selectedDiscardIds()" [selectedPlayingCardId]="handAction.selectedCard()?.id"
+  [mustPlayCardId]="mustPlayCardId()" (toggleSelect)="handDiscard.toggleSelection($event.id, isMyTurn())"
+  (play)="handAction.selectCard($event, publicState())">
+</game-hand-list>
 
-  @if (selectedDiscardCount()) {
-  <game-discard-action-button [selectedCount]="selectedDiscardCount()" [isMyTurn]="isMyTurn()" [gameEnded]="gameEnded()"
-    (discard)="discardSelectedCardsReal()">
-  </game-discard-action-button>
-  }
-</div>
-<div class="hand-panel-spacer" aria-hidden="true" [style.height.px]="panelSpacerHeight"></div>
-<!-- Jugador no tiene cartas -->
+@if (handDiscard.selectedDiscardCount()) {
+<game-discard-action-button [selectedCount]="handDiscard.selectedDiscardCount()" [isMyTurn]="isMyTurn()"
+  [gameEnded]="gameEnded()" (discard)="handDiscard.discard(roomId())">
+</game-discard-action-button>
+}
 } @else {
 <div class="hand-empty">
   <p>Sin cartas</p>
