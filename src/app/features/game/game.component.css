@@ -1,13 +1,15 @@
 :host {
   --game-padding-block: 0.25rem;
   display: block;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   padding: var(--game-padding-block) 0.5rem;
 
   background-image: url('/assets/images/background.svg');
   background-size: 200px;
   background-repeat: repeat;
+  box-sizing: border-box;
 }
 
 .game-layout {
@@ -17,15 +19,28 @@
   margin: 0 auto;
   max-width: 960px;
   position: relative;
+  height: 100%;
+}
+
+game-board {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 0.25rem;
 }
 
 .game-layout>* {
   width: 100%;
 }
 
+/* Ensure hand doesn't shrink */
+game-hand {
+  flex: 0 0 auto;
+}
+
 .game-layout--empty {
-  min-height: calc(100vh - (var(--game-padding-block) * 2));
-  min-height: calc(100dvh - (var(--game-padding-block) * 2));
   justify-content: center;
 }
 

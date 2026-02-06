@@ -1,6 +1,6 @@
 import { Component, input, output, effect } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
-import { CardIconComponent } from '../../../../../shared/components/card-icon/card-icon.component';
+import { Card } from '../../../../../../core/models/card.model';
+import { CardIconComponent } from '../../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'game-info-header',

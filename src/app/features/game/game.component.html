@@ -7,11 +7,9 @@
 
   <!-- Información de la partida -->
   @if (publicState(); as st) {
-  <game-info [state]="st" [historyCount]="history().length" (historyRequested)="gameStore.openHistoryModal()"
-    (leaveRequested)="gameStore.openLeaveModal()"></game-info>
 
-  <!-- Tablero de la partida -->
-  <game-board [state]="st" (startFailedExperiment)="handleFailedExperiment($event)"
+  <!-- Tablero de la partida (incluye Info) -->
+  <game-board [state]="st" [historyCount]="history().length" (startFailedExperiment)="handleFailedExperiment($event)"
     (startBodySwap)="handleBodySwap($event)" (startApparition)="handleApparition($event)"></game-board>
 
   <!-- Mano del jugador -->

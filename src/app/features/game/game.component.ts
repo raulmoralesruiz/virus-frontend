@@ -5,19 +5,16 @@ import { RoomStoreService } from '../../core/services/room-store.service';
 import { Card } from '../../core/models/card.model';
 import { PublicGameState } from '../../core/models/game.model';
 import { GameErrorComponent } from './components/game-error/game-error';
-import { GameInfoComponent } from './components/game-info/game-info';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
 import { GameEmptyComponent } from './components/game-empty/game-empty.component';
 import { GameHistoryComponent } from './components/game-history/game-history.component';
 import { GameLeaveComponent } from './components/game-leave/game-leave.component';
-
 @Component({
   selector: 'app-game',
   imports: [
     GameErrorComponent,
-    GameInfoComponent,
     GameBoardComponent,
     GameHandComponent,
     GameWinnerComponent,

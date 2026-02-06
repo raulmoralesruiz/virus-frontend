@@ -10,13 +10,13 @@ import {
   output,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { PublicGameState } from '../../../../core/models/game.model';
-import { TimerSoundService } from '../../../../core/services/timer-sound.service';
-import { ThemeService } from '../../../../core/services/theme.service';
+import { PublicGameState } from '../../../../../core/models/game.model';
+import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
+import { ThemeService } from '../../../../../core/services/theme.service';
 import { GameInfoHeaderComponent } from './header/game-info-header';
 import { GameInfoDetailsComponent } from './details/game-info-details';
-import { GameActionFeedComponent } from '../game-action-feed/game-action-feed';
-import { GameActionFeedService } from '../game-action-feed/services/game-action-feed.service';
+import { GameActionFeedComponent } from '../../game-action-feed/game-action-feed';
+import { GameActionFeedService } from '../../game-action-feed/services/game-action-feed.service';
 
 @Component({
   selector: 'game-info',

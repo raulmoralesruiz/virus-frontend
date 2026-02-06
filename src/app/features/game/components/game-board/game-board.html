@@ -1,3 +1,6 @@
+<game-info [state]="state()" [historyCount]="historyCount()" (historyRequested)="gameStore.openHistoryModal()"
+  (leaveRequested)="gameStore.openLeaveModal()"></game-info>
+
 <div class="players">
   @for (p of state().players; let i = $index; track p.player.id) {
   <player-board [player]="p" [isMe]="p.player.id === meId" [isActive]="i === state().turnIndex"
