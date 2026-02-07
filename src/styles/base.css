@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.55;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  color: var(--color-text-primary);
+  transition: var(--transition-theme);
+}

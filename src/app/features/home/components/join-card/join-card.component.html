@@ -1,0 +1,6 @@
+<label class="input-label" for="nameInput">Introduce tu nombre</label>
+<div class="input-row">
+  <home-join-input [(value)]="name" (enter)="onJoin(name)"></home-join-input>
+  <home-join-button (action)="onJoin(name)"></home-join-button>
+</div>
+<p class="helper-text">Usaremos tu nombre para identificarte en las partidas.</p>
