@@ -1,201 +1,67 @@
-import { Injectable, signal, inject } from '@angular/core';
-import { SocketService } from './socket.service';
-import { GAME_CONSTANTS } from '../../constants/game.constants';
-import { Card } from '../../models/card.model';
+import { Injectable, inject } from '@angular/core';
+import { SocketGameStateService } from './game/socket.game.state.service';
+import { SocketGameActionService } from './game/socket.game.action.service';
+import { SocketGameListenerService } from './game/socket.game.listener.service';
 import {
-  AnyPlayTarget,
-  PublicGameState,
-  PublicPlayerInfo,
+  BaseGamePayload,
+  DiscardCardsPayload,
+  PlayCardPayload,
 } from '../../models/game.model';
-import { ApiPlayerService } from '../api/api.player.service';
 
 @Injectable({ providedIn: 'root' })
 export class SocketGameService {
-  private socketService = inject(SocketService);
-  private apiPlayerService = inject(ApiPlayerService);
-  private activeRoomId: string | null = null;
+  private state = inject(SocketGameStateService);
+  private actions = inject(SocketGameActionService);
+  private listeners = inject(SocketGameListenerService); // Inject to ensure initialization
 
-  publicState = signal<PublicGameState | null>(null);
-  hand = signal<Card[]>([]);
-  lastError = signal<string | null>(null);
-  winner = signal<PublicPlayerInfo | null>(null);
+  // Signals (Events from State)
+  publicState = this.state.publicState;
+  hand = this.state.hand;
+  lastError = this.state.lastError;
+  winner = this.state.winner;
 
-  ERROR_TIMEOUT: number = 5000;
-
-  constructor() {
-    this.registerListeners();
-  }
-
-  private registerListeners() {
-    // 🔔 Partida iniciada
-    this.socketService.on(
-      GAME_CONSTANTS.GAME_STARTED,
-      (state: PublicGameState) => {
-        console.log('[SocketGameService] GAME_STARTED', state);
-        if (this.activeRoomId && state.roomId !== this.activeRoomId) {
-          return;
-        }
-
-        this.activeRoomId = state.roomId;
-        this.publicState.set(state);
-        this.winner.set(null); // limpiar ganador de partida anterior
-      }
-    );
-
-    // 🃏 Mano privada
-    this.socketService.on(
-      GAME_CONSTANTS.GAME_HAND,
-      (data: { roomId: string; playerId: string; hand: Card[] }) => {
-        console.log('[SocketGameService] GAME_HAND', data);
-        // this.hand.set(data.hand);
-        const myId = this.apiPlayerService.player()?.id;
-        if (
-          (!this.activeRoomId || data.roomId === this.activeRoomId) &&
-          myId &&
-          data.playerId === myId
-        ) {
-          console.log('[SocketGameService] ✅ Actualizando mi mano', data.hand);
-          this.hand.set(data.hand);
-        } else {
-          console.log('[SocketGameService] ❌ Ignorando mano que no es mía');
-        }
-      }
-    );
-
-    // 🔄 Estado público en cualquier momento
-    this.socketService.on(
-      GAME_CONSTANTS.GAME_STATE,
-      (state: PublicGameState | null) => {
-        if (!state) {
-          this.publicState.set(null);
-          this.hand.set([]);
-          this.winner.set(null);
-          this.activeRoomId = null;
-          return;
-        }
-
-        if (this.activeRoomId && state.roomId !== this.activeRoomId) {
-          return;
-        }
-
-        this.activeRoomId = state.roomId;
-        this.publicState.set(state);
-      }
-    );
-
-    // Mostrar posibles errores
-    this.socketService.on(
-      GAME_CONSTANTS.GAME_ERROR,
-      (err: { code: string; message: string }) => {
-        console.warn(
-          `[SocketGameService] GAME_ERROR ${err.code} - ${err.message}`
-        );
-        this.lastError.set(err.message ?? 'Error desconocido'); // seguimos mostrando solo el mensaje al usuario
-
-        // Limpia el error tras unos segundos
-        setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
-      }
-    );
-
-    // 🏆 detectar fin de partida
-    this.socketService.on(
-      GAME_CONSTANTS.GAME_END,
-      (data: { roomId: string; winner: PublicPlayerInfo | null }) => {
-        if (this.activeRoomId && data.roomId !== this.activeRoomId) {
-          return;
-        }
-
-        const hasPublicState = !!this.publicState();
-
-        if (!data.winner) {
-          if (!hasPublicState) {
-            this.activeRoomId = null;
-            this.publicState.set(null);
-            this.hand.set([]);
-          }
-        }
-
-        this.winner.set(data.winner);
-        console.log('🏆 Partida terminada, ganador:', data.winner);
-      }
-    );
-
-    this.socketService.on(
-      GAME_CONSTANTS.ROOM_RESET,
-      (data: { roomId: string }) => {
-        console.log('[SocketGameService] ROOM_RESET', data);
-        if (this.activeRoomId && data.roomId !== this.activeRoomId) {
-          return;
-        }
-
-        this.publicState.set(null);
-        this.hand.set([]);
-        this.winner.set(null);
-        this.activeRoomId = null;
-      }
-    );
-  }
-
+  // Actions (Events to Socket)
   startGame(roomId: string) {
-    this.activeRoomId = roomId;
-    this.socketService.emit(GAME_CONSTANTS.GAME_START, { roomId });
+    this.actions.startGame(roomId);
   }
 
   requestGameState(roomId: string) {
-    this.activeRoomId = roomId;
-    this.socketService.emit(GAME_CONSTANTS.GAME_GET_STATE, { roomId });
+    this.actions.requestGameState(roomId);
   }
 
   drawCard(roomId: string) {
-    this.socketService.emit(GAME_CONSTANTS.GAME_DRAW, { roomId });
+    this.actions.drawCard(roomId);
   }
 
   endTurn(roomId: string) {
-    this.socketService.emit(GAME_CONSTANTS.GAME_END_TURN, { roomId });
+    this.actions.endTurn(roomId);
   }
 
-  playCard(payload: {
-    roomId: string;
-    playerId: string;
-    cardId: string;
-    target?: AnyPlayTarget;
-  }) {
-    this.socketService.emit(GAME_CONSTANTS.GAME_PLAY_CARD, payload);
+  playCard(payload: PlayCardPayload) {
+    this.actions.playCard(payload);
   }
 
-  discardCards(payload: {
-    roomId: string;
-    playerId: string;
-    cardIds: string[];
-  }) {
-    this.socketService.emit(GAME_CONSTANTS.GAME_DISCARD, payload);
+  discardCards(payload: DiscardCardsPayload) {
+    this.actions.discardCards(payload);
   }
 
   resetRoom(roomId: string) {
-    this.socketService.emit(GAME_CONSTANTS.ROOM_RESET, { roomId });
-    this.winner.set(null);
-    this.publicState.set(null);
-    this.hand.set([]);
-    this.activeRoomId = null;
+    this.actions.resetRoom(roomId);
+    this.state.reset();
+  }
+
+  // Local State Management
+  clearLastError() {
+    this.state.setLastError(null);
   }
 
   setClientError(msg: string) {
-    this.lastError.set(msg);
-    setTimeout(() => this.lastError.set(null), this.ERROR_TIMEOUT);
-  }
-
-  clearLastError() {
-    this.lastError.set(null);
+    this.state.setLastError(msg);
   }
 
   leaveGame(roomId?: string) {
-    if (!roomId || this.activeRoomId === roomId) {
-      this.activeRoomId = null;
+    if (!roomId || this.state.activeRoomId === roomId) {
+      this.state.reset();
     }
-
-    this.publicState.set(null);
-    this.hand.set([]);
-    this.winner.set(null);
-    this.lastError.set(null);
   }
 }

@@ -84,3 +84,27 @@ export type AnyPlayTarget =
   | MedicalErrorTarget
   | ContagionTarget[]
   | FailedExperimentTarget;
+
+export interface BaseGamePayload {
+  roomId: string;
+}
+
+export interface PlayCardPayload extends BaseGamePayload {
+  playerId: string;
+  cardId: string;
+  target?: AnyPlayTarget;
+}
+
+export interface DiscardCardsPayload extends BaseGamePayload {
+  playerId: string;
+  cardIds: string[];
+}
+
+export interface GameHandPayload extends BaseGamePayload {
+  playerId: string;
+  hand: Card[];
+}
+
+export interface GameEndPayload extends BaseGamePayload {
+  winner: PublicPlayerInfo | null;
+}
