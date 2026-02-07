@@ -1,0 +1,80 @@
+:root {
+  /* Card palette */
+  --card-red-start: #fee2e2;
+  --card-red-end: #fecaca;
+  --card-red-border: transparent;
+  --card-green-start: #dcfce7;
+  --card-green-end: #bbf7d0;
+  --card-green-border: transparent;
+  --card-blue-start: #e0f2fe;
+  --card-blue-end: #bae6fd;
+  --card-blue-border: transparent;
+  --card-yellow-start: #fef3c7;
+  --card-yellow-end: #fde68a;
+  --card-yellow-border: transparent;
+  --card-multi-start: #f5f3ff;
+  --card-multi-middle: #e0e7ff;
+  --card-multi-end: #ddd6fe;
+  --card-multi-border: transparent;
+  --card-halloween-start: #fcd34d;
+  --card-halloween-end: #fb923c;
+  --card-halloween-border: transparent;
+  --card-orange-start: #fcd34d;
+  --card-orange-end: #fb923c;
+  --card-orange-border: transparent;
+
+  /* Board organ palette */
+  --organ-red: #fca5a5;
+  --organ-green: #86efac;
+  --organ-blue: #93c5fd;
+  --organ-yellow: #facc15;
+  --organ-orange: #fb923c;
+  --organ-multi-start: rgba(192, 132, 252, 0.7);
+  --organ-multi-middle: rgba(129, 140, 248, 0.7);
+  --organ-multi-end: rgba(56, 189, 248, 0.7);
+  --organ-multi: var(--organ-multi-middle);
+  --organ-halloween: var(--card-halloween-start);
+  --organ-border: transparent;
+  --organ-border-occupied: transparent;
+  --organ-border-empty: transparent;
+}
+
+html.theme-dark {
+  --card-red-start: #f87171;
+  --card-red-end: #ef4444;
+  --card-red-border: transparent;
+  --card-green-start: #4ade80;
+  --card-green-end: #22c55e;
+  --card-green-border: transparent;
+  --card-blue-start: #60a5fa;
+  --card-blue-end: #3b82f6;
+  --card-blue-border: transparent;
+  --card-yellow-start: #facc15;
+  --card-yellow-end: #eab308;
+  --card-yellow-border: transparent;
+  --card-multi-start: #581c87;
+  --card-multi-middle: #9333ea;
+  --card-multi-end: #7e22ce;
+  --card-multi-border: transparent;
+  --card-halloween-start: #9a3412;
+  --card-halloween-end: #f97316;
+  --card-halloween-border: transparent;
+  --card-orange-start: #fbbf24;
+  --card-orange-end: #fb923c;
+  --card-orange-border: transparent;
+
+  /* Harmonized Organ Colors */
+  --organ-red: rgba(239, 68, 68, 0.7);
+  --organ-green: rgba(34, 197, 94, 0.7);
+  --organ-blue: rgba(59, 130, 246, 0.7);
+  --organ-yellow: rgba(234, 179, 8, 0.7);
+  --organ-orange: rgba(251, 146, 60, 0.8);
+  --organ-multi-start: rgba(192, 132, 252, 0.7);
+  --organ-multi-middle: rgba(129, 140, 248, 0.7);
+  --organ-multi-end: rgba(56, 189, 248, 0.7);
+  --organ-multi: var(--organ-multi-middle);
+  --organ-halloween: var(--card-halloween-start);
+  --organ-border: transparent;
+  --organ-border-occupied: transparent;
+  --organ-border-empty: transparent;
+}

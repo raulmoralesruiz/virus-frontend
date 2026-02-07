@@ -1,0 +1,2 @@
+<input #input id="nameInput" type="text" placeholder="Tu nombre" name="username" autocomplete="name" [value]="value()"
+  (input)="value.set(input.value)" (keyup.enter)="enter.emit()" />

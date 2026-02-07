@@ -1,0 +1,40 @@
+:host {
+  width: min(430px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+  padding: clamp(1.35rem, 3.4vw, 1.8rem);
+  border-radius: 28px;
+  background: #d9e2f4;
+  backdrop-filter: blur(18px);
+}
+
+:host-context(html.theme-dark) {
+  background: #101a2e;
+}
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* Styles for input and button moved to components */
+.input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.helper-text {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .input-row {
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,32 @@
+:host {
+  width: 100%;
+  display: block;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
+  color: var(--color-primary-contrast);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  transition: background 0.2s ease, letter-spacing 0.2s ease;
+  opacity: 0.98;
+}
+
+button:hover {
+  background: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+}
+
+button:focus-visible {
+  outline: 2px solid white;
+}
+
+@media (min-width: 640px) {
+  :host {
+    max-width: 150px;
+  }
+}
