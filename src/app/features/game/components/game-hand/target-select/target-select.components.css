@@ -1,0 +1,84 @@
+/* Legacy Select */
+.target-select__field select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+}
+
+/* Organ Toggles */
+.target-select__organs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.target-select__organ {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.target-select__organ:hover {
+  transform: translateY(-1px);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.target-select__organ.is-active {
+  background: rgba(37, 99, 235, 0.22);
+  font-weight: 700;
+  transform: translateY(-1px);
+}
+
+/* Player Toggle Chips */
+.target-select__players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.target-select__player {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 12px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.target-select__player:hover {
+  transform: translateY(-1px);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.target-select__player.is-active {
+  background: rgba(37, 99, 235, 0.22);
+  font-weight: 700;
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+/* Icons */
+.target-select__player-icon {
+  font-size: 1rem;
+}
+
+.target-select__action-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+}

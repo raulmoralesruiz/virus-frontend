@@ -1,0 +1,59 @@
+/* Player Field Modifiers */
+.target-select__field--player {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.target-select__field--player .target-select__label-icon {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.target-select__field--player.is-active {
+  background: rgba(37, 99, 235, 0.18);
+  transform: translateY(-2px);
+}
+
+.target-select__field--player.is-active .target-select__label-icon {
+  background: rgba(37, 99, 235, 0.32);
+  color: #0f172a;
+}
+
+/* Organ Field Modifiers */
+.target-select__field--organs {
+  gap: 0.6rem;
+  background: rgba(244, 114, 182, 0.08);
+}
+
+.target-select__field--organs .target-select__label-icon {
+  background: rgba(244, 114, 182, 0.18);
+}
+
+.target-select__field--organs.is-active {
+  background: rgba(244, 114, 182, 0.2);
+  transform: translateY(-2px);
+}
+
+.target-select__field--organs.is-active .target-select__label-icon {
+  background: rgba(244, 114, 182, 0.32);
+  color: #831843;
+}
+
+/* States */
+.target-select__field.is-disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+/* Empty States */
+.target-select__empty {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.14);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.target-select__empty--inline {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.8rem;
+}

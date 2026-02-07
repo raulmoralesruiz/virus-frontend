@@ -7,3 +7,6 @@
 @import 'styles/base.css';
 @import 'styles/elements.css';
 @import 'styles/animations.css';
+
+/* Feature Styles */
+@import 'app/features/game/components/game-hand/target-select/target-select.common.css';

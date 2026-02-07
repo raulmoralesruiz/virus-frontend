@@ -1,0 +1,65 @@
+/* Group Layouts */
+.target-select__group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.target-select__group--with-organs {
+  gap: 1.15rem;
+}
+
+@media (min-width: 768px) {
+  .target-select__group {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: end;
+  }
+
+  .target-select__group--with-organs {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* Field Containers */
+.target-select__field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.08);
+  transition:
+    background 0.18s ease,
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+/* Labels */
+.target-select__field label,
+.target-select__label-container {
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.target-select__label-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.target-select__label-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(148, 163, 184, 0.18);
+}
