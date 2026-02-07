@@ -1,0 +1,81 @@
+:host-context(.theme-dark) .target-select {
+  background: #101a2e;
+  color: #f8fafc;
+}
+
+.target-select__badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.18);
+  color: var(--color-primary, #2563eb);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.color-dot {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.color-dot--red {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+.color-dot--green {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+
+.color-dot--blue {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+}
+
+.color-dot--yellow {
+  background: linear-gradient(135deg, #facc15, #eab308);
+}
+
+.color-dot--multi {
+  background: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
+}
+
+.color-dot--neutral {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+.target-select__confirm,
+.target-select__cancel {
+  flex: 1 1 auto;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.target-select__confirm {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  min-width: 7rem;
+}
+
+.target-select__confirm:disabled {
+  background: var(--color-muted-button-bg);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+.target-select__cancel {
+  background: var(--color-muted-button-bg);
+  color: var(--color-text-primary);
+  min-width: 6rem;
+}
+
+.target-select__confirm:not(:disabled):hover,
+.target-select__cancel:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
