@@ -3,27 +3,38 @@ import { TargetSelectOption, PlayerOption } from './target-select.models';
 import { toOptionValue } from './target-select.utils';
 
 export function filterTargetOptions(options: TargetSelectOption[], card: Card, myPlayerId?: string, myOrganColors: string[] = []): TargetSelectOption[] {
-    if (card.kind !== CardKind.Treatment) return options;
-    
-    // Logic for Color Thief
-    const colorMap: Partial<Record<TreatmentSubtype, string>> = {
-        [TreatmentSubtype.colorThiefRed]: 'red',
-        [TreatmentSubtype.colorThiefGreen]: 'green',
-        [TreatmentSubtype.colorThiefBlue]: 'blue',
-        [TreatmentSubtype.colorThiefYellow]: 'yellow',
-    };
+    if (card.kind === CardKind.Treatment) {
+        // Logic for Color Thief
+        const colorMap: Partial<Record<TreatmentSubtype, string>> = {
+            [TreatmentSubtype.colorThiefRed]: 'red',
+            [TreatmentSubtype.colorThiefGreen]: 'green',
+            [TreatmentSubtype.colorThiefBlue]: 'blue',
+            [TreatmentSubtype.colorThiefYellow]: 'yellow',
+        };
 
-    const requiredColor = card.subtype ? colorMap[card.subtype] : null;
-    if (requiredColor) {
-        return options.filter(opt => opt.organColor === requiredColor && opt.playerId !== myPlayerId);
+        const requiredColor = card.subtype ? colorMap[card.subtype] : null;
+        if (requiredColor) {
+            return options.filter(opt => opt.organColor === requiredColor && opt.playerId !== myPlayerId);
+        }
+
+        // Logic for Organ Thief (stealing any organ)
+        if (card.subtype === TreatmentSubtype.OrganThief) {
+            return options.filter(opt =>
+                opt.playerId !== myPlayerId &&
+                (!opt.organColor || !myOrganColors.includes(opt.organColor))
+            );
+        }
     }
 
-    // Logic for Organ Thief (stealing any organ)
-    if (card.subtype === TreatmentSubtype.OrganThief) {
-        return options.filter(opt => 
-            opt.playerId !== myPlayerId && 
-            (!opt.organColor || !myOrganColors.includes(opt.organColor))
-        );
+    // Logic for Virus and Medicine (color matching)
+    if (card.kind === CardKind.Virus || card.kind === CardKind.Medicine) {
+        // If the card itself is multicolor, it can target anything (simplification, usually rules are more complex but for now this allows targeting any organ)
+        if (card.color === 'multi') {
+            return options;
+        }
+
+        // Otherwise, it can only target organs of the same color OR multicolor organs
+        return options.filter(opt => opt.organColor === card.color || opt.organColor === 'multi');
     }
 
     return options;
