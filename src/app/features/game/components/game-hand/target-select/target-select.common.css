@@ -32,12 +32,16 @@
     transform 0.18s ease;
 }
 
-.target-select__field label {
+.target-select__field label,
+.target-select__label-container {
   font-weight: 600;
   font-size: 0.85rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .target-select__label-main {

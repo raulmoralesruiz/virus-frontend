@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { PublicGameState } from '../../../../../../../core/models/game.model';
 import { TargetSelectOption, PlayerOption } from '../../target-select.models';
 import { organColorClass, organColorLabel, toOptionValue } from '../../target-select.utils';
-import { getContagionPlayerOptions, getContagionOrgansForPlayer, getContagionSourceLabel } from './target-select-contagion.utils';
+import { getContagionPlayerOptions, getContagionOrgansForPlayer, getContagionSourceLabel, getContagionVirusLabel } from './target-select-contagion.utils';
 
 @Component({
   selector: 'game-target-select-contagion',
@@ -41,8 +41,24 @@ export class TargetSelectContagionComponent {
     return getContagionPlayerOptions(this.publicState(), this.contagionAssignments());
   }
 
+  contagionSourceLabel(assignment: { fromOrganId: string, toOrganId: string, toPlayerId: string }): string {
+    return getContagionSourceLabel(this.publicState(), assignment);
+  }
+
+  contagionVirusLabel(assignment: { fromOrganId: string, toOrganId: string, toPlayerId: string }): string {
+    return getContagionVirusLabel(this.publicState(), assignment);
+  }
+
   contagionOrgansForPlayer(playerId: string): TargetSelectOption[] {
     return getContagionOrgansForPlayer(this.publicState(), playerId);
+  }
+
+  organColorClass(color?: string): string {
+    return organColorClass(color);
+  }
+
+  organColorLabel(color?: string): string {
+    return organColorLabel(color);
   }
 
   contagionSelectionValue(assignment: {
@@ -53,12 +69,4 @@ export class TargetSelectContagionComponent {
     if (!assignment.toOrganId || !assignment.toPlayerId) return '';
     return `${assignment.toOrganId}|${assignment.toPlayerId}`;
   }
-
-  contagionSourceLabel(assignment: { fromOrganId: string }): string {
-    return getContagionSourceLabel(this.publicState(), assignment);
-  }
-
-  organColorClass(color?: string): string { return organColorClass(color); }
-  
-  organColorLabel(color?: string): string { return organColorLabel(color); }
 }

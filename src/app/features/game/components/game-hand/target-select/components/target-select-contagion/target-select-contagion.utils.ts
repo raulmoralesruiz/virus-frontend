@@ -58,3 +58,13 @@ export function getContagionSourceLabel(state: PublicGameState | null, assignmen
     }
     return `Desde órgano ${assignment.fromOrganId}`;
 }
+
+export function getContagionVirusLabel(state: PublicGameState | null, assignment: { fromOrganId: string }): string {
+    const organInfo = findOrganById(state, assignment.fromOrganId);
+    if (organInfo) {
+        const color = organInfo.organ.color;
+        const colorLabel = COLOR_LABELS[color || ''] ?? color;
+        return `Virus ${colorLabel}`;
+    }
+    return `Virus ???`;
+}

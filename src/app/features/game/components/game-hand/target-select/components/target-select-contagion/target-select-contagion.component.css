@@ -7,3 +7,48 @@
   font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
+
+.target-select__contagion-block {
+  display: flex !important;
+  gap: 0 !important;
+  background: rgba(148, 163, 184, 0.08);
+  /* Similar to field background */
+  border-radius: 16px;
+  padding: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.target-select__contagion-block .target-select__field {
+  background: transparent;
+  border-radius: 0;
+  padding: 0.75rem 0.5rem;
+  box-shadow: none;
+  flex: 1;
+}
+
+.target-select__contagion-block .target-select__field--player {
+  border-right: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Remove transform effects on fields inside the block to avoid movement weirdness */
+.target-select__contagion-block .target-select__field.is-active {
+  transform: none;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .target-select__contagion-block {
+    flex-direction: column;
+  }
+
+  .target-select__contagion-block .target-select__field--player {
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding-bottom: 1rem;
+  }
+
+  .target-select__contagion-block .target-select__field--organs {
+    padding-top: 1rem;
+  }
+}
