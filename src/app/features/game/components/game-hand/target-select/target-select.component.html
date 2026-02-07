@@ -14,7 +14,7 @@
   @if (isMyTurn()) {
 
   @if (isTransplant) {
-  <game-target-select-transplant [playerOptions]="playerOptions" [targetOptions]="targetOptions()"
+  <game-target-select-transplant [playerOptions]="playerOptions" [targetOptions]="filteredTargetOptions()"
     [transplantPlayerA]="transplantPlayerA" [transplantSelectionA]="transplantSelectionA"
     [transplantPlayerB]="transplantPlayerB" [transplantSelectionB]="transplantSelectionB"
     (targetChange)="handleTargetChange($event.value, $event.which)"
@@ -32,7 +32,7 @@
   }
 
   @if (showSingleTarget) {
-  <game-target-select-standard [playerOptions]="playerOptions" [targetOptions]="targetOptions()"
+  <game-target-select-standard [playerOptions]="playerOptions" [targetOptions]="filteredTargetOptions()"
     [singlePlayerSelection]="singlePlayerSelection" [singleSelectionValue]="singleSelectionValue"
     [isSelfTarget]="isSelfTarget" [isFailedExperiment]="isFailedExperiment" [isDragDrop]="isDragDrop()"
     [selectedAction]="selectedAction()" (targetChange)="handleTargetChange($event, 'single')"

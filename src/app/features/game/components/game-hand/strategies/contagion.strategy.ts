@@ -17,13 +17,15 @@ export class ContagionStrategy implements CardActionStrategy {
     return (
         currentSelection.contagionAssignments &&
         currentSelection.contagionAssignments.length > 0 &&
-        currentSelection.contagionAssignments.every(
+        currentSelection.contagionAssignments.some(
           (assignment) => assignment.toOrganId && assignment.toPlayerId
         )
       );
   }
 
   getPlayPayload(currentSelection: { contagionAssignments: any[] }): any {
-    return currentSelection.contagionAssignments;
+    return currentSelection.contagionAssignments.filter(
+        (assignment) => assignment.toOrganId && assignment.toPlayerId
+    );
   }
 }

@@ -1,21 +1,23 @@
 @if (contagionAssignments().length) {
 @for (assignment of contagionAssignments(); let i = $index; track i) {
-<section class="target-select__group target-select__group--with-organs">
+<section class="target-select__group target-select__group--with-organs target-select__contagion-block">
   <div class="target-select__field target-select__field--player" [class.is-active]="!!assignment.toPlayerId">
-    <label [attr.for]="'contagion-player-' + i">
+    <div class="target-select__label-container">
       <span class="target-select__label-main">
         <span class="target-select__label-icon" aria-hidden="true">👤</span>
-        <span>Virus {{ i + 1 }}</span>
+        <span>{{ contagionVirusLabel(assignment) }}</span>
       </span>
       <span>{{ contagionSourceLabel(assignment) }}</span>
-    </label>
-    <select [attr.id]="'contagion-player-' + i" [ngModel]="assignment.toPlayerId"
-      (ngModelChange)="handleContagionPlayerChange($event, i)">
-      <option value="">-- Selecciona jugador --</option>
+    </div>
+    <div class="target-select__players">
       @for (player of contagionPlayerOptions; track player.id) {
-      <option [value]="player.id">{{ player.name }}</option>
+      <button type="button" class="target-select__player" [class.is-active]="assignment.toPlayerId === player.id"
+        (click)="handleContagionPlayerChange(player.id, i)">
+        <span class="target-select__player-icon">👤</span>
+        <span>{{ player.name }}</span>
+      </button>
       }
-    </select>
+    </div>
   </div>
 
   <div class="target-select__field target-select__field--organs" [class.is-active]="!!assignment.toOrganId"

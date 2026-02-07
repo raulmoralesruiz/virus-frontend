@@ -1,16 +1,27 @@
 <section class="target-select__group">
   <div class="target-select__field target-select__field--player" [class.is-active]="!!singlePlayerSelection()">
+    <!-- Label removed as it is implicit in options 
     <label for="target-player">
       <span class="target-select__label-main">
         <span class="target-select__label-icon" aria-hidden="true">👤</span>
         <span>Jugador</span>
       </span>
     </label>
-    <select id="target-player" [ngModel]="singlePlayerSelection()" (ngModelChange)="handlePlayerChange($event)">
-      <option value="">-- Selecciona jugador --</option>
+    -->
+    <div class="target-select__label-container">
+      <span class="target-select__label-main">
+        <span class="target-select__label-icon" aria-hidden="true">👤</span>
+        <span>Jugador</span>
+      </span>
+    </div>
+    <div class="target-select__players">
       @for (player of playerOptions(); track player.id) {
-      <option [value]="player.id">{{ player.name }}</option>
+      <button type="button" class="target-select__player" [class.is-active]="singlePlayerSelection() === player.id"
+        (click)="handlePlayerChange(player.id)">
+        <span class="target-select__player-icon">👤</span>
+        <span>{{ player.name }}</span>
+      </button>
       }
-    </select>
+    </div>
   </div>
 </section>
