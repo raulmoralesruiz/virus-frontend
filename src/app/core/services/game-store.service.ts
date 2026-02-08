@@ -1,180 +1,84 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, inject } from '@angular/core';
 import { SocketGameService } from '../services/socket/socket.game.service';
-import { Router } from '@angular/router';
 import { ApiPlayerService } from './api/api.player.service';
-import { AnyPlayTarget } from '../models/game.model';
 import { RoomStoreService } from './room-store.service';
+import { AnyPlayTarget } from '../models/game-actions.model';
+import { GameNavigationService } from './game/game-navigation.service';
+import { GameUiService } from './game/game-ui.service';
+import { GamePlayService } from './game/game-play.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
   private socketGame = inject(SocketGameService);
   private apiPlayer = inject(ApiPlayerService);
-  private router = inject(Router);
   private roomStore = inject(RoomStoreService);
+  
+  // Injected to ensure initialization of effects
+  private nav = inject(GameNavigationService);
+  private ui = inject(GameUiService);
+  private play = inject(GamePlayService);
 
-  // Estado público de la partida (mazo, descarte, jugadores...)
+  // Estado público de la partida
   publicState = this.socketGame.publicState;
-  // Mano privada del jugador
   hand = this.socketGame.hand;
-  // Info sobre errores
   lastError = this.socketGame.lastError;
+  winner = this.socketGame.winner;
 
-  // ¿Soy el jugador activo?
+  // Estado UI
+  historyOpen = this.ui.historyOpen;
+  leavingOpen = this.ui.leavingOpen;
+
+  // Selectores
   isMyTurn = computed(() => {
     const state = this.publicState();
     const me = this.apiPlayer.player();
     if (!state || !me) return false;
-    const idx = state.turnIndex;
-    const activePlayerId = state.players[idx]?.player.id;
-    return activePlayerId === me.id;
+    return state.players[state.turnIndex]?.player.id === me.id;
   });
 
-  remainingSeconds = computed(() => {
-    const state = this.publicState();
-    return state?.remainingSeconds ?? 0;
-  });
-
-  winner = this.socketGame.winner;
+  remainingSeconds = computed(() => this.publicState()?.remainingSeconds ?? 0);
   history = computed(() => this.publicState()?.history ?? []);
-  private historyVisible = signal(false);
-  historyOpen = this.historyVisible.asReadonly();
-  private leavingVisible = signal(false);
-  leavingOpen = this.leavingVisible.asReadonly();
 
-  constructor() {
-    effect(() => {
-      const state = this.publicState();
-      if (!state) return;
+  // Actions delegated to SocketGameService (State related)
+  startGame(roomId: string) { this.socketGame.startGame(roomId); }
+  getState(roomId: string) { this.socketGame.requestGameState(roomId); }
+  drawCard(roomId: string) { this.socketGame.drawCard(roomId); }
+  endTurn(roomId: string) { this.socketGame.endTurn(roomId); }
+  resetRoom(roomId: string) { this.socketGame.resetRoom(roomId); }
+  setClientError(msg: string) { this.socketGame.setClientError(msg); }
+  clearError() { this.socketGame.clearLastError(); }
 
-      const player = this.apiPlayer.player();
-      if (!player) return;
-
-      const isPlayerInGame = state.players.some(
-        (info) => info.player.id === player.id
-      );
-
-      if (!isPlayerInGame) {
-        if (this.router.url.startsWith('/game/')) {
-          this.router.navigate(['/room-list']);
-        }
-        return;
-      }
-
-      const targetUrl = `/game/${state.roomId}`;
-      if (!this.router.url.startsWith(targetUrl)) {
-        this.router.navigate(['/game', state.roomId]);
-      }
-    });
-  }
-
-  /**
-   * Inicia la partida en una sala concreta
-   */
-  startGame(roomId: string) {
-    this.socketGame.startGame(roomId);
-  }
-
-  /**
-   * Solicita el estado actual de la partida (mazo, descarte, jugadores...)
-   */
-  getState(roomId: string) {
-    this.socketGame.requestGameState(roomId);
-  }
-
-  drawCard(roomId: string) {
-    this.socketGame.drawCard(roomId);
-  }
-
-  endTurn(roomId: string) {
-    this.socketGame.endTurn(roomId);
-  }
-
-  // admitir target tipo ContagionTarget
-  playCard(
-    roomId: string,
-    cardId: string,
-    target?: AnyPlayTarget
-    // target?: { playerId: string; organId: string }
-  ) {
-    const me = this.apiPlayer.player();
-    if (!me) {
-      console.warn('[GameStore] No player identificado');
-      return;
-    }
-
-    console.log(`GS! se va a jugar la carta ${cardId}`);
-
-    this.socketGame.playCard({
-      roomId,
-      playerId: me.id,
-      cardId,
-      target,
-    });
+  // Actions delegated to GamePlayService
+  playCard(roomId: string, cardId: string, target?: AnyPlayTarget) {
+    this.play.playCard(roomId, cardId, target);
   }
 
   discardCards(roomId: string, cardIds: string[]) {
-    const me = this.apiPlayer.player();
-    if (!me) return;
-
-    this.socketGame.discardCards({
-      roomId,
-      playerId: me.id,
-      cardIds,
-    });
+    this.play.discardCards(roomId, cardIds);
   }
 
-  resetRoom(roomId: string) {
-    this.socketGame.resetRoom(roomId);
+  handleTurnTimeout(roomId: string) {
+    this.play.handleTurnTimeout(roomId);
   }
 
-  goHome() {
-    this.router.navigate(['/home']);
-  }
+  // Actions delegated to GameNavigationService
+  goHome() { this.nav.goHome(); }
+  goToRoomList() { this.nav.goToRoomList(); }
 
-  goToRoomList() {
-    this.router.navigate(['/room-list']);
-  }
+  // Actions delegated to GameUiService
+  openHistoryModal() { this.ui.openHistoryModal(); }
+  closeHistoryModal() { this.ui.closeHistoryModal(); }
+  openLeaveModal() { this.ui.openLeaveModal(); }
+  closeLeaveModal() { this.ui.closeLeaveModal(); }
 
+  // Complex action (state + navigation + UI)
   leaveGame(roomId: string) {
     const player = this.apiPlayer.player();
     if (!player) return;
 
     this.socketGame.leaveGame(roomId);
     this.roomStore.leaveRoom(roomId, player);
-    this.historyVisible.set(false);
-    this.leavingVisible.set(false);
-    this.router.navigate(['/room-list']);
-  }
-
-  setClientError(msg: string) {
-    this.socketGame.setClientError(msg);
-  }
-
-  clearError() {
-    this.socketGame.clearLastError();
-  }
-
-  openHistoryModal() {
-    this.historyVisible.set(true);
-  }
-
-  closeHistoryModal() {
-    this.historyVisible.set(false);
-  }
-
-  openLeaveModal() {
-    this.leavingVisible.set(true);
-  }
-
-  closeLeaveModal() {
-    this.leavingVisible.set(false);
-  }
-
-  handleTurnTimeout(roomId: string) {
-    const hand = this.hand();
-    if (!hand.length) return;
-    const randomIdx = Math.floor(Math.random() * hand.length);
-    const randomCard = hand[randomIdx];
-    this.discardCards(roomId, [randomCard.id]);
+    this.ui.reset();
+    this.nav.goToRoomList();
   }
 }
