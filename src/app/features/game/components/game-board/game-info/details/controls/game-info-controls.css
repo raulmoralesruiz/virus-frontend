@@ -1,4 +1,4 @@
-.game-info__controls {
+:host {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -7,17 +7,17 @@
   margin-top: 0.35rem;
 }
 
-.game-info__controls>* {
+:host>* {
   flex: 1 0 calc(50% - 0.25rem);
   max-width: calc(50% - 0.25rem);
 }
 
 @media (min-width: 640px) {
-  .game-info__controls {
+  :host {
     flex-wrap: nowrap;
   }
 
-  .game-info__controls>* {
+  :host>* {
     flex: 0 0 auto;
     max-width: none;
   }
@@ -64,7 +64,7 @@
 }
 
 @media (min-width: 768px) {
-  .game-info__controls {
+  :host {
     gap: 0.75rem;
     margin-top: 0;
   }
