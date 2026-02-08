@@ -7,28 +7,26 @@
     [attr.aria-pressed]="isDarkTheme()"
     [attr.aria-label]="isDarkTheme() ? 'Activar tema claro' : 'Activar tema oscuro'">
     @if (isDarkTheme()) {
-    <!-- <card-icon name="share" class="control-icon"></card-icon> -->
-    ☀️
+    <card-icon name="sun" class="control-icon" color="white"></card-icon>
     } @else {
-    <!-- <card-icon name="share" class="control-icon"></card-icon> -->
-    🌙
+    <card-icon name="moon" class="control-icon" color="white"></card-icon>
     }
   </button>
   <button type="button" class="game-info__control-button" (click)="onFullscreenToggle($event)"
     [attr.aria-pressed]="isFullscreenActive()"
     [attr.aria-label]="isFullscreenActive() ? 'Salir de pantalla completa' : 'Pantalla completa'">
     @if (isFullscreenActive()) {
-    📱
+    <card-icon name="phone" class="control-icon" color="white"></card-icon>
     } @else {
-    📺
+    <card-icon name="screen" class="control-icon" color="white"></card-icon>
     }
   </button>
   <button type="button" class="game-info__control-button" (click)="onMuteToggle($event)" [attr.aria-pressed]="isMuted()"
     [attr.aria-label]="isMuted() ? 'Activar sonido' : 'Silenciar'">
     @if (isMuted()) {
-    🔊
+    <card-icon name="speaker-volume" class="control-icon" color="white"></card-icon>
     } @else {
-    🔇
+    <card-icon name="speaker-muted" class="control-icon" color="white"></card-icon>
     }
   </button>
 </div>
