@@ -1,13 +1,34 @@
 <div class="game-info__controls">
-  <game-info-leave-button (leaveRequested)="onLeaveClick()"></game-info-leave-button>
-  <button type="button" class="theme-toggle" (click)="onThemeToggle($event)" [attr.aria-pressed]="isDarkTheme()">
-    {{ isDarkTheme() ? "☀️" : "🌙" }}
+  <button type="button" class="game-info__control-button game-info__control-button--leave" (click)="onLeaveClick()"
+    aria-label="Salir de la partida">
+    <card-icon name="leave" class="control-icon" color="danger"></card-icon>
   </button>
-  <button type="button" class="fullscreen-toggle" (click)="onFullscreenToggle($event)"
-    [attr.aria-pressed]="isFullscreenActive()">
-    {{ isFullscreenActive() ? "📱" : "🖥️" }}
+  <button type="button" class="game-info__control-button" (click)="onThemeToggle($event)"
+    [attr.aria-pressed]="isDarkTheme()"
+    [attr.aria-label]="isDarkTheme() ? 'Activar tema claro' : 'Activar tema oscuro'">
+    @if (isDarkTheme()) {
+    <!-- <card-icon name="share" class="control-icon"></card-icon> -->
+    ☀️
+    } @else {
+    <!-- <card-icon name="share" class="control-icon"></card-icon> -->
+    🌙
+    }
   </button>
-  <button type="button" class="sound-toggle" (click)="onMuteToggle($event)" [attr.aria-pressed]="isMuted()">
-    {{ isMuted() ? "🔊" : "🔇" }}
+  <button type="button" class="game-info__control-button" (click)="onFullscreenToggle($event)"
+    [attr.aria-pressed]="isFullscreenActive()"
+    [attr.aria-label]="isFullscreenActive() ? 'Salir de pantalla completa' : 'Pantalla completa'">
+    @if (isFullscreenActive()) {
+    📱
+    } @else {
+    📺
+    }
+  </button>
+  <button type="button" class="game-info__control-button" (click)="onMuteToggle($event)" [attr.aria-pressed]="isMuted()"
+    [attr.aria-label]="isMuted() ? 'Activar sonido' : 'Silenciar'">
+    @if (isMuted()) {
+    🔊
+    } @else {
+    🔇
+    }
   </button>
 </div>

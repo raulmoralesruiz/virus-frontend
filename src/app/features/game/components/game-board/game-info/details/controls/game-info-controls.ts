@@ -1,10 +1,10 @@
 import { Component, input, output } from '@angular/core';
-import { GameInfoLeaveButtonComponent } from './leave-button/game-info-leave-button';
+import { CardIconComponent } from '../../../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'game-info-controls',
   standalone: true,
-  imports: [GameInfoLeaveButtonComponent],
+  imports: [CardIconComponent],
   templateUrl: './game-info-controls.html',
   styleUrl: './game-info-controls.css',
 })
