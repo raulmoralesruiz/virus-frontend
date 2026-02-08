@@ -23,38 +23,6 @@
   }
 }
 
-.game-info__leave,
-.sound-toggle,
-.fullscreen-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-.game-info__leave {
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
-  background: var(--color-danger-soft);
-  color: var(--color-danger-strong);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
-}
-
-.game-info__leave-icon {
-  width: 1.1rem;
-  height: 1.1rem;
-  fill: currentColor;
-}
-
-.game-info__leave:hover {
-  background: var(--color-danger-soft-hover);
-  color: var(--color-danger);
-  transform: translateY(-1px);
-}
-
 .theme-toggle {
   padding: 0.4rem 0.95rem;
   border-radius: 999px;
@@ -63,7 +31,9 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .theme-toggle:hover {
@@ -95,8 +65,6 @@
   transform: translateY(-1px);
 }
 
-.sound-toggle:focus-visible,
-.fullscreen-toggle:focus-visible {}
 
 .sound-toggle[aria-pressed='true'],
 .fullscreen-toggle[aria-pressed='true'] {

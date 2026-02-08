@@ -14,8 +14,8 @@
       (historyRequested)="requestHistory()"></game-info-header>
 
     @if (showDetails) {
-    <game-info-details [state]="state()" [gameDuration]="gameDuration" [isMuted]="isMuted()"
-      [isDarkTheme]="isDarkTheme()" [isFullscreenActive]="isFullscreenActive" (leaveRequested)="requestLeave()"
+    <game-info-details [state]="state()" [gameDuration]="gameDuration()" [isMuted]="isMuted()"
+      [isDarkTheme]="isDarkTheme()" [isFullscreenActive]="isFullscreenActive()" (leaveRequested)="requestLeave()"
       (muteToggled)="toggleMute()" (themeToggled)="toggleTheme()"
       (fullscreenToggled)="toggleFullscreen()"></game-info-details>
     }

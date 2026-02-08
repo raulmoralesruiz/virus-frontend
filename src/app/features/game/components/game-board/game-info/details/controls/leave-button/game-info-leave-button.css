@@ -1,0 +1,26 @@
+.game-info__leave {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  background: var(--color-danger-soft);
+  color: var(--color-danger-strong);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  border: none;
+}
+
+.game-info__leave-icon {
+  --icon-size: 1.1rem;
+  color: currentColor;
+}
+
+.game-info__leave:hover {
+  background: var(--color-danger-soft-hover);
+  color: var(--color-danger);
+  transform: translateY(-1px);
+}
