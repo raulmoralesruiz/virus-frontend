@@ -12,12 +12,7 @@ export class GamePlayService {
 
   playCard(roomId: string, cardId: string, target?: AnyPlayTarget) {
     const me = this.apiPlayer.player();
-    if (!me) {
-      console.warn('[GamePlay] No player identificado');
-      return;
-    }
-
-    console.log(`[GamePlay] se va a jugar la carta ${cardId}`);
+    if (!me) return;
 
     this.socketGame.playCard({
       roomId,
