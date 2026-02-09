@@ -1,4 +1,4 @@
-.discard-preview {
+:host {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   position: relative;
 }
 
-.discard-preview--empty {
+:host.discard-preview--empty {
   background-color: transparent;
   border: 2px dashed var(--color-text-secondary);
   opacity: 0.5;
@@ -38,7 +38,7 @@
 
 .discard-icon-image,
 .discard-icon-svg,
-.discard-preview card-icon {
+:host card-icon {
   width: 65%;
   height: 65%;
   object-fit: contain;

@@ -13,6 +13,12 @@ import {
   imports: [CardIconComponent],
   templateUrl: './game-info-discard-preview.html',
   styleUrl: './game-info-discard-preview.css',
+  host: {
+    '[style.background]': 'discardBackground()',
+    '[class.discard-preview--empty]': '!topDiscard()',
+    '[attr.aria-label]':
+      'topDiscard() ? "Última carta: " + topDiscard()!.id + ". Total descartes: " + discardCount() : "Pila de descartes vacía"',
+  },
 })
 export class GameInfoDiscardPreviewComponent {
   topDiscard = input<Card | undefined>(undefined);

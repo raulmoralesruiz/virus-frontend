@@ -1,19 +1,5 @@
-<div class="game-info__header">
-  <div class="game-info__title">
-    <h2>
-      <span>#{{ roomId() }}</span>
-      <span class="game-info__details-arrow" aria-hidden="true">
-        {{ showDetails() ? "▲" : "▼" }}
-      </span>
-    </h2>
-  </div>
+<game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
 
-  <game-info-discard-preview [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard-preview>
-  <div class="game-info__actions">
-    <button type="button" class="history-toggle" (click)="onHistoryClick($event)">
-      📄 @if (historyCount()) {
-      <span class="history-badge">{{ historyCount() }}</span>
-      }
-    </button>
-  </div>
-</div>
+<game-info-discard-preview [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard-preview>
+
+<game-info-history [historyCount]="historyCount()" (historyRequested)="historyRequested.emit()"></game-info-history>
