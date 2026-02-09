@@ -2,24 +2,22 @@
   display: contents;
 }
 
-.action-feed__close {
-  grid-area: close;
+.action-feed__identity {
+  grid-area: identity;
   display: flex;
   align-items: center;
   gap: 0.65rem;
   min-width: 0;
-  padding: 0rem;
-  background: var(--color-danger);
 }
 
-.action-feed__close span {
+.action-feed__actor {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
-  background: var(--color-danger);
-  color: var(--color-text-inverted);
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
   font-weight: 600;
   font-size: 0.8rem;
   letter-spacing: 0.05em;
@@ -30,8 +28,7 @@
   text-overflow: ellipsis;
 }
 
-.action-feed__close:hover span,
-.action-feed__close:focus-visible span {
-  background: var(--color-danger-soft);
-  transform: translateY(-1px);
+.action-feed__actor--system {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
 }
