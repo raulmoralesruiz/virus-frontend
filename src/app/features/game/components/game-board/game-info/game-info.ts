@@ -1,15 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  computed,
-  inject,
-  input,
-  output,
-} from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnChanges, OnDestroy, SimpleChanges, computed, inject, input, output } from '@angular/core';
 import { PublicGameState } from '../../../../../core/models/game.model';
 import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
 import { ThemeService } from '../../../../../core/services/theme.service';
@@ -17,6 +6,8 @@ import { GameInfoHeaderComponent } from './header/game-info-header';
 import { GameInfoDetailsComponent } from './details/game-info-details';
 import { GameActionFeedComponent } from '../../game-action-feed/game-action-feed';
 import { GameActionFeedService } from '../../game-action-feed/services/game-action-feed.service';
+import { GameDurationService } from './services/game-duration.service';
+import { GameFullscreenService } from './services/game-fullscreen.service';
 
 @Component({
   selector: 'game-info',
@@ -24,6 +15,15 @@ import { GameActionFeedService } from '../../game-action-feed/services/game-acti
   imports: [GameInfoHeaderComponent, GameInfoDetailsComponent, GameActionFeedComponent],
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
+  host: {
+    role: 'button',
+    '[class.game-info--expanded]': 'showDetails && !isShowingNotification()',
+    '[attr.tabindex]': 'isShowingNotification() ? -1 : 0',
+    '[attr.aria-expanded]': 'isShowingNotification() ? null : showDetails',
+    '[attr.aria-disabled]': 'isShowingNotification() ? true : null',
+    '(click)': 'toggleDetails()',
+    '(keydown)': 'onKeyDown($event)',
+  },
 })
 export class GameInfoComponent implements OnChanges, OnDestroy {
   state = input.required<PublicGameState>();
@@ -34,25 +34,27 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
   showDetails = false;
   private readonly timerSoundService = inject(TimerSoundService);
   private readonly themeService = inject(ThemeService);
-  private readonly documentRef = inject(DOCUMENT);
   private readonly actionFeedService = inject(GameActionFeedService);
+  private readonly durationService = inject(GameDurationService);
+  private readonly fullscreenService = inject(GameFullscreenService);
+
   readonly isMuted = this.timerSoundService.isMuted;
   readonly isDarkTheme = this.themeService.isDark;
-  isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
-  gameDuration = '';
-  private startTimestamp?: number;
-  private gameDurationTimer?: ReturnType<typeof setInterval>;
+  readonly isFullscreenActive = this.fullscreenService.isFullscreenActive;
+  readonly gameDuration = this.durationService.gameDuration;
+  
   readonly currentNotification = this.actionFeedService.currentAction;
   readonly isShowingNotification = computed(() => !!this.currentNotification());
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('state' in changes) {
-      this.setupDurationTracking();
+      const state = this.state();
+      this.durationService.setupDurationTracking(state?.startedAt, !!state?.winner);
     }
   }
 
   ngOnDestroy(): void {
-    this.clearDurationTimer();
+    this.durationService.clearDurationTimer();
   }
 
   toggleDetails(): void {
@@ -88,84 +90,12 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
     this.themeService.toggleTheme();
   }
 
-  async toggleFullscreen(): Promise<void> {
-    try {
-      if (this.documentRef.fullscreenElement) {
-        await this.documentRef.exitFullscreen();
-      } else {
-        const element = this.documentRef.documentElement;
-        if (element) {
-          await element.requestFullscreen();
-        }
-      }
-    } catch (error) {
-      console.error('Error toggling fullscreen', error);
-    } finally {
-      this.isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
-    }
-  }
-
-  @HostListener('document:fullscreenchange')
-  onFullscreenChange(): void {
-    this.isFullscreenActive = Boolean(this.documentRef.fullscreenElement);
+  toggleFullscreen(): void {
+    this.fullscreenService.toggleFullscreen();
   }
 
   get shortRoomId(): string {
     const state = this.state();
     return state?.roomId?.substring(0, 6) ?? '';
-  }
-
-  private setupDurationTracking(): void {
-    this.clearDurationTimer();
-
-    const state = this.state();
-    const startedAt = state?.startedAt;
-    if (!startedAt) {
-      this.startTimestamp = undefined;
-      this.gameDuration = '';
-      return;
-    }
-
-    const parsedStart = Date.parse(startedAt);
-    if (Number.isNaN(parsedStart)) {
-      this.startTimestamp = undefined;
-      this.gameDuration = '';
-      return;
-    }
-
-    this.startTimestamp = parsedStart;
-    this.updateGameDuration();
-
-    if (state?.winner) {
-      return;
-    }
-
-    this.gameDurationTimer = setInterval(() => {
-      this.updateGameDuration();
-    }, 60000);
-  }
-
-  private clearDurationTimer(): void {
-    if (this.gameDurationTimer) {
-      clearInterval(this.gameDurationTimer);
-      this.gameDurationTimer = undefined;
-    }
-  }
-
-  private updateGameDuration(): void {
-    if (!this.startTimestamp) {
-      this.gameDuration = '';
-      return;
-    }
-
-    const now = Date.now();
-    const diffMs = Math.max(0, now - this.startTimestamp);
-    const totalMinutes = Math.floor(diffMs / 60000);
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-
-    this.gameDuration = `${hours.toString().padStart(2, '0')}:${minutes
-      .toString()
-      .padStart(2, '0')}`;
   }
 }

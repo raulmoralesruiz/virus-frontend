@@ -1,0 +1,24 @@
+<div class="action-feed__message">
+  @if (action(); as act) {
+  @switch (act.type) {
+  @case ('play-card') {
+  <span class="action-feed__verb">{{ act.verb ?? 'jugó' }}</span>
+  <span class="action-feed__card">{{ act.cardLabel }}</span>
+  @if (detail(); as d) {
+  <span class="action-feed__detail">{{ d }}</span>
+  }
+  }
+  @case ('discard') {
+  <span class="action-feed__verb">descartó</span>
+  <span class="action-feed__card">{{ cardsLabel() }}</span>
+  }
+  @case ('draw') {
+  <span class="action-feed__verb">robó</span>
+  <span class="action-feed__card">una carta</span>
+  }
+  @default {
+  <span class="action-feed__detail">{{ act.message }}</span>
+  }
+  }
+  }
+</div>

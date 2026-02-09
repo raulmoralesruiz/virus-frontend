@@ -1,34 +1,7 @@
-<div class="action-feed__identity">
-  @if (action()?.actor) {
-  <span class="action-feed__actor">{{ action()?.actor }}</span>
-  } @else {
-  <span class="action-feed__actor action-feed__actor--system">Sistema</span>
-  }
-</div>
+<game-action-identity [actor]="action()?.actor"></game-action-identity>
 
 <button type="button" class="action-feed__close" aria-label="Cerrar notificación" (click)="onDismiss()">
-  &times;
+  <span>x</span>
 </button>
 
-<div class="action-feed__message">
-  @switch (action()?.type) {
-  @case ('play-card') {
-  <span class="action-feed__verb">{{ action()?.verb ?? 'jugó' }}</span>
-  <span class="action-feed__card">{{ action()?.cardLabel }}</span>
-  @if (detail(); as d) {
-  <span class="action-feed__detail">{{ d }}</span>
-  }
-  }
-  @case ('discard') {
-  <span class="action-feed__verb">descartó</span>
-  <span class="action-feed__card">{{ cardsLabel() }}</span>
-  }
-  @case ('draw') {
-  <span class="action-feed__verb">robó</span>
-  <span class="action-feed__card">una carta</span>
-  }
-  @default {
-  <span class="action-feed__detail">{{ action()?.message }}</span>
-  }
-  }
-</div>
+<game-action-message [action]="action()"></game-action-message>

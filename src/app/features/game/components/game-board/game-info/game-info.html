@@ -1,24 +1,16 @@
-<div class="game-info" [class.game-info--expanded]="showDetails && !isShowingNotification()" (click)="toggleDetails()"
-  (keydown)="onKeyDown($event)" role="button" [attr.tabindex]="isShowingNotification() ? -1 : 0"
-  [attr.aria-expanded]="isShowingNotification() ? null : showDetails"
-  [attr.aria-disabled]="isShowingNotification() ? true : null">
-  @if (isShowingNotification()) {
-  <div class="game-info__notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
-    <game-action-feed></game-action-feed>
-  </div>
-  }
-  @else {
-  <div class="game-info__content">
-    <game-info-header [roomId]="shortRoomId" [showDetails]="showDetails" [historyCount]="historyCount()"
-      [topDiscard]="state().topDiscard" [discardCount]="state().discardCount"
-      (historyRequested)="requestHistory()"></game-info-header>
-
-    @if (showDetails) {
-    <game-info-details [state]="state()" [gameDuration]="gameDuration" [isMuted]="isMuted()"
-      [isDarkTheme]="isDarkTheme()" [isFullscreenActive]="isFullscreenActive" (leaveRequested)="requestLeave()"
-      (muteToggled)="toggleMute()" (themeToggled)="toggleTheme()"
-      (fullscreenToggled)="toggleFullscreen()"></game-info-details>
-    }
-  </div>
-  }
+@if (isShowingNotification()) {
+<div class="game-info__notification" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+  <game-action-feed></game-action-feed>
 </div>
+}
+@else {
+<game-info-header [roomId]="shortRoomId" [showDetails]="showDetails" [historyCount]="historyCount()"
+  [topDiscard]="state().topDiscard" [discardCount]="state().discardCount"
+  (historyRequested)="requestHistory()"></game-info-header>
+
+@if (showDetails) {
+<game-info-details [state]="state()" [gameDuration]="gameDuration()" [isMuted]="isMuted()" [isDarkTheme]="isDarkTheme()"
+  [isFullscreenActive]="isFullscreenActive()" (leaveRequested)="requestLeave()" (muteToggled)="toggleMute()"
+  (themeToggled)="toggleTheme()" (fullscreenToggled)="toggleFullscreen()"></game-info-details>
+}
+}

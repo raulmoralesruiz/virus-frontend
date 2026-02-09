@@ -1,8 +1,10 @@
 import { Component, input, output } from '@angular/core';
+import { CardIconComponent } from '../../../../../../../shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'game-info-controls',
   standalone: true,
+  imports: [CardIconComponent],
   templateUrl: './game-info-controls.html',
   styleUrl: './game-info-controls.css',
 })
@@ -12,14 +14,17 @@ export class GameInfoControlsComponent {
   isFullscreenActive = input(false);
 
   leaveRequested = output<void>();
+  muteToggled = output<void>();
   themeToggled = output<void>();
   fullscreenToggled = output<void>();
-  muteToggled = output<void>();
 
-  onLeaveClick(event: MouseEvent): void {
-    event.stopPropagation();
-    event.preventDefault();
+  onLeaveClick(): void {
     this.leaveRequested.emit();
+  }
+
+  onMuteToggle(event: MouseEvent): void {
+    event.stopPropagation();
+    this.muteToggled.emit();
   }
 
   onThemeToggle(event: MouseEvent): void {
@@ -30,10 +35,5 @@ export class GameInfoControlsComponent {
   onFullscreenToggle(event: MouseEvent): void {
     event.stopPropagation();
     this.fullscreenToggled.emit();
-  }
-
-  onMuteToggle(event: MouseEvent): void {
-    event.stopPropagation();
-    this.muteToggled.emit();
   }
 }

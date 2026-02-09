@@ -1,0 +1,6 @@
+<button type="button" class="history-toggle" (click)="onHistoryClick($event)">
+  <card-icon name="page-facing-up" color="white" />
+  @if (historyCount()) {
+  <span class="history-badge">{{ historyCount() }}</span>
+  }
+</button>

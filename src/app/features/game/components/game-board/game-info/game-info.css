@@ -1,4 +1,4 @@
-.game-info {
+:host {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -12,21 +12,20 @@
   min-height: 0;
 }
 
-.game-info--expanded {
+:host.game-info--expanded {
   background: var(--color-info-bg-expanded);
 }
 
 @media (min-width: 768px) {
-  .game-info {
+  :host {
     padding: 1rem 1.5rem;
   }
 }
 
-.game-info[aria-disabled='true'] {
+:host[aria-disabled='true'] {
   cursor: default;
 }
 
-.game-info__content,
 .game-info__notification {
   display: flex;
   flex-direction: column;

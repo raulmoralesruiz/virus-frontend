@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+}
+
+.details-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 1.35rem;
+  }
+
+  .details-toggle-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.9rem;
+  }
+}

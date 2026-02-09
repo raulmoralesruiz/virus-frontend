@@ -1,0 +1,11 @@
+@if (topDiscard(); as card) {
+@if (colorThiefColor()) {
+<card-icon name="thief" [style.color]="colorThiefColor()" />
+} @else if (displayImage()) {
+<card-icon class="discard-icon-image" [name]="displayImage() ?? ''" />
+}
+<span class="discard-count">{{ discardCount() }}</span>
+} @else {
+<span class="discard-icon">∅</span>
+<span class="discard-count">0</span>
+}

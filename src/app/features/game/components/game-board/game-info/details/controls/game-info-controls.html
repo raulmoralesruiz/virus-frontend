@@ -1,46 +1,29 @@
-<div class="game-info__controls">
-  <button
-    type="button"
-    class="game-info__leave"
-    (click)="onLeaveClick($event)"
-    aria-label="Salir de la partida"
-  >
-    <svg
-      focusable="false"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      class="game-info__leave-icon"
-    >
-      <path
-        d="M17 6l-1.41 1.41L17.17 9H9v2h8.17l-1.58 1.59L17 14l4-4-4-4z"
-      />
-      <path
-        d="M5 5h7V3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2H5V5z"
-      />
-    </svg>
-  </button>
-  <button
-    type="button"
-    class="theme-toggle"
-    (click)="onThemeToggle($event)"
-    [attr.aria-pressed]="isDarkTheme()"
-  >
-    {{ isDarkTheme() ? "☀️" : "🌙" }}
-  </button>
-  <button
-    type="button"
-    class="fullscreen-toggle"
-    (click)="onFullscreenToggle($event)"
-    [attr.aria-pressed]="isFullscreenActive()"
-  >
-    {{ isFullscreenActive() ? "📱" : "🖥️" }}
-  </button>
-  <button
-    type="button"
-    class="sound-toggle"
-    (click)="onMuteToggle($event)"
-    [attr.aria-pressed]="isMuted()"
-  >
-    {{ isMuted() ? "🔊" : "🔇" }}
-  </button>
-</div>
+<button type="button" class="game-info__control-button game-info__control-button--leave" (click)="onLeaveClick()"
+  aria-label="Salir de la partida">
+  <card-icon name="leave" class="control-icon" color="danger"></card-icon>
+</button>
+<button type="button" class="game-info__control-button" (click)="onThemeToggle($event)"
+  [attr.aria-pressed]="isDarkTheme()" [attr.aria-label]="isDarkTheme() ? 'Activar tema claro' : 'Activar tema oscuro'">
+  @if (isDarkTheme()) {
+  <card-icon name="sun" class="control-icon" color="white"></card-icon>
+  } @else {
+  <card-icon name="moon" class="control-icon" color="white"></card-icon>
+  }
+</button>
+<button type="button" class="game-info__control-button" (click)="onFullscreenToggle($event)"
+  [attr.aria-pressed]="isFullscreenActive()"
+  [attr.aria-label]="isFullscreenActive() ? 'Salir de pantalla completa' : 'Pantalla completa'">
+  @if (isFullscreenActive()) {
+  <card-icon name="phone" class="control-icon" color="white"></card-icon>
+  } @else {
+  <card-icon name="screen" class="control-icon" color="white"></card-icon>
+  }
+</button>
+<button type="button" class="game-info__control-button" (click)="onMuteToggle($event)" [attr.aria-pressed]="isMuted()"
+  [attr.aria-label]="isMuted() ? 'Activar sonido' : 'Silenciar'">
+  @if (isMuted()) {
+  <card-icon name="speaker-volume" class="control-icon" color="white"></card-icon>
+  } @else {
+  <card-icon name="speaker-muted" class="control-icon" color="white"></card-icon>
+  }
+</button>

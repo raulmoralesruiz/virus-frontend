@@ -1,7 +1,22 @@
-.game-info__details {
+:host {
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+:host>* {
+  /* Mobile: roughly 2 items per row with gap */
+  flex: 1 0 calc(50% - 0.75rem);
+  display: flex;
+  justify-content: center;
+}
+
+/* Specific override for the controls component to take full width if needed or fit in */
+game-info-controls {
+  flex-basis: 100%;
 }
 
 .game-info__room-id {
@@ -12,32 +27,19 @@
   color: var(--color-text-primary);
 }
 
-.game-info__row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: center;
-}
-
-.game-info__details p:not(.game-info__room-id) {
+:host p:not(.game-info__room-id) {
   margin: 0;
   font-size: 0.95rem;
   color: var(--color-text-secondary);
 }
 
 @media (min-width: 640px) {
-  .game-info__details {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1.1rem;
-    flex-wrap: nowrap;
+  :host>* {
+    flex: 0 0 auto;
+    width: auto;
   }
 
-  .game-info__row {
-    gap: 1.1rem;
-    width: auto;
+  game-info-controls {
+    flex-basis: auto;
   }
 }
