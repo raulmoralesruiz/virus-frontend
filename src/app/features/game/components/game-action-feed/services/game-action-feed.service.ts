@@ -84,18 +84,10 @@ export class GameActionFeedService {
 
   private resolveDuration(action: GameAction): number {
     switch (action.type) {
-      case 'play-card': return action.detail?.length ? 114200 : 113600;
+      case 'play-card': return action.detail?.length ? 4200 : 3600;
       case 'discard':
-      case 'draw': return 113000;
-      default: return 112400;
+      case 'draw': return 3000;
+      default: return 2400;
     }
   }
-  // private resolveDuration(action: GameAction): number {
-  //   switch (action.type) {
-  //     case 'play-card': return action.detail?.length ? 4200 : 3600;
-  //     case 'discard':
-  //     case 'draw': return 3000;
-  //     default: return 2400;
-  //   }
-  // }
 }
