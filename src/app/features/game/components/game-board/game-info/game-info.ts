@@ -15,6 +15,15 @@ import { GameFullscreenService } from './services/game-fullscreen.service';
   imports: [GameInfoHeaderComponent, GameInfoDetailsComponent, GameActionFeedComponent],
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
+  host: {
+    role: 'button',
+    '[class.game-info--expanded]': 'showDetails && !isShowingNotification()',
+    '[attr.tabindex]': 'isShowingNotification() ? -1 : 0',
+    '[attr.aria-expanded]': 'isShowingNotification() ? null : showDetails',
+    '[attr.aria-disabled]': 'isShowingNotification() ? true : null',
+    '(click)': 'toggleDetails()',
+    '(keydown)': 'onKeyDown($event)',
+  },
 })
 export class GameInfoComponent implements OnChanges, OnDestroy {
   state = input.required<PublicGameState>();
