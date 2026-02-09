@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnDestroy, SimpleChanges, computed, inject, input, output } from '@angular/core';
-import { PublicGameState } from '../../../../../core/models/game.model';
-import { TimerSoundService } from '../../../../../core/services/timer-sound.service';
-import { ThemeService } from '../../../../../core/services/theme.service';
+import { PublicGameState } from '@core/models/game.model';
+import { TimerSoundService } from '@core/services/timer-sound.service';
+import { ThemeService } from '@core/services/theme.service';
 import { GameInfoHeaderComponent } from './header/game-info-header';
 import { GameInfoDetailsComponent } from './details/game-info-details';
 import { GameActionFeedComponent } from '../../game-action-feed/game-action-feed';

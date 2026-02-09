@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameWinnerComponent } from './game-winner';
-import { TimerSoundService } from '../../../../core/services/timer-sound.service';
+import { TimerSoundService } from '@core/services/timer-sound.service';
 
 class TimerSoundServiceStub {
   playWinner = jasmine.createSpy('playWinner');

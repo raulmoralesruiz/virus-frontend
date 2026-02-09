@@ -1,6 +1,6 @@
 import { CardActionStrategy } from "./card-action.strategy";
-import { PublicGameState } from "../../../../../core/models/game.model";
-import { Card } from "../../../../../core/models/card.model";
+import { PublicGameState } from '@core/models/game.model';
+import { Card } from '@core/models/card.model';
 import { TargetSelectOption } from "../target-select/target-select.models";
 
 export class BodySwapStrategy implements CardActionStrategy {

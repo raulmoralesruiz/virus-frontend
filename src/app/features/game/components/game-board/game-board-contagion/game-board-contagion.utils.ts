@@ -1,6 +1,6 @@
-import { PublicGameState } from '../../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 import { ContagionState } from './game-board-contagion.model';
-import { Card } from '../../../../../core/models/card.model';
+import { Card } from '@core/models/card.model';
 
 export function restoreOriginalVirusPositions(
   state: ContagionState,

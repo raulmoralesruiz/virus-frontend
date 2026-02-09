@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PublicGameState } from '../../../../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 import { TargetSelectOption, PlayerOption } from '../../target-select.models';
 import { organColorClass, organColorLabel, toOptionValue } from '../../target-select.utils';
 import { getContagionPlayerOptions, getContagionOrgansForPlayer, getContagionSourceLabel, getContagionVirusLabel } from './target-select-contagion.utils';

@@ -1,4 +1,4 @@
-import { PlayCardTarget } from '../../../../../core/models/game.model';
+import { PlayCardTarget } from '@core/models/game.model';
 import { TargetSelectOption } from './target-select.models';
 import { COLOR_LABELS } from './target-select.constants';
 export { getCardEffectDescription, getCardKindLabel, getCardColorLabel, getCardSubtypeLabel } from './target-select.descriptions';

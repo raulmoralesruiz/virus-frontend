@@ -1,8 +1,8 @@
 import { Injectable, computed, inject } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
-import { PublicGameState, PlayCardTarget } from '../../../../../core/models/game.model';
-import { GameStoreService } from '../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
+import { Card } from '@core/models/card.model';
+import { PublicGameState, PlayCardTarget } from '@core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { HandStrategyResolverService } from './hand-strategy-resolver.service';
 import { HandStateService } from './hand-state.service';
 

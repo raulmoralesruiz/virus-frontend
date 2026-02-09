@@ -1,4 +1,4 @@
-import { Card, CardKind, TreatmentSubtype } from '../../../../../core/models/card.model';
+import { Card, CardKind, TreatmentSubtype } from '@core/models/card.model';
 import { KIND_LABELS, COLOR_LABELS, TREATMENT_LABELS } from './target-select.constants';
 
 export function getCardKindLabel(card: Card): string {

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
-import { PlayCardTarget } from '../../../../../core/models/game.model';
+import { Card } from '@core/models/card.model';
+import { PlayCardTarget } from '@core/models/game.model';
 import { TargetSelectOption } from '../target-select/target-select.models';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable, effect, inject, signal } from '@angular/core';
-import { SocketGameService } from '../../../../../core/services/socket/socket.game.service';
+import { SocketGameService } from '@core/services/socket/socket.game.service';
 import { GameActionParser } from '../parsers/game-action-parser';
 import { GameAction } from '../types/game-action.types';
 export type { GameAction, GameActionType } from '../types/game-action.types';

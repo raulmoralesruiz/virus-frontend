@@ -1,6 +1,6 @@
 import { Component, input, output, computed } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
-import { PlayCardTarget, PublicGameState } from '../../../../../core/models/game.model';
+import { Card } from '@core/models/card.model';
+import { PlayCardTarget, PublicGameState } from '@core/models/game.model';
 import { TargetSelectOption, PlayerOption } from './target-select.models';
 import { getCardEffectDescription, getInstruction, toOptionValue, getCardKindLabel, getCardColorLabel, getCardSubtypeLabel } from './target-select.utils';
 import { 

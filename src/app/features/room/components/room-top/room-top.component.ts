@@ -5,11 +5,11 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Room } from '../../../../core/models/room.model';
+import { Room } from '@core/models/room.model';
 import { RoomLabelComponent } from './components/room-label/room-label.component';
 import { RoomActionsComponent } from './components/room-actions/room-actions.component';
 import { RoomActionBtnComponent } from './components/room-action-btn/room-action-btn.component';
-import { CardIconComponent } from '../../../../shared/components/card-icon/card-icon.component';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'app-room-top',

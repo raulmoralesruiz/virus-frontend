@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
-import { ApiPlayerService } from '../../../../../../core/services/api/api.player.service';
-import { Card, CardKind, TreatmentSubtype, CardColor } from '../../../../../../core/models/card.model';
-import { OrganOnBoard, PublicPlayerInfo } from '../../../../../../core/models/game.model';
-import { isImmune, isInfected, isVaccinated } from '../../../../../../core/utils/organ.utils';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { Card, CardKind, TreatmentSubtype, CardColor } from '@core/models/card.model';
+import { OrganOnBoard, PublicPlayerInfo } from '@core/models/game.model';
+import { isImmune, isInfected, isVaccinated } from '@core/utils/organ.utils';
 
 @Injectable({ providedIn: 'root' })
 export class BoardDragPredicates {

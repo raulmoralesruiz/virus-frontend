@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, output, signal, effect } from '@angular/core';
-import { DragDropService } from '../../../../../../core/services/drag-drop.service';
-import { OrganOnBoard } from '../../../../../../core/models/game.model';
-import { Card } from '../../../../../../core/models/card.model';
+import { DragDropService } from '@core/services/drag-drop.service';
+import { OrganOnBoard } from '@core/models/game.model';
+import { Card } from '@core/models/card.model';
 import {
   CdkDrag,
   CdkDragDrop,

@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { Room } from '../../../../core/models/room.model';
-import { MAX_ROOM_PLAYERS } from '../../../../core/constants/room.constants';
+import { Room } from '@core/models/room.model';
+import { MAX_ROOM_PLAYERS } from '@core/constants/room.constants';
 
 @Component({
   selector: 'app-room-item',

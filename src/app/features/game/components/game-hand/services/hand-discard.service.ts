@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../core/services/game-store.service';
+import { GameStoreService } from '@core/services/game-store.service';
 
 @Injectable()
 export class HandDiscardService {

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PlayCardTarget } from '../../../../../../../core/models/game.model';
-import { CardIconComponent } from '../../../../../../../shared/components/card-icon/card-icon.component';
+import { PlayCardTarget } from '@core/models/game.model';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 import { TargetSelectOption, PlayerOption } from '../../target-select.models';
 
 @Component({

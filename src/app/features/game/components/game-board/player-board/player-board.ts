@@ -1,10 +1,10 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
-import { Card, CardKind, TreatmentSubtype } from '../../../../../core/models/card.model';
-import { PublicGameState, PublicPlayerInfo } from '../../../../../core/models/game.model';
+import { Card, CardKind, TreatmentSubtype } from '@core/models/card.model';
+import { PublicGameState, PublicPlayerInfo } from '@core/models/game.model';
 import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
-import { GameStoreService } from '../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
-import { DragDropService } from '../../../../../core/services/drag-drop.service';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { DragDropService } from '@core/services/drag-drop.service';
 import { PlayerBoardHeaderComponent } from './components/player-board-header/player-board-header.component';
 import { PlayerBoardSlotsComponent } from './components/player-board-slots/player-board-slots.component';
 import { PlayerBoardDropService } from './services/player-board-drop.service';

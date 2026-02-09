@@ -1,4 +1,4 @@
-import { Card, CardKind, TreatmentSubtype } from '../../../../../core/models/card.model';
+import { Card, CardKind, TreatmentSubtype } from '@core/models/card.model';
 import { TargetSelectOption, PlayerOption } from './target-select.models';
 import { toOptionValue } from './target-select.utils';
 

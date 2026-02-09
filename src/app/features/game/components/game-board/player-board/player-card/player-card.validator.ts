@@ -1,6 +1,6 @@
-import { Card, CardKind, CardColor, TreatmentSubtype } from '../../../../../../core/models/card.model';
-import { OrganOnBoard } from '../../../../../../core/models/game.model';
-import { isInfected, isVaccinated, isImmune } from '../../../../../../core/utils/organ.utils';
+import { Card, CardKind, CardColor, TreatmentSubtype } from '@core/models/card.model';
+import { OrganOnBoard } from '@core/models/game.model';
+import { isInfected, isVaccinated, isImmune } from '@core/utils/organ.utils';
 
 export function isValidDropTarget(dragged: any, organ: OrganOnBoard, isMe: boolean): boolean {
   if (!dragged) return false;

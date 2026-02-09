@@ -1,5 +1,5 @@
 import { Component, effect, input, OnChanges, output, signal } from '@angular/core';
-import { PublicGameState } from '../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 
 @Component({
   selector: 'game-turn',

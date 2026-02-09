@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../../../core/services/game-store.service';
-import { Card, CardColor } from '../../../../../../../core/models/card.model';
-import { PublicPlayerInfo } from '../../../../../../../core/models/game.model';
-import { describeOrgan, describeColor } from '../../../../../../../core/utils/card-label.utils';
+import { GameStoreService } from '@core/services/game-store.service';
+import { Card, CardColor } from '@core/models/card.model';
+import { PublicPlayerInfo } from '@core/models/game.model';
+import { describeOrgan, describeColor } from '@core/utils/card-label.utils';
 
 @Injectable({ providedIn: 'root' })
 export class DropOrganHandler {

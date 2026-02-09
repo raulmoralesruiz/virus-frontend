@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Room } from '../../core/models/room.model';
-import { ApiPlayerService } from '../../core/services/api/api.player.service';
-import { RoomStoreService } from '../../core/services/room-store.service';
+import { Room } from '@core/models/room.model';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { RoomStoreService } from '@core/services/room-store.service';
 import { RoomCreationComponent } from './components/room-creation/room-creation.component';
 import { RoomJoinComponent } from './components/room-join/room-join.component';
 import { RoomItemComponent } from './components/room-item/room-item.component';

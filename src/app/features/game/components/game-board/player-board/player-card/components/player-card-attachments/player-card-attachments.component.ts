@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { Card, CardKind } from '../../../../../../../../core/models/card.model';
-import { CardIconComponent } from '../../../../../../../../shared/components/card-icon/card-icon.component';
+import { Card, CardKind } from '@core/models/card.model';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { OrganOnBoard } from '../../../../../../../../core/models/game.model';
+import { OrganOnBoard } from '@core/models/game.model';
 
 @Component({
   selector: 'player-card-attachments',

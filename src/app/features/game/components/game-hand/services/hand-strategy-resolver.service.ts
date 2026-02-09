@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card, CardKind, CardColor, TreatmentSubtype } from '../../../../../core/models/card.model';
+import { Card, CardKind, CardColor, TreatmentSubtype } from '@core/models/card.model';
 import { CardActionStrategy } from '../strategies/card-action.strategy';
 import { StandardStrategy } from '../strategies/standard.strategy';
 import { TransplantStrategy } from '../strategies/transplant.strategy';

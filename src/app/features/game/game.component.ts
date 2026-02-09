@@ -1,9 +1,9 @@
 import { Component, OnInit, Signal, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameStoreService } from '../../core/services/game-store.service';
-import { RoomStoreService } from '../../core/services/room-store.service';
-import { Card } from '../../core/models/card.model';
-import { PublicGameState } from '../../core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { RoomStoreService } from '@core/services/room-store.service';
+import { Card } from '@core/models/card.model';
+import { PublicGameState } from '@core/models/game.model';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoomStoreService } from '../../core/services/room-store.service';
-import { GameStoreService } from '../../core/services/game-store.service';
-import { ApiPlayerService } from '../../core/services/api/api.player.service';
+import { RoomStoreService } from '@core/services/room-store.service';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { RoomTopComponent } from './components/room-top/room-top.component';
 import { RoomPlayersComponent } from './components/room-players/room-players.component';
 import { RoomConfigComponent } from './components/room-config/room-config.component';

@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
-import { CardIconComponent } from '../../../../../../../../shared/components/card-icon/card-icon.component';
-import { OrganOnBoard } from '../../../../../../../../core/models/game.model';
-import { CardColor } from '../../../../../../../../core/models/card.model';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
+import { OrganOnBoard } from '@core/models/game.model';
+import { CardColor } from '@core/models/card.model';
 
 @Component({
   selector: 'player-card-icon',

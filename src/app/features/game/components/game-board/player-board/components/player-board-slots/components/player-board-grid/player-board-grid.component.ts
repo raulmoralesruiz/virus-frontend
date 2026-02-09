@@ -1,10 +1,10 @@
 import { Component, inject, input, output } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
 import { PlayerCardComponent } from '../../../../player-card/player-card';
-import { Card, CardColor, CardKind, TreatmentSubtype } from '../../../../../../../../../core/models/card.model';
-import { OrganOnBoard, PublicGameState, PublicPlayerInfo } from '../../../../../../../../../core/models/game.model';
-import { GameStoreService } from '../../../../../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../../../../../core/services/api/api.player.service';
+import { Card, CardColor, CardKind, TreatmentSubtype } from '@core/models/card.model';
+import { OrganOnBoard, PublicGameState, PublicPlayerInfo } from '@core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { PlayerBoardDropService } from '../../../../services/player-board-drop.service';
 import { BoardContagionService } from '../../../../services/board-contagion.service';
 import { BoardActionService } from '../../../../services/board-action.service';

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../../../core/services/api/api.player.service';
-import { Card, CardColor } from '../../../../../../../core/models/card.model';
-import { PublicPlayerInfo, MedicalErrorTarget } from '../../../../../../../core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { Card, CardColor } from '@core/models/card.model';
+import { PublicPlayerInfo, MedicalErrorTarget } from '@core/models/game.model';
 
 @Injectable({ providedIn: 'root' })
 export class DropCommonTreatmentHandler {

@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { CardIconComponent } from '../../../../../../../shared/components/card-icon/card-icon.component';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'game-info-controls',
