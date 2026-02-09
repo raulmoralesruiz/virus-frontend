@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Card } from '../../../../../../core/models/card.model';
+import { Card } from '@core/models/card.model';
 import { GameInfoDiscardComponent } from './discard-preview/game-info-discard';
 import { GameInfoTitleComponent } from './title/game-info-title';
 import { GameInfoHistoryComponent } from './history/game-info-history';

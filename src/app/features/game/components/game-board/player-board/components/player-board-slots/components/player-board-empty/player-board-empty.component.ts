@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { PublicPlayerInfo } from '../../../../../../../../../core/models/game.model';
+import { PublicPlayerInfo } from '@core/models/game.model';
 
 @Component({
   selector: 'player-board-empty',

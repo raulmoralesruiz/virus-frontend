@@ -1,8 +1,8 @@
 
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Card, CardKind, CardColor, TreatmentSubtype } from '../../../../../../core/models/card.model';
-import { CardIconComponent } from '../../../../../../shared/components/card-icon/card-icon.component';
+import { Card, CardKind, CardColor, TreatmentSubtype } from '@core/models/card.model';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 import { ORGAN_ICONS, TREATMENT_ICONS } from '../constants/hand-card.constants';
 
 @Component({

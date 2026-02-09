@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@env/environment';
 import { map, Observable, tap } from 'rxjs';
 import { Room, createDefaultRoomConfig } from '../../models/room.model';
 import { ApiPlayerService } from './api.player.service';

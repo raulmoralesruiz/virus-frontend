@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CardIconComponent } from '../../../../../../../../../shared/components/card-icon/card-icon.component';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'player-board-trick-or-treat',

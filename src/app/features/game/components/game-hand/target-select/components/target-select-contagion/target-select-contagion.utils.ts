@@ -1,4 +1,4 @@
-import { PublicGameState, OrganOnBoard } from '../../../../../../../core/models/game.model';
+import { PublicGameState, OrganOnBoard } from '@core/models/game.model';
 import { PlayerOption, TargetSelectOption } from '../../target-select.models';
 import { COLOR_LABELS } from '../../target-select.constants';
 

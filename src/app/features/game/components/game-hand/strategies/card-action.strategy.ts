@@ -1,5 +1,5 @@
-import { Card } from "../../../../../core/models/card.model";
-import { PublicGameState, PlayCardTarget } from "../../../../../core/models/game.model";
+import { Card } from '@core/models/card.model';
+import { PublicGameState, PlayCardTarget } from '@core/models/game.model';
 import { TargetSelectOption } from "../target-select/target-select.models";
 
 export interface CardActionStrategy {

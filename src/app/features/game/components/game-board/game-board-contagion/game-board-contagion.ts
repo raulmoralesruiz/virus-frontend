@@ -1,8 +1,8 @@
 import { Component, inject, input, OnChanges } from '@angular/core';
-import { Card } from '../../../../../core/models/card.model';
-import { PublicGameState } from '../../../../../core/models/game.model';
-import { GameStoreService } from '../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../core/services/api/api.player.service';
+import { Card } from '@core/models/card.model';
+import { PublicGameState } from '@core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { ContagionMove, ContagionState } from './game-board-contagion.model';
 import {
   getTemporaryViruses,

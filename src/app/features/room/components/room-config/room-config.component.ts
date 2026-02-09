@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, Signal } from '@angular/core';
-import { Room } from '../../../../core/models/room.model';
+import { Room } from '@core/models/room.model';
 import { RoomGameModeComponent } from './components/room-game-mode/room-game-mode.component';
 import { RoomTurnDurationComponent } from './components/room-turn-duration/room-turn-duration.component';
 

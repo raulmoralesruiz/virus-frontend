@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { PlayCardTarget } from '../../../../../core/models/game.model';
+import { PlayCardTarget } from '@core/models/game.model';
 import { HandStateService } from './hand-state.service';
 
 @Injectable()

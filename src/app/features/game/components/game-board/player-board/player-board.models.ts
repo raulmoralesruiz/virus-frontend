@@ -1,4 +1,4 @@
-import { Card } from "../../../../../core/models/card.model";
+import { Card } from '@core/models/card.model';
 
 export interface ContagionAssignment {
   fromOrganId: string;

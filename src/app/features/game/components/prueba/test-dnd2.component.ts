@@ -5,7 +5,7 @@
 //   moveItemInArray,
 //   transferArrayItem,
 // } from '@angular/cdk/drag-drop';
-// import { DragDropService } from '../../../../core/services/drag-drop.service';
+// import { DragDropService } from '@core/services/drag-drop.service';
 
 // @Component({
 //   selector: 'app-test-dnd2',

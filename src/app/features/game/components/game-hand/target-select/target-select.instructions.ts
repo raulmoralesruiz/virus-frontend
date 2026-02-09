@@ -1,4 +1,4 @@
-import { Card, CardKind, TreatmentSubtype } from '../../../../../core/models/card.model';
+import { Card, CardKind, TreatmentSubtype } from '@core/models/card.model';
 
 export function getInstruction(
   card: Card, 

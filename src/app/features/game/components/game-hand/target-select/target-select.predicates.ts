@@ -1,4 +1,4 @@
-import { Card, CardKind, TreatmentSubtype, CardColor } from '../../../../../core/models/card.model';
+import { Card, CardKind, TreatmentSubtype, CardColor } from '@core/models/card.model';
 
 export function isTransplantCard(c: Card): boolean {
   return c.kind === CardKind.Treatment && (c.subtype === TreatmentSubtype.Transplant || c.subtype === TreatmentSubtype.AlienTransplant);

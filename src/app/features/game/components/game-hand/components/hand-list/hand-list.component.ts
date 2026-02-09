@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HandCard } from '../../hand-card/hand-card';
-import { Card } from '../../../../../../core/models/card.model';
+import { Card } from '@core/models/card.model';
 
 @Component({
   selector: 'game-hand-list',

@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { Card } from '../../../../../../../core/models/card.model';
-import { PublicGameState, PublicPlayerInfo } from '../../../../../../../core/models/game.model';
+import { Card } from '@core/models/card.model';
+import { PublicGameState, PublicPlayerInfo } from '@core/models/game.model';
 import { ContagionState, FailedExperimentEvent, TransplantSelectionEvent, TransplantState, VirusDropEvent } from '../../player-board.models';
 import { PlayerBoardEmptyComponent } from './components/player-board-empty/player-board-empty.component';
 import { PlayerBoardGridComponent } from './components/player-board-grid/player-board-grid.component';

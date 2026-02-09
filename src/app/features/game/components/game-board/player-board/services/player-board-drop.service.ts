@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { GameStoreService } from '../../../../../../core/services/game-store.service';
+import { GameStoreService } from '@core/services/game-store.service';
 import {
   Card,
   CardColor,
   CardKind,
-} from '../../../../../../core/models/card.model';
+} from '@core/models/card.model';
 import {
   PublicPlayerInfo,
-} from '../../../../../../core/models/game.model';
+} from '@core/models/game.model';
 import { DropOrganHandler } from './handlers/drop-organ.handler';
 import { DropMedicineHandler } from './handlers/drop-medicine.handler';
 import { DropTreatmentHandler } from './handlers/drop-treatment.handler';

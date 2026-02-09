@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, Signal } from '@angular/core';
-import { Room, RoomGameMode } from '../../../../../../core/models/room.model';
-import { RoomStoreService } from '../../../../../../core/services/room-store.service';
+import { Room, RoomGameMode } from '@core/models/room.model';
+import { RoomStoreService } from '@core/services/room-store.service';
 
 @Component({
   selector: 'app-room-game-mode',

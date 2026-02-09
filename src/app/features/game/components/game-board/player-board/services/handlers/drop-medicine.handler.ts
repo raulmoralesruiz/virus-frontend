@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../../../core/services/game-store.service';
-import { Card, CardColor } from '../../../../../../../core/models/card.model';
-import { PublicPlayerInfo } from '../../../../../../../core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { Card, CardColor } from '@core/models/card.model';
+import { PublicPlayerInfo } from '@core/models/game.model';
 import { 
   describeOrgan, 
   articleForCard, 
   describeCard, 
   cardWithArticle, 
   organWithArticle 
-} from '../../../../../../../core/utils/card-label.utils';
+} from '@core/utils/card-label.utils';
 
 @Injectable({ providedIn: 'root' })
 export class DropMedicineHandler {

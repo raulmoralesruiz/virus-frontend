@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../../core/services/game-store.service';
-import { Card, CardColor } from '../../../../../../core/models/card.model';
-import { OrganOnBoard, PublicPlayerInfo } from '../../../../../../core/models/game.model';
-import { isInfected, isVaccinated, isImmune } from '../../../../../../core/utils/organ.utils';
+import { GameStoreService } from '@core/services/game-store.service';
+import { Card, CardColor } from '@core/models/card.model';
+import { OrganOnBoard, PublicPlayerInfo } from '@core/models/game.model';
+import { isInfected, isVaccinated, isImmune } from '@core/utils/organ.utils';
 import { FailedExperimentEvent, TransplantSelectionEvent, TransplantState } from '../player-board.models';
 
 @Injectable()

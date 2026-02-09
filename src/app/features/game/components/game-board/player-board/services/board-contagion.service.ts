@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { GameStoreService } from '../../../../../../core/services/game-store.service';
-import { Card, CardColor } from '../../../../../../core/models/card.model';
-import { OrganOnBoard, PublicGameState, PublicPlayerInfo } from '../../../../../../core/models/game.model';
+import { GameStoreService } from '@core/services/game-store.service';
+import { Card, CardColor } from '@core/models/card.model';
+import { OrganOnBoard, PublicGameState, PublicPlayerInfo } from '@core/models/game.model';
 import { ContagionState, VirusDropEvent } from '../player-board.models';
 
 @Injectable()

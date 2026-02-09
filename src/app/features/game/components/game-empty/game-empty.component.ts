@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { GameStoreService } from '../../../../core/services/game-store.service';
+import { GameStoreService } from '@core/services/game-store.service';
 import { ThemeToggleComponent } from '../../../../components/theme-toggle/theme-toggle.component';
 
 @Component({

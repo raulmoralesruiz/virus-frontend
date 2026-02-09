@@ -2,8 +2,8 @@
 import { Component, input, output, effect, inject, computed } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Card, CardKind, CardColor } from '../../../../../core/models/card.model';
-import { DragDropService } from '../../../../../core/services/drag-drop.service';
+import { Card, CardKind, CardColor } from '@core/models/card.model';
+import { DragDropService } from '@core/services/drag-drop.service';
 import { HandCardContentComponent } from './hand-card-content/hand-card-content.component';
 import { HandCardButtonComponent } from './button/hand-card-button.component';
 

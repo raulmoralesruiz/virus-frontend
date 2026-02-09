@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PublicGameState } from '../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 import { GameInfoComponent } from './game-info';
 
 const mockState: PublicGameState = {

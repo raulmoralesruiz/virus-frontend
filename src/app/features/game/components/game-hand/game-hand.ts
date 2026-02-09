@@ -1,8 +1,8 @@
 import { Component, inject, OnChanges, SimpleChanges, input, computed } from '@angular/core';
-import { Card } from '../../../../core/models/card.model';
-import { PublicGameState, PlayCardTarget } from '../../../../core/models/game.model';
-import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
-import { GameStoreService } from '../../../../core/services/game-store.service';
+import { Card } from '@core/models/card.model';
+import { PublicGameState, PlayCardTarget } from '@core/models/game.model';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { GameStoreService } from '@core/services/game-store.service';
 import { TargetSelectComponent } from './target-select/target-select.component';
 import { HandActionService } from './services/hand-action.service';
 import { HandDiscardService } from './services/hand-discard.service';

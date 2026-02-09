@@ -1,6 +1,6 @@
 import { Component, effect, computed, input, output, inject } from '@angular/core';
-import { PublicPlayerInfo } from '../../../../core/models/game.model';
-import { TimerSoundService } from '../../../../core/services/timer-sound.service';
+import { PublicPlayerInfo } from '@core/models/game.model';
+import { TimerSoundService } from '@core/services/timer-sound.service';
 
 @Component({
   selector: 'game-winner',

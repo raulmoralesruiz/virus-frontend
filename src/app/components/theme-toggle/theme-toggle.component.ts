@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ThemeService } from '../../core/services/theme.service';
-import { CardIconComponent } from '../../shared/components/card-icon/card-icon.component';
+import { ThemeService } from '@core/services/theme.service';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 
 @Component({
   selector: 'app-theme-toggle',

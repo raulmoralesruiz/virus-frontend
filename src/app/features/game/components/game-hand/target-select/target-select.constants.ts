@@ -1,4 +1,4 @@
-import { CardKind, TreatmentSubtype } from '../../../../../core/models/card.model';
+import { CardKind, TreatmentSubtype } from '@core/models/card.model';
 
 export const KIND_LABELS: Record<CardKind, string> = {
   [CardKind.Organ]: 'Órgano',

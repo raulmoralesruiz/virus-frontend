@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { TimerSoundService } from '../../../../../../../core/services/timer-sound.service';
-import { PublicPlayerInfo } from '../../../../../../../core/models/game.model';
+import { TimerSoundService } from '@core/services/timer-sound.service';
+import { PublicPlayerInfo } from '@core/models/game.model';
 import { PlayerBoardNameComponent } from './components/player-board-name/player-board-name.component';
 import { PlayerBoardTrickOrTreatComponent } from './components/player-board-trick-or-treat/player-board-trick-or-treat.component';
 import { PlayerBoardTurnProgressComponent } from './components/player-board-turn-progress/player-board-turn-progress.component';

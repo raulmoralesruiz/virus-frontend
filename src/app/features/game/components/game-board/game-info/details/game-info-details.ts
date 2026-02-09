@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { PublicGameState } from '../../../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 import { GameInfoPileComponent } from './pile/game-info-pile';
 import { GameInfoControlsComponent } from './controls/game-info-controls';
 

@@ -7,8 +7,8 @@ import {
   OnDestroy,
   signal,
 } from '@angular/core';
-import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
-import { RoomStoreService } from '../../../../core/services/room-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { RoomStoreService } from '@core/services/room-store.service';
 import { Subscription } from 'rxjs';
 
 @Component({

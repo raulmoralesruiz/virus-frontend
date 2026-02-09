@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PlayCardTarget } from '../../../../../../../core/models/game.model';
+import { PlayCardTarget } from '@core/models/game.model';
 import { TargetSelectOption, PlayerOption } from '../../target-select.models';
 
 @Component({

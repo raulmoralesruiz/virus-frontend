@@ -12,8 +12,8 @@ import {
   createDefaultRoomConfig,
   Room,
   RoomTimerSeconds,
-} from '../../../../../../core/models/room.model';
-import { RoomStoreService } from '../../../../../../core/services/room-store.service';
+} from '@core/models/room.model';
+import { RoomStoreService } from '@core/services/room-store.service';
 
 @Component({
   selector: 'app-room-turn-duration',

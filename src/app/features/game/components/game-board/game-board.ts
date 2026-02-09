@@ -1,9 +1,9 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { PublicGameState } from '../../../../core/models/game.model';
+import { PublicGameState } from '@core/models/game.model';
 import { PlayerBoardComponent } from './player-board/player-board';
-import { ApiPlayerService } from '../../../../core/services/api/api.player.service';
-import { GameStoreService } from '../../../../core/services/game-store.service';
-import { Card } from '../../../../core/models/card.model';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { GameStoreService } from '@core/services/game-store.service';
+import { Card } from '@core/models/card.model';
 import { GameBoardTransplantComponent } from './game-board-transplant/game-board-transplant';
 import { GameBoardContagionComponent } from './game-board-contagion/game-board-contagion';
 import { GameInfoComponent } from './game-info/game-info';

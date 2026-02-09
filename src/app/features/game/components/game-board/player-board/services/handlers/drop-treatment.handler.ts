@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { GameStoreService } from '../../../../../../../core/services/game-store.service';
-import { ApiPlayerService } from '../../../../../../../core/services/api/api.player.service';
+import { GameStoreService } from '@core/services/game-store.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { DropCommonTreatmentHandler } from './drop-common-treatment.handler';
 import {
   Card,
   CardColor,
   TreatmentSubtype,
   CardKind
-} from '../../../../../../../core/models/card.model';
-import { PublicPlayerInfo } from '../../../../../../../core/models/game.model';
+} from '@core/models/card.model';
+import { PublicPlayerInfo } from '@core/models/game.model';
 
 
 @Injectable({ providedIn: 'root' })
