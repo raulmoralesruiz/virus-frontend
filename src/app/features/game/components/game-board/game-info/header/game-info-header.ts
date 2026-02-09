@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { Card } from '../../../../../../core/models/card.model';
-import { GameInfoDiscardPreviewComponent } from './discard-preview/game-info-discard-preview';
+import { GameInfoDiscardComponent } from './discard-preview/game-info-discard';
 import { GameInfoTitleComponent } from './title/game-info-title';
 import { GameInfoHistoryComponent } from './history/game-info-history';
 
@@ -8,7 +8,7 @@ import { GameInfoHistoryComponent } from './history/game-info-history';
   selector: 'game-info-header',
   standalone: true,
   imports: [
-    GameInfoDiscardPreviewComponent,
+    GameInfoDiscardComponent,
     GameInfoTitleComponent,
     GameInfoHistoryComponent,
   ],

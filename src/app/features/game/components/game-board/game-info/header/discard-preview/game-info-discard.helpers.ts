@@ -1,5 +1,5 @@
 import { Card } from '../../../../../../../core/models/card.model';
-import { ORGAN_ICONS, TREATMENT_ICONS } from './game-info-discard-preview.constants';
+import { ORGAN_ICONS, TREATMENT_ICONS } from './game-info-discard.constants';
 
 export function getSubtypeIconName(card: Card): string | null {
   if (card.kind !== 'treatment' || !card.subtype) return null;

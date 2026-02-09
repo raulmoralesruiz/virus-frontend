@@ -5,14 +5,14 @@ import {
   getColorThiefColor,
   getDiscardBackground,
   getDisplayImage,
-} from './game-info-discard-preview.helpers';
+} from './game-info-discard.helpers';
 
 @Component({
-  selector: 'game-info-discard-preview',
+  selector: 'game-info-discard',
   standalone: true,
   imports: [CardIconComponent],
-  templateUrl: './game-info-discard-preview.html',
-  styleUrl: './game-info-discard-preview.css',
+  templateUrl: './game-info-discard.html',
+  styleUrl: './game-info-discard.css',
   host: {
     '[style.background]': 'discardBackground()',
     '[class.discard-preview--empty]': '!topDiscard()',
@@ -20,7 +20,7 @@ import {
       'topDiscard() ? "Última carta: " + topDiscard()!.id + ". Total descartes: " + discardCount() : "Pila de descartes vacía"',
   },
 })
-export class GameInfoDiscardPreviewComponent {
+export class GameInfoDiscardComponent {
   topDiscard = input<Card | undefined>(undefined);
   discardCount = input(0);
 

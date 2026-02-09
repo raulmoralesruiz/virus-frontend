@@ -1,5 +1,5 @@
 <game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
 
-<game-info-discard-preview [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard-preview>
+<game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
 
 <game-info-history [historyCount]="historyCount()" (historyRequested)="historyRequested.emit()"></game-info-history>
