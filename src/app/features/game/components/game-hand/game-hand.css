@@ -4,8 +4,9 @@
   gap: 0.75rem;
   align-items: stretch;
   border-radius: 22px;
-  background: #d9e2f4;
-  color: var(--color-text-primary);
+  border-radius: 22px;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
   backdrop-filter: blur(8px);
   transition: background 0.35s ease, transform 0.35s ease;
   user-select: none;
@@ -19,11 +20,6 @@
 :host.is-my-turn {
   background: var(--color-player-active-background);
   animation: handPanelPulse 2.4s ease-in-out infinite;
-}
-
-:host-context(.theme-dark):not(.is-my-turn) {
-  background: #223253;
-  color: #f8fafc;
 }
 
 .hand-empty {

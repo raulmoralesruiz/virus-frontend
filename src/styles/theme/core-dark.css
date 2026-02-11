@@ -69,4 +69,8 @@ html.theme-dark {
   --color-join-card-bg: rgba(6, 8, 20, 0.75);
   --color-focus-ring: rgba(56, 189, 248, 0.45);
   --color-focus-ring-strong: rgba(94, 234, 212, 0.5);
+  --color-panel-glass: rgba(15, 23, 42, 0.9);
+  --color-bg-secondary: #223253;
+  --color-bg-secondary-hover: #2c3f68;
+  --color-text-on-secondary: #f8fafc;
 }

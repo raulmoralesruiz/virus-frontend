@@ -59,22 +59,13 @@
 }
 
 .confirm-cancel {
-  background: #d9e2f4;
-  color: #0f172a;
-}
-
-:host-context(.theme-dark) .confirm-cancel {
-  background: #223253;
-  color: #f8fafc;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
 }
 
 .confirm-cancel:hover {
-  background: #c5d4ef;
+  background: var(--color-bg-secondary-hover);
   letter-spacing: 0.02em;
-}
-
-:host-context(.theme-dark) .confirm-cancel:hover {
-  background: #2c3f68;
 }
 
 .confirm-accept {

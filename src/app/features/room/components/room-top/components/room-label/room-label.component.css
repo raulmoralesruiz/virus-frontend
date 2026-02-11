@@ -8,20 +8,16 @@
   margin-right: auto;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  background: #d9e2f4;
+  border-radius: 999px;
+  background: var(--color-bg-secondary);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #0f172a;
+  color: var(--color-text-on-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-:host-context(.theme-dark) .room-label {
-  background: #223253;
-  color: #f8fafc;
 }
 
 @media (max-width: 330px) {

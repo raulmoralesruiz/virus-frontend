@@ -68,13 +68,8 @@
 }
 
 .secondary-button {
-  background: #d9e2f4;
-  color: #0f172a;
-}
-
-:host-context(.theme-dark) .create-actions .secondary-button {
-  background: #223253;
-  color: #f8fafc;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
 }
 
 .secondary-button:hover {

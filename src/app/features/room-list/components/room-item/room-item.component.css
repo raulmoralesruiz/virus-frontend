@@ -5,13 +5,8 @@ li {
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-radius: 16px;
-  background: #d9e2f4;
-  color: #0f172a;
-}
-
-:host-context(.theme-dark) li {
-  background: #223253;
-  color: #f8fafc;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
 }
 
 .room-info {

@@ -1,9 +1,10 @@
 :host {
   border-radius: 18px;
   padding: 1.5rem 0.75rem 0.75rem;
-  transition: background 0.3s ease, transform 0.3s ease;
-  background: #d9e2f4;
-  color: #0f172a;
+  transition: background 0.3s ease,
+    transform 0.3s ease;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -49,10 +50,7 @@
   background: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
 }
 
-:host-context(.theme-dark):not(.is-me):not(.is-active) {
-  background: #223253;
-  color: #f8fafc;
-}
+
 
 :host.is-active {
   background: var(--color-player-active-background);

@@ -8,12 +8,8 @@
   margin-left: auto;
   padding: 0.4rem 0.5rem;
   border-radius: 999px;
-  background: #d9e2f4;
-}
-
-:host-context(.theme-dark) .room-actions {
-  background: #223253;
-  color: #f8fafc;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
 }
 
 @media (max-width: 330px) {
