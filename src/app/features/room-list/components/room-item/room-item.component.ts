@@ -1,11 +1,12 @@
 import { Component, input, output } from '@angular/core';
 import { Room } from '@core/models/room.model';
 import { MAX_ROOM_PLAYERS } from '@core/constants/room.constants';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-room-item',
   standalone: true,
-  imports: [],
+  imports: [UpperCasePipe],
   templateUrl: './room-item.component.html',
   styleUrl: './room-item.component.css'
 })

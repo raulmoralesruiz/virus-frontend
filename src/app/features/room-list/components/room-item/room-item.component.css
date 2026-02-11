@@ -61,7 +61,7 @@ li {
 }
 
 .secondary-button:hover {
-  letter-spacing: 0.02em;
+  transform: scale(1.02);
 }
 
 :host-context(.theme-dark) .secondary-button {

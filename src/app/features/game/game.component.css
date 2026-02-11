@@ -5,10 +5,14 @@
   height: 100dvh;
   overflow: hidden;
   padding: var(--game-padding-block) 0.5rem;
-  background-image: url('/assets/images/background.svg');
+  background-image: url('/assets/images/background-light.svg');
   background-size: 200px;
   background-repeat: repeat;
   box-sizing: border-box;
+}
+
+:host-context(.theme-dark) {
+  background-image: url('/assets/images/background.svg');
 }
 
 .game-layout {
