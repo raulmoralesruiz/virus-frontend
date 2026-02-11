@@ -73,4 +73,6 @@ html.theme-dark {
   --color-bg-secondary: #223253;
   --color-bg-secondary-hover: #2c3f68;
   --color-text-on-secondary: #f8fafc;
+  --color-bg-tertiary: #101a2e;
+  --color-text-on-tertiary: #f8fafc;
 }

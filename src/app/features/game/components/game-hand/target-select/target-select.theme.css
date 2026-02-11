@@ -1,6 +1,6 @@
-:host-context(.theme-dark) .target-select {
-  background: #101a2e;
-  color: #f8fafc;
+.target-select {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-on-tertiary);
 }
 
 .target-select__badge {

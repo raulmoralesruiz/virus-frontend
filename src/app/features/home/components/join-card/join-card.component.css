@@ -5,12 +5,9 @@
   gap: 1.05rem;
   padding: clamp(1.35rem, 3.4vw, 1.8rem);
   border-radius: 28px;
-  background: #d9e2f4;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-on-tertiary);
   backdrop-filter: blur(18px);
-}
-
-:host-context(html.theme-dark) {
-  background: #101a2e;
 }
 
 .input-label {
