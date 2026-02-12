@@ -1,4 +1,4 @@
-<div class="game-layout" [class.game-layout--empty]="!publicState()">
+<div class="game-layout" [class.game-layout--empty]="!publicState()" [style.--hand-height.px]="handHeight()">
   <!-- Winner -->
   @if (winner(); as w) {
   <game-winner [winner]="w" [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
@@ -13,8 +13,8 @@
     (startBodySwap)="handleBodySwap($event)" (startApparition)="handleApparition($event)"></game-board>
 
   <!-- Mano del jugador -->
-  <game-hand [hand]="hand()" [isMyTurn]="isMyTurn()" [roomId]="roomId" [publicState]="st"
-    [gameEnded]="isGameEnded()"></game-hand>
+  <game-hand [hand]="hand()" [isMyTurn]="isMyTurn()" [roomId]="roomId" [publicState]="st" [gameEnded]="isGameEnded()"
+    (heightChange)="updateHandHeight($event)"></game-hand>
   }
   <!-- Home -->
   @else {

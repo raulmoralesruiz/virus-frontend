@@ -1,20 +1,23 @@
 :host {
   display: flex;
   flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   gap: 0.75rem;
   align-items: stretch;
-  border-radius: 22px;
-  border-radius: 22px;
-  /* background: var(--color-bg-secondary); */
-  background: var(--color-hand-panel-background);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  /* background: var(--color-hand-panel-background); */
+  background: var(--color-bg-secondary);
   color: var(--color-text-on-secondary);
   backdrop-filter: blur(8px);
-  transition: background 0.35s ease, transform 0.35s ease;
+  transition: background 0.35s ease,
+    transform 0.35s ease;
   user-select: none;
-  /* Max height constraint removed to allow full content visibility as per user request */
-  max-height: 70vh;
-  overflow-y: auto;
-  padding: 0.75rem;
+  padding: 0.5rem;
   box-sizing: border-box;
 }
 
@@ -62,5 +65,7 @@
     max-width: none;
     padding: 1rem 1.25rem 1.35rem;
     border-radius: 20px;
+    position: static;
+    z-index: auto;
   }
 }
