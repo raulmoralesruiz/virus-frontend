@@ -26,7 +26,7 @@
   --color-success-disabled: rgba(16, 185, 129, 0.4);
   --color-victory-background: rgba(250, 250, 249, 0.85);
   --color-victory-text: #7c2d12;
-  --color-hand-panel-background: linear-gradient(145deg, #f8fafc 0%, #f3f4f6 52%, #eef2ff 100%);
+  --color-hand-panel-background: rgba(14, 165, 233, 0.4);
   --color-error-background: rgba(239, 68, 68, 0.08);
   --color-error-text: #7f1d1d;
   --color-player-me-background: linear-gradient(165deg, rgba(14, 165, 233, 0.16) 0%, rgba(16, 185, 129, 0.25) 100%);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Signal, inject, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '@core/services/game-store.service';
 import { RoomStoreService } from '@core/services/room-store.service';
@@ -36,6 +36,8 @@ export class GameComponent implements OnInit {
   hand: Signal<Card[]> = this.gameStore.hand;
   history: Signal<string[]> = this.gameStore.history;
   roomId!: string;
+  
+  handHeight = signal(0);
 
   lastError = this.gameStore.lastError;
   isMyTurn = this.gameStore.isMyTurn;
@@ -99,5 +101,9 @@ export class GameComponent implements OnInit {
 
   handleApparition(event: { card: Card }) {
     this.gameHand.selectCardToPlay(event.card);
+  }
+
+  updateHandHeight(height: number) {
+    this.handHeight.set(height);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, SimpleChanges, input, computed } from '@angular/core';
+import { Component, inject, OnChanges, SimpleChanges, input, computed, ElementRef, AfterViewInit, OnDestroy, output } from '@angular/core';
 import { Card } from '@core/models/card.model';
 import { PublicGameState, PlayCardTarget } from '@core/models/game.model';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
@@ -22,7 +22,11 @@ import { HandUIHelperService } from './services/hand-ui-helper.service';
   providers: [HandActionService, HandStateService, HandDiscardService, HandStrategyResolverService, HandUIHelperService],
   host: { '[class.is-my-turn]': 'isMyTurn()' }
 })
-export class GameHandComponent implements OnChanges {
+export class GameHandComponent implements OnChanges, AfterViewInit, OnDestroy {
+  private _elementRef = inject(ElementRef);
+  private _resizeObserver?: ResizeObserver;
+
+  heightChange = output<number>();
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
   handAction = inject(HandActionService);
@@ -73,6 +77,19 @@ export class GameHandComponent implements OnChanges {
       this.handAction.clearSelection();
       this.handDiscard.reset();
     }
+  }
+
+  ngAfterViewInit() {
+    this._resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        this.heightChange.emit(entry.contentRect.height);
+      }
+    });
+    this._resizeObserver.observe(this._elementRef.nativeElement);
+  }
+
+  ngOnDestroy() {
+    this._resizeObserver?.disconnect();
   }
 
   selectCardToPlay(card: Card) {
