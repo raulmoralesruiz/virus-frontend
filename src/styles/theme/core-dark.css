@@ -60,7 +60,6 @@ html.theme-dark {
   /* Logo & Gradients */
   --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
   --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
-  --gradient-logo-dark: linear-gradient(135deg, rgba(2, 6, 23, 0.8), rgba(15, 23, 42, 0.55));
   --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
 
   /* Component Specifics */
@@ -96,7 +95,7 @@ html.theme-dark {
   --color-dot-neutral: rgba(148, 163, 184, 0.4);
   --color-card-border-playing: #ffffff;
   --color-card-selected-glow: rgba(0, 0, 0, 0.8);
-  --color-input-bg-soft: rgba(17, 34, 64, 0.95);
+  --color-input-bg-soft: #223253;
   --color-input-bg-focus: rgba(24, 96, 128, 0.95);
   --gradient-primary-purple: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
   --gradient-primary-purple-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);

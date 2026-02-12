@@ -22,15 +22,6 @@ input[type='text']:focus {
   background: var(--color-input-bg-focus);
 }
 
-:host-context(html.theme-dark) input[type='text'] {
-  background: var(--color-input-bg-soft);
-  color: var(--color-text-primary);
-}
-
-:host-context(html.theme-dark) input[type='text']:focus {
-  background: var(--color-input-bg-focus);
-}
-
 @media (min-width: 640px) {
   :host {
     flex: 1;
