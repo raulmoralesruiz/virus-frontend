@@ -7,7 +7,7 @@
   max-height: min(40vh, 220px);
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.6) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color) transparent;
   border-radius: 18px;
   transition: background 0.3s ease;
 }
@@ -18,7 +18,7 @@
 }
 
 .hand-container::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.55);
+  background: var(--scrollbar-thumb-color);
   border-radius: 999px;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .hand-container.is-my-turn {
-  background: rgba(251, 191, 36, 0.14);
+  background: var(--color-hand-active-bg);
 }
 
 @media (min-width: 640px) {

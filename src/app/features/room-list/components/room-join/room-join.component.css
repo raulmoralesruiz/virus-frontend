@@ -1,16 +1,11 @@
 .room-panel {
-  background: var(--color-surface);
+  background: var(--color-panel-glass);
   border-radius: 24px;
   padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.94);
   text-align: center;
-}
-
-:host-context(.theme-dark) .room-panel {
-  background: rgba(15, 23, 42, 0.9);
 }
 
 .room-block h3 {
@@ -42,9 +37,9 @@
   width: 100%;
   padding: 0.75rem 3.25rem 0.75rem 1rem;
   border-radius: 999px;
-  background: #d9e2f4;
+  background: var(--color-bg-secondary);
   font-size: 1rem;
-  color: var(--color-text-primary);
+  color: var(--color-text-on-secondary);
   transition: background-color 0.2s ease;
   text-transform: uppercase;
   text-align: center;
@@ -52,16 +47,7 @@
 }
 
 .join-input-row input:focus {
-  background: #c5d4ef;
-}
-
-:host-context(.theme-dark) .join-input-row input {
-  background: #223253;
-  color: #f8fafc;
-}
-
-:host-context(.theme-dark) .join-input-row input:focus {
-  background: #2c3f68;
+  background: var(--color-bg-secondary-hover);
 }
 
 .join-submit {
@@ -92,9 +78,9 @@
   width: 100%;
   height: 1px;
   background: linear-gradient(90deg,
-      rgba(148, 163, 184, 0),
-      rgba(148, 163, 184, 0.45),
-      rgba(148, 163, 184, 0));
+      transparent,
+      var(--color-divider-weak),
+      transparent);
   border-radius: 999px;
 }
 

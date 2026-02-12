@@ -21,11 +21,11 @@
   gap: 0.5rem;
   padding: 0.35rem;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-surface-glass);
 }
 
 :host-context(.theme-dark) .room-select-button {
-  background: rgba(15, 23, 42, 0.5);
+  background: var(--color-surface-glass);
 }
 
 .room-select-button__option {
@@ -44,7 +44,7 @@
 .room-select-button__option--active {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+  box-shadow: var(--shadow-selection);
 }
 
 .room-select-button__option:disabled {

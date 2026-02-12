@@ -32,7 +32,7 @@
   height: 3px;
   margin: 0.8rem auto 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
+  background: var(--gradient-greeting);
   opacity: 0.85;
 }
 

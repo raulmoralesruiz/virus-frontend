@@ -24,18 +24,13 @@
 }
 
 .room-panel {
-  background: var(--color-surface);
   border-radius: 24px;
   padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--color-panel-glass);
   text-align: center;
-}
-
-:host-context(.theme-dark) .room-panel {
-  background: rgba(15, 23, 42, 0.9);
 }
 
 .room-panel h2 {

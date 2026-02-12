@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  background: rgba(4, 9, 18, 0.65);
+  background: var(--color-overlay);
   backdrop-filter: blur(3px);
   z-index: 1100;
 }
@@ -14,9 +14,9 @@
   position: relative;
   width: min(420px, 100%);
   border-radius: 12px;
-  background: var(--color-victory-background, #0f172a);
+  background: var(--color-victory-background);
   padding: 2.25rem 2.5rem 1.75rem;
-  color: var(--color-victory-text, #f8fafc);
+  color: var(--color-victory-text);
   user-select: none;
 }
 
@@ -41,7 +41,7 @@
 
 .winner-close:hover,
 .winner-close:focus-visible {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-button-glass-hover);
   transform: scale(1.05);
 }
 
@@ -51,7 +51,7 @@
 
 .winner-heading {
   margin: 0 0 0.5rem;
-  color: var(--color-victory-text, #f8fafc);
+  color: var(--color-victory-text);
   font-size: 2rem;
 }
 
@@ -70,8 +70,8 @@
 .winner-reset {
   padding: 0.65rem 1.75rem;
   border-radius: 9999px;
-  background: var(--color-primary, #38bdf8);
-  color: #020617;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
   font-weight: 600;
   cursor: pointer;
   transition: background 120ms ease-in-out, transform 120ms ease-in-out;
@@ -84,14 +84,14 @@
 .winner-reset:hover,
 .winner-reset:focus-visible {
   transform: translateY(-1px);
-  background: rgba(56, 189, 248, 0.9);
+  background: var(--color-primary-glass-hover);
 }
 
 .winner-leave {
   padding: 0.65rem 1.5rem;
   border-radius: 9999px;
-  background: #b91c1c;
-  color: #fef2f2;
+  background: var(--color-danger-dark);
+  color: var(--color-danger-contrast-text);
   font-weight: 600;
   cursor: pointer;
   transition: background 120ms ease-in-out, transform 120ms ease-in-out;
@@ -103,13 +103,15 @@
 .winner-leave:hover,
 .winner-leave:focus-visible {
   transform: translateY(-1px);
-  background: #991b1b;
+  background: var(--color-danger-hover);
 }
+
 .winner-leave__icon {
   width: 1em;
   height: 1em;
   fill: currentColor;
 }
+
 .winner-reset__icon {
   width: 1em;
   height: 1em;

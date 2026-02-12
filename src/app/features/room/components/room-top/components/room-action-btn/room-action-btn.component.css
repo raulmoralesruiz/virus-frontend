@@ -41,8 +41,8 @@
 }
 
 :host ::ng-deep .room-leave {
-  background: #b91c1c;
-  color: #fef2f2;
+  background: var(--color-danger-dark);
+  color: var(--color-danger-contrast-text);
   opacity: 0.95;
 }
 
@@ -53,6 +53,6 @@
 
 :host ::ng-deep .room-leave:hover,
 :host ::ng-deep .room-leave:focus-visible {
-  background: #991b1b;
+  background: var(--color-danger-hover);
   transform: translateY(-2px);
 }

@@ -12,7 +12,7 @@
 
 .player-badge--curse {
   background: var(--color-danger-soft);
-  border-color: rgba(249, 115, 22, 0.35);
+  border-color: var(--color-border-warning-soft);
   color: var(--color-danger-strong);
 }
 

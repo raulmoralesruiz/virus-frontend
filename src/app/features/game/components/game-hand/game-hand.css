@@ -4,8 +4,10 @@
   gap: 0.75rem;
   align-items: stretch;
   border-radius: 22px;
-  background: #d9e2f4;
-  color: var(--color-text-primary);
+  border-radius: 22px;
+  /* background: var(--color-bg-secondary); */
+  background: var(--color-hand-panel-background);
+  color: var(--color-text-on-secondary);
   backdrop-filter: blur(8px);
   transition: background 0.35s ease, transform 0.35s ease;
   user-select: none;
@@ -21,17 +23,12 @@
   animation: handPanelPulse 2.4s ease-in-out infinite;
 }
 
-:host-context(.theme-dark):not(.is-my-turn) {
-  background: #223253;
-  color: #f8fafc;
-}
-
 .hand-empty {
   margin: 1rem 0 0;
   padding: 1.1rem;
   border-radius: 18px;
   background: linear-gradient(160deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
-  background-image: repeating-linear-gradient(45deg, rgba(15, 23, 42, 0.05), rgba(15, 23, 42, 0.05) 10px, transparent 10px, transparent 18px), linear-gradient(160deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  background-image: repeating-linear-gradient(45deg, var(--color-pattern-dark-subtle), var(--color-pattern-dark-subtle) 10px, transparent 10px, transparent 18px), linear-gradient(160deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
   text-align: center;
   color: var(--color-text-secondary);
   user-select: none;
@@ -65,6 +62,5 @@
     max-width: none;
     padding: 1rem 1.25rem 1.35rem;
     border-radius: 20px;
-    background: var(--color-hand-panel-background);
   }
 }

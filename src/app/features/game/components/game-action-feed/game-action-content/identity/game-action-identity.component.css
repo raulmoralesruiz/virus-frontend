@@ -29,6 +29,6 @@
 }
 
 .action-feed__actor--system {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-system-message-bg);
   color: var(--color-text-secondary);
 }

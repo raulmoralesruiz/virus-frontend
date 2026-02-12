@@ -15,7 +15,7 @@
   max-height: min(70vh, 520px);
   padding: 1.5rem;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--color-room-item-bg);
   color: var(--color-text-primary);
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 }
 
 :host-context(.theme-dark) .history-modal {
-  background: rgba(15, 23, 42, 0.92);
+  background: var(--color-room-item-bg);
   color: var(--color-text-primary);
 }
 
@@ -69,15 +69,10 @@
 .history-item {
   padding: 0.75rem 1rem;
   border-radius: 16px;
-  background: #d9e2f4;
-  color: #0f172a;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-on-secondary);
   font-size: 0.95rem;
   line-height: 1.35;
-}
-
-:host-context(.theme-dark) .history-item {
-  background: #223253;
-  color: #f8fafc;
 }
 
 .history-empty {

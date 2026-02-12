@@ -30,11 +30,11 @@
 
 .target-select__organ:hover {
   transform: translateY(-1px);
-  background: rgba(37, 99, 235, 0.1);
+  background: var(--color-player-hover-bg);
 }
 
 .target-select__organ.is-active {
-  background: rgba(37, 99, 235, 0.22);
+  background: var(--color-field-player-active-bg);
   font-weight: 700;
   transform: translateY(-1px);
 }
@@ -62,14 +62,14 @@
 
 .target-select__player:hover {
   transform: translateY(-1px);
-  background: rgba(37, 99, 235, 0.1);
+  background: var(--color-player-hover-bg);
 }
 
 .target-select__player.is-active {
-  background: rgba(37, 99, 235, 0.22);
+  background: var(--color-field-player-active-bg);
   font-weight: 700;
   transform: translateY(-1px);
-  border-color: rgba(37, 99, 235, 0.4);
+  border-color: var(--color-player-active-border);
 }
 
 /* Icons */

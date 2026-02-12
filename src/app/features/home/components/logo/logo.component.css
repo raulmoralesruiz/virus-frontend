@@ -4,7 +4,7 @@
   place-items: center;
   padding: clamp(1.4rem, 4vw, 2.2rem);
   border-radius: 32px;
-  background: linear-gradient(135deg, rgba(2, 6, 23, 0.8), rgba(15, 23, 42, 0.55));
+  background: var(--color-bg-tertiary);
 }
 
 .virus-logo {
@@ -19,8 +19,8 @@
   letter-spacing: clamp(0.02em, 0.6vw, 0.05em);
   text-transform: uppercase;
   line-height: 1;
-  color: #fff;
-  background: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+  color: var(--color-text-inverted);
+  background: var(--gradient-logo-main);
   background-size: 180% 180%;
   border-radius: clamp(0.7rem, 2.5vw, 1.4rem);
   text-shadow: none;
@@ -41,7 +41,7 @@
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: clamp(0.045em, 0.55vw, 0.07em) rgba(15, 23, 42, 0.5);
+  -webkit-text-stroke: clamp(0.045em, 0.55vw, 0.07em) var(--color-logo-stroke);
   margin-top: 1rem;
 }
 
@@ -57,7 +57,7 @@
   height: clamp(12px, 2vw, 18px);
   top: 12%;
   left: -11%;
-  background: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  background: var(--gradient-logo-warm);
   animation: orbit 8s linear infinite;
 }
 
@@ -66,7 +66,7 @@
   height: clamp(14px, 2.2vw, 20px);
   bottom: 14%;
   right: -13%;
-  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  background: var(--gradient-logo-cool);
   animation: orbit 9.5s linear infinite reverse;
 }
 

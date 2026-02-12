@@ -53,17 +53,15 @@
   transition: background 120ms ease-in;
 }
 
-.error-close:focus-visible {
-}
-
 .error-close:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--color-hover-overlay-strong);
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

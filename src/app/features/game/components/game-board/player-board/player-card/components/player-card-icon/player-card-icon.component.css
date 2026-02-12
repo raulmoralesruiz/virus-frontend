@@ -22,5 +22,6 @@
   max-width: 100%;
   aspect-ratio: 1;
   font-size: 1rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  filter: var(--drop-shadow-sm);
+  /* Using closest semantic shadow, or create a medium one */
 }

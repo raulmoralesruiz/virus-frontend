@@ -7,8 +7,9 @@
   width: 100%;
   padding: 0.65rem 0.9rem;
   border-radius: 999px;
-  background: #991b1b;
-  color: #fef2f2;
+  border-radius: 999px;
+  background: var(--color-danger-hover);
+  color: var(--color-danger-contrast-text);
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -20,8 +21,8 @@
 }
 
 .discard-btn.is-active-turn:not(:disabled) {
-  background: #88340c;
-  color: #fff7ed;
+  background: var(--color-danger-active-turn);
+  color: var(--color-danger-contrast-text);
 }
 
 .discard-btn.is-active-turn:not(:disabled):hover {
