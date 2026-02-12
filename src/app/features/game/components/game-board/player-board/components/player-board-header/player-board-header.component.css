@@ -12,24 +12,21 @@
   border-radius: 8px;
 }
 
-/* Parent state styling inherited via host-context or specific selectors in parent */
-/* But we need some base styles here that depend on context if passed */
-
 :host-context(.player-board.is-active) {
-  background: rgba(251, 191, 36, 0.18);
+  background: var(--color-header-active-bg);
   color: var(--color-player-active-text);
 }
 
 :host-context(.player-board.is-me) {
-  background: rgba(34, 197, 159, 0.18);
+  background: var(--color-header-me-bg);
   color: var(--color-player-me-text);
 }
 
 :host-context(.player-board.is-me.is-active) {
-  background: rgba(45, 212, 191, 0.22);
+  background: var(--color-header-me-active-bg);
 }
 
 :host-context(.theme-dark) :host-context(.player-board.is-me) {
-  background: rgba(34, 197, 159, 0.16);
+  background: var(--color-header-me-bg);
   color: var(--color-player-me-text);
 }

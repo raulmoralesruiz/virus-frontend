@@ -6,8 +6,10 @@
 .target-select__badge {
   padding: 0.3rem 0.8rem;
   border-radius: 999px;
-  background: rgba(37, 99, 235, 0.18);
-  color: var(--color-primary, #2563eb);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--color-slot-empty-blue);
+  color: var(--color-primary);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -22,27 +24,27 @@
 }
 
 .color-dot--red {
-  background: linear-gradient(135deg, #f87171, #ef4444);
+  background: var(--gradient-red);
 }
 
 .color-dot--green {
-  background: linear-gradient(135deg, #4ade80, #22c55e);
+  background: var(--gradient-green);
 }
 
 .color-dot--blue {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  background: var(--gradient-blue);
 }
 
 .color-dot--yellow {
-  background: linear-gradient(135deg, #facc15, #eab308);
+  background: var(--gradient-yellow);
 }
 
 .color-dot--multi {
-  background: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
+  background: var(--gradient-multi);
 }
 
 .color-dot--neutral {
-  background: rgba(148, 163, 184, 0.4);
+  background: var(--color-dot-neutral);
 }
 
 .target-select__confirm,

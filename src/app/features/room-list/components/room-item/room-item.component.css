@@ -32,8 +32,8 @@ li {
   gap: 0.3rem;
   padding: 0.1rem 0.6rem;
   border-radius: 999px;
-  background: rgba(59, 130, 246, 0.15);
-  color: rgba(37, 99, 235, 0.95);
+  background: var(--color-room-item-occupied);
+  color: var(--color-room-count-text);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -44,7 +44,7 @@ li {
   width: auto;
   min-width: 140px;
   margin: 0;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--color-panel-glass);
   color: var(--color-text-primary);
   border-radius: 999px;
   padding: 0.75rem 1rem;
@@ -57,11 +57,6 @@ li {
 
 .secondary-button:hover {
   transform: scale(1.02);
-}
-
-:host-context(.theme-dark) .secondary-button {
-  background: rgba(15, 23, 42, 0.9);
-  color: var(--color-text-primary);
 }
 
 @media (max-width: 360px) {

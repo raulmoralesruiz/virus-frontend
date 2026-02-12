@@ -7,7 +7,7 @@ input[type='text'] {
   width: 100%;
   padding: 0.95rem 1.35rem;
   border-radius: 999px;
-  background: #f8fbff;
+  background: var(--color-input-bg-soft);
   font-size: 1rem;
   color: var(--color-text-primary);
   text-align: center;
@@ -19,16 +19,16 @@ input[type='text']::placeholder {
 }
 
 input[type='text']:focus {
-  background: #e0f2ff;
+  background: var(--color-input-bg-focus);
 }
 
 :host-context(html.theme-dark) input[type='text'] {
-  background: rgba(17, 34, 64, 0.95);
+  background: var(--color-input-bg-soft);
   color: var(--color-text-primary);
 }
 
 :host-context(html.theme-dark) input[type='text']:focus {
-  background: rgba(24, 96, 128, 0.95);
+  background: var(--color-input-bg-focus);
 }
 
 @media (min-width: 640px) {

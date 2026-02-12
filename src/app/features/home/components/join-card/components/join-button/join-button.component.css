@@ -7,7 +7,7 @@ button {
   width: 100%;
   padding: 0.9rem 1.2rem;
   border-radius: 999px;
-  background: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
+  background: var(--gradient-primary-purple);
   color: var(--color-primary-contrast);
   font-size: 1rem;
   font-weight: 700;
@@ -18,7 +18,7 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  background: var(--gradient-primary-purple-hover);
 }
 
 button:focus-visible {

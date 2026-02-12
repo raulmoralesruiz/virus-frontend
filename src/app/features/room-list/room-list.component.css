@@ -24,7 +24,6 @@
 }
 
 .room-panel {
-  background: var(--color-surface);
   border-radius: 24px;
   padding: 1rem 1.5rem;
   display: flex;

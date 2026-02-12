@@ -22,15 +22,15 @@
 
 .board-slot.transplant-mode {
   cursor: pointer;
-  background: rgba(249, 115, 22, 0.12);
+  background: var(--color-slot-transplant-bg);
 }
 
 .board-slot.first-selected {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--color-slot-selected-bg);
 }
 
 .board-slot.valid-second {
-  background: rgba(34, 197, 94, 0.15);
+  background: var(--color-slot-valid-bg);
 }
 
 .board-slot .card.organ.cdk-drop-list {

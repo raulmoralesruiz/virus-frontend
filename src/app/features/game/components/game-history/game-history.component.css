@@ -15,7 +15,7 @@
   max-height: min(70vh, 520px);
   padding: 1.5rem;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--color-room-item-bg);
   color: var(--color-text-primary);
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
 }
 
 :host-context(.theme-dark) .history-modal {
-  background: rgba(15, 23, 42, 0.92);
+  background: var(--color-room-item-bg);
   color: var(--color-text-primary);
 }
 

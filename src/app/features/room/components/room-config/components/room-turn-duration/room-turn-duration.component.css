@@ -41,8 +41,8 @@
   background: linear-gradient(90deg,
       var(--color-primary) 0%,
       var(--color-primary) calc(var(--slider-progress, 0) * 100%),
-      rgba(15, 23, 42, 0.2) calc(var(--slider-progress, 0) * 100%),
-      rgba(15, 23, 42, 0.2) 100%);
+      var(--color-slider-track) calc(var(--slider-progress, 0) * 100%),
+      var(--color-slider-track) 100%);
   cursor: pointer;
   position: relative;
 }
@@ -51,8 +51,8 @@
   background: linear-gradient(90deg,
       var(--color-primary) 0%,
       var(--color-primary) calc(var(--slider-progress, 0) * 100%),
-      rgba(248, 250, 252, 0.25) calc(var(--slider-progress, 0) * 100%),
-      rgba(248, 250, 252, 0.25) 100%);
+      var(--color-slider-track) calc(var(--slider-progress, 0) * 100%),
+      var(--color-slider-track) 100%);
 }
 
 .room-slider__input::-webkit-slider-thumb {
@@ -63,7 +63,7 @@
   border-radius: 50%;
   background: var(--color-primary);
   border: 2px solid var(--color-primary-contrast);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+  box-shadow: var(--shadow-slider);
 }
 
 .room-slider__input::-moz-range-thumb {
@@ -72,13 +72,13 @@
   border-radius: 50%;
   border: 2px solid var(--color-primary-contrast);
   background: var(--color-primary);
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+  box-shadow: var(--shadow-slider);
 }
 
 .room-slider__input::-moz-range-track {
   height: 6px;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.2);
+  background: var(--color-slider-track);
 }
 
 .room-slider__input::-moz-range-progress {
@@ -88,7 +88,7 @@
 }
 
 :host-context(.theme-dark) .room-slider__input::-moz-range-track {
-  background: rgba(248, 250, 252, 0.25);
+  background: var(--color-slider-track);
 }
 
 .room-slider__ticks {

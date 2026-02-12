@@ -5,16 +5,12 @@
   --color-bg-gradient-end: #eef1f5;
   --color-surface: #ffffff;
   --color-surface-soft: #f4f5f7;
-  --color-surface-strong: #111322;
   --color-text-primary: #111322;
   --color-text-secondary: #475467;
   --color-text-muted: #667085;
   --color-text-inverted: #ffffff;
-  --color-border: transparent;
-  --color-border-strong: transparent;
-  --color-outline: transparent;
   --color-overlay: rgba(6, 8, 20, 0.6);
-  --color-primary: #38bdf8;
+  --color-primary: #0ea6e9;
   --color-primary-hover: #0ea5e9;
   --color-primary-contrast: #f8fafc;
   --color-muted-button-bg: rgba(15, 23, 42, 0.05);
@@ -28,53 +24,139 @@
   --color-success: #10b981;
   --color-success-contrast: #f8fafc;
   --color-success-disabled: rgba(16, 185, 129, 0.4);
-  --color-victory-border: transparent;
   --color-victory-background: rgba(250, 250, 249, 0.85);
   --color-victory-text: #7c2d12;
-  --color-slot-empty-red: rgba(239, 68, 68, 0.08);
-  --color-slot-empty-green: rgba(16, 185, 129, 0.08);
-  --color-slot-empty-blue: rgba(59, 130, 246, 0.08);
-  --color-slot-empty-yellow: rgba(251, 191, 36, 0.08);
-  --color-slot-empty-multi: rgba(168, 85, 247, 0.08);
   --color-hand-panel-background: linear-gradient(145deg, #f8fafc 0%, #f3f4f6 52%, #eef2ff 100%);
-  --color-hand-panel-border: transparent;
-  --color-hand-panel-ring: rgba(79, 70, 229, 0.25);
   --color-error-background: rgba(239, 68, 68, 0.08);
-  --color-error-border: transparent;
   --color-error-text: #7f1d1d;
-  --color-player-me-border: transparent;
-  --color-player-me-ring: rgba(14, 165, 233, 0.35);
   --color-player-me-background: linear-gradient(165deg, rgba(14, 165, 233, 0.16) 0%, rgba(16, 185, 129, 0.25) 100%);
   --color-player-me-text: #0f172a;
   --color-player-active-border: transparent;
-  --color-player-active-ring: rgba(251, 191, 36, 0.3);
   --color-player-active-background: linear-gradient(165deg, rgba(251, 191, 36, 0.16) 0%, rgba(249, 115, 22, 0.12) 100%);
   --color-player-active-text: #7c2d12;
-  --color-player-neutral-background: linear-gradient(170deg, rgba(248, 250, 252, 0.9) 0%, rgba(241, 245, 249, 0.85) 100%);
   --color-info-bg: rgba(14, 165, 233, 0.4);
   --color-info-bg-expanded: rgba(14, 165, 233, 0.2);
-
-  --section-info-border: transparent;
   --section-turn-background: linear-gradient(155deg, rgba(251, 191, 36, 0.12) 0%, rgba(248, 113, 113, 0.12) 100%);
-  --section-turn-border: transparent;
   --section-feed-background: linear-gradient(155deg, rgba(59, 130, 246, 0.12) 0%, rgba(14, 165, 233, 0.12) 100%);
-  --section-feed-border: transparent;
-  --color-text-on-dark: #f8fafc;
-  --shadow-panel: none;
-  --shadow-panel-strong: none;
-  --shadow-modal: none;
-  --shadow-button-primary: none;
-  --shadow-button-primary-hover: none;
-  --shadow-button-danger: none;
-  --shadow-button-danger-hover: none;
   --transition-theme: background-color 0.3s ease, color 0.3s ease;
-  --color-join-card-bg: rgba(255, 255, 255, 0.8);
   --color-focus-ring: rgba(37, 99, 235, 0.35);
-  --color-focus-ring-strong: rgba(14, 165, 233, 0.45);
   --color-panel-glass: rgb(255, 255, 255);
-  --color-bg-secondary: #d9e2f4;
-  --color-bg-secondary-hover: #c5d4ef;
+  --color-bg-secondary: #e0f5fe;
+  --color-bg-secondary-hover: #bae8fd;
   --color-text-on-secondary: #0f172a;
   --color-bg-tertiary: #d9e2f4;
   --color-text-on-tertiary: #0f172a;
+
+  /* Danger / Error Actions */
+  --color-danger-dark: #b91c1c;
+  --color-danger-contrast-text: #fef2f2;
+  --color-danger-hover: #991b1b;
+
+  /* Brand / Room UI */
+  --color-room-overlay-bg: rgba(255, 255, 255, 0.94);
+  --color-room-item-bg: rgba(255, 255, 255, 0.94);
+  --color-room-item-occupied: rgba(59, 130, 246, 0.15);
+  --color-room-count-text: rgba(37, 99, 235, 0.95);
+
+  /* Logo & Gradients */
+  --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  --gradient-logo-dark: linear-gradient(135deg, rgba(2, 6, 23, 0.8), rgba(15, 23, 42, 0.55));
+  --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+
+  /* Component Specifics */
+  --color-slider-track: rgba(15, 23, 42, 0.2);
+  --shadow-slider: 0 6px 16px rgba(15, 23, 42, 0.2);
+  --color-input-bg: rgba(255, 255, 255, 0.9);
+  --color-input-border: rgba(15, 23, 42, 0.15);
+  --color-surface-glass: rgba(255, 255, 255, 0.9);
+  --color-divider-weak: rgba(148, 163, 184, 0.45);
+  --color-button-danger-glass: rgba(239, 68, 68, 0.9);
+  --color-button-danger-glass-hover: rgba(239, 68, 68, 0.96);
+  --shadow-selection: 0 8px 18px rgba(15, 23, 42, 0.18);
+
+  /* Game / Logo / Fields */
+  --color-logo-stroke: rgba(15, 23, 42, 0.5);
+  --color-button-glass-hover: rgba(255, 255, 255, 0.08);
+  --color-primary-glass-hover: rgba(56, 189, 248, 0.9);
+  --color-field-player-bg: rgba(37, 99, 235, 0.08);
+  --color-field-player-icon-bg: rgba(37, 99, 235, 0.2);
+  --color-field-player-active-bg: rgba(37, 99, 235, 0.18);
+  --color-field-player-active-icon-bg: rgba(37, 99, 235, 0.32);
+  --color-field-organs-bg: rgba(244, 114, 182, 0.08);
+  --color-field-organs-icon-bg: rgba(244, 114, 182, 0.18);
+  --color-field-organs-active-bg: rgba(244, 114, 182, 0.2);
+  --color-field-organs-active-icon-bg: rgba(244, 114, 182, 0.32);
+  --color-field-organs-active-icon: #831843;
+  --color-field-empty-bg: rgba(148, 163, 184, 0.14);
+  --gradient-red: linear-gradient(135deg, #f87171, #ef4444);
+  --gradient-green: linear-gradient(135deg, #4ade80, #22c55e);
+  --gradient-blue: linear-gradient(135deg, #60a5fa, #3b82f6);
+  --gradient-yellow: linear-gradient(135deg, #facc15, #eab308);
+  --gradient-multi: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
+  --color-dot-neutral: rgba(148, 163, 184, 0.4);
+  --color-card-border-playing: #ffffff;
+  --color-card-selected-glow: rgba(23, 7, 7, 0.8);
+  --color-input-bg-soft: #f8fbff;
+  --color-input-bg-focus: #e0f2ff;
+  --gradient-primary-purple: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
+  --gradient-primary-purple-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  --color-danger-active-turn: #88340c;
+
+  /* Misc / Patterns */
+  --color-pattern-dark-subtle: rgba(15, 23, 42, 0.05);
+  --color-button-neutral-glass: rgba(241, 245, 249, 0.85);
+  --color-button-neutral-glass-hover: rgba(226, 232, 240, 0.9);
+  --shadow-banner: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --drop-shadow-sm: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  --color-discard-pile-bg: #e2e8f0;
+  --color-border-glass-light: rgba(255, 255, 255, 0.4);
+  --gradient-greeting: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
+
+  /* Batch 4: Fields / Layout / Scrollbars */
+  --color-hover-overlay-strong: rgba(0, 0, 0, 0.08);
+  /* Darker hover */
+  --color-field-base-bg: rgba(148, 163, 184, 0.08);
+  --color-field-icon-neutral: rgba(148, 163, 184, 0.18);
+  --color-field-border-subtle: rgba(148, 163, 184, 0.1);
+  --color-player-hover-bg: rgba(37, 99, 235, 0.1);
+  --color-player-active-border: rgba(37, 99, 235, 0.4);
+  /* Batch 5: Player Board / Drag & Drop */
+  --color-drag-preview-bg: rgba(15, 23, 42, 0.85);
+  --gradient-placeholder: linear-gradient(135deg, rgba(148, 163, 184, 0.2), rgba(148, 163, 184, 0.05));
+  --shadow-valid-target: 0 0 0 2px rgba(34, 197, 94, 0.6);
+  --color-valid-target-bg: rgba(34, 197, 94, 0.15);
+  --shadow-drag-over: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  --color-drag-over-bg: rgba(255, 255, 255, 0.2);
+  --color-overlay-white-weak: rgba(255, 255, 255, 0.1);
+  --color-attachments-bg: rgba(15, 23, 42, 0.08);
+  --color-board-wrapper-bg: rgba(15, 23, 42, 0.08);
+  --color-header-active-bg: rgba(251, 191, 36, 0.18);
+  --color-header-me-bg: rgba(34, 197, 159, 0.18);
+  --color-header-me-active-bg: rgba(45, 212, 191, 0.22);
+  --color-slot-transplant-bg: rgba(249, 115, 22, 0.12);
+  --color-slot-selected-bg: rgba(239, 68, 68, 0.12);
+  --color-slot-valid-bg: rgba(34, 197, 94, 0.15);
+  --color-virus-pattern-red: rgba(239, 68, 68, 0.12);
+  --gradient-board-me-active-light: linear-gradient(170deg, rgba(255, 247, 237, 0.9) 4%, rgba(228, 254, 246, 0.88) 45%, rgba(207, 250, 254, 0.9) 100%);
+  --gradient-board-me-dark: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
+  /* Placeholder for dark mode consistency */
+  --gradient-board-me-active-dark: linear-gradient(170deg, rgba(34, 197, 159, 0.18) 0%, rgba(14, 165, 233, 0.16) 55%, rgba(37, 99, 235, 0.14) 100%);
+
+  /* Batch 6: Feed / Empty States */
+  --color-slot-empty-bg-gradient: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.08));
+  --color-slot-stripe: rgba(148, 163, 184, 0.12);
+  --color-turn-progress-track: rgba(148, 163, 184, 0.35);
+  --color-system-message-bg: rgba(255, 255, 255, 0.08);
+  /* Check valid contrast in light mode, maybe darken? */
+  --gradient-feed-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+  --gradient-feed-highlight: radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+  --color-border-warning-soft: rgba(249, 115, 22, 0.35);
+
+  /* Final Polish */
+  --color-text-on-active: #0f172a;
+  --color-shimmer-light: rgba(255, 255, 255, 0.4);
+  --border-valid-target: rgba(34, 197, 94, 0.4);
+  --border-drag-over: rgba(255, 255, 255, 0.8);
 }
