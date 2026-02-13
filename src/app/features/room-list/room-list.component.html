@@ -1,9 +1,6 @@
 <div class="room-list-screen">
   <div class="room-cards">
-    <section class="room-panel room-block__greeting">
-      <h2>Hola, {{ player()?.name }}</h2>
-      <p>Elige una sala existente o crea una nueva para comenzar la partida.</p>
-    </section>
+    <app-room-player></app-room-player>
 
     <app-room-creation (create)="handleCreateRoom($event)"></app-room-creation>
 

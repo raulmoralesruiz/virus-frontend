@@ -1,0 +1,102 @@
+:host {
+  border-radius: 24px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--color-panel-glass);
+  text-align: center;
+}
+
+:host h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+:host p {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.name-display {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  width: 100%;
+}
+
+.player-name {
+  margin: 0;
+  grid-column: 2;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.actions {
+  grid-column: 3;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+
+.name-display h2 {
+  margin-bottom: 0;
+}
+
+.btn-icon {
+  background: var(--color-bg-secondary);
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  transform: scale(1.02);
+}
+
+.name-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.name-input {
+  background-color: var(--color-input-bg-soft);
+  border: none;
+  color: var(--color-text-primary);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.name-input:focus {
+  background-color: var(--color-input-bg-focus);
+}
+
+.confirm {
+  color: var(--color-success);
+}
+
+.cancel {
+  color: var(--color-danger);
+}
