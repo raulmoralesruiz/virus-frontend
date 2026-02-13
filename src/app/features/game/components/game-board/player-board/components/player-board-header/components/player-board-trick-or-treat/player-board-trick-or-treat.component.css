@@ -1,21 +1,15 @@
 .player-badge {
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.15rem 0.55rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  line-height: 1.2;
 }
 
 .player-badge--curse {
   background: var(--color-danger-soft);
   border-color: var(--color-border-warning-soft);
   color: var(--color-danger-strong);
-}
-
-.icon-trick-or-treat {
-  font-size: 1.2rem;
 }
