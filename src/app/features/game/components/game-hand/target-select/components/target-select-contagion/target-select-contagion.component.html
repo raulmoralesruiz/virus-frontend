@@ -14,7 +14,7 @@
       <button type="button" class="target-select__player" [class.is-active]="assignment.toPlayerId === player.id"
         (click)="handleContagionPlayerChange(player.id, i)">
         <span class="target-select__player-icon">👤</span>
-        <span>{{ player.name }}</span>
+        <span>{{ player.name | titlecase }}</span>
       </button>
       }
     </div>

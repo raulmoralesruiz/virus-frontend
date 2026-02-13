@@ -11,7 +11,7 @@
       <button type="button" class="target-select__player" [class.is-active]="transplantPlayerA() === player.id"
         (click)="handlePlayerChange(player.id, 'A')">
         <span class="target-select__player-icon">👤</span>
-        <span>{{ player.name }}</span>
+        <span>{{ player.name | titlecase }}</span>
       </button>
       }
     </div>
@@ -58,7 +58,7 @@
       <button type="button" class="target-select__player" [class.is-active]="transplantPlayerB() === player.id"
         (click)="handlePlayerChange(player.id, 'B')">
         <span class="target-select__player-icon">👤</span>
-        <span>{{ player.name }}</span>
+        <span>{{ player.name | titlecase }}</span>
       </button>
       }
     </div>
