@@ -5,6 +5,6 @@
 
 <ul class="player-list">
   @for (player of room()()!.players; track player.id) {
-  <li>{{ player.name }}</li>
+  <li>{{ player.name | titlecase }}</li>
   }
 </ul>

@@ -1,10 +1,11 @@
 import { Component, effect, input, OnChanges, output, signal } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 import { PublicGameState } from '@core/models/game.model';
 
 @Component({
   selector: 'game-turn',
   standalone: true,
-  imports: [],
+  imports: [TitleCasePipe],
   templateUrl: './game-turn.html',
   styleUrl: './game-turn.css',
 })

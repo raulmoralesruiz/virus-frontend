@@ -4,7 +4,7 @@
 <div class="game-turn">
   <!-- <h3>Turno</h3> -->
   <p>
-    Jugando <strong>{{ active?.player?.name ?? "—" }}</strong>
+    Jugando <strong>{{ (active?.player?.name | titlecase) ?? "—" }}</strong>
   </p>
   <p>quedan {{ remainingSeconds() }}s</p>
 </div>
