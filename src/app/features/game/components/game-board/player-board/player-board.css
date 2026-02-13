@@ -1,6 +1,6 @@
 :host {
   border-radius: 8px;
-  padding: 1.5rem 0.5rem 0.5rem;
+  padding: 1.5rem 0.25rem 0.25rem;
   transition: background 0.3s ease,
     transform 0.3s ease;
   background: var(--color-bg-secondary);
@@ -102,5 +102,5 @@
 
 player-board-slots {
   width: 100%;
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
 }
