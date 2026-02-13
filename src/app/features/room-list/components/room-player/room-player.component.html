@@ -1,0 +1,23 @@
+@if (isEditingName) {
+<div class="name-edit">
+  <button (click)="cancelEditName()" class="btn-icon cancel">
+    <card-icon name="cancel" color="var(--color-text-secondary)"></card-icon>
+  </button>
+  <input type="text" [value]="newName" (input)="newName = $any($event.target).value" (keyup.enter)="saveName()"
+    class="name-input" />
+  <button (click)="saveName()" class="btn-icon confirm">
+    <card-icon name="confirm" color="var(--color-text-secondary)"></card-icon>
+  </button>
+</div>
+} @else {
+<div class="name-display">
+  <div class="spacer"></div>
+  <h2 class="player-name">{{ player()?.name | titlecase }}</h2>
+  <div class="actions">
+    <button (click)="toggleEditName()" class="btn-icon edit" title="Editar nombre">
+      <card-icon name="edit" color="var(--color-text-secondary)"></card-icon>
+    </button>
+  </div>
+</div>
+}
+<p>Elige una sala existente o crea una nueva para comenzar la partida.</p>

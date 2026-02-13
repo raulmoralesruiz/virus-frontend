@@ -6,11 +6,12 @@ import { RoomStoreService } from '@core/services/room-store.service';
 import { RoomCreationComponent } from './components/room-creation/room-creation.component';
 import { RoomJoinComponent } from './components/room-join/room-join.component';
 import { RoomItemComponent } from './components/room-item/room-item.component';
+import { RoomPlayerComponent } from './components/room-player/room-player.component';
 
 @Component({
   selector: 'app-room-list',
   standalone: true,
-  imports: [RoomCreationComponent, RoomJoinComponent, RoomItemComponent],
+  imports: [RoomCreationComponent, RoomJoinComponent, RoomItemComponent, RoomPlayerComponent],
   templateUrl: './room-list.component.html',
   styleUrls: ['./room-list.component.css'],
 })

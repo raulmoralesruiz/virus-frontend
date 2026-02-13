@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Player } from '../../models/player.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiPlayerService {
@@ -47,6 +47,24 @@ export class ApiPlayerService {
       tap((p) => {
         this._player.set(p);
         localStorage.setItem('player', JSON.stringify(p));
+      })
+    );
+  }
+
+  updatePlayerName(id: string, name: string): Observable<Player> {
+    const url = `${this.urlPlayer}/${id}`;
+    const body = { name: name.trim() };
+
+    return this.http.put<Player>(url, body).pipe(
+      tap((p) => {
+        this._player.set(p);
+        localStorage.setItem('player', JSON.stringify(p));
+      }),
+      catchError((error) => {
+        if (error.status === 404) {
+          return this.createPlayer(name);
+        }
+        return throwError(() => error);
       })
     );
   }
