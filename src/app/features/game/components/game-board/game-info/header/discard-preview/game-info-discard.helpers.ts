@@ -32,13 +32,13 @@ export function getColorThiefColor(card: Card | undefined): string | null {
 
   switch (card.subtype) {
     case 'colorThiefRed':
-      return 'var(--card-red-end)';
+      return 'var(--card-red)';
     case 'colorThiefGreen':
-      return 'var(--card-green-end)';
+      return 'var(--card-green)';
     case 'colorThiefBlue':
-      return 'var(--card-blue-end)';
+      return 'var(--card-blue)';
     case 'colorThiefYellow':
-      return 'var(--card-yellow-end)';
+      return 'var(--card-yellow)';
     default:
       return null;
   }
@@ -49,27 +49,27 @@ export function getDiscardBackground(card: Card | undefined): string {
 
   // Treatment -> Multi (Purple) - Solid
   if (card.kind === 'treatment' && card.color === 'treatment') {
-    return 'var(--card-multi-middle)';
+    return 'var(--card-treatment)';
   }
 
   // Halloween treatment -> Multi (Purple Orange) - Solid (Orange dominant)
   if (card.kind === 'treatment' && card.color === 'halloween') {
-    return 'linear-gradient(135deg, var(--card-multi-middle) 80%, var(--card-halloween-end))';
+    return 'var(--card-treatment-halloween)';
   }
 
   // Mutant Organ (Orange) -> Halloween (Orange) - Solid
   if (card.kind === 'organ' && card.color === 'orange') {
-    return 'var(--card-halloween-end)';
+    return 'var(--card-orange)';
   }
 
   // Multi -> Multi (5 colors) - KEEP GRADIENT
   if (card.color === 'multi') {
-    return 'linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange))';
+    return 'var(--card-multi)';
   }
 
   // Organo, medicina o virus (Red, Green, Blue, Yellow) - Solid
   if (card.kind === 'organ' || card.kind === 'medicine' || card.kind === 'virus') {
-    return `var(--card-${card.color}-end)`;
+    return `var(--card-${card.color})`;
   }
 
   return 'transparent';

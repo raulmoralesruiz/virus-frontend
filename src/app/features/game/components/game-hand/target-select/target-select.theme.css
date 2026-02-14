@@ -24,23 +24,23 @@
 }
 
 .color-dot--red {
-  background: var(--gradient-red);
+  background: var(--card-red);
 }
 
 .color-dot--green {
-  background: var(--gradient-green);
+  background: var(--card-green);
 }
 
 .color-dot--blue {
-  background: var(--gradient-blue);
+  background: var(--card-blue);
 }
 
 .color-dot--yellow {
-  background: var(--gradient-yellow);
+  background: var(--card-yellow);
 }
 
 .color-dot--multi {
-  background: var(--gradient-multi);
+  background: var(--card-multi);
 }
 
 .color-dot--neutral {

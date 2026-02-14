@@ -48,7 +48,7 @@
 
 .multi,
 .card.organ.multi {
-  background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
+  background: var(--card-multi);
 }
 
 .orange,
