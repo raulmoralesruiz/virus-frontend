@@ -5,31 +5,38 @@ import { GameStoreService } from '@core/services/game-store.service';
 export class HandDiscardService {
   private _gameStore = inject(GameStoreService);
 
-  readonly selectedDiscardIds = signal<Set<string>>(new Set());
-  readonly selectedDiscardCount = computed(() => this.selectedDiscardIds().size);
+  readonly selectedIndices = signal<Set<number>>(new Set());
+  readonly selectedDiscardCount = computed(() => this.selectedIndices().size);
 
-  toggleSelection(cardId: string, isMyTurn: boolean) {
+  toggleSelection(index: number, isMyTurn: boolean) {
     if (!isMyTurn) return;
-    this.selectedDiscardIds.update((current) => {
+    this.selectedIndices.update((current) => {
       const next = new Set(current);
-      if (next.has(cardId)) next.delete(cardId);
-      else next.add(cardId);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
       return next;
     });
   }
 
-  isSelected(cardId: string): boolean {
-    return this.selectedDiscardIds().has(cardId);
+  isSelected(index: number): boolean {
+    return this.selectedIndices().has(index);
   }
 
-  discard(roomId: string | null) {
-     const selectedIds = Array.from(this.selectedDiscardIds());
-     if (!roomId || !selectedIds.length) return;
+  discard(roomId: string | null, hand: any[]) {
+     const indices = Array.from(this.selectedIndices());
+     if (!roomId || !indices.length) return;
+     
+     const selectedIds = indices
+       .map(i => hand[i]?.id)
+       .filter(id => !!id);
+
+     if (!selectedIds.length) return;
+
      this._gameStore.discardCards(roomId, selectedIds);
      this.reset();
   }
 
   reset() {
-    this.selectedDiscardIds.set(new Set());
+    this.selectedIndices.set(new Set());
   }
 }

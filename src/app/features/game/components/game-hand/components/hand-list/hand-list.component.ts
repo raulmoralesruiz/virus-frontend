@@ -16,11 +16,11 @@ export class HandListComponent {
   isMyTurn = input(false);
   playerId = input<string | undefined>(undefined);
   connectedTo = input<string[]>([]);
-  selectedDiscardIds = input<Set<string>>(new Set());
+  selectedIndices = input<Set<number>>(new Set());
   selectedPlayingCardId = input<string | null | undefined>(undefined);
   mustPlayCardId = input<string | null>(null);
 
   exitHand = output<any>();
-  toggleSelect = output<Card>();
+  toggleSelect = output<number>();
   play = output<Card>();
 }

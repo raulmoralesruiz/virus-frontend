@@ -18,14 +18,14 @@
 }
 
 <game-hand-list [hand]="hand()" [isMyTurn]="isMyTurn()" [playerId]="apiPlayer.player()?.id" [connectedTo]="boardIds()"
-  [selectedDiscardIds]="handDiscard.selectedDiscardIds()" [selectedPlayingCardId]="handAction.selectedCard()?.id"
-  [mustPlayCardId]="mustPlayCardId()" (toggleSelect)="handDiscard.toggleSelection($event.id, isMyTurn())"
+  [selectedIndices]="handDiscard.selectedIndices()" [selectedPlayingCardId]="handAction.selectedCard()?.id"
+  [mustPlayCardId]="mustPlayCardId()" (toggleSelect)="handDiscard.toggleSelection($event, isMyTurn())"
   (play)="handAction.selectCard($event, publicState())">
 </game-hand-list>
 
 @if (handDiscard.selectedDiscardCount()) {
 <game-discard-action-button [selectedCount]="handDiscard.selectedDiscardCount()" [isMyTurn]="isMyTurn()"
-  [gameEnded]="gameEnded()" (discard)="handDiscard.discard(roomId())">
+  [gameEnded]="gameEnded()" (discard)="handDiscard.discard(roomId(), hand())">
 </game-discard-action-button>
 }
 } @else {
