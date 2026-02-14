@@ -30,8 +30,8 @@
   margin: 1rem 0 0;
   padding: 1.1rem;
   border-radius: 18px;
-  background: linear-gradient(160deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
-  background-image: repeating-linear-gradient(45deg, var(--color-pattern-dark-subtle), var(--color-pattern-dark-subtle) 10px, transparent 10px, transparent 18px), linear-gradient(160deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  background: linear-gradient(160deg, var(--color-bg-main) 0%, var(--color-bg-main-alt) 100%);
+  background-image: repeating-linear-gradient(45deg, var(--color-pattern-dark-subtle), var(--color-pattern-dark-subtle) 10px, transparent 10px, transparent 18px), linear-gradient(160deg, var(--color-bg-main) 0%, var(--color-bg-main-alt) 100%);
   text-align: center;
   color: var(--color-text-secondary);
   user-select: none;

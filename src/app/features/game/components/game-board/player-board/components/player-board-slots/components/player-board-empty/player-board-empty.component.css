@@ -4,7 +4,6 @@
   padding: 0.5rem;
   border-radius: 8px;
   color: var(--color-text-secondary);
-  background: var(--color-slot-empty-bg-gradient);
   background-image: repeating-linear-gradient(-45deg,
       var(--color-slot-stripe),
       var(--color-slot-stripe) 10px,

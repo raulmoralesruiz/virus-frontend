@@ -1,8 +1,8 @@
 html.theme-dark {
   color-scheme: dark;
   --color-bg-body: #030712;
-  --color-bg-gradient-start: #030712;
-  --color-bg-gradient-end: #050a1a;
+  --color-bg-main: #030712;
+  --color-bg-main-alt: #050a1a;
   --color-surface: #0f172a;
   --color-surface-soft: #111e36;
   --color-text-primary: #e2e8f0;
@@ -29,15 +29,15 @@ html.theme-dark {
   --color-hand-panel-background: rgba(14, 165, 233, 0.4);
   --color-error-background: rgba(239, 68, 68, 0.2);
   --color-error-text: #fecaca;
-  --color-player-me-background: linear-gradient(170deg, rgba(14, 165, 233, 0.28) 0%, rgba(34, 197, 94, 0.22) 60%, rgba(52, 211, 153, 0.18) 100%);
+  --color-player-me-background: rgba(14, 165, 233, 0.28);
   --color-player-me-text: #cffafe;
   --color-player-active-border: transparent;
-  --color-player-active-background: linear-gradient(170deg, rgba(202, 138, 4, 0.28) 0%, rgba(217, 119, 6, 0.22) 60%, rgba(234, 179, 8, 0.18) 100%);
+  --color-player-active-background: rgba(202, 138, 4, 0.28);
   --color-player-active-text: #fde68a;
   --color-info-bg: rgba(14, 165, 233, 0.4);
   --color-info-bg-expanded: rgba(14, 165, 233, 0.2);
-  --section-turn-background: linear-gradient(150deg, rgba(202, 138, 4, 0.22) 0%, rgba(120, 53, 15, 0.45) 100%);
-  --section-feed-background: linear-gradient(150deg, rgba(14, 165, 233, 0.22) 0%, rgba(37, 99, 235, 0.2) 100%);
+  --section-turn-background: rgba(202, 138, 4, 0.22);
+  --section-feed-background: rgba(14, 165, 233, 0.22);
   --color-focus-ring: rgba(56, 189, 248, 0.45);
   --color-panel-glass: rgba(15, 23, 42, 0.9);
   --color-bg-secondary: #223253;
@@ -58,9 +58,9 @@ html.theme-dark {
   --color-room-count-text: #93c5fd;
 
   /* Logo & Gradients */
-  --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
-  --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
-  --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+  --gradient-logo-warm: #facc15;
+  --gradient-logo-cool: #8b5cf6;
+  --gradient-logo-main: rgba(79, 70, 229, 0.9);
 
   /* Component Specifics */
   --color-slider-track: rgba(248, 250, 252, 0.2);
@@ -87,18 +87,19 @@ html.theme-dark {
   --color-field-organs-active-icon-bg: rgba(244, 114, 182, 0.4);
   --color-field-organs-active-icon: #fce7f3;
   --color-field-empty-bg: rgba(148, 163, 184, 0.14);
-  --gradient-red: linear-gradient(135deg, #f87171, #ef4444);
-  --gradient-green: linear-gradient(135deg, #4ade80, #22c55e);
-  --gradient-blue: linear-gradient(135deg, #60a5fa, #3b82f6);
-  --gradient-yellow: linear-gradient(135deg, #facc15, #eab308);
+  --gradient-red: #f87171;
+  --gradient-green: #4ade80;
+  --gradient-blue: #60a5fa;
+  --gradient-yellow: #facc15;
+  /* --gradient-multi kept as gradient for exceptions, or replaced if not used in exceptions? */
   --gradient-multi: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
   --color-dot-neutral: rgba(148, 163, 184, 0.4);
   --color-card-border-playing: #ffffff;
   --color-card-selected-glow: rgba(0, 0, 0, 0.8);
   --color-input-bg-soft: #223253;
   --color-input-bg-focus: rgba(24, 96, 128, 0.95);
-  --gradient-primary-purple: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
-  --gradient-primary-purple-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  --color-btn-primary-bg: var(--color-primary);
+  --color-btn-primary-bg-hover: var(--color-primary-hover);
   --color-danger-active-turn: #aa4a44;
 
   /* Misc / Patterns */
@@ -110,7 +111,7 @@ html.theme-dark {
   --drop-shadow-sm: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
   --color-discard-pile-bg: #1e293b;
   --color-border-glass-light: rgba(255, 255, 255, 0.1);
-  --gradient-greeting: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
+  --gradient-greeting: #14b8a6;
 
   /* Batch 4: Fields / Layout / Scrollbars */
   --color-hover-overlay-strong: rgba(255, 255, 255, 0.08);
@@ -122,7 +123,7 @@ html.theme-dark {
   --color-player-active-border: rgba(37, 99, 235, 0.5);
   /* Batch 5: Player Board / Drag & Drop */
   --color-drag-preview-bg: rgba(15, 23, 42, 0.95);
-  --gradient-placeholder: linear-gradient(135deg, rgba(148, 163, 184, 0.1), rgba(148, 163, 184, 0.02));
+  --color-placeholder-bg: rgba(148, 163, 184, 0.1);
   --shadow-valid-target: 0 0 0 2px rgba(34, 197, 94, 0.6);
   --color-valid-target-bg: rgba(34, 197, 94, 0.15);
   --shadow-drag-over: 0 0 0 2px rgba(255, 255, 255, 0.9);
@@ -141,17 +142,17 @@ html.theme-dark {
   --color-slot-selected-bg: rgba(239, 68, 68, 0.2);
   --color-slot-valid-bg: rgba(34, 197, 94, 0.2);
   --color-virus-pattern-red: rgba(239, 68, 68, 0.2);
-  --gradient-board-me-active-light: linear-gradient(170deg, rgba(255, 247, 237, 0.9) 4%, rgba(228, 254, 246, 0.88) 45%, rgba(207, 250, 254, 0.9) 100%);
-  --gradient-board-me-dark: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
-  --gradient-board-me-active-dark: linear-gradient(170deg, rgba(34, 197, 159, 0.18) 0%, rgba(14, 165, 233, 0.16) 55%, rgba(37, 99, 235, 0.14) 100%);
+  --gradient-board-me-active-light: rgba(255, 247, 237, 0.9);
+  --gradient-board-me-dark: rgba(15, 30, 54, 0.9);
+  --gradient-board-me-active-dark: rgba(34, 197, 159, 0.18);
 
   /* Batch 6: Feed / Empty States */
-  --color-slot-empty-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.05));
+  --color-slot-empty-bg-gradient: rgba(255, 255, 255, 0.02);
   --color-slot-stripe: rgba(148, 163, 184, 0.1);
   --color-turn-progress-track: rgba(148, 163, 184, 0.2);
   --color-system-message-bg: rgba(255, 255, 255, 0.05);
-  --gradient-feed-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-  --gradient-feed-highlight: radial-gradient(circle at top left, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  --color-feed-overlay-bg: rgba(255, 255, 255, 0.05);
+  --gradient-feed-highlight: rgba(255, 255, 255, 0.1);
   --color-border-warning-soft: rgba(249, 115, 22, 0.35);
 
   /* Final Polish */

@@ -60,7 +60,7 @@
 .game-info__pile-icon--deck,
 .game-info__pile-icon--deck::before,
 .game-info__pile-icon--deck::after {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  background: var(--color-primary);
 }
 
 .game-info__pile-icon--start,
@@ -69,13 +69,13 @@
 .game-info__pile-icon--duration,
 .game-info__pile-icon--duration::before,
 .game-info__pile-icon--duration::after {
-  background: linear-gradient(135deg, var(--color-muted-button-active), var(--color-primary));
+  background: var(--color-primary);
 }
 
 .game-info__pile-icon--discard,
 .game-info__pile-icon--discard::before,
 .game-info__pile-icon--discard::after {
-  background: linear-gradient(135deg, var(--color-danger-soft), var(--color-danger));
+  background: var(--color-danger);
 }
 
 .game-info__pile-count {

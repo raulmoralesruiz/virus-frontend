@@ -1,4 +1,11 @@
 :host {
+  /* Me: Emerald/Green Soft */
+  --color-player-me-background: rgb(209, 250, 229);
+  /* Active: Amber/Orange Soft */
+  --color-player-active-background: rgb(254, 243, 199);
+  /* Me + Active: Teal/Emerald Stronger */
+  --color-player-me-active-background: rgb(167, 243, 208);
+
   border-radius: 8px;
   padding: 1.5rem 0.25rem 0.25rem;
   transition: background 0.3s ease,
@@ -12,6 +19,15 @@
   --board-slot-gap: 0.35rem;
   --board-slot-height: 50px;
   user-select: none;
+}
+
+:host-context(.theme-dark) {
+  /* Me: Emerald 500/600 approx */
+  --color-player-me-background: rgb(13, 50, 37);
+  /* Active: Amber/Brown Deep */
+  --color-player-active-background: rgb(49, 24, 1);
+  /* Me + Active: Emerald/Teal Deep */
+  --color-player-me-active-background: rgb(13, 50, 37);
 }
 
 @keyframes shimmer {
@@ -46,16 +62,14 @@
   background: var(--color-player-me-background);
 }
 
-:host-context(.theme-dark).is-me {
-  background: var(--gradient-board-me-dark);
-}
-
-
-
 :host.is-active {
   background: var(--color-player-active-background);
   position: relative;
   overflow: hidden;
+}
+
+:host.is-me.is-active {
+  background: var(--color-player-me-active-background);
 }
 
 :host.is-active::after {
@@ -72,14 +86,6 @@
   transform: translateX(-150%) skewX(-15deg);
   pointer-events: none;
   animation: shimmer 2s infinite;
-}
-
-:host.is-me.is-active {
-  background: var(--gradient-board-me-active-light);
-}
-
-:host-context(.theme-dark).is-me.is-active {
-  background: var(--gradient-board-me-active-dark);
 }
 
 .board-drop-wrapper.cdk-drop-list-dragging {

@@ -13,7 +13,7 @@
   padding: 0.5rem 0.75rem;
   border-radius: 10px;
   background: var(--section-feed-background);
-  background-image: var(--gradient-feed-overlay);
+  background-image: var(--color-feed-overlay-bg);
   backdrop-filter: blur(10px);
   color: var(--color-text-primary);
   width: 100%;
