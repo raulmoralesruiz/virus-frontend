@@ -7,9 +7,30 @@
   min-height: 100vh;
   min-height: 100svh;
   padding: 2rem 1.25rem;
-  background: linear-gradient(180deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-end) 100%);
+  background: linear-gradient(180deg, var(--color-bg-main) 0%, var(--color-bg-main-alt) 100%);
   user-select: none;
   text-align: center;
+
+  /* Shadow global gradients to preserve them for Home */
+  --color-bg-main: #f9fafb;
+  --color-bg-main-alt: #eef1f5;
+  --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+  --color-btn-primary-bg: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
+  --color-btn-primary-bg-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  --gradient-greeting: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
+}
+
+:host-context(.theme-dark) {
+  --color-bg-main: #030712;
+  --color-bg-main-alt: #050a1a;
+  --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+  --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+  --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+  --color-btn-primary-bg: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
+  --color-btn-primary-bg-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  --gradient-greeting: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
 }
 
 @supports (height: 100dvh) {

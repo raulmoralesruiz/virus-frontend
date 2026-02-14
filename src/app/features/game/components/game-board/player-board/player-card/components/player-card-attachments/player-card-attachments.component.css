@@ -83,14 +83,8 @@
   }
 }
 
-/* Estilo para virus temporales */
 .attached-card.temporary-virus {
-  background-image: repeating-linear-gradient(120deg,
-      var(--color-virus-pattern-red),
-      var(--color-virus-pattern-red) 6px,
-      transparent 6px,
-      transparent 12px);
-  opacity: 0.8;
+  opacity: 0.5;
 }
 
 .attached-card.cdk-drag {

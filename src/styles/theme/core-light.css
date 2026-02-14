@@ -1,8 +1,8 @@
 :root {
   color-scheme: light;
   --color-bg-body: #f5f6f8;
-  --color-bg-gradient-start: #f9fafb;
-  --color-bg-gradient-end: #eef1f5;
+  --color-bg-main: #edeff0;
+  --color-bg-main-alt: #eef1f5;
   --color-surface: #ffffff;
   --color-surface-soft: #f4f5f7;
   --color-text-primary: #111322;
@@ -29,15 +29,15 @@
   --color-hand-panel-background: rgba(14, 165, 233, 0.4);
   --color-error-background: rgba(239, 68, 68, 0.08);
   --color-error-text: #7f1d1d;
-  --color-player-me-background: linear-gradient(165deg, rgba(14, 165, 233, 0.16) 0%, rgba(16, 185, 129, 0.25) 100%);
+  --color-player-me-background: rgba(14, 165, 233, 0.16);
   --color-player-me-text: #0f172a;
   --color-player-active-border: transparent;
-  --color-player-active-background: linear-gradient(165deg, rgba(251, 191, 36, 0.16) 0%, rgba(249, 115, 22, 0.12) 100%);
+  --color-player-active-background: rgba(251, 191, 36, 0.16);
   --color-player-active-text: #7c2d12;
   --color-info-bg: rgba(14, 165, 233, 0.4);
   --color-info-bg-expanded: rgba(14, 165, 233, 0.2);
-  --section-turn-background: linear-gradient(155deg, rgba(251, 191, 36, 0.12) 0%, rgba(248, 113, 113, 0.12) 100%);
-  --section-feed-background: linear-gradient(155deg, rgba(59, 130, 246, 0.12) 0%, rgba(14, 165, 233, 0.12) 100%);
+  --section-turn-background: rgba(251, 191, 36, 0.12);
+  --section-feed-background: rgba(59, 130, 246, 0.12);
   --transition-theme: background-color 0.3s ease, color 0.3s ease;
   --color-focus-ring: rgba(37, 99, 235, 0.35);
   --color-panel-glass: rgb(255, 255, 255);
@@ -59,9 +59,9 @@
   --color-room-count-text: rgba(37, 99, 235, 0.95);
 
   /* Logo & Gradients */
-  --gradient-logo-warm: linear-gradient(135deg, #facc15 0%, #f97316 100%);
-  --gradient-logo-cool: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
-  --gradient-logo-main: linear-gradient(115deg, rgba(79, 70, 229, 0.9) 0%, rgba(37, 99, 235, 0.9) 35%, rgba(14, 165, 233, 0.9) 65%, rgba(16, 185, 129, 0.9) 100%);
+  --gradient-logo-warm: #facc15;
+  --gradient-logo-cool: #8b5cf6;
+  --gradient-logo-main: rgba(79, 70, 229, 0.9);
 
   /* Component Specifics */
   --color-slider-track: rgba(15, 23, 42, 0.2);
@@ -88,18 +88,19 @@
   --color-field-organs-active-icon-bg: rgba(244, 114, 182, 0.32);
   --color-field-organs-active-icon: #831843;
   --color-field-empty-bg: rgba(148, 163, 184, 0.14);
-  --gradient-red: linear-gradient(135deg, #f87171, #ef4444);
-  --gradient-green: linear-gradient(135deg, #4ade80, #22c55e);
-  --gradient-blue: linear-gradient(135deg, #60a5fa, #3b82f6);
-  --gradient-yellow: linear-gradient(135deg, #facc15, #eab308);
+  --gradient-red: #f87171;
+  --gradient-green: #4ade80;
+  --gradient-blue: #60a5fa;
+  --gradient-yellow: #facc15;
+  /* --gradient-multi kept somewhat gradient-y for exceptions if locally used, but here simpler? No, keep logic consistent. Theme file is exception source. Wait, implementation plan said shadow EXCEPTIONS. Theme file is GLOBAL. So I flatten here. */
   --gradient-multi: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
   --color-dot-neutral: rgba(148, 163, 184, 0.4);
   --color-card-border-playing: #ffffff;
   --color-card-selected-glow: rgba(23, 7, 7, 0.8);
   --color-input-bg-soft: #f8fbff;
   --color-input-bg-focus: #e0f2ff;
-  --gradient-primary-purple: linear-gradient(120deg, var(--color-primary) 0%, #7c3aed 100%);
-  --gradient-primary-purple-hover: linear-gradient(120deg, var(--color-primary-hover) 0%, #6d28d9 100%);
+  --color-btn-primary-bg: var(--color-primary);
+  --color-btn-primary-bg-hover: var(--color-primary-hover);
   --color-danger-active-turn: #88340c;
 
   /* Misc / Patterns */
@@ -111,7 +112,7 @@
   --drop-shadow-sm: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
   --color-discard-pile-bg: #e2e8f0;
   --color-border-glass-light: rgba(255, 255, 255, 0.4);
-  --gradient-greeting: linear-gradient(90deg, #14b8a6 0%, #0ea5e9 55%, #ec4899 100%);
+  --gradient-greeting: #14b8a6;
 
   /* Batch 4: Fields / Layout / Scrollbars */
   --color-hover-overlay-strong: rgba(0, 0, 0, 0.08);
@@ -123,7 +124,7 @@
   --color-player-active-border: rgba(37, 99, 235, 0.4);
   /* Batch 5: Player Board / Drag & Drop */
   --color-drag-preview-bg: rgba(15, 23, 42, 0.85);
-  --gradient-placeholder: linear-gradient(135deg, rgba(148, 163, 184, 0.2), rgba(148, 163, 184, 0.05));
+  --color-placeholder-bg: rgba(148, 163, 184, 0.2);
   --shadow-valid-target: 0 0 0 2px rgba(34, 197, 94, 0.6);
   --color-valid-target-bg: rgba(34, 197, 94, 0.15);
   --shadow-drag-over: 0 0 0 2px rgba(255, 255, 255, 0.9);
@@ -138,19 +139,19 @@
   --color-slot-selected-bg: rgba(239, 68, 68, 0.12);
   --color-slot-valid-bg: rgba(34, 197, 94, 0.15);
   --color-virus-pattern-red: rgba(239, 68, 68, 0.12);
-  --gradient-board-me-active-light: linear-gradient(170deg, rgba(255, 247, 237, 0.9) 4%, rgba(228, 254, 246, 0.88) 45%, rgba(207, 250, 254, 0.9) 100%);
-  --gradient-board-me-dark: linear-gradient(170deg, rgba(15, 30, 54, 0.9) 0%, rgba(10, 38, 66, 0.88) 100%);
+  --gradient-board-me-active-light: rgba(255, 247, 237, 0.9);
+  --gradient-board-me-dark: rgba(15, 30, 54, 0.9);
   /* Placeholder for dark mode consistency */
-  --gradient-board-me-active-dark: linear-gradient(170deg, rgba(34, 197, 159, 0.18) 0%, rgba(14, 165, 233, 0.16) 55%, rgba(37, 99, 235, 0.14) 100%);
+  --gradient-board-me-active-dark: rgba(34, 197, 159, 0.18);
 
   /* Batch 6: Feed / Empty States */
-  --color-slot-empty-bg-gradient: linear-gradient(135deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.08));
+  --color-slot-empty-bg-gradient: rgba(15, 23, 42, 0.04);
   --color-slot-stripe: rgba(148, 163, 184, 0.12);
   --color-turn-progress-track: rgba(148, 163, 184, 0.35);
   --color-system-message-bg: rgba(255, 255, 255, 0.08);
   /* Check valid contrast in light mode, maybe darken? */
-  --gradient-feed-overlay: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
-  --gradient-feed-highlight: radial-gradient(circle at top left, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+  --color-feed-overlay-bg: rgba(255, 255, 255, 0.12);
+  --gradient-feed-highlight: rgba(255, 255, 255, 0.25);
   --color-border-warning-soft: rgba(249, 115, 22, 0.35);
 
   /* Final Polish */

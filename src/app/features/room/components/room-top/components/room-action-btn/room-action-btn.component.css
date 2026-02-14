@@ -24,35 +24,23 @@
 :host ::ng-deep .room-share-icon {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
-  opacity: 0.95;
-}
-
-:host-context(.theme-dark) ::ng-deep .room-copy-icon,
-:host-context(.theme-dark) ::ng-deep .room-share-icon {
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
 }
 
 :host ::ng-deep .room-copy-icon:hover,
 :host ::ng-deep .room-copy-icon:focus-visible,
 :host ::ng-deep .room-share-icon:hover,
-:host ::ng-deep .room-share-icon:focus-visible {
-  transform: translateY(-2px);
+:host ::ng-deep .room-share-icon:focus-visible,
+:host ::ng-deep .room-leave:hover,
+:host ::ng-deep .room-leave:focus-visible {
+  transform: scale(1.1);
 }
 
 :host ::ng-deep .room-leave {
   background: var(--color-danger-dark);
   color: var(--color-danger-contrast-text);
-  opacity: 0.95;
 }
 
 :host ::ng-deep .room-leave .room-action__icon {
   width: 1.1rem;
   height: 1.1rem;
-}
-
-:host ::ng-deep .room-leave:hover,
-:host ::ng-deep .room-leave:focus-visible {
-  background: var(--color-danger-hover);
-  transform: translateY(-2px);
 }

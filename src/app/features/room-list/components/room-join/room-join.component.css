@@ -75,13 +75,10 @@
 }
 
 .section-divider {
-  width: 100%;
+  width: 80%;
   height: 1px;
-  background: linear-gradient(90deg,
-      transparent,
-      var(--color-divider-weak),
-      transparent);
-  border-radius: 999px;
+  background: var(--color-divider-weak);
+  margin: 0 auto;
 }
 
 @media (max-width: 360px) {
