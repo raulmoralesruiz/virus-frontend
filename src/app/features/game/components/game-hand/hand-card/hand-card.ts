@@ -40,7 +40,6 @@ export class HandCard {
     const c = this.card();
     const isHalloween = c.color === CardColor.Halloween;
     const colorClass = (c.kind === CardKind.Treatment && isHalloween) ? 'hand-card--treatment-halloween' :
-                       (c.kind === CardKind.Organ && c.color === CardColor.Orange) ? 'hand-card--halloween' :
                        `hand-card--${c.color}`;
     
     return [
