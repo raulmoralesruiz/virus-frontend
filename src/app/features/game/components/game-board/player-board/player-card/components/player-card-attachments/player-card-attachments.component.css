@@ -44,23 +44,23 @@
 
 /* Colores de "chips" */
 .chip.red {
-  background: var(--card-red-end);
+  background: var(--card-red);
 }
 
 .chip.green {
-  background: var(--card-green-end);
+  background: var(--card-green);
 }
 
 .chip.blue {
-  background: var(--card-blue-end);
+  background: var(--card-blue);
 }
 
 .chip.yellow {
-  background: var(--card-yellow-end);
+  background: var(--card-yellow);
 }
 
 .chip.multi {
-  background: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
+  background: var(--card-multi);
 }
 
 @media (min-width: 768px) {

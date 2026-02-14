@@ -1,14 +1,26 @@
 :root {
-  --card-red-end: #ef4444;
-  --card-green-end: #22c55e;
-  --card-blue-end: #3b82f6;
-  --card-yellow-end: #eab308;
-  --card-multi-middle: #9333ea;
-  --card-halloween-end: #f97316;
-  --card-orange-end: #fb923c;
-  --organ-red: rgba(239, 68, 68, 0.7);
-  --organ-green: rgba(34, 197, 94, 0.7);
-  --organ-blue: rgba(59, 130, 246, 0.7);
-  --organ-yellow: rgba(234, 179, 8, 0.7);
-  --organ-orange: rgba(251, 146, 60, 0.8);
+  /* red 400 */
+  --card-red: #EF4343;
+  /* green 400 */
+  --card-green: #51E186;
+  /* blue 400 */
+  --card-blue: #3B82F6;
+  /* yellow 400 */
+  --card-yellow: #F8C83A;
+  /* orange 400 */
+  --card-orange: #FB8F37;
+  --card-treatment: #9C46EC;
+  --card-multi: linear-gradient(135deg, var(--organ-red), var(--organ-blue), var(--organ-green), var(--organ-yellow), var(--organ-orange));
+  --card-treatment-halloween: linear-gradient(135deg, var(--card-treatment) 80%, var(--card-orange));
+
+  /* red 600 */
+  --organ-red: #BC1010;
+  /* green 600 */
+  --organ-green: #1EAE53;
+  /* blue 600 */
+  --organ-blue: #0950C3;
+  /* yellow 600 */
+  --organ-yellow: #C59507;
+  /* orange 600 */
+  --organ-orange: #C85C04;
 }
