@@ -16,6 +16,14 @@ export class SocketRoomService {
     this.socketService.on(ROOM_CONSTANTS.ROOM_JOINED, callback);
   }
 
+  onRoomClosed(callback: () => void) {
+    this.socketService.on(ROOM_CONSTANTS.ROOM_CLOSED, callback);
+  }
+
+  onRoomTimer(callback: (data: { remainingSeconds: number }) => void) {
+    this.socketService.on(ROOM_CONSTANTS.ROOM_TIMER, callback);
+  }
+
   createRoom(player: Player, visibility: Room['visibility']) {
     this.socketService.emit(ROOM_CONSTANTS.ROOM_NEW, { player, visibility });
   }

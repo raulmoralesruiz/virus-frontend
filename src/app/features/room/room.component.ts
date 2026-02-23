@@ -8,6 +8,7 @@ import { RoomPlayersComponent } from './components/room-players/room-players.com
 import { RoomConfigComponent } from './components/room-config/room-config.component';
 import { RoomExitComponent } from './components/room-exit/room-exit.component';
 import { RoomEnterComponent } from './components/room-enter/room-enter.component';
+import { RoomTimerComponent } from './components/room-timer/room-timer.component';
 
 @Component({
   selector: 'app-room',
@@ -18,6 +19,7 @@ import { RoomEnterComponent } from './components/room-enter/room-enter.component
     RoomConfigComponent,
     RoomExitComponent,
     RoomEnterComponent,
+    RoomTimerComponent,
   ],
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
