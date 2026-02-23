@@ -16,6 +16,7 @@ export class RoomStoreService {
 
   rooms = signal<Room[]>([]);
   currentRoom = signal<Room | null>(null);
+  roomTimerSeconds = signal<number | null>(null);
 
   constructor() {
     this.listenSocketUpdates();
@@ -53,6 +54,15 @@ export class RoomStoreService {
         this.router.navigate(['/room-list']);
       }
     });
+    this.socket.onRoomClosed(() => {
+      this.currentRoom.set(null);
+      this.roomTimerSeconds.set(null);
+      this.api.clearCurrentRoom();
+      this.router.navigate(['/room-list']);
+    });
+    this.socket.onRoomTimer(({ remainingSeconds }) => {
+      this.roomTimerSeconds.set(remainingSeconds);
+    });
   }
 
   getRooms() {
@@ -88,6 +98,7 @@ export class RoomStoreService {
   leaveRoom(roomId: string, player: Player) {
     this.socket.leaveRoom(roomId, player);
     this.currentRoom.set(null);
+    this.roomTimerSeconds.set(null);
     this.api.clearCurrentRoom();
   }
 

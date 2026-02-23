@@ -3,6 +3,8 @@
   <div class="room-panel">
     <app-room-top [room]="room()" (leaveRoom)="leaveRoom()" />
 
+    <app-room-timer [room]="room()" />
+
     <app-room-players [room]="room" />
 
     <app-room-config [canEditConfig]="canEditConfig()" [room]="room" />
