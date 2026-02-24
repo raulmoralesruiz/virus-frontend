@@ -75,7 +75,7 @@ export class PlayerCardComponent {
   constructor() {
     effect(() => {
       if (!this.dragDropService.draggedItem()) {
-        this._isDragOver.set(false);
+        setTimeout(() => this._isDragOver.set(false));
       }
     });
   }

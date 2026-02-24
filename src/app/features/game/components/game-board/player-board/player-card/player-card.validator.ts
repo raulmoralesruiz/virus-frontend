@@ -44,15 +44,12 @@ export function isValidDropTarget(dragged: any, organ: OrganOnBoard, isMe: boole
           // "solo debe animar los órganos correspondientes"
           if (isMe) return false;
           
-          // Map subtype to color
-          let targetColor: CardColor | null = null;
-          if (card.subtype === TreatmentSubtype.colorThiefRed) targetColor = CardColor.Red;
-          if (card.subtype === TreatmentSubtype.colorThiefGreen) targetColor = CardColor.Green;
-          if (card.subtype === TreatmentSubtype.colorThiefBlue) targetColor = CardColor.Blue;
-          if (card.subtype === TreatmentSubtype.colorThiefYellow) targetColor = CardColor.Yellow;
-
-          if (!targetColor) return false;
-          
+          const targetColor = 
+            card.subtype === TreatmentSubtype.colorThiefRed ? CardColor.Red :
+            card.subtype === TreatmentSubtype.colorThiefGreen ? CardColor.Green :
+            card.subtype === TreatmentSubtype.colorThiefBlue ? CardColor.Blue :
+            CardColor.Yellow;
+            
           return organ.color === targetColor;
 
         default:

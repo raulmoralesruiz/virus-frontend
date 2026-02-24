@@ -116,8 +116,8 @@ export class BoardDragPredicates {
           if (card.subtype === TreatmentSubtype.colorThiefBlue) targetColor = CardColor.Blue;
           if (card.subtype === TreatmentSubtype.colorThiefYellow) targetColor = CardColor.Yellow;
 
-          if (!targetColor) return false;
-          return organ.color === targetColor;
+          // Target color is always set due to the switch cases above, but TS needs to be sure or we need a default.
+          return targetColor ? organ.color === targetColor : false;
         }
 
         default:
