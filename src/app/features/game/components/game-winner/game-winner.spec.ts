@@ -4,7 +4,7 @@ import { GameWinnerComponent } from './game-winner';
 import { TimerSoundService } from '@core/services/timer-sound.service';
 
 class TimerSoundServiceStub {
-  playWinner = jasmine.createSpy('playWinner');
+  playWinner = jest.fn();
 }
 
 describe('GameWinner', () => {
@@ -22,12 +22,12 @@ describe('GameWinner', () => {
 
     fixture = TestBed.createComponent(GameWinnerComponent);
     component = fixture.componentInstance;
-    component.winner = {
+    fixture.componentRef.setInput('winner', {
       player: {
         id: 'player-1',
         name: 'Jugador 1',
       },
-    };
+    });
     fixture.detectChanges();
   });
 
@@ -37,5 +37,30 @@ describe('GameWinner', () => {
 
   it('should play the winner sound when the winner changes', () => {
     expect(timerSound.playWinner).toHaveBeenCalled();
+  });
+
+  it('should do nothing if winner is null', () => {
+    timerSound.playWinner.mockClear();
+    fixture.componentRef.setInput('winner', null);
+    fixture.detectChanges();
+    expect(timerSound.playWinner).not.toHaveBeenCalled();
+  });
+
+  it('should emit reset', () => {
+    const spy = jest.spyOn(component.reset, 'emit');
+    component.onReset();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should emit leave', () => {
+    const spy = jest.spyOn(component.leave, 'emit');
+    component.onLeave();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should close modal', () => {
+    component.isVisible = true;
+    component.closeModal();
+    expect(component.isVisible).toBe(false);
   });
 });

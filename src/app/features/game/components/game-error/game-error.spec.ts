@@ -21,10 +21,10 @@ describe('GameError', () => {
   });
 
   it('should emit closed when overlay is clicked', () => {
-    component.error = 'Error visible';
+    fixture.componentRef.setInput('error', 'Error visible');
     fixture.detectChanges();
 
-    const emitSpy = spyOn(component.closed, 'emit');
+    const emitSpy = jest.spyOn(component.closed, 'emit');
     const overlay: HTMLElement | null = fixture.nativeElement.querySelector('.error-overlay');
     expect(overlay).not.toBeNull();
     overlay!.click();
@@ -33,10 +33,10 @@ describe('GameError', () => {
   });
 
   it('should emit closed when close button is clicked', () => {
-    component.error = 'Error visible';
+    fixture.componentRef.setInput('error', 'Error visible');
     fixture.detectChanges();
 
-    const emitSpy = spyOn(component.closed, 'emit');
+    const emitSpy = jest.spyOn(component.closed, 'emit');
     const closeButton: HTMLButtonElement | null = fixture.nativeElement.querySelector('.error-close');
     expect(closeButton).not.toBeNull();
     closeButton!.click();

@@ -22,6 +22,7 @@ export class GameActionFeedComponent {
   constructor() {
     effect(() => {
       const next = this.feed.currentAction();
+      console.log('effect running. next:', next);
       const current = this.display();
 
       if (next) {
@@ -30,7 +31,7 @@ export class GameActionFeedComponent {
         const scheduleEnter = () => {
           if (this.feed.currentAction()?.id === nextId) this.visible.set(true);
         };
-        typeof queueMicrotask === 'function' ? queueMicrotask(scheduleEnter) : Promise.resolve().then(scheduleEnter);
+        setTimeout(scheduleEnter, 10);
         return;
       }
 

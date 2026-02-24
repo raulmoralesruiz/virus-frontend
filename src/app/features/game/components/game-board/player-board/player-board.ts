@@ -71,7 +71,7 @@ export class PlayerBoardComponent {
 
   constructor() {
     effect(() => {
-      if (!this.dragDropService.draggedItem()) this.isDragOver.set(false);
+      if (!this.dragDropService.draggedItem()) setTimeout(() => this.isDragOver.set(false));
     });
   }
 
