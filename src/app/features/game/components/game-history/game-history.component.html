@@ -18,9 +18,9 @@
         <span class="history-action">{{ entry.action }}</span>
         @if (entry.cardName) {
         <span class="history-card" [class]="'history-card--' + entry.cardColor">{{ entry.cardName }}</span>
+        }
         @if (entry.target) {
         <span class="history-target">{{ entry.target.trim() }}</span>
-        }
         }
         }
       </li>
