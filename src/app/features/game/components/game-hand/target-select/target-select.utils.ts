@@ -22,6 +22,6 @@ export function organColorClass(color?: string): string {
 }
 
 export function organColorLabel(color?: string): string {
-    return COLOR_LABELS[color || ''] ?? color ?? 'Sin órgano';
+    return COLOR_LABELS[color || ''] || color || 'Sin órgano';
 }
 

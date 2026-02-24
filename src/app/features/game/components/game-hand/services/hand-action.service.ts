@@ -32,8 +32,7 @@ export class HandActionService {
 
   readonly canConfirmSelection = computed(() => {
     const strategy = this.currentStrategy();
-    const card = this.selectedCard();
-    if (!strategy || !card) return false;
+    if (!strategy) return false;
     
     return strategy.canPlay(this.getCurrentSelectionState());
   });
@@ -50,11 +49,10 @@ export class HandActionService {
     if (!gameState) return;
 
     const strategy = this._strategyResolver.resolve(card);
-    if (strategy) {
-       this.initializeSpecialStates(card, gameState);
-       const options = strategy.getTargets(gameState, card, this._apiPlayer.player()?.id);
-       this._state.targetOptions.set(options);
-    }
+    
+    this.initializeSpecialStates(card, gameState);
+    const options = strategy.getTargets(gameState, card, this._apiPlayer.player()?.id);
+    this._state.targetOptions.set(options);
   }
 
   confirmPlay(roomId: string) {

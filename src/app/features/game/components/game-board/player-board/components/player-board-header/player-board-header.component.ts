@@ -44,7 +44,7 @@ export class PlayerBoardHeaderComponent {
       const currentDuration = this.turnDurationSeconds();
 
       if (remaining > currentDuration) {
-        this.turnDurationSeconds.set(remaining);
+        setTimeout(() => this.turnDurationSeconds.set(remaining));
       }
     });
 
