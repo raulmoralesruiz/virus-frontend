@@ -1,5 +1,6 @@
 import { Injectable, effect, inject, signal } from '@angular/core';
 import { SocketGameService } from '@core/services/socket/socket.game.service';
+import { HistoryEntry } from '@core/models/game.model';
 import { GameActionParser } from '../parsers/game-action-parser';
 import { GameAction } from '../types/game-action.types';
 export type { GameAction, GameActionType } from '../types/game-action.types';
@@ -44,20 +45,27 @@ export class GameActionFeedService {
     this.timer = null;
   }
 
-  private processHistory(history: string[]) {
-    const sanitized = history.map((e) => e.trim()).filter(Boolean);
+  private processHistory(history: HistoryEntry[]) {
+    // Generate a crude string representation for counting
+    const getKey = (e: HistoryEntry) => JSON.stringify(e);
+    
     const currentCounts = new Map<string, number>();
-    const newEntries: string[] = [];
-    sanitized.forEach((entry) => {
-      const count = (currentCounts.get(entry) ?? 0) + 1;
-      currentCounts.set(entry, count);
-      if (this.initialized && count > (this.historyCounts.get(entry) ?? 0)) newEntries.push(entry);
+    const newEntries: HistoryEntry[] = [];
+    
+    history.forEach((entry) => {
+      const key = getKey(entry);
+      const count = (currentCounts.get(key) ?? 0) + 1;
+      currentCounts.set(key, count);
+      if (this.initialized && count > (this.historyCounts.get(key) ?? 0)) newEntries.push(entry);
     });
+    
     this.historyCounts = currentCounts;
+    
     if (!this.initialized) {
       this.initialized = true;
       return;
     }
+    
     newEntries.reverse().forEach((entry) => {
       const action = this.parser.parse(entry);
       if (action) this.enqueue(action);

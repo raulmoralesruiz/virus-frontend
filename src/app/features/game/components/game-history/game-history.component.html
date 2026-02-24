@@ -10,7 +10,20 @@
     @if (history().length) {
     <ul class="history-list">
       @for (entry of history(); track $index) {
-      <li class="history-item">{{ entry }}</li>
+      <li class="history-item">
+        @if (entry.plainText) {
+        {{ entry.plainText }}
+        } @else {
+        <span class="history-player">{{ entry.player }}</span>
+        <span class="history-action">{{ entry.action }}</span>
+        @if (entry.cardName) {
+        <span class="history-card" [class]="'history-card--' + entry.cardColor">{{ entry.cardName }}</span>
+        @if (entry.target) {
+        <span class="history-target">{{ entry.target.trim() }}</span>
+        }
+        }
+        }
+      </li>
       }
     </ul>
     }

@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { HistoryEntry } from '@core/models/game.model';
 
 @Component({
   selector: 'game-history',
@@ -7,7 +8,7 @@ import { Component, input, output } from '@angular/core';
   styleUrls: ['./game-history.component.css']
 })
 export class GameHistoryComponent {
-  history = input<string[]>([]);
+  history = input<HistoryEntry[]>([]);
   closed = output<void>();
 
   closeHistory() {

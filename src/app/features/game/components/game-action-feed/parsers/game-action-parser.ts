@@ -1,76 +1,61 @@
 import { Injectable } from '@angular/core';
 import { GameAction } from '../types/game-action.types';
+import { HistoryEntry } from '@core/models/game.model';
 
 @Injectable({ providedIn: 'root' })
 export class GameActionParser {
-  parse(entry: string): GameAction | null {
-    const normalized = entry.trim();
-    if (!normalized) return null;
+  parse(entry: HistoryEntry): GameAction | null {
+    if (!entry) return null;
 
-    const playMatch = normalized.match(/^(?<actor>.+?) (?<verb>jugó|usó) (?<rest>.+)$/i);
-    if (playMatch?.groups) {
-      const { actor, verb, rest } = playMatch.groups;
-      const { cardLabel, detail } = this.extractCardAndDetail(rest.trim());
-      return {
-        id: this.generateId(),
-        type: 'play-card',
-        actor: actor.trim(),
-        verb: verb.trim(),
-        cardLabel,
-        detail,
-        message: normalized,
-        timestamp: Date.now(),
-      };
-    }
-
-    const discardMatch = normalized.match(/^(?<actor>.+?) descartó (?<qty>\d+) cartas?$/i);
-    if (discardMatch?.groups) {
-      return {
-        id: this.generateId(),
-        type: 'discard',
-        actor: discardMatch.groups['actor'].trim(),
-        quantity: parseInt(discardMatch.groups['qty'], 10) || 0,
-        message: normalized,
-        timestamp: Date.now(),
-      };
-    }
-
-    const drawMatch = normalized.match(/^(?<actor>.+?) robó una carta$/i);
-    if (drawMatch?.groups) {
-      return {
-        id: this.generateId(),
-        type: 'draw',
-        actor: drawMatch.groups['actor'].trim(),
-        message: normalized,
-        timestamp: Date.now(),
-      };
-    }
-
-    const isSystem =
-      normalized.toLowerCase().startsWith('comienza la partida') ||
-      normalized.toLowerCase().startsWith('la partida se reinició');
-
-    return {
-      id: this.generateId(),
-      type: 'system',
-      message: normalized,
-      timestamp: Date.now(),
-    };
-  }
-
-  private extractCardAndDetail(value: string): { cardLabel?: string; detail?: string } {
-    const separators = [' → ', ' sobre ', ' entre ', ' a '];
-    for (const separator of separators) {
-      const idx = value.indexOf(separator);
-      if (idx >= 0) {
+    if (entry.player && entry.action) {
+      if (entry.action === 'robó') {
         return {
-          cardLabel: value.slice(0, idx).trim(),
-          detail: value.slice(idx).trim(),
+          id: this.generateId(),
+          type: 'draw',
+          actor: entry.player,
+          message: entry.plainText || `${entry.player} robó ${entry.target}`,
+          timestamp: Date.now(),
+        };
+      }
+
+      if (entry.action === 'descartó') {
+        const qtyMatch = entry.target?.match(/\d+/);
+        return {
+          id: this.generateId(),
+          type: 'discard',
+          actor: entry.player,
+          quantity: qtyMatch ? parseInt(qtyMatch[0], 10) : 0,
+          message: entry.plainText || `${entry.player} descartó ${entry.target}`,
+          timestamp: Date.now(),
+        };
+      }
+
+      if (entry.action === 'jugó' || entry.action === 'usó') {
+        return {
+          id: this.generateId(),
+          type: 'play-card',
+          actor: entry.player,
+          verb: entry.action,
+          cardLabel: entry.cardName,
+          detail: entry.target,
+          message: entry.plainText || `${entry.player} ${entry.action} ${entry.cardName}${entry.target || ''}`,
+          timestamp: Date.now(),
         };
       }
     }
-    return { cardLabel: value.trim() };
+
+    if (entry.plainText) {
+      return {
+        id: this.generateId(),
+        type: 'system',
+        message: entry.plainText,
+        timestamp: Date.now(),
+      };
+    }
+
+    return null;
   }
+
 
   private generateId(): string {
     return `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;

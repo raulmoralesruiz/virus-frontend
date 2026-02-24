@@ -10,12 +10,12 @@ describe('GameActionParser', () => {
   });
 
   describe('parse', () => {
-    it('should return null for empty string', () => {
-      expect(parser.parse('   ')).toBeNull();
+    it('should return null for flat strings not in HistoryEntry format', () => {
+      expect(parser.parse({} as any)).toBeNull();
     });
 
     it('should parse play card action', () => {
-      const result = parser.parse('Player1 jugó Órgano Corazón');
+      const result = parser.parse({ player: 'Player1', action: 'jugó', cardName: 'Órgano Corazón' });
       expect(result).toMatchObject({
         type: 'play-card',
         actor: 'Player1',
@@ -27,7 +27,7 @@ describe('GameActionParser', () => {
     });
 
     it('should parse play card action with details', () => {
-      const result = parser.parse('P2 usó Ladrón de Órganos → sobre P1');
+      const result = parser.parse({ player: 'P2', action: 'usó', cardName: 'Ladrón de Órganos', target: '→ sobre P1' });
       expect(result).toMatchObject({
         type: 'play-card',
         actor: 'P2',
@@ -37,14 +37,14 @@ describe('GameActionParser', () => {
       });
     });
     
-    it('should extract card details picking the first separator', () => {
-        const result = parser.parse('P1 usó Medicina a P2');
+    it('should extract card details correctly', () => {
+        const result = parser.parse({ player: 'P1', action: 'usó', cardName: 'Medicina', target: 'a P2' });
         expect(result?.cardLabel).toBe('Medicina');
         expect(result?.detail).toBe('a P2');
     });
 
     it('should parse discard action - single card', () => {
-      const result = parser.parse('Player3 descartó 1 carta');
+      const result = parser.parse({ player: 'Player3', action: 'descartó', target: '1 carta' });
       expect(result).toMatchObject({
         type: 'discard',
         actor: 'Player3',
@@ -54,7 +54,7 @@ describe('GameActionParser', () => {
     });
 
     it('should parse discard action - multiple cards', () => {
-      const result = parser.parse('P4 descartó 3 cartas');
+      const result = parser.parse({ player: 'P4', action: 'descartó', target: '3 cartas' });
       expect(result).toMatchObject({
         type: 'discard',
         actor: 'P4',
@@ -63,13 +63,13 @@ describe('GameActionParser', () => {
     });
 
     it('should handle zero gracefully in discard', () => {
-        const result = parser.parse('P4 descartó 0 cartas');
+        const result = parser.parse({ player: 'P4', action: 'descartó', target: '0 cartas' });
         expect(result?.type).toBe('discard');
         expect((result as any).quantity).toBe(0);
     });
 
     it('should parse draw action', () => {
-      const result = parser.parse('Player5 robó una carta');
+      const result = parser.parse({ player: 'Player5', action: 'robó', target: 'una carta' });
       expect(result).toMatchObject({
         type: 'draw',
         actor: 'Player5',
@@ -78,15 +78,15 @@ describe('GameActionParser', () => {
     });
 
     it('should parse system actions', () => {
-      let result = parser.parse('Comienza la partida!');
+      let result = parser.parse({ plainText: 'Comienza la partida!' });
       expect(result).toMatchObject({ type: 'system' });
 
-      result = parser.parse('La partida se reinició.');
+      result = parser.parse({ plainText: 'La partida se reinició.' });
       expect(result).toMatchObject({ type: 'system' });
     });
 
     it('should parse unrecognized as system action', () => {
-      const result = parser.parse('Algo pasó');
+      const result = parser.parse({ plainText: 'Algo pasó' });
       expect(result).toMatchObject({ type: 'system', message: 'Algo pasó' });
     });
   });

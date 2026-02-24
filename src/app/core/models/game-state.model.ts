@@ -13,6 +13,15 @@ export interface OrganOnBoard {
   attached: Card[]; // virus o medicinas colocadas encima
 }
 
+export interface HistoryEntry {
+  plainText?: string;
+  player?: string;
+  action?: string;
+  cardName?: string;
+  cardColor?: string;
+  target?: string;
+}
+
 export interface PublicPlayerInfo {
   player: Player;
   board: OrganOnBoard[]; // cartas visibles en mesa
@@ -37,7 +46,7 @@ export interface PublicGameState {
   turnDeadlineTs: number;
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
-  history: string[];
+  history: HistoryEntry[];
   pendingAction?: ApparitionDecision;
 }
 
@@ -50,5 +59,5 @@ export interface GameState {
     players: PublicPlayerInfo[]; // lo que ven todos
   };
   startedAt: string; // ISO string
-  history: string[];
+  history: HistoryEntry[];
 }
