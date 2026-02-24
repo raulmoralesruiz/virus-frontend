@@ -11,11 +11,14 @@ import { Room } from '@core/models/room.model';
 export class RoomTimerComponent {
   room = input.required<Room | null>();
   private roomStore = inject(RoomStoreService);
-  defaultTimerSeconds = 10 * 60;
 
   timeLeft = computed(() => {
-    const remaining = this.roomStore.roomTimerSeconds() ?? this.defaultTimerSeconds;
+    const remaining = this.roomStore.roomTimerSeconds();
     
+    if (remaining == null) {
+      return null;
+    }
+
     const m = Math.floor(remaining / 60).toString().padStart(2, '0');
     const s = (remaining % 60).toString().padStart(2, '0');
     return { minutes: m, seconds: s };
