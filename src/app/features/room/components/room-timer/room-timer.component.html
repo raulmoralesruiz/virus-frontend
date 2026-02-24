@@ -1,3 +1,5 @@
-<div class="room-timer" [class.danger]="timeLeft().minutes === '00' && +timeLeft().seconds <= 30">
-  Cierre de sala por inactividad: <strong>{{ timeLeft().minutes }}:{{ timeLeft().seconds }}</strong>
+@if (timeLeft(); as time) {
+<div class="room-timer" [class.danger]="time.minutes === '00' && +time.seconds <= 30">
+  Cierre de sala por inactividad: <strong>{{ time.minutes }}:{{ time.seconds }}</strong>
 </div>
+}
