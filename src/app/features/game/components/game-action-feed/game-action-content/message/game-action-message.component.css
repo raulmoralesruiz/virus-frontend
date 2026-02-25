@@ -27,6 +27,71 @@
   color: var(--color-text-secondary);
 }
 
+.action-card--red {
+  color: var(--card-red);
+}
+
+.action-card--green {
+  color: var(--card-green);
+}
+
+.action-card--blue {
+  color: var(--card-blue);
+}
+
+.action-card--yellow {
+  color: var(--card-yellow);
+}
+
+.action-card--orange {
+  color: var(--card-orange);
+}
+
+.action-card--treatment {
+  color: var(--card-treatment);
+}
+
+.action-card--multi {
+  background: var(--card-multi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.action-card--halloween {
+  background: var(--card-treatment-halloween);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.history-target--red {
+  color: var(--organ-red);
+}
+
+.history-target--green {
+  color: var(--organ-green);
+}
+
+.history-target--blue {
+  color: var(--organ-blue);
+}
+
+.history-target--yellow {
+  color: var(--organ-yellow);
+}
+
+.history-target--orange {
+  color: var(--organ-orange);
+}
+
+.history-target--multi {
+  background: var(--card-multi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @media (max-width: 640px) {
   .action-feed__message {
     font-size: 0.88rem;

@@ -37,6 +37,7 @@ export class GameActionParser {
           actor: entry.player,
           verb: entry.action,
           cardLabel: entry.cardName,
+          cardColor: entry.cardColor,
           detail: entry.target,
           message: entry.plainText || `${entry.player} ${entry.action} ${entry.cardName}${entry.target || ''}`,
           timestamp: Date.now(),
