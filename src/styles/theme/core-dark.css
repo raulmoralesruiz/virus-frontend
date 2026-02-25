@@ -37,7 +37,7 @@ html.theme-dark {
   --color-info-bg: rgba(14, 165, 233, 0.4);
   --color-info-bg-expanded: rgba(14, 165, 233, 0.2);
   --section-turn-background: rgba(202, 138, 4, 0.22);
-  --section-feed-background: rgba(14, 165, 233, 0.22);
+  --section-feed-background: rgba(15, 23, 42, 0.95);
   --color-focus-ring: rgba(56, 189, 248, 0.45);
   --color-panel-glass: rgba(15, 23, 42, 0.9);
   --color-bg-secondary: #223253;

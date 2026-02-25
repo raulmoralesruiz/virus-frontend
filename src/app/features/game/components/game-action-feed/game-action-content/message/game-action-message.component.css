@@ -27,6 +27,14 @@
   color: var(--color-text-secondary);
 }
 
+/* Common Pill Badge Base Styles */
+[class^="action-card--"],
+[class^="history-target--"] {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Card Badge Styles using lighter --card-* variables */
 .action-card--red {
   color: var(--card-red);
 }

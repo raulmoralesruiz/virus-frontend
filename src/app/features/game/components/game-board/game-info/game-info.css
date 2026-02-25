@@ -5,7 +5,6 @@
   padding: 0.5rem 1rem;
   border-radius: 8px;
   background: var(--color-info-bg);
-  /* background: var(--color-panel-glass); */
   cursor: pointer;
   user-select: none;
   transition: transform 0.15s ease, background 0.15s ease;

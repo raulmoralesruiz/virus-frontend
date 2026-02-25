@@ -16,7 +16,7 @@
   gap: 0.35rem;
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
-  background: var(--color-surface-soft);
+  background: var(--color-bg-secondary);
   color: var(--color-text-primary);
   font-weight: 600;
   font-size: 0.8rem;
