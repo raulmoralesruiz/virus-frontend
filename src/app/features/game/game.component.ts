@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '@core/services/game-store.service';
 import { RoomStoreService } from '@core/services/room-store.service';
 import { Card } from '@core/models/card.model';
-import { PublicGameState } from '@core/models/game.model';
+import { PublicGameState, HistoryEntry } from '@core/models/game.model';
 import { GameErrorComponent } from './components/game-error/game-error';
 import { GameBoardComponent } from './components/game-board/game-board';
 import { GameHandComponent } from './components/game-hand/game-hand';
@@ -34,7 +34,7 @@ export class GameComponent implements OnInit {
   publicState: Signal<PublicGameState | null> = this.gameStore.publicState;
   currentRoom = this.roomStore.currentRoom;
   hand: Signal<Card[]> = this.gameStore.hand;
-  history: Signal<string[]> = this.gameStore.history;
+  history: Signal<HistoryEntry[]> = this.gameStore.history;
   roomId!: string;
   
   handHeight = signal(0);

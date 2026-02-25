@@ -1,0 +1,20 @@
+@if (entry().plainText) {
+{{ entry().plainText }}
+} @else {
+<span class="history-player">{{ entry().player }}</span>
+<span class="history-action">{{ entry().action }}</span>
+@if (entry().cardName) {
+<span class="history-card" [class]="'history-card--' + entry().cardColor">{{ entry().cardName }}</span>
+}
+@if (entry().target) {
+<span class="history-target">
+  @for (segment of (entry().target | parseTarget); track $index) {
+  @if (segment.isOrgan) {
+  <span [class]="segment.colorClass">{{ segment.text }}</span>
+  } @else {
+  {{ segment.text }}
+  }
+  }
+</span>
+}
+}
