@@ -125,9 +125,24 @@
   color: var(--card-yellow);
 }
 
-.history-card--multicolor {
-  background: linear-gradient(90deg, var(--card-red), var(--card-yellow), var(--card-green), var(--card-blue));
+.history-card--multi {
+  background: var(--card-multi);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.history-card--halloween {
+  background: var(--card-treatment-halloween);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.history-card--treatment {
+  color: var(--card-treatment);
+}
+
+.history-card--orange {
+  color: var(--card-orange);
 }
