@@ -146,3 +146,30 @@
 .history-card--orange {
   color: var(--card-orange);
 }
+
+.history-target--red {
+  color: var(--organ-red);
+}
+
+.history-target--green {
+  color: var(--organ-green);
+}
+
+.history-target--blue {
+  color: var(--organ-blue);
+}
+
+.history-target--yellow {
+  color: var(--organ-yellow);
+}
+
+.history-target--orange {
+  color: var(--organ-orange);
+}
+
+.history-target--multi {
+  background: var(--card-multi);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

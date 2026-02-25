@@ -1,5 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { HistoryEntry } from '@core/models/game.model';
+import { parseGameHistoryTarget } from './game-history.utils';
 
 @Component({
   selector: 'game-history',
@@ -10,6 +11,13 @@ import { HistoryEntry } from '@core/models/game.model';
 export class GameHistoryComponent {
   history = input<HistoryEntry[]>([]);
   closed = output<void>();
+
+  parsedHistory = computed(() => {
+    return this.history().map(entry => ({
+      ...entry,
+      parsedTarget: parseGameHistoryTarget(entry.target)
+    }));
+  });
 
   closeHistory() {
     this.closed.emit();

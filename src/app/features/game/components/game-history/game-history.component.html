@@ -9,7 +9,7 @@
 
     @if (history().length) {
     <ul class="history-list">
-      @for (entry of history(); track $index) {
+      @for (entry of parsedHistory(); track $index) {
       <li class="history-item">
         @if (entry.plainText) {
         {{ entry.plainText }}
@@ -19,8 +19,16 @@
         @if (entry.cardName) {
         <span class="history-card" [class]="'history-card--' + entry.cardColor">{{ entry.cardName }}</span>
         }
-        @if (entry.target) {
-        <span class="history-target">{{ entry.target.trim() }}</span>
+        @if (entry.parsedTarget && entry.parsedTarget.length > 0) {
+        <span class="history-target">
+          @for (segment of entry.parsedTarget; track $index) {
+          @if (segment.isOrgan) {
+          <span [class]="segment.colorClass">{{ segment.text }}</span>
+          } @else {
+          {{ segment.text }}
+          }
+          }
+        </span>
         }
         }
       </li>
