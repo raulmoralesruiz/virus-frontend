@@ -8,6 +8,7 @@
   background: var(--color-overlay);
   z-index: 1100;
   backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
 }
 
 .history-modal {
@@ -20,6 +21,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :host-context(.theme-dark) .history-modal {
@@ -66,20 +68,6 @@
   flex: 1 1 auto;
 }
 
-.history-item {
-  padding: 0.75rem 1rem;
-  border-radius: 16px;
-  background: var(--color-panel-glass);
-  color: var(--color-text-on-secondary);
-  font-size: 0.95rem;
-  line-height: 1.35;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.35rem;
-  row-gap: 0.15rem;
-}
-
 .history-empty {
   margin: 0;
   color: var(--color-text-muted);
@@ -87,89 +75,24 @@
   text-align: center;
 }
 
-.history-player {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
-  background: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-  font-weight: 600;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-.history-card {
-  font-weight: 700;
-}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-.history-card--red {
-  color: var(--card-red);
-}
-
-.history-card--green {
-  color: var(--card-green);
-}
-
-.history-card--blue {
-  color: var(--card-blue);
-}
-
-.history-card--yellow {
-  color: var(--card-yellow);
-}
-
-.history-card--multi {
-  background: var(--card-multi);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.history-card--halloween {
-  background: var(--card-treatment-halloween);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.history-card--treatment {
-  color: var(--card-treatment);
-}
-
-.history-card--orange {
-  color: var(--card-orange);
-}
-
-.history-target--red {
-  color: var(--organ-red);
-}
-
-.history-target--green {
-  color: var(--organ-green);
-}
-
-.history-target--blue {
-  color: var(--organ-blue);
-}
-
-.history-target--yellow {
-  color: var(--organ-yellow);
-}
-
-.history-target--orange {
-  color: var(--organ-orange);
-}
-
-.history-target--multi {
-  background: var(--card-multi);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
