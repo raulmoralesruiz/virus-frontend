@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RoomStoreService } from './room-store.service';
 import { ApiRoomService } from './api/api.room.service';
 import { SocketRoomService } from './socket/socket.room.service';
@@ -198,40 +198,36 @@ describe('RoomStoreService', () => {
   });
 
   describe('routing effect', () => {
-      it('should do nothing if currentRoom is null', fakeAsync(() => {
+      it('should do nothing if currentRoom is null', () => {
           mockRouter.url = '/home';
           service = TestBed.inject(RoomStoreService);
           service.currentRoom.set(null);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('should navigate to room when currentRoom is set and URL is not matching', fakeAsync(() => {
+      it('should navigate to room when currentRoom is set and URL is not matching', () => {
           mockRouter.url = '/home';
           service = TestBed.inject(RoomStoreService);
           service.currentRoom.set({ id: 'r1' } as any);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).toHaveBeenCalledWith(['/room', 'r1']);
-      }));
+      });
 
-      it('should NOT navigate if already in room', fakeAsync(() => {
+      it('should NOT navigate if already in room', () => {
           mockRouter.url = '/room/r1';
           service = TestBed.inject(RoomStoreService);
           service.currentRoom.set({ id: 'r1' } as any);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/room', 'r1']);
-      }));
+      });
 
-      it('should NOT navigate if in game for the room', fakeAsync(() => {
+      it('should NOT navigate if in game for the room', () => {
           mockRouter.url = '/game/r1';
           service = TestBed.inject(RoomStoreService);
           service.currentRoom.set({ id: 'r1' } as any);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalledWith(['/room', 'r1']);
-      }));
+      });
   });
 });

@@ -1,11 +1,11 @@
 
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-hand-card-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './hand-card-button.component.html',
   styleUrl: './hand-card-button.component.css',
 })
