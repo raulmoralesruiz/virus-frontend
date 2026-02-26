@@ -20,8 +20,8 @@
 
 .discard-count {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
+  bottom: -5px;
+  left: -10px;
   background: var(--color-bg-body);
   color: var(--color-text);
   font-size: 0.65rem;

@@ -1,9 +1,11 @@
 import { Component, computed, input } from '@angular/core';
 import { GameAction } from '../../types/game-action.types';
+import { ParseTargetPipe } from '../../../game-history/pipes/parse-target.pipe';
 
 @Component({
   selector: 'game-action-message',
   standalone: true,
+  imports: [ParseTargetPipe],
   templateUrl: './game-action-message.component.html',
   styleUrl: './game-action-message.component.css',
 })

@@ -3,9 +3,18 @@
   @switch (act.type) {
   @case ('play-card') {
   <span class="action-feed__verb">{{ act.verb ?? 'jugó' }}</span>
-  <span class="action-feed__card">{{ act.cardLabel }}</span>
+  <span class="action-feed__card" [class]="act.cardColor ? 'action-card--' + act.cardColor : ''">{{ act.cardLabel
+    }}</span>
   @if (detail(); as d) {
-  <span class="action-feed__detail">{{ d }}</span>
+  <span class="action-feed__detail">
+    @for (segment of (d | parseTarget); track $index) {
+    @if (segment.isOrgan) {
+    <span [class]="segment.colorClass">{{ segment.text }}</span>
+    } @else {
+    {{ segment.text }}
+    }
+    }
+  </span>
   }
   }
   @case ('discard') {

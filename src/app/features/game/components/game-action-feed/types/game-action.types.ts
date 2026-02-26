@@ -7,6 +7,7 @@ export interface GameAction {
   actor?: string;
   verb?: string;
   cardLabel?: string;
+  cardColor?: string;
   detail?: string;
   quantity?: number;
   timestamp: number;
