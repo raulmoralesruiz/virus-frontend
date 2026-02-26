@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GameNavigationService } from './game-navigation.service';
 import { Router } from '@angular/router';
 import { SocketGameService } from '../../services/socket/socket.game.service';
@@ -32,62 +32,56 @@ describe('GameNavigationService', () => {
   });
 
   describe('routing effect', () => {
-      it('should ignore if state is null', fakeAsync(() => {
+      it('should ignore if state is null', () => {
           mockSocketGame.publicState.set(null);
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('should ignore if player is null', fakeAsync(() => {
+      it('should ignore if player is null', () => {
           mockSocketGame.publicState.set({});
           mockApiPlayer.player.set(null);
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('should navigate to room-list if player is not in game and url starts with /game/', fakeAsync(() => {
+      it('should navigate to room-list if player is not in game and url starts with /game/', () => {
           mockRouter.url = '/game/r1';
           mockApiPlayer.player.set({ id: 'p1' });
           mockSocketGame.publicState.set({ players: [] });
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).toHaveBeenCalledWith(['/room-list']);
-      }));
+      });
 
-      it('should NOT navigate to room-list if player is not in game but url does not start with /game/', fakeAsync(() => {
+      it('should NOT navigate to room-list if player is not in game but url does not start with /game/', () => {
           mockRouter.url = '/home';
           mockApiPlayer.player.set({ id: 'p1' });
           mockSocketGame.publicState.set({ players: [] });
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('should navigate to game room if player is in game and NOT already there', fakeAsync(() => {
+      it('should navigate to game room if player is in game and NOT already there', () => {
           mockRouter.url = '/home';
           mockApiPlayer.player.set({ id: 'p1' });
           mockSocketGame.publicState.set({ roomId: 'r1', players: [{ player: { id: 'p1' } }] });
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).toHaveBeenCalledWith(['/game', 'r1']);
-      }));
+      });
 
-      it('should NOT navigate to game room if player is in game and ALREADY there', fakeAsync(() => {
+      it('should NOT navigate to game room if player is in game and ALREADY there', () => {
           mockRouter.url = '/game/r1';
           mockApiPlayer.player.set({ id: 'p1' });
           mockSocketGame.publicState.set({ roomId: 'r1', players: [{ player: { id: 'p1' } }] });
           service = TestBed.inject(GameNavigationService);
           TestBed.flushEffects();
-          tick();
           expect(mockRouter.navigate).not.toHaveBeenCalled();
-      }));
+      });
   });
 
   describe('methods', () => {

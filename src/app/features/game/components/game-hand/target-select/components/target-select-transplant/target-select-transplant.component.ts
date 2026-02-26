@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { PlayCardTarget } from '@core/models/game.model';
 import { TargetSelectOption, PlayerOption } from '../../target-select.models';
 
 @Component({
   selector: 'game-target-select-transplant',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './target-select-transplant.component.html',
   styleUrls: ['./target-select-transplant.component.css']
 })

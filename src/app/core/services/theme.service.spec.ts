@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
 import { DOCUMENT } from '@angular/common';
 
@@ -78,40 +78,36 @@ describe('ThemeService', () => {
         expect(service.theme()).toBe('dark');
     });
 
-    it('should handle missing documentElement when applying theme', fakeAsync(() => {
+    it('should handle missing documentElement when applying theme', () => {
         mockDocument.documentElement = null;
         service.setTheme('light');
         TestBed.flushEffects();
-        tick();
         expect(service.theme()).toBe('light');
         // Should not throw
-    }));
+    });
 
-    it('should handle missing storage when storing theme', fakeAsync(() => {
+    it('should handle missing storage when storing theme', () => {
         mockDocument.defaultView = null;
         service.setTheme('light');
         TestBed.flushEffects();
-        tick();
         // Should not throw and catch block covered
-    }));
+    });
 
-    it('should handle storage setItem exception', fakeAsync(() => {
+    it('should handle storage setItem exception', () => {
         mockStorage.setItem.mockImplementation(() => { throw new Error('Quota exceeded'); });
         service.setTheme('light');
         TestBed.flushEffects();
-        tick();
         // should capture exception and swallow
-    }));
+    });
 
-    it('should handle window exception during getStorage', fakeAsync(() => {
+    it('should handle window exception during getStorage', () => {
        Object.defineProperty(mockDocument, 'defaultView', {
            get: () => { throw new Error('SecurityError') }
        });
        
        service.setTheme('light');
        TestBed.flushEffects();
-       tick();
        expect(service.theme()).toBe('light'); // does not crash
-    }));
+    });
   });
 });
