@@ -47,3 +47,11 @@ src/environments/environment.ts
 
 # tmp folder
 tmp/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

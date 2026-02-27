@@ -18,7 +18,8 @@ export class GameInfoControlsComponent {
   themeToggled = output<void>();
   fullscreenToggled = output<void>();
 
-  onLeaveClick(): void {
+  onLeaveClick(event: MouseEvent): void {
+    event.stopPropagation();
     this.leaveRequested.emit();
   }
 
