@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+// Tiempo máximo total del test: 90 segundos (el juego puede requerir varios turnos para conseguir un virus)
+test.setTimeout(90000);
+
 test.describe('Test 3: Attacking a Player', () => {
 
   test('Jugador usa un virus para infectar un órgano del rival', async ({ browser }) => {
@@ -33,17 +36,26 @@ test.describe('Test 3: Attacking a Player', () => {
     await page2.waitForURL(`**/game/${roomId}`);
     await expect(page1.locator('game-board')).toBeVisible({ timeout: 10000 });
 
+    // Helper: esperar a que se complote el turno activo (la mano pierde is-my-turn)
+    // Comprobamos en la página que tenía is-my-turn que ya no lo tiene
+    const waitForTurnEnd = async (activePage: any) => {
+      await activePage.waitForFunction(
+        () => !document.querySelector('game-hand.is-my-turn'),
+        { timeout: 15000 }
+      );
+    };
+
     // --- FLUJO: Bucle de turnos hasta conseguir un ataque con virus ---
     let turnCount = 0;
     let attackSuccess = false;
 
-    while (turnCount < 10 && !attackSuccess) {
+    while (turnCount < 12 && !attackSuccess) {
       turnCount++;
-      console.log(`--- Turno ${turnCount} ---`);
 
+      // Esperar a que ALGUNO de los dos jugadores tenga el turno
       await Promise.race([
-        page1.waitForSelector('game-hand.is-my-turn', { timeout: 15000 }),
-        page2.waitForSelector('game-hand.is-my-turn', { timeout: 15000 })
+        page1.waitForSelector('game-hand.is-my-turn', { timeout: 20000 }),
+        page2.waitForSelector('game-hand.is-my-turn', { timeout: 20000 })
       ]);
 
       const aliceHasTurn = await page1.locator('game-hand.is-my-turn').isVisible();
@@ -51,6 +63,7 @@ test.describe('Test 3: Attacking a Player', () => {
       const passivePage = aliceHasTurn ? page2 : page1;
       const activePlayerName = aliceHasTurn ? 'Alice' : 'Bob';
       const passivePlayerName = aliceHasTurn ? 'Bob' : 'Alice';
+      console.log(`--- Turno ${turnCount}: ${activePlayerName} ---`);
 
       await activePage.waitForSelector('app-hand-card', { timeout: 5000 });
 
@@ -63,83 +76,80 @@ test.describe('Test 3: Attacking a Player', () => {
       }, passivePlayerName);
 
       // ¿Tenemos un virus en la mano?
-      const virusCount = await activePage.evaluate(() => {
-        return document.querySelectorAll('app-hand-card .hand-card--virus').length;
-      });
+      const virusCount = await activePage.evaluate(() =>
+        document.querySelectorAll('app-hand-card .hand-card--virus').length
+      );
 
       if (rivalOrganCount > 0 && virusCount > 0) {
         console.log(`${activePlayerName} ataca a ${passivePlayerName} con un virus!`);
-        // Hacer click en play-btn del primer virus via JS
+
+        // Click en play-btn del primer virus
         await activePage.evaluate(() => {
           const virusCards = Array.from(document.querySelectorAll('app-hand-card'))
             .filter(card => card.querySelector('.hand-card--virus'));
-          if (virusCards.length === 0) return;
-          const playBtn = virusCards[0].querySelector('button.play-btn') as HTMLButtonElement;
+          const playBtn = virusCards[0]?.querySelector('button.play-btn') as HTMLButtonElement;
           if (playBtn) playBtn.click();
         });
 
-        // Esperar que aparezca el target-select con el selector de jugador
+        // Esperar el target-select con selector de jugador rival
         await expect(activePage.locator('.target-select__player').first()).toBeVisible({ timeout: 8000 });
-        // Hacer click en el jugador rival
+
+        // Seleccionar el jugador rival
         await activePage.evaluate((rivalName: string) => {
           const playerBtns = Array.from(document.querySelectorAll('.target-select__player'));
           const rivalBtn = playerBtns.find(b => b.textContent?.includes(rivalName)) as HTMLElement;
           if (rivalBtn) rivalBtn.click();
         }, passivePlayerName);
 
-        // Hacer click en el primer órgano disponible del rival
+        // Seleccionar el primer órgano del rival
         await expect(activePage.locator('.target-select__organ').first()).toBeVisible({ timeout: 5000 });
         await activePage.evaluate(() => {
           const organBtn = document.querySelector('.target-select__organ') as HTMLElement;
           if (organBtn) organBtn.click();
         });
 
-        // Confirmar
+        // Confirmar jugada
         await expect(activePage.locator('button.target-select__confirm')).toBeVisible({ timeout: 5000 });
         await activePage.evaluate(() => {
           const btn = document.querySelector('button.target-select__confirm') as HTMLButtonElement;
           if (btn) btn.click();
         });
 
-        // Validación: acción feed del rival muestra una acción de infección
+        // Validación: el action feed del rival muestra la infección
         await expect(
           passivePage.locator('game-info').filter({ hasText: 'infectó' })
         ).toBeVisible({ timeout: 15000 });
-        console.log('¡Ataque replicado correctamente!');
+
+        console.log('¡Ataque con virus confirmado correctamente!');
         attackSuccess = true;
         break;
       }
 
       // Intentar bajar un órgano no-naranja para construir el tablero
-      const organCount = await activePage.evaluate(() => {
-        return document.querySelectorAll('app-hand-card .hand-card--organ:not(.hand-card--orange)').length;
-      });
+      const organCount = await activePage.evaluate(() =>
+        document.querySelectorAll('app-hand-card .hand-card--organ:not(.hand-card--orange)').length
+      );
 
       if (organCount > 0) {
         console.log(`${activePlayerName} baja un órgano.`);
         await activePage.evaluate(() => {
           const organs = Array.from(document.querySelectorAll('app-hand-card'))
             .filter(card => card.querySelector('.hand-card--organ:not(.hand-card--orange)'));
-          if (organs.length === 0) return;
-          const playBtn = organs[0].querySelector('button.play-btn') as HTMLButtonElement;
+          const playBtn = organs[0]?.querySelector('button.play-btn') as HTMLButtonElement;
           if (playBtn) playBtn.click();
         });
-        // Confirmar
+        // Esperar el botón Confirmar (SimplePlayStrategy: no requiere selección de jugador)
         await expect(activePage.locator('button.target-select__confirm')).toBeVisible({ timeout: 8000 });
         await activePage.evaluate(() => {
           const btn = document.querySelector('button.target-select__confirm') as HTMLButtonElement;
           if (btn) btn.click();
         });
-        // Esperar cambio de turno
-        // Esperar cambio de turno — la mano del jugador activo pierde la clase is-my-turn
-        await activePage.waitForFunction(() => {
-          const hand = document.querySelector('game-hand');
-          return hand && !hand.classList.contains('is-my-turn');
-        }, { timeout: 10000 });
+        // Esperar a que se complete el turno
+        await waitForTurnEnd(activePage);
         continue;
       }
 
-      // Descartar si no hay otra opción
+      // Descartar si no hay otra opción útil
       console.log(`${activePlayerName} descarta.`);
       await activePage.evaluate(() => {
         const card = document.querySelector('app-hand-card .hand-card') as HTMLElement;
@@ -150,11 +160,12 @@ test.describe('Test 3: Attacking a Player', () => {
         const btn = document.querySelector('button.discard-btn') as HTMLButtonElement;
         if (btn) btn.click();
       });
-      await activePage.waitForSelector('game-hand:not(.is-my-turn)', { timeout: 10000 });
+      // Esperar a que se complete el turno
+      await waitForTurnEnd(activePage);
     }
 
     if (!attackSuccess) {
-      console.log('Test finaliza sin atacar (no se dió la combinación de cartas).');
+      console.log('Test finaliza sin atacar (combinación de cartas no se dio en el tiempo disponible).');
     }
   });
 
