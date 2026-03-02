@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
+import { PwaService } from '@core/services/pwa.service';
 import { Player } from '@core/models/player.model';
 import { JoinCardComponent } from './components/join-card/join-card.component';
 import { LogoComponent } from './components/logo/logo.component';
@@ -14,6 +15,7 @@ import { GreetingComponent } from './components/greeting/greeting.component';
   imports: [JoinCardComponent, LogoComponent, GreetingComponent],
 })
 export class HomeComponent implements OnInit {
+  protected pwaService = inject(PwaService);
   private apiPlayerService = inject(ApiPlayerService);
   private router = inject(Router);
 

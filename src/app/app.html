@@ -6,4 +6,11 @@
   </div>
   }
   <router-outlet />
+
+  @if (pwaService.updateAvailable()) {
+  <div class="update-banner">
+    <p>¡Hay una nueva versión del juego disponible!</p>
+    <button class="btn btn-primary" (click)="pwaService.updateNow()">Actualizar ahora</button>
+  </div>
+  }
 </div>

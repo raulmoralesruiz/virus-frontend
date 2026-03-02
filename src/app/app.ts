@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs/operators';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
+import { PwaService } from './core/services/pwa.service';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 import { SvgSpriteComponent } from './core/components/svg-sprite/svg-sprite.component';
 
@@ -16,6 +17,7 @@ import { SvgSpriteComponent } from './core/components/svg-sprite/svg-sprite.comp
 export class App {
   protected readonly title = signal('frontend');
   private readonly themeService = inject(ThemeService);
+  protected readonly pwaService = inject(PwaService);
   private readonly router = inject(Router);
 
   private readonly currentUrl = toSignal(
