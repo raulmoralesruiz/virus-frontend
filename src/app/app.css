@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--color-bg-main);
@@ -7,50 +8,50 @@
   transition: var(--transition-theme);
 }
 
-.app-shell__theme {
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 1000;
-}
-
-.update-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  padding: 1rem;
+.app-shell {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
+}
+
+.app-header {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  padding: 0.25rem 1rem;
+  /* Reduced vertical padding */
   z-index: 2000;
-  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
-  animation: slideUp 0.3s ease-out forwards;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
 }
 
-.update-banner p {
-  margin: 0;
-  font-weight: 500;
+/* Ensure interactive elements inside the header can be clicked */
+.app-header>* {
+  pointer-events: auto;
 }
 
-.update-banner button {
-  background-color: var(--color-white);
-  color: var(--color-primary);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-md);
-  font-weight: bold;
-  cursor: pointer;
-  transition: opacity 0.2s;
+.header-left {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.update-banner button:hover {
-  opacity: 0.9;
+.header-center {
+  display: flex;
+  justify-content: center;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }

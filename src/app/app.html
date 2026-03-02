@@ -1,16 +1,19 @@
 <div class="app-shell">
-  <svg-sprite />
-  @if (shouldShowThemeToggle()) {
-  <div class="app-shell__theme">
-    <app-theme-toggle />
-  </div>
-  }
-  <router-outlet />
+  <header class="app-header">
+    <div class="header-left"></div>
 
-  @if (pwaService.updateAvailable()) {
-  <div class="update-banner">
-    <p>¡Hay una nueva versión del juego disponible!</p>
-    <button class="btn btn-primary" (click)="pwaService.updateNow()">Actualizar ahora</button>
-  </div>
-  }
+    <div class="header-center">
+      @if (shouldShowPwaBanner()) {
+      <app-pwa-banner />
+      }
+    </div>
+
+    <div class="header-right">
+      @if (shouldShowThemeToggle()) {
+      <app-theme-toggle />
+      }
+    </div>
+  </header>
+  <svg-sprite />
+  <router-outlet />
 </div>
