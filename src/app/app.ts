@@ -37,7 +37,7 @@ export class App {
   protected readonly shouldShowPwaBanner = computed(() => {
     const url = this.currentUrl();
     // Allow root / home
-    if (url === '/home') return true;
+    if (url === '/' || url === '/home') return true;
     // Allow room-list
     if (url.startsWith('/room-list')) return true;
     // Allow room/:id (but not game which has a very different route)

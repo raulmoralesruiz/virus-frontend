@@ -13,5 +13,9 @@ module.exports = {
   },
   transformIgnorePatterns: [
     'node_modules/(?!.*\\.mjs$|@angular|rxjs)'
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/tests/'
   ]
 };

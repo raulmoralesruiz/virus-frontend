@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { Router, NavigationEnd, Event } from '@angular/router';
 import { Subject } from 'rxjs';
+import { PwaService } from './core/services/pwa.service';
+import { signal } from '@angular/core';
 
 describe('App', () => {
   let routerEventsObj: Subject<Event>;
@@ -16,6 +18,15 @@ describe('App', () => {
           useValue: {
             events: routerEventsObj.asObservable(),
             url: '/'
+          }
+        },
+        {
+          provide: PwaService,
+          useValue: {
+            updateAvailable: signal(false),
+            isInstallable: signal(false),
+            promptInstall: jest.fn(),
+            updateNow: jest.fn()
           }
         }
       ]
