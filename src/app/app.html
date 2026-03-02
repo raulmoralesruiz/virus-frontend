@@ -1,9 +1,19 @@
 <div class="app-shell">
+  <header class="app-header">
+    <div class="header-left"></div>
+
+    <div class="header-center">
+      @if (shouldShowPwaBanner()) {
+      <app-pwa-banner />
+      }
+    </div>
+
+    <div class="header-right">
+      @if (shouldShowThemeToggle()) {
+      <app-theme-toggle />
+      }
+    </div>
+  </header>
   <svg-sprite />
-  @if (shouldShowThemeToggle()) {
-  <div class="app-shell__theme">
-    <app-theme-toggle />
-  </div>
-  }
   <router-outlet />
 </div>

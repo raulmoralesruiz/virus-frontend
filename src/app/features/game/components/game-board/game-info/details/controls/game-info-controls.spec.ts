@@ -17,8 +17,13 @@ describe('GameInfoControlsComponent', () => {
 
   it('should emit leaveRequested', () => {
       jest.spyOn(component.leaveRequested, 'emit');
-      component.onLeaveClick();
+      const event = new MouseEvent('click');
+      const stopPropSpy = jest.spyOn(event, 'stopPropagation');
+      
+      component.onLeaveClick(event);
+      
       expect(component.leaveRequested.emit).toHaveBeenCalled();
+      expect(stopPropSpy).toHaveBeenCalled();
   });
 
   it('should emit muteToggled and stop propagation', () => {

@@ -1,5 +1,6 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--color-bg-main);
@@ -7,9 +8,50 @@
   transition: var(--transition-theme);
 }
 
-.app-shell__theme {
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 1000;
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.app-header {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0.25rem 1rem;
+  /* Reduced vertical padding */
+  z-index: 2000;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
+}
+
+/* Ensure interactive elements inside the header can be clicked */
+.app-header>* {
+  pointer-events: auto;
+}
+
+.header-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
