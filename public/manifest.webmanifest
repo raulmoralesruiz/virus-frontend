@@ -1,8 +1,8 @@
 {
   "name": "Virus - El Juego",
   "short_name": "Virus",
-  "theme_color": "#1f2937",
-  "background_color": "#111827",
+  "theme_color": "#1F2937",
+  "background_color": "#FFFFFF",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
