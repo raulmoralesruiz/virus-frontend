@@ -1,0 +1,12 @@
+@if (iconOnly()) {
+<button class="btn-icon logout-icon" (click)="logout()" title="Cerrar sesión y salir">
+  <card-icon name="leave" color="var(--color-danger)"></card-icon>
+</button>
+} @else {
+<div class="logout-container">
+  <button class="logout-btn" (click)="logout()" title="Cerrar sesión y salir">
+    <card-icon name="leave" color="currentColor"></card-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</div>
+}

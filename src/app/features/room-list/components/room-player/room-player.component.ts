@@ -2,11 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { TitleCasePipe } from '@angular/common';
 import { CardIconComponent } from '@app/shared/components/card-icon/card-icon.component';
+import { RoomLogoutComponent } from '../room-logout/room-logout.component';
 
 @Component({
   selector: 'app-room-player',
   standalone: true,
-  imports: [TitleCasePipe, CardIconComponent],
+  imports: [TitleCasePipe, CardIconComponent, RoomLogoutComponent],
   templateUrl: './room-player.component.html',
   styleUrls: ['./room-player.component.css']
 })

@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.logout-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logout-btn {
+  background: var(--color-bg-secondary);
+  color: var(--color-danger);
+  border: 2px solid var(--color-danger);
+  border-radius: 999px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: var(--color-danger);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 76, 76, 0.2);
+}
+
+.logout-btn card-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-icon {
+  background: var(--color-bg-secondary);
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  transform: scale(1.02);
+}
