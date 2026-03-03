@@ -1,12 +1,12 @@
 import { Component, input, signal } from '@angular/core';
 import { CardIconComponent } from '@app/shared/components/card-icon/card-icon.component';
 
-import { RoomExitComponent } from '@app/features/room/components/room-exit/room-exit.component';
+import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-room-logout',
   standalone: true,
-  imports: [CardIconComponent, RoomExitComponent],
+  imports: [CardIconComponent, ConfirmModalComponent],
   templateUrl: './room-logout.component.html',
   styleUrls: ['./room-logout.component.css']
 })

@@ -24,7 +24,9 @@
     <button class="cta-button" (click)="goHome()">Empezar de nuevo</button>
   </div>
   } @if (confirmingLeave) {
-  <app-room-exit (cancelLeave)="cancelLeave()" (confirmLeave)="confirmLeave()" />
+  <app-confirm-modal title="¿Salir de la sala?"
+    description="Si abandonas esta sala, se liberará tu plaza y volverás al listado de salas." acceptText="Salir"
+    (cancel)="cancelLeave()" (confirm)="confirmLeave()"></app-confirm-modal>
   } @if (!player()) {
   <app-room-enter [roomId]="roomId" />
   }

@@ -12,7 +12,7 @@
 }
 
 @if (showConfirmModal()) {
-<app-room-exit title="¿Cerrar sesión?"
+<app-confirm-modal title="¿Cerrar sesión?"
   description="Si cierras sesión, tendrás que volver a introducir tu nombre para entrar." acceptText="Cerrar sesión"
-  (cancelLeave)="cancelLogout()" (confirmLeave)="confirmLogout()"></app-room-exit>
+  (cancel)="cancelLogout()" (confirm)="confirmLogout()"></app-confirm-modal>
 }
