@@ -29,6 +29,9 @@
   <game-error [error]="lastError()" (closed)="dismissError()"></game-error>
 
   @if (showLeave()) {
-  <game-leave (confirm)="gameStore.leaveGame(roomId)" (cancel)="gameStore.closeLeaveModal()"></game-leave>
+  <app-confirm-modal title="¿Salir de la partida?"
+    description="Si abandonas la partida, perderás tu progreso actual. ¿Quieres volver a la lista de salas?"
+    acceptText="Salir" (confirm)="gameStore.leaveGame(roomId)"
+    (cancel)="gameStore.closeLeaveModal()"></app-confirm-modal>
   }
 </div>

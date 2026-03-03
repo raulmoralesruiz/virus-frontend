@@ -41,8 +41,18 @@
 }
 
 .actions {
-  grid-column: 3;
   display: flex;
+  align-items: center;
+}
+
+.actions.left {
+  grid-column: 1;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+
+.actions.right {
+  grid-column: 3;
   justify-content: flex-start;
   padding-left: 0.5rem;
 }

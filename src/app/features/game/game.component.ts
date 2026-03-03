@@ -10,7 +10,7 @@ import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
 import { GameEmptyComponent } from './components/game-empty/game-empty.component';
 import { GameHistoryComponent } from './components/game-history/game-history.component';
-import { GameLeaveComponent } from './components/game-leave/game-leave.component';
+import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/confirm-modal.component';
 @Component({
   selector: 'app-game',
   imports: [
@@ -20,7 +20,7 @@ import { GameLeaveComponent } from './components/game-leave/game-leave.component
     GameWinnerComponent,
     GameEmptyComponent,
     GameHistoryComponent,
-    GameLeaveComponent,
+    ConfirmModalComponent,
   ],
   standalone: true,
   templateUrl: './game.component.html',

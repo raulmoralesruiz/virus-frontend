@@ -11,12 +11,14 @@
 </div>
 } @else {
 <div class="name-display">
-  <div class="spacer"></div>
-  <h2 class="player-name">{{ player()?.name | titlecase }}</h2>
-  <div class="actions">
+  <div class="actions left">
     <button (click)="toggleEditName()" class="btn-icon edit" title="Editar nombre">
       <card-icon name="edit" color="var(--color-text-secondary)"></card-icon>
     </button>
+  </div>
+  <h2 class="player-name">{{ player()?.name | titlecase }}</h2>
+  <div class="actions right">
+    <app-room-logout [iconOnly]="true"></app-room-logout>
   </div>
 </div>
 }

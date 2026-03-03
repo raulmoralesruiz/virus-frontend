@@ -1,0 +1,18 @@
+@if (iconOnly()) {
+<button class="btn-icon logout-icon" (click)="logout()" title="Cerrar sesión y salir">
+  <card-icon name="leave" color="var(--color-danger)"></card-icon>
+</button>
+} @else {
+<div class="logout-container">
+  <button class="logout-btn" (click)="logout()" title="Cerrar sesión y salir">
+    <card-icon name="leave" color="currentColor"></card-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</div>
+}
+
+@if (showConfirmModal()) {
+<app-confirm-modal title="¿Cerrar sesión?"
+  description="Si cierras sesión, tendrás que volver a introducir tu nombre para entrar." acceptText="Cerrar sesión"
+  (cancel)="cancelLogout()" (confirm)="confirmLogout()"></app-confirm-modal>
+}

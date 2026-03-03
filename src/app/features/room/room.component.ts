@@ -6,7 +6,7 @@ import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { RoomTopComponent } from './components/room-top/room-top.component';
 import { RoomPlayersComponent } from './components/room-players/room-players.component';
 import { RoomConfigComponent } from './components/room-config/room-config.component';
-import { RoomExitComponent } from './components/room-exit/room-exit.component';
+import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/confirm-modal.component';
 import { RoomEnterComponent } from './components/room-enter/room-enter.component';
 import { RoomTimerComponent } from './components/room-timer/room-timer.component';
 
@@ -17,7 +17,7 @@ import { RoomTimerComponent } from './components/room-timer/room-timer.component
     RoomTopComponent,
     RoomPlayersComponent,
     RoomConfigComponent,
-    RoomExitComponent,
+    ConfirmModalComponent,
     RoomEnterComponent,
     RoomTimerComponent,
   ],
