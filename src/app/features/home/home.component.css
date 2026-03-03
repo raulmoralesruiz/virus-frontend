@@ -45,12 +45,6 @@
   }
 }
 
-@media (max-width: 640px) {
-  :host {
-    overflow-y: hidden;
-    overscroll-behavior: contain;
-  }
-}
 
 home-join-card {
   margin-top: 1.1rem;
