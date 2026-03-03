@@ -24,11 +24,22 @@ describe('RoomLogoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should clear localStorage and call redirect() on logout()', () => {
+  it('should set showConfirmModal to true on logout()', () => {
+    component.logout();
+    expect(component.showConfirmModal()).toBe(true);
+  });
+
+  it('should hide modal on cancelLogout()', () => {
+    component.logout();
+    component.cancelLogout();
+    expect(component.showConfirmModal()).toBe(false);
+  });
+
+  it('should clear localStorage and call redirect() on confirmLogout()', () => {
     localStorage.setItem('player', 'test');
     jest.spyOn(component, 'redirect').mockImplementation(() => {});
     
-    component.logout();
+    component.confirmLogout();
 
     expect(localStorage.getItem('player')).toBeNull();
     expect(component.redirect).toHaveBeenCalled();

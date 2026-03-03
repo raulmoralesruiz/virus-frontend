@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-room-exit',
@@ -9,6 +9,10 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomExitComponent {
+  title = input<string>('¿Salir de la sala?');
+  description = input<string>('Si abandonas esta sala, se liberará tu plaza y volverás al listado de salas.');
+  acceptText = input<string>('Salir');
+
   cancelLeave = output<void>();
   confirmLeave = output<void>();
 }
