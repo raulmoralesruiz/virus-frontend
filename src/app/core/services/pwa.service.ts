@@ -1,5 +1,6 @@
 import { Injectable, signal, inject, ApplicationRef } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { DOCUMENT } from '@angular/common';
 import { filter, first } from 'rxjs/operators';
 import { concat, interval } from 'rxjs';
 
@@ -9,6 +10,7 @@ import { concat, interval } from 'rxjs';
 export class PwaService {
   private swUpdate = inject(SwUpdate);
   private appRef = inject(ApplicationRef);
+  private document = inject(DOCUMENT);
 
   // Signals for UI to react
   public updateAvailable = signal<boolean>(false);
@@ -60,7 +62,7 @@ export class PwaService {
 
   public updateNow() {
     if (this.swUpdate.isEnabled) {
-      this.swUpdate.activateUpdate().then(() => document.location.reload());
+      this.swUpdate.activateUpdate().then(() => this.document.location.reload());
     }
   }
 
