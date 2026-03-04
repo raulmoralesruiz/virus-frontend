@@ -14,9 +14,9 @@
   [attr.aria-pressed]="isFullscreenActive()"
   [attr.aria-label]="isFullscreenActive() ? 'Salir de pantalla completa' : 'Pantalla completa'">
   @if (isFullscreenActive()) {
-  <card-icon name="phone" class="control-icon" color="var(--color-text-primary)"></card-icon>
+  <card-icon name="fullscreen-off" class="control-icon" color="var(--color-text-primary)"></card-icon>
   } @else {
-  <card-icon name="screen" class="control-icon" color="var(--color-text-primary)"></card-icon>
+  <card-icon name="fullscreen-on" class="control-icon" color="var(--color-text-primary)"></card-icon>
   }
 </button>
 <button type="button" class="game-info__control-button" (click)="onMuteToggle($event)" [attr.aria-pressed]="isMuted()"
