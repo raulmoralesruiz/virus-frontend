@@ -1,0 +1,55 @@
+@if (pwaService.updateAvailable() || pwaService.isInstallable()) {
+<button class="pwa-trigger-btn" (click)="openModal()" aria-label="Abrir opciones de App"
+  [title]="pwaService.updateAvailable() ? 'Actualizar App' : 'Instalar App'">
+  @if (pwaService.updateAvailable()) {
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <path
+      d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" />
+  </svg>
+  } @else {
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+  </svg>
+  }
+</button>
+}
+
+@if (isModalOpen()) {
+<div class="pwa-overlay" role="dialog" aria-modal="true" aria-labelledby="pwa-title" aria-describedby="pwa-description"
+  (click)="closeModal()">
+  <div class="pwa-modal" (click)="$event.stopPropagation()">
+    <h3 id="pwa-title">
+      @if (pwaService.updateAvailable()) {
+      Actualización Disponible
+      } @else {
+      Instalar Aplicación
+      }
+    </h3>
+    <p id="pwa-description">
+      @if (pwaService.updateAvailable()) {
+      Hay una nueva versión de Virus disponible con mejoras y correcciones.
+      <br>
+      ¿Deseas actualizar ahora?
+      } @else {
+      Puedes instalar Virus en tu dispositivo para acceder más rápido, usando pantalla completa y otras funcionalidades.
+      <br>
+      ¿Deseas instalarla ahora?
+      }
+    </p>
+    <div class="pwa-actions">
+      <button type="button" class="pwa-cancel" (click)="closeModal()">
+        Más tarde
+      </button>
+      @if (pwaService.updateAvailable()) {
+      <button type="button" class="pwa-accept" (click)="updateApp()">
+        Actualizar
+      </button>
+      } @else {
+      <button type="button" class="pwa-accept" (click)="installApp()">
+        Instalar
+      </button>
+      }
+    </div>
+  </div>
+</div>
+}

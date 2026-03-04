@@ -1,19 +1,14 @@
 <div class="app-shell">
-  <header class="app-header">
-    <div class="header-left"></div>
-
-    <div class="header-center">
-      @if (shouldShowPwaBanner()) {
-      <app-pwa-banner />
-      }
-    </div>
-
-    <div class="header-right">
-      @if (shouldShowThemeToggle()) {
-      <app-theme-toggle />
-      }
-    </div>
-  </header>
+  @if (shouldShowThemeToggle()) {
+  <div class="app-shell__theme">
+    <app-theme-toggle />
+  </div>
+  }
+  @if (shouldShowPwaBanner()) {
+  <div class="app-shell__pwa">
+    <app-pwa-modal />
+  </div>
+  }
   <svg-sprite />
   <router-outlet />
 </div>

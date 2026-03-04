@@ -5,13 +5,13 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
 import { PwaService } from './core/services/pwa.service';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
-import { PwaBannerComponent } from './core/components/pwa-banner/pwa-banner.component';
+import { PwaModalComponent } from './shared/components/pwa-modal/pwa-modal.component';
 import { SvgSpriteComponent } from './core/components/svg-sprite/svg-sprite.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ThemeToggleComponent, PwaBannerComponent, SvgSpriteComponent],
+  imports: [RouterOutlet, ThemeToggleComponent, PwaModalComponent, SvgSpriteComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
