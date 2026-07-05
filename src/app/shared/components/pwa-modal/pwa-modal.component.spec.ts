@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PwaModalComponent } from './pwa-modal.component';
 import { PwaService } from '../../../core/services/pwa.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { signal } from '@angular/core';
 
 describe('PwaModalComponent', () => {
   let component: PwaModalComponent;
   let fixture: ComponentFixture<PwaModalComponent>;
   let pwaServiceMock: any;
+  let themeServiceMock: any;
   let updateAvailableSignal: any;
   let isInstallableSignal: any;
 
@@ -20,11 +22,16 @@ describe('PwaModalComponent', () => {
       updateNow: jest.fn(),
       promptInstall: jest.fn()
     };
+    
+    themeServiceMock = {
+      isDark: signal(false)
+    };
 
     await TestBed.configureTestingModule({
       imports: [PwaModalComponent],
       providers: [
-        { provide: PwaService, useValue: pwaServiceMock }
+        { provide: PwaService, useValue: pwaServiceMock },
+        { provide: ThemeService, useValue: themeServiceMock }
       ]
     }).compileComponents();
 
