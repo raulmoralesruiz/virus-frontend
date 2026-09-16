@@ -41,11 +41,18 @@ pnpm install
 
 ## ⚙️ Variables de Entorno
 
-La configuración se maneja a través de los archivos `src/environments/`:
+La configuración se maneja a través de los archivos en `src/environments/` (`environment.ts` y `environment.development.ts`), los cuales están excluidos del control de versiones.
+
+Para comenzar en desarrollo, crea tus archivos a partir de la plantilla `environment.example.ts`:
+
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+cp src/environments/environment.example.ts src/environments/environment.development.ts
+```
 
 -   `production`: Indica si es entorno de producción.
--   `socketUrl`: URL del servidor de Socket.IO.
--   `baseUrl`: URL base para la API REST.
+-   `socketUrl`: URL del servidor de Socket.IO (por defecto `http://localhost:3000`).
+-   `baseUrl`: URL base para la API REST (por defecto `http://localhost:3000/api`).
 
 ## 📚 Documentación
 
