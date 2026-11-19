@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { SocketGameStateService } from './socket.game.state.service';
 
 describe('SocketGameStateService', () => {
