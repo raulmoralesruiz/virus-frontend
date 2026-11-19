@@ -10,6 +10,12 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+# package manager: pnpm (los lockfiles de npm/yarn son residuo)
+package-lock.json
+yarn.lock
+
+# Test artifacts
+test-output.txt
 
 # IDEs and editors
 .idea/
