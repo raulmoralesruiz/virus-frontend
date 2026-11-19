@@ -3,12 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { map, Observable, tap } from 'rxjs';
 import { Room, createDefaultRoomConfig } from '../../models/room.model';
-import { ApiPlayerService } from './api.player.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiRoomService {
   private http = inject(HttpClient);
-  private apiPlayerService = inject(ApiPlayerService);
   private urlRoom = environment.baseUrl + '/room';
 
   private _roomList = signal<Room[]>([]);
@@ -62,33 +60,7 @@ export class ApiRoomService {
     );
   }
 
-  createRoom(playerId: string): Observable<Room> {
-    const url = `${this.urlRoom}`;
-    const body = { playerId };
-
-    return this.http.post<Room>(url, body).pipe(
-      map((room) => this.normalizeRoom(room)),
-      tap((room) => {
-        this.setCurrentRoom(room);
-      })
-    );
-  }
-
-  joinRoom(roomId: string): Observable<Room> {
-    const playerId = this.apiPlayerService.player()?.id;
-    if (!playerId)
-      throw new Error('No existe el jugador para unirse a la sala');
-
-    const url = `${this.urlRoom}/join/${roomId}`;
-    const body = { playerId };
-
-    return this.http.post<Room>(url, body).pipe(
-      map((room) => this.normalizeRoom(room)),
-      tap((room) => {
-        this.setCurrentRoom(room);
-      })
-    );
-  }
+  // Nota: crear/unirse a sala se hace por Socket.IO (SocketRoomService), no por REST.
 
   /** --- Métodos de utilidad --- **/
   setCurrentRoom(room: Room) {

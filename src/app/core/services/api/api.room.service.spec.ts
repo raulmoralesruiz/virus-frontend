@@ -1,26 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiRoomService } from './api.room.service';
-import { ApiPlayerService } from './api.player.service';
 import { environment } from '@env/environment';
-import { signal } from '@angular/core';
 
 describe('ApiRoomService', () => {
   let service: ApiRoomService;
   let httpMock: HttpTestingController;
-  
-  const mockApiPlayer = {
-      player: signal<any>(null)
-  };
 
   beforeEach(() => {
     localStorage.clear();
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [
-          ApiRoomService,
-          { provide: ApiPlayerService, useValue: mockApiPlayer }
-      ]
+      providers: [ApiRoomService]
     });
     service = TestBed.inject(ApiRoomService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -83,38 +74,6 @@ describe('ApiRoomService', () => {
           expect(service.currentRoom()?.id).toBe('r1');
       });
 
-      it('should createRoom', () => {
-          service.createRoom('p1').subscribe(room => {
-              expect(room.id).toBe('r2');
-          });
-
-          const req = httpMock.expectOne(`${environment.baseUrl}/room`);
-          expect(req.request.method).toBe('POST');
-          expect(req.request.body).toEqual({ playerId: 'p1' });
-          req.flush({ id: 'r2' });
-
-          expect(service.currentRoom()?.id).toBe('r2');
-      });
-
-      it('should joinRoom', () => {
-          mockApiPlayer.player.set({ id: 'p1' });
-          
-          service.joinRoom('r3').subscribe(room => {
-              expect(room.id).toBe('r3');
-          });
-
-          const req = httpMock.expectOne(`${environment.baseUrl}/room/join/r3`);
-          expect(req.request.method).toBe('POST');
-          expect(req.request.body).toEqual({ playerId: 'p1' });
-          req.flush({ id: 'r3' });
-
-          expect(service.currentRoom()?.id).toBe('r3');
-      });
-
-      it('should throw error on joinRoom if no player', () => {
-          mockApiPlayer.player.set(null);
-          expect(() => service.joinRoom('r3')).toThrow('No existe el jugador para unirse a la sala');
-      });
   });
 
   describe('utility methods', () => {
