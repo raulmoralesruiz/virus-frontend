@@ -35,6 +35,14 @@ export interface ApparitionDecision {
   cardId: string;
 }
 
+export interface TargetSelection {
+  type: 'TargetSelection';
+  playerId: string;
+  cardId: string;
+}
+
+export type PendingAction = ApparitionDecision | TargetSelection;
+
 export interface PublicGameState {
   roomId: string;
   discardCount: number;
@@ -47,7 +55,7 @@ export interface PublicGameState {
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
   history: HistoryEntry[];
-  pendingAction?: ApparitionDecision;
+  pendingAction?: PendingAction;
   timerPaused?: boolean; // true mientras hay una decisión pendiente (el timer no cuenta)
 }
 

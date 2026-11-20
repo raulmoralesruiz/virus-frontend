@@ -31,6 +31,14 @@ export class SocketGameActionService {
     this.socketService.emit(GAME_CONSTANTS.GAME_DISCARD, payload);
   }
 
+  startSelection(payload: { roomId: string; cardId: string }) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_SELECTION_START, payload);
+  }
+
+  cancelSelection(roomId: string) {
+    this.socketService.emit(GAME_CONSTANTS.GAME_SELECTION_CANCEL, { roomId });
+  }
+
   resetRoom(roomId: string) {
     this.socketService.emit(GAME_CONSTANTS.ROOM_RESET, { roomId });
   }

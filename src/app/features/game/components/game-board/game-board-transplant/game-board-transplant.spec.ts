@@ -10,7 +10,9 @@ describe('GameBoardTransplantComponent', () => {
 
   const mockGameStore = {
       setClientError: jest.fn(),
-      playCard: jest.fn()
+      playCard: jest.fn(),
+      startSelection: jest.fn(),
+      cancelSelection: jest.fn()
   };
 
   const mockApiPlayer = {
@@ -67,14 +69,36 @@ describe('GameBoardTransplantComponent', () => {
           component.ngOnChanges();
           expect(component.cleanTransplantMode).toHaveBeenCalled();
       });
+
+      it('▶️ debe reanudar el timer (cancelSelection) si el turno cambia con selección abierta', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1', players: [{ player: { id: 'p2' } }], turnIndex: 0 });
+          mockApiPlayer.player.set({ id: 'p1' });
+          component.state = { card: { id: 'c1' } } as any;
+          component.cleanTransplantMode();
+          expect(component.state).toBeNull();
+          expect(mockGameStore.cancelSelection).toHaveBeenCalledWith('r1');
+      });
   });
 
   describe('startTransplant', () => {
       it('should setup state correctly', () => {
+          fixture.componentRef.setInput('gameState', {});
           component.startTransplant({ id: 'c1'} as any, { organId: 'o1', playerId: 'p1'} as any);
           expect(component.state?.card.id).toBe('c1');
           expect(component.state?.firstOrgan?.organId).toBe('o1');
           expect(mockGameStore.setClientError).toHaveBeenCalledWith('Selecciona ahora el segundo órgano para el trasplante.');
+      });
+
+      it('⏸️ debe pausar el timer (startSelection) al iniciar la selección por drag', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.startTransplant({ id: 'c1'} as any, { organId: 'o1', playerId: 'p1'} as any);
+          expect(mockGameStore.startSelection).toHaveBeenCalledWith('r1', 'c1');
+      });
+
+      it('⏸️ no debe pausar si no hay roomId disponible', () => {
+          fixture.componentRef.setInput('gameState', {});
+          component.startTransplant({ id: 'c1'} as any, { organId: 'o1', playerId: 'p1'} as any);
+          expect(mockGameStore.startSelection).not.toHaveBeenCalled();
       });
   });
 
@@ -124,10 +148,33 @@ describe('GameBoardTransplantComponent', () => {
 
   describe('cancelTransplant', () => {
       it('should cancel transplant correctly', () => {
+          fixture.componentRef.setInput('gameState', {});
           component.state = {} as any;
           component.cancelTransplant();
           expect(component.state).toBeNull();
           expect(mockGameStore.setClientError).toHaveBeenCalledWith('Trasplante cancelado.');
+      });
+
+      it('▶️ debe reanudar el timer (cancelSelection) al cancelar la selección', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.state = { card: { id: 'c1' } } as any;
+          component.cancelTransplant();
+          expect(mockGameStore.cancelSelection).toHaveBeenCalledWith('r1');
+      });
+  });
+
+  describe('finishTransplant y cancelSelection', () => {
+      it('no debe cancelar la selección al confirmar (la limpia el server al jugar)', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.state = {
+              card: { id: 'c1' },
+              firstOrgan: { organId: 'o1', playerId: 'p1' }
+          } as any;
+
+          component.finishTransplant({ organId: 'o2', playerId: 'p2' });
+
+          expect(mockGameStore.playCard).toHaveBeenCalled();
+          expect(mockGameStore.cancelSelection).not.toHaveBeenCalled();
       });
   });
 });

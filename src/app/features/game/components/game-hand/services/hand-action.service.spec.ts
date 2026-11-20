@@ -4,7 +4,7 @@ import { GameStoreService } from '@core/services/game-store.service';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { HandStrategyResolverService } from './hand-strategy-resolver.service';
 import { HandStateService } from './hand-state.service';
-import { Card, CardKind, TreatmentSubtype } from '@core/models/card.model';
+import { Card, CardKind, CardColor, TreatmentSubtype } from '@core/models/card.model';
 import { PublicGameState, PlayerState } from '@core/models/game.model';
 import { SimplePlayStrategy } from '../strategies/simple-play.strategy';
 
@@ -24,7 +24,10 @@ describe('HandActionService', () => {
   beforeEach(() => {
     gameStoreMock = {
       setClientError: jest.fn(),
-      playCard: jest.fn()
+      playCard: jest.fn(),
+      publicState: jest.fn().mockReturnValue(null),
+      startSelection: jest.fn(),
+      cancelSelection: jest.fn()
     } as unknown as jest.Mocked<GameStoreService>;
 
     apiPlayerMock = {
@@ -78,6 +81,7 @@ describe('HandActionService', () => {
     it('should initialize special states for contagion', () => {
       const card = { id: 'c3', kind: CardKind.Treatment, subtype: TreatmentSubtype.Contagion } as Card;
       const gameState = {
+        roomId: 'room1',
         players: [{
           player: { id: 'me' },
           board: [
@@ -92,6 +96,7 @@ describe('HandActionService', () => {
       
       expect(service.contagionAssignments().length).toBe(3); // 1 + 2 + 0
       expect(service.contagionAssignments()[0]).toEqual({ fromOrganId: 'o1', toOrganId: '', toPlayerId: '' });
+      expect(gameStoreMock.startSelection).toHaveBeenCalledWith('room1', 'c3');
     });
 
     it('should safely ignore contagion init if player not found', () => {
@@ -141,6 +146,53 @@ describe('HandActionService', () => {
     it('should return false if no card is selected', () => {
       // Intentionally reading the signal when state is empty
       expect(service.canConfirmSelection()).toBe(false);
+    });
+  });
+
+  describe('pausa del timer (selection start/cancel)', () => {
+    it('selectCard emite startSelection para cartas con fase de selección', () => {
+      const card = { id: 'c9', kind: CardKind.Treatment, subtype: TreatmentSubtype.BodySwap } as Card;
+      const gameState = { roomId: 'room1', players: [] } as unknown as PublicGameState;
+
+      service.selectCard(card, gameState);
+
+      expect(gameStoreMock.startSelection).toHaveBeenCalledWith('room1', 'c9');
+    });
+
+    it('selectCard NO emite startSelection para virus (juego directo, sin fase de selección)', () => {
+      const card = { id: 'c10', kind: CardKind.Virus } as Card;
+      const gameState = { roomId: 'room1', players: [] } as unknown as PublicGameState;
+
+      service.selectCard(card, gameState);
+
+      expect(gameStoreMock.startSelection).not.toHaveBeenCalled();
+    });
+
+    it('selectCard NO emite startSelection para órganos normales', () => {
+      const card = { id: 'c13', kind: CardKind.Organ, color: CardColor.Red } as Card;
+      const gameState = { roomId: 'room1', players: [] } as unknown as PublicGameState;
+
+      service.selectCard(card, gameState);
+
+      expect(gameStoreMock.startSelection).not.toHaveBeenCalled();
+    });
+
+    it('clearSelection emite cancelSelection con el roomId del estado público', () => {
+      (gameStoreMock.publicState as jest.Mock).mockReturnValue({ roomId: 'room1' });
+      service.selectCard({ id: 'c11', kind: CardKind.Organ } as Card, null);
+
+      service.clearSelection();
+
+      expect(gameStoreMock.cancelSelection).toHaveBeenCalledWith('room1');
+    });
+
+    it('clearSelection no emite cancelSelection si no hay estado público', () => {
+      (gameStoreMock.publicState as jest.Mock).mockReturnValue(null);
+      service.selectCard({ id: 'c12', kind: CardKind.Organ } as Card, null);
+
+      service.clearSelection();
+
+      expect(gameStoreMock.cancelSelection).not.toHaveBeenCalled();
     });
   });
 });

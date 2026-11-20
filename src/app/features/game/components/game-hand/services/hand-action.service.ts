@@ -5,6 +5,7 @@ import { GameStoreService } from '@core/services/game-store.service';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { HandStrategyResolverService } from './hand-strategy-resolver.service';
 import { HandStateService } from './hand-state.service';
+import { hasTargetSelectionPhase } from '../target-select/target-select.predicates';
 
 @Injectable()
 export class HandActionService {
@@ -53,6 +54,12 @@ export class HandActionService {
     this.initializeSpecialStates(card, gameState);
     const options = strategy.getTargets(gameState, card, this._apiPlayer.player()?.id);
     this._state.targetOptions.set(options);
+
+    // ⏸️ Fase de selección de objetivo (Trasplante, Contagio, Intercambio de
+    // cuerpo, …): notifica al server para que pause el timer de turno.
+    if (hasTargetSelectionPhase(card)) {
+      this._gameStore.startSelection(gameState.roomId, card.id);
+    }
   }
 
   confirmPlay(roomId: string) {
@@ -72,6 +79,12 @@ export class HandActionService {
   }
 
   clearSelection() {
+    // ▶️ Cancelación de la fase de selección: el server limpia la acción
+    // pendiente (si la hay) y reanuda el timer. Sin acción pendiente es un no-op.
+    const roomId = this._gameStore.publicState()?.roomId;
+    if (roomId) {
+      this._gameStore.cancelSelection(roomId);
+    }
     this._state.clear();
   }
 

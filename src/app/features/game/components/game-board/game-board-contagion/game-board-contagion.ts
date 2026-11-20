@@ -32,6 +32,13 @@ export class GameBoardContagionComponent implements OnChanges {
     this._gameStore.setClientError(
       'Arrastra tus virus a órganos rivales libres.'
     );
+
+    // ⏸️ Fase de selección de objetivo (ruta drag & drop): notifica al server
+    // para que pause el timer de turno mientras el jugador asigna virus.
+    const rid = this.gameState()?.roomId;
+    if (rid) {
+      this._gameStore.startSelection(rid, card.id);
+    }
   }
 
   addAssignment(assign: ContagionMove) {
@@ -81,13 +88,28 @@ export class GameBoardContagionComponent implements OnChanges {
     restoreOriginalVirusPositions(this.state, this.gameState());
     this.state = null;
     this._gameStore.setClientError('Contagio cancelado.');
+    this.emitCancelSelection();
   }
 
   cleanContagionMode() {
     const st = this.gameState();
     const meId = this._apiPlayer.player()?.id;
+    const hadSelection = this.state !== null;
     if (!st || meId !== st.players[st.turnIndex]?.player.id) {
       this.state = null;
+      if (hadSelection) this.emitCancelSelection();
+    }
+  }
+
+  /**
+   * ▶️ Cancela la fase de selección en el server (reanuda el timer).
+   * Defensivo: si el server ya limpió la acción pendiente (p. ej. por endTurn
+   * o auto-resolución del tope) es un no-op.
+   */
+  private emitCancelSelection() {
+    const rid = this.gameState()?.roomId;
+    if (rid) {
+      this._gameStore.cancelSelection(rid);
     }
   }
 

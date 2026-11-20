@@ -57,6 +57,16 @@ export class GameStoreService {
     this.play.discardCards(roomId, cardIds);
   }
 
+  // ⏸️ Pausa del timer de turno: se notifica el inicio y la cancelación de la
+  // fase de selección de objetivo (Trasplante, Contagio, Intercambio de cuerpo, …)
+  startSelection(roomId: string, cardId: string) {
+    this.socketGame.startSelection({ roomId, cardId });
+  }
+
+  cancelSelection(roomId: string) {
+    this.socketGame.cancelSelection(roomId);
+  }
+
   handleTurnTimeout(roomId: string) {
     this.play.handleTurnTimeout(roomId);
   }

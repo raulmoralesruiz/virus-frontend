@@ -37,6 +37,13 @@ export class GameBoardTransplantComponent implements OnChanges {
     this._gameStore.setClientError(
       'Selecciona ahora el segundo órgano para el trasplante.'
     );
+
+    // ⏸️ Fase de selección de objetivo (ruta drag & drop): notifica al server
+    // para que pause el timer de turno mientras el jugador elige.
+    const rid = this.gameState()?.roomId;
+    if (rid) {
+      this._gameStore.startSelection(rid, card.id);
+    }
   }
 
   finishTransplant(secondOrgan: { organId: string; playerId: string }) {
@@ -73,14 +80,17 @@ export class GameBoardTransplantComponent implements OnChanges {
   cancelTransplant() {
     this.state = null;
     this._gameStore.setClientError('Trasplante cancelado.');
+    this.emitCancelSelection();
   }
 
   cleanTransplantMode() {
     const st = this.gameState();
     const meId = this.meId;
+    const hadSelection = this.state !== null;
 
     if (!st) {
       this.state = null;
+      if (hadSelection) this.emitCancelSelection();
       return;
     }
 
@@ -88,6 +98,19 @@ export class GameBoardTransplantComponent implements OnChanges {
     const activePlayerId = st.players[st.turnIndex]?.player.id;
     if (meId !== activePlayerId) {
       this.state = null;
+      if (hadSelection) this.emitCancelSelection();
+    }
+  }
+
+  /**
+   * ▶️ Cancela la fase de selección en el server (reanuda el timer).
+   * Defensivo: si el server ya limpió la acción pendiente (p. ej. por endTurn
+   * o auto-resolución del tope) es un no-op.
+   */
+  private emitCancelSelection() {
+    const rid = this.gameState()?.roomId;
+    if (rid) {
+      this._gameStore.cancelSelection(rid);
     }
   }
 }

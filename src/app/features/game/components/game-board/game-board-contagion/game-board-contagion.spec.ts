@@ -17,7 +17,9 @@ describe('GameBoardContagionComponent', () => {
 
   const mockGameStore = {
       setClientError: jest.fn(),
-      playCard: jest.fn()
+      playCard: jest.fn(),
+      startSelection: jest.fn(),
+      cancelSelection: jest.fn()
   };
 
   const mockApiPlayer = {
@@ -75,14 +77,38 @@ describe('GameBoardContagionComponent', () => {
           component.ngOnChanges();
           expect(component.cleanContagionMode).toHaveBeenCalled();
       });
+
+      it('▶️ debe reanudar el timer (cancelSelection) si el turno cambia con selección abierta', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1', players: [{ player: { id: 'p2' } }], turnIndex: 0 });
+          mockApiPlayer.player.set({ id: 'p1' });
+          component.state = { card: { id: 'c1' } } as any;
+
+          component.cleanContagionMode();
+
+          expect(component.state).toBeNull();
+          expect(mockGameStore.cancelSelection).toHaveBeenCalledWith('r1');
+      });
   });
 
   describe('startContagion', () => {
       it('should set initial state', () => {
+          fixture.componentRef.setInput('gameState', {});
           component.startContagion({ id: 'c1' } as any);
           expect(component.state?.card.id).toBe('c1');
           expect(component.state?.assignments).toEqual([]);
           expect(mockGameStore.setClientError).toHaveBeenCalledWith('Arrastra tus virus a órganos rivales libres.');
+      });
+
+      it('⏸️ debe pausar el timer (startSelection) al iniciar la selección por drag', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.startContagion({ id: 'c1' } as any);
+          expect(mockGameStore.startSelection).toHaveBeenCalledWith('r1', 'c1');
+      });
+
+      it('⏸️ no debe pausar si no hay roomId disponible', () => {
+          fixture.componentRef.setInput('gameState', {});
+          component.startContagion({ id: 'c1' } as any);
+          expect(mockGameStore.startSelection).not.toHaveBeenCalled();
       });
   });
 
@@ -127,11 +153,32 @@ describe('GameBoardContagionComponent', () => {
       });
   });
 
+  describe('finishContagion y cancelSelection', () => {
+      it('no debe cancelar la selección al confirmar (la limpia el server al jugar)', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.state = { card: { id: 'c1' }, assignments: [{ fromOrganId: 'o1' }] } as any;
+
+          component.finishContagion();
+
+          expect(mockGameStore.playCard).toHaveBeenCalled();
+          expect(mockGameStore.cancelSelection).not.toHaveBeenCalled();
+      });
+  });
+
   describe('cancelContagion', () => {
       it('should do nothing if no state', () => {
           component.state = null;
           component.cancelContagion();
           expect(restoreOriginalVirusPositions).not.toHaveBeenCalled();
+      });
+
+      it('▶️ debe reanudar el timer (cancelSelection) al cancelar la selección', () => {
+          fixture.componentRef.setInput('gameState', { roomId: 'r1' });
+          component.state = { card: { id: 'c1' } } as any;
+
+          component.cancelContagion();
+
+          expect(mockGameStore.cancelSelection).toHaveBeenCalledWith('r1');
       });
 
       it('should restore positions and reset state', () => {
