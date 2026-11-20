@@ -12,6 +12,7 @@ import {
 import { PlayerCardIconComponent } from './components/player-card-icon/player-card-icon.component';
 import { PlayerCardAttachmentsComponent } from './components/player-card-attachments/player-card-attachments.component';
 import { isValidDropTarget } from './player-card.validator';
+import { BoardDragPredicates } from '../logic/board-drag-predicates';
 
 @Component({
   selector: 'player-card',
@@ -47,6 +48,7 @@ export class PlayerCardComponent {
   });
 
   private dragDropService = inject(DragDropService);
+  private predicates = inject(BoardDragPredicates);
 
   onVirusDragStarted(virus: Card) {
     this.dragDropService.draggedItem.set({ 
@@ -63,6 +65,23 @@ export class PlayerCardComponent {
 
   isValidTarget = computed(() => {
     return isValidDropTarget(this.dragDropService.draggedItem(), this.organ(), this.isMe());
+  });
+
+  /**
+   * Feedback negativo: si la carta arrastrada se juega sobre órganos concretos
+   * (medicina, virus, tratamientos de órgano, Órgano Mutante, contagio...) y
+   * este órgano no es un objetivo válido, lo atenúamos.
+   */
+  isDimmedTarget = computed(() => {
+    const dragged = this.dragDropService.draggedItem();
+    if (!dragged) return false;
+
+    // Contagio (virus desde otro órgano): atenuar los órganos de color no válido
+    if ('virusId' in dragged) return !this.isValidTarget();
+
+    const card = dragged as Card;
+    if (!this.predicates.isOrganTargetCard(card)) return false;
+    return !this.isValidTarget();
   });
 
   // Drag over state for visual feedback

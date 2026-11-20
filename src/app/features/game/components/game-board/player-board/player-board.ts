@@ -64,6 +64,20 @@ export class PlayerBoardComponent {
     return this.predicates.isCardValidForBoard(dragged as Card, this.isMe(), this.player().player.id);
   });
 
+  /**
+   * Feedback negativo: si la carta arrastrada se juega sobre el tablero entero
+   * (Guantes, Error Médico, Truco o Trato, Contagio, órgano normal...) y este
+   * tablero no es un objetivo válido, lo atenúamos para que los objetivos
+   * válidos destaquen.
+   */
+  isDimmedTarget = computed(() => {
+    const dragged = this.dragDropService.draggedItem();
+    if (!dragged || 'virusId' in dragged) return false;
+    const card = dragged as Card;
+    if (!this.predicates.isBoardTargetCard(card)) return false;
+    return !this.isValidBoardTarget();
+  });
+
   connectedTo = computed(() => {
     const me = this._apiPlayer.player();
     return me ? [`handList-${me.id}`] : [];

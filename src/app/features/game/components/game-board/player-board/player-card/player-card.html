@@ -5,7 +5,7 @@
   [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
   [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="onDropped(); dropListDropped.emit($event)"
   (cdkDropListEntered)="onDragEntered(); dropListEntered.emit($event)" (cdkDropListExited)="onDragExited();"
-  [class.valid-target]="isValidTarget()" [class.drag-over]="isDragOver()">
+  [class.valid-target]="isValidTarget()" [class.drag-over]="isDragOver()" [class.target-dimmed]="isDimmedTarget()">
 
   @if (organValue.attached.length === 0) {
   <player-card-icon [organ]="organValue" />

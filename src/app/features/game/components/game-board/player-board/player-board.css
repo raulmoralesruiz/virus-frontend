@@ -92,9 +92,22 @@
   background: var(--color-field-player-bg);
 }
 
+.board-drop-wrapper {
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease,
+    background 0.2s ease;
+}
+
 .board-drop-wrapper.valid-board-target {
   background: var(--color-valid-target-bg);
   border-color: var(--border-valid-target);
+}
+
+/* Feedback negativo: tablero que no es objetivo de la carta arrastrada */
+.board-drop-wrapper.target-dimmed {
+  opacity: 0.45;
+  filter: saturate(0.55);
 }
 
 .board-drop-wrapper.valid-board-target.drag-over {

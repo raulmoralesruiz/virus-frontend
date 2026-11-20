@@ -1,3 +1,6 @@
+<!-- Anuncio accesible del número de objetivos válidos (drag o trasplante) -->
+<div class="sr-only" role="status" aria-live="polite">{{ targetAnnouncement(transplant.state) }}</div>
+
 <game-info [state]="state()" [historyCount]="historyCount()" (historyRequested)="gameStore.openHistoryModal()"
   (leaveRequested)="gameStore.openLeaveModal()"></game-info>
 

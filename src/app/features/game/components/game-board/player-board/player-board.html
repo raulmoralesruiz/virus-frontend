@@ -6,7 +6,7 @@
   [cdkDropListConnectedTo]="connectedTo()" [cdkDropListEnterPredicate]="boardEnterPredicate"
   (cdkDropListDropped)="onBoardDrop($event)" (cdkDropListEntered)="onBoardEnter($event)"
   (cdkDropListExited)="onBoardExit($event)" [class.valid-board-target]="isValidBoardTarget()"
-  [class.drag-over]="isDragOver()" [player]="player()" [isMe]="isMe()" [roomId]="roomId()" [gameState]="gameState()"
+  [class.drag-over]="isDragOver()" [class.target-dimmed]="isDimmedTarget()" [player]="player()" [isMe]="isMe()" [roomId]="roomId()" [gameState]="gameState()"
   [allSlotIds]="allSlotIds()" [contagionState]="contagionState()" [transplantState]="transplantState()"
   [getTemporaryVirusesForOrgan]="getTemporaryVirusesForOrgan()" [hasTemporaryVirus]="hasTemporaryVirus()"
   (virusMoved)="virusMoved.emit($event)" (startContagion)="startContagion.emit($event)"

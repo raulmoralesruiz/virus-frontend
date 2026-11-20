@@ -75,10 +75,23 @@
   background: var(--color-placeholder-bg);
 }
 
+.card.organ {
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease,
+    background 0.2s ease;
+}
+
 .card.organ.valid-target {
   /* Green border for valid target */
   box-shadow: var(--shadow-valid-target);
   background: var(--color-valid-target-bg);
+}
+
+/* Feedback negativo: órgano que no es objetivo válido de la carta arrastrada */
+.card.organ.target-dimmed {
+  opacity: 0.45;
+  filter: saturate(0.55);
 }
 
 .card.organ.valid-target.drag-over {

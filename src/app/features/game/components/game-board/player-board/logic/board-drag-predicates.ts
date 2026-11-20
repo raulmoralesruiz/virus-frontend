@@ -43,6 +43,65 @@ export class BoardDragPredicates {
     }
   }
 
+  /**
+   * ¿La carta se juega sobre el tablero entero (y no sobre órganos concretos)?
+   * Ej.: Guantes, Intercambio, Aparición, Error Médico, Truco o Trato, Contagio,
+   * y los órganos normales (se colocan en el tablero propio).
+   */
+  isBoardTargetCard(card: Card): boolean {
+    switch (card.kind) {
+      case CardKind.Organ:
+        // El Órgano Mutante (naranja) se coloca sobre un órgano propio, no sobre el tablero
+        return card.color !== CardColor.Orange;
+      case CardKind.Treatment:
+        switch (card.subtype) {
+          case TreatmentSubtype.Gloves:
+          case TreatmentSubtype.BodySwap:
+          case TreatmentSubtype.Apparition:
+          case TreatmentSubtype.MedicalError:
+          case TreatmentSubtype.trickOrTreat:
+          case TreatmentSubtype.Contagion:
+            return true;
+          default:
+            return false;
+        }
+      default:
+        // Medicina y Virus siempre se juegan sobre un órgano
+        return false;
+    }
+  }
+
+  /**
+   * ¿La carta se juega sobre órganos concretos?
+   * Ej.: Medicina, Virus, Órgano Mutante, Ladrón de Órganos, Trasplante,
+   * Trasplante alienígena, Ladrón de colores, Experimento fallido.
+   */
+  isOrganTargetCard(card: Card): boolean {
+    switch (card.kind) {
+      case CardKind.Medicine:
+      case CardKind.Virus:
+        return true;
+      case CardKind.Organ:
+        return card.color === CardColor.Orange;
+      case CardKind.Treatment:
+        switch (card.subtype) {
+          case TreatmentSubtype.OrganThief:
+          case TreatmentSubtype.Transplant:
+          case TreatmentSubtype.AlienTransplant:
+          case TreatmentSubtype.failedExperiment:
+          case TreatmentSubtype.colorThiefRed:
+          case TreatmentSubtype.colorThiefGreen:
+          case TreatmentSubtype.colorThiefBlue:
+          case TreatmentSubtype.colorThiefYellow:
+            return true;
+          default:
+            return false;
+        }
+      default:
+        return false;
+    }
+  }
+
   checkBoardEnter(drag: CdkDrag, _drop: CdkDropList<any>, playerInfo: PublicPlayerInfo, isMe: boolean): boolean {
     const data = drag.data as Card | { virusId: string } | undefined;
     if (!data) return false;

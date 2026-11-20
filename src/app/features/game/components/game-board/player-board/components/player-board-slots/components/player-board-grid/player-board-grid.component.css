@@ -33,6 +33,19 @@
   background: var(--color-slot-valid-bg);
 }
 
+/* Feedback negativo: órgano que no es objetivo en la fase de trasplante */
+.board-slot.target-dimmed {
+  opacity: 0.45;
+  filter: saturate(0.55);
+}
+
+.board-slot {
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease,
+    background 0.2s ease;
+}
+
 .board-slot .card.organ.cdk-drop-list {
   transition:
     transform 0.2s ease,

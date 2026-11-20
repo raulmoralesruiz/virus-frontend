@@ -3,6 +3,7 @@ import { BoardActionService } from './board-action.service';
 import { GameStoreService } from '@core/services/game-store.service';
 import { CardKind, TreatmentSubtype, CardColor, Card } from '@core/models/card.model';
 import { OrganOnBoard, PublicPlayerInfo } from '@core/models/game.model';
+import { TransplantState } from '../player-board.models';
 
 describe('BoardActionService', () => {
   let service: BoardActionService;
@@ -121,21 +122,60 @@ describe('BoardActionService', () => {
   });
 
   describe('validateSlotClick', () => {
+    // Primer órgano del trasplante: rojo de p1.
+    const transplantState = {
+      card: { id: 'c1' } as Card,
+      firstOrgan: { organId: 'oA', playerId: 'p1' },
+    } as TransplantState;
+
+    const organ = (id: string, color: CardColor, attached: Card[] = []) =>
+      ({ id, color, attached, kind: CardKind.Organ }) as OrganOnBoard;
+
+    const mkPlayer = (id: string, board: OrganOnBoard[]): PublicPlayerInfo =>
+      ({ player: { id, name: id }, board, handCount: 0 }) as PublicPlayerInfo;
+
+    // p1 tiene el órgano rojo oA (el primero); p2 tiene el órgano azul oB.
+    const players = [mkPlayer('p1', [organ('oA', CardColor.Red)]), mkPlayer('p2', [organ('oB', CardColor.Blue)])];
+
     it('should return null if transplantState is null', () => {
-      expect(service.validateSlotClick(undefined, 'p1', null)).toBeNull();
+      expect(service.validateSlotClick(undefined, 'p1', null, players)).toBeNull();
       expect(gameStoreServiceMock.setClientError).not.toHaveBeenCalled();
     });
 
     it('should return null and set error if organ is undefined and transplantState exists', () => {
-      expect(service.validateSlotClick(undefined, 'p1', {} as any)).toBeNull();
+      expect(service.validateSlotClick(undefined, 'p1', transplantState, players)).toBeNull();
       expect(gameStoreServiceMock.setClientError).toHaveBeenCalledWith('Debes seleccionar un órgano válido como segundo objetivo.');
     });
 
     it('should return object with organId and playerId if both are valid', () => {
-      const organ = { id: 'o1', color: CardColor.Red } as OrganOnBoard;
-      const result = service.validateSlotClick(organ, 'p2', {} as any);
-      expect(result).toEqual({ organId: 'o1', playerId: 'p2' });
+      const organ = players[1].board[0];
+      const result = service.validateSlotClick(organ, 'p2', transplantState, players);
+      expect(result).toEqual({ organId: 'oB', playerId: 'p2' });
       expect(gameStoreServiceMock.setClientError).not.toHaveBeenCalled();
+    });
+
+    it('should reject if the organ is the first selection', () => {
+      const organ = players[0].board[0];
+      expect(service.validateSlotClick(organ, 'p1', transplantState, players)).toBeNull();
+      expect(gameStoreServiceMock.setClientError).toHaveBeenCalledWith('Ese órgano no es un objetivo válido para el trasplante (inmune o duplicado de color).');
+    });
+
+    it('should reject if the organ is immune', () => {
+      players[1].board = [
+        organ('oB', CardColor.Blue, [{ kind: CardKind.Medicine }, { kind: CardKind.Medicine }] as Card[]),
+      ];
+      const candidate = players[1].board[0];
+      expect(service.validateSlotClick(candidate, 'p2', transplantState, players)).toBeNull();
+      expect(gameStoreServiceMock.setClientError).toHaveBeenCalledWith('Ese órgano no es un objetivo válido para el trasplante (inmune o duplicado de color).');
+    });
+
+    it('should reject if the swap would duplicate an organ color', () => {
+      // p1 (jugador del primer órgano) ya tiene un órgano azul (oC):
+      // al recibir oB (azul) acabaría con dos azules → inválido.
+      players[0].board = [organ('oA', CardColor.Red), organ('oC', CardColor.Blue)];
+      const candidate = players[1].board[0];
+      expect(service.validateSlotClick(candidate, 'p2', transplantState, players)).toBeNull();
+      expect(gameStoreServiceMock.setClientError).toHaveBeenCalledWith('Ese órgano no es un objetivo válido para el trasplante (inmune o duplicado de color).');
     });
   });
 });

@@ -87,7 +87,12 @@ export class PlayerBoardGridComponent {
   }
 
   onSlotClick(organ: any, playerId: string) {
-    const res = this.actionService.validateSlotClick(organ, playerId, this.transplantState());
+    const res = this.actionService.validateSlotClick(
+      organ,
+      playerId,
+      this.transplantState(),
+      this.gameState().players
+    );
     if (res) this.finishTransplant.emit(res);
   }
 
@@ -95,5 +100,29 @@ export class PlayerBoardGridComponent {
     const me = this._apiPlayer.player();
     const others = this.allSlotIds().filter((id) => id !== `slot-${this.player().player.id}-${color}`);
     return me ? [`handList-${me.id}`, ...others] : others;
+  }
+
+  /** Fase de trasplante: ¿este órgano es la primera selección? */
+  isTransplantFirst(organ: OrganOnBoard): boolean {
+    const st = this.transplantState();
+    return !!st?.firstOrgan && st.firstOrgan.organId === organ.id;
+  }
+
+  /** Fase de trasplante: ¿este órgano es un segundo objetivo válido? */
+  isTransplantSecondValid(organ: OrganOnBoard): boolean {
+    const st = this.transplantState();
+    if (!st?.firstOrgan) return false;
+    return this.actionService.isTransplantSecondTargetValid(
+      organ,
+      this.player().player.id,
+      st,
+      this.gameState().players
+    );
+  }
+
+  /** Fase de trasplante: órgano que no es 1ª selección ni 2º objetivo válido → atenuar */
+  isTransplantDimmed(organ: OrganOnBoard): boolean {
+    if (!this.transplantState()) return false;
+    return !this.isTransplantFirst(organ) && !this.isTransplantSecondValid(organ);
   }
 }
