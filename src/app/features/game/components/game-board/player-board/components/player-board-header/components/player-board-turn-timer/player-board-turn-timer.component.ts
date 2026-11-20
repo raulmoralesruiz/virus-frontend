@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 export class PlayerBoardTurnTimerComponent {
   remainingSeconds = input(0);
   timerState = input<'idle' | 'running' | 'warning' | 'critical'>('idle');
+  timerPaused = input(false);
 }

@@ -48,6 +48,7 @@ export interface PublicGameState {
   winner?: PublicPlayerInfo;
   history: HistoryEntry[];
   pendingAction?: ApparitionDecision;
+  timerPaused?: boolean; // true mientras hay una decisión pendiente (el timer no cuenta)
 }
 
 export interface GameState {

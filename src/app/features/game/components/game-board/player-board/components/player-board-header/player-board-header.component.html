@@ -11,6 +11,6 @@
 }
 
 @if (isActive()) {
-<player-board-turn-timer [remainingSeconds]="remainingSeconds()" [timerState]="turnTimerState()">
+<player-board-turn-timer [remainingSeconds]="remainingSeconds()" [timerState]="turnTimerState()" [timerPaused]="timerPaused()">
 </player-board-turn-timer>
 }

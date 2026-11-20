@@ -23,6 +23,7 @@ export class PlayerBoardHeaderComponent {
   isActive = input(false);
   isMe = input(false);
   remainingSeconds = input(0);
+  timerPaused = input(false);
 
   private readonly timerSoundService = inject(TimerSoundService);
 
@@ -67,6 +68,11 @@ export class PlayerBoardHeaderComponent {
       wasActive = isActive;
 
       if (!isActive) {
+        return;
+      }
+
+      // ⏸️ En pausa (decisión pendiente) el tiempo no pasa: sin sonido de tic
+      if (this.timerPaused()) {
         return;
       }
 

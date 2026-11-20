@@ -1,5 +1,5 @@
 <player-board-header [player]="player()" [isActive]="isActive()" [isMe]="isMe()"
-  [remainingSeconds]="remainingSeconds()">
+  [remainingSeconds]="remainingSeconds()" [timerPaused]="timerPaused()">
 </player-board-header>
 
 <player-board-slots class="board-drop-wrapper" cdkDropList [id]="boardDropListId()" [cdkDropListData]="[]"

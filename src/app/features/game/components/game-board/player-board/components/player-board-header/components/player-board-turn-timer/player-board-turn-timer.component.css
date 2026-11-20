@@ -14,6 +14,16 @@
   animation: turnTimerBlink 1s ease-in-out infinite;
 }
 
+/* ⏸️ Timer en pausa (decisión pendiente, p. ej. Aparición): el tiempo no pasa */
+.turn-timer--paused {
+  color: var(--color-primary) !important;
+  animation: none;
+}
+
+.turn-timer__pause-icon {
+  margin-right: 4px;
+}
+
 @keyframes turnTimerBlink {
 
   0%,

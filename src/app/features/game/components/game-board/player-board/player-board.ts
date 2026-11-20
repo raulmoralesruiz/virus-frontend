@@ -43,6 +43,7 @@ export class PlayerBoardComponent {
   roomId = input.required<string>();
   gameState = input.required<PublicGameState>();
   remainingSeconds = input(0);
+  timerPaused = computed(() => Boolean(this.gameState().timerPaused));
   getTemporaryVirusesForOrgan = input.required<(organId: string, playerId: string) => Card[]>();
   hasTemporaryVirus = input.required<(organId: string, playerId: string) => boolean>();
   allSlotIds = input.required<string[]>();

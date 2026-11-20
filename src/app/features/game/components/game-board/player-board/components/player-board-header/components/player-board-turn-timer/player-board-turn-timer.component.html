@@ -1,4 +1,9 @@
-<span class="turn-timer" [class.turn-timer--warning]="timerState() === 'warning'"
-  [class.turn-timer--critical]="timerState() === 'critical'">
+<span class="turn-timer" [class.turn-timer--paused]="timerPaused()"
+  [class.turn-timer--warning]="timerPaused() === false && timerState() === 'warning'"
+  [class.turn-timer--critical]="timerPaused() === false && timerState() === 'critical'">
+  @if (timerPaused()) {
+    <span class="turn-timer__pause-icon" aria-hidden="true">⏸</span>
+    <span class="sr-only">pausado, </span>
+  }
   {{ remainingSeconds() }}s
 </span>
