@@ -39,7 +39,7 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
     // PERO solo actúa si !isShowingNotification().
     // El panel expandido (game-info--expanded) aparece cuando showDetails=true && !isShowingNotification().
     // El botón leave dentro de game-info-controls emite leaveRequested, que activa showLeave en el store.
-    // game-leave se renderiza dentro de game.component.html con @if(showLeave()).
+    // app-confirm-modal se renderiza dentro de game.component.html con @if(showLeave()).
 
     // Paso 1: Esperar a que la notificación de inicio desaparezca.
     // La notificación se muestra durante un tiempo breve al inicio.
@@ -70,15 +70,14 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
       if (btn) btn.click();
     });
 
-    // Paso 4: El modal game-leave debe aparecer
-    // IMPORTANTE: El selector 'game-leave' apunta al custom element host que puede tener
-    // size 0 (el .confirm-overlay tiene position:fixed pero no el host padre).
-    // Playwright reporta el dialog como 'hidden' aunque el contenido interno sea visible.
-    // Usamos el inner .confirm-overlay o el role=dialog para la validación.
-    await expect(page1.locator('game-leave .confirm-overlay')).toBeVisible({ timeout: 5000 });
+    // Paso 4: El modal de confirmación (app-confirm-modal) debe aparecer
+    // El modal de salida es el componente compartido app-confirm-modal:
+    // su .confirm-overlay es position:fixed dentro del host, así que validamos
+    // por la clase .confirm-overlay en lugar del host.
+    await expect(page1.locator('app-confirm-modal .confirm-overlay')).toBeVisible({ timeout: 5000 });
 
     // Paso 5: Confirmar salida
-    await page1.locator('game-leave button.confirm-accept').click({ force: true });
+    await page1.locator('app-confirm-modal button.confirm-accept').click({ force: true });
 
     // Paso 6: Alice regresa al lobby
     await page1.waitForURL(/\/room-list|\/room\/|\/$/, { timeout: 10000 });
