@@ -2,7 +2,8 @@
 @let winnerValue = winner();
 <div class="winner-overlay" (click)="closeModal()">
   <div class="winner-modal" role="dialog" aria-modal="true" aria-labelledby="winner-title"
-    aria-describedby="winner-description" (click)="$event.stopPropagation()">
+    aria-describedby="winner-description" appFocusTrap (escape)="closeModal()"
+    (click)="$event.stopPropagation()">
     <button type="button" class="winner-close" aria-label="Cerrar aviso de ganador" (click)="closeModal()">
       ✕
     </button>
@@ -13,20 +14,43 @@
         <strong>{{ winnerValue?.player?.name | titlecase }}</strong> ha completado su cuerpo.
       </p>
 
+      @if (standings().length > 0) {
+      <ol class="winner-standings" aria-label="Clasificación final">
+        @for (s of standings(); track s.player.id) {
+        <li class="winner-standing">
+          <span class="winner-medal" aria-hidden="true">{{ medals[s.rank - 1] ?? '·' }}</span>
+          <span class="winner-standing__name">{{ s.player.name | titlecase }}</span>
+          <span class="winner-standing__stats">{{ s.healthyOrgans }} sanos · {{ s.distinctColors }} colores</span>
+        </li>
+        }
+      </ol>
+      }
+
+      @if (durationLabel() || historyCount() > 0) {
+      <p class="winner-meta">
+        @if (durationLabel()) {
+        {{ durationLabel() }} ·
+        }
+        {{ historyCount() }} acciones
+      </p>
+      }
+
       <div class="winner-actions" aria-label="Acciones posteriores a la victoria">
         @if (canReset()) {
-        <button type="button" class="winner-reset" aria-label="Reiniciar partida" (click)="onReset()">
+        <button type="button" class="winner-reset" (click)="onReset()">
           <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" class="winner-reset__icon">
             <path
               d="M12 5V1L7 6l5 5V7c3.08 0 5.5 2.42 5.5 5.5C17.5 15.58 15.08 18 12 18s-5.5-2.42-5.5-5.5H4C4 16.76 7.24 20 12 20s8-3.24 8-7.5S16.76 5 12 5z" />
           </svg>
+          <span>Jugar de nuevo</span>
         </button>
         }
-        <button type="button" class="winner-leave" (click)="onLeave()" aria-label="Salir a la lista de salas">
+        <button type="button" class="winner-leave" (click)="onLeave()">
           <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" class="winner-leave__icon">
             <path d="M17 6l-1.41 1.41L17.17 9H9v2h8.17l-1.58 1.59L17 14l4-4-4-4z" />
             <path d="M5 5h7V3H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2H5V5z" />
           </svg>
+          <span>Salir</span>
         </button>
       </div>
     </div>

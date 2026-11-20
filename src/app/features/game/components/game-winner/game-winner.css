@@ -117,3 +117,77 @@
   height: 1em;
   fill: currentColor;
 }
+
+.winner-standings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.winner-standing {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: var(--color-muted-button-bg);
+}
+
+.winner-medal {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.winner-standing__name {
+  font-weight: 600;
+}
+
+.winner-standing__stats {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.winner-meta {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+/* Mobile: pantalla completa y botones táctiles grandes */
+@media (max-width: 600px) {
+  .winner-overlay {
+    padding: 0;
+  }
+
+  .winner-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding:
+      calc(env(safe-area-inset-top, 0px) + 2rem)
+      1.25rem
+      calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  }
+
+  .winner-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .winner-reset,
+  .winner-leave {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    font-size: 1.05rem;
+  }
+}
