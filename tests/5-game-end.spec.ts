@@ -54,7 +54,7 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
     }, null, { timeout: 15000 });
 
     // Paso 2: Click en game-info para expandir el panel de detalles
-    // Usamos evaluate para disparar el evento dentro del Angular zone
+    // Usamos evaluate para disparar el evento (la app es zoneless: sin zona de Angular)
     await page1.evaluate(() => {
       const gameInfo = document.querySelector('game-info') as HTMLElement;
       if (gameInfo) gameInfo.click();
