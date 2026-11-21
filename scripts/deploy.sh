@@ -7,6 +7,9 @@
 #   NO_BUILD=1 pnpm run deploy   # sync sin reconstruir (dist/ ya existe)
 #   NO_DELETE=1 pnpm run deploy  # no borrar archivos obsoletos del destino
 #
+# Cada deploy real crea un backup automático del estado anterior en
+# www/virus/backups/ (retención: 5 últimos por componente). El dry-run no crea nada.
+#
 # Config (una sola vez): copia .deployrc.example a .deployrc y rellena:
 #   DEPLOY_HOST  IP u hostname de TrueNAS en la LAN (ej. 192.168.x.x)
 #   DEPLOY_USER  usuario SSH con escritura en la ruta destino
@@ -59,6 +62,23 @@ if ! ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-ne
   echo "error: no hay acceso SSH sin contraseña a ${DEPLOY_USER}@${DEPLOY_HOST}." >&2
   echo "  Una sola vez:  ssh-copy-id ${DEPLOY_USER}@${DEPLOY_HOST}" >&2
   exit 1
+fi
+
+# --- backup del estado actual (antes del --delete; solo en deploy real) ----
+# Archiva frontend/ (webroot + config) en .../virus/backups/ y conserva solo
+# los 5 últimos. En dry-run se omite: no se toca nada en la NAS.
+if [[ "$DRY_RUN" != "1" ]]; then
+  PARENT_DIR="$(dirname "$DEPLOY_PATH")"          # .../virus/frontend
+  BACKUP_DIR="$(dirname "$PARENT_DIR")/backups"  # .../virus/backups
+  COMP="$(basename "$PARENT_DIR")"               # frontend
+  TS="$(date +%Y-%m-%d-%H-%M)"
+  echo "→ backup del estado actual: $BACKUP_DIR/${COMP}_backup_$TS.tar.gz"
+  ssh -o BatchMode=yes "${DEPLOY_USER}@${DEPLOY_HOST}" \
+    "mkdir -p '$BACKUP_DIR' && \
+     tar -czf '$BACKUP_DIR/${COMP}_backup_$TS.tar.gz' -C '$(dirname "$PARENT_DIR")' '$COMP' && \
+     cd '$BACKUP_DIR' && ls -1t ${COMP}_backup_*.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm --"
+else
+  echo "→ (dry-run: sin backup del estado remoto)"
 fi
 
 # --- rsync -----------------------------------------------------------------
