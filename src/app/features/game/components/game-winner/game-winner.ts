@@ -4,6 +4,7 @@ import { PublicPlayerInfo, OrganOnBoard } from '@core/models/game.model';
 import { CardKind } from '@core/models/card.model';
 import { isInfected } from '@core/utils/organ.utils';
 import { TimerSoundService } from '@core/services/timer-sound.service';
+import { SocketService } from '@core/services/socket/socket.service';
 import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
 
 export interface FinalStanding {
@@ -22,6 +23,7 @@ export interface FinalStanding {
 })
 export class GameWinnerComponent {
   private readonly timerSoundService = inject(TimerSoundService);
+  private readonly socketService = inject(SocketService);
 
   winner = input<{ player: PublicPlayerInfo['player'] } | null>(null);
   readonly playerCount = input(0);
@@ -34,6 +36,9 @@ export class GameWinnerComponent {
   isVisible = false;
 
   readonly medals = ['🥇', '🥈', '🥉'];
+
+  /** true mientras la conexión no está establecida (deshabilita "Jugar de nuevo"). */
+  readonly offline = computed(() => this.socketService.connectionStatus() !== 'online');
 
   constructor() {
     effect(() => {

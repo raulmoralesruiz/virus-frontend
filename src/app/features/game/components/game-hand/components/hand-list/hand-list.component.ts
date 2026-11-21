@@ -12,13 +12,15 @@ import { Card } from '@core/models/card.model';
 })
 export class HandListComponent {
   hand = input.required<Card[]>();
-  
+
   isMyTurn = input(false);
   playerId = input<string | undefined>(undefined);
   connectedTo = input<string[]>([]);
   selectedIndices = input<Set<number>>(new Set());
   selectedPlayingCardId = input<string | null | undefined>(undefined);
   mustPlayCardId = input<string | null>(null);
+  /** true mientras la conexión no está establecida: deshabilita botones y drag. */
+  offline = input(false);
 
   exitHand = output<any>();
   toggleSelect = output<number>();

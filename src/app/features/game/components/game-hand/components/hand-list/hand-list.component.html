@@ -3,7 +3,7 @@
   @for (card of hand(); track $index; let i = $index) {
   <app-hand-card [card]="card" [isSelected]="selectedIndices().has(i)" [isMyTurn]="isMyTurn()"
     [infoOpen]="selectedPlayingCardId() === card.id"
-    [isDisabled]="mustPlayCardId() !== null && mustPlayCardId() !== card.id"
+    [isDisabled]="offline() || (mustPlayCardId() !== null && mustPlayCardId() !== card.id)"
     [isPlaying]="selectedPlayingCardId() === card.id" (toggleSelect)="toggleSelect.emit(i)" (play)="play.emit(card)">
   </app-hand-card>
   }

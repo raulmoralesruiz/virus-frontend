@@ -3,6 +3,7 @@ import { Card } from '@core/models/card.model';
 import { PublicGameState, PlayCardTarget } from '@core/models/game.model';
 import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { GameStoreService } from '@core/services/game-store.service';
+import { SocketService } from '@core/services/socket/socket.service';
 import { TargetSelectComponent } from './target-select/target-select.component';
 import { HandActionService } from './services/hand-action.service';
 import { HandDiscardService } from './services/hand-discard.service';
@@ -29,6 +30,7 @@ export class GameHandComponent implements OnChanges, AfterViewInit, OnDestroy {
   heightChange = output<number>();
   private _apiPlayer = inject(ApiPlayerService);
   private _gameStore = inject(GameStoreService);
+  private _socket = inject(SocketService);
   handAction = inject(HandActionService);
   handUIHelper = inject(HandUIHelperService);
   handDiscard = inject(HandDiscardService);
@@ -38,6 +40,9 @@ export class GameHandComponent implements OnChanges, AfterViewInit, OnDestroy {
   roomId = input<string | null>(null);
   publicState = input<PublicGameState | null>(null);
   gameEnded = input(false);
+
+  /** true mientras la conexión no está establecida: desactiva acciones de mano. */
+  readonly offline = computed(() => this._socket.connectionStatus() !== 'online');
 
   readonly mustPlayCardId = computed(() => {
     const st = this.publicState();

@@ -1,0 +1,40 @@
+.connection-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.connection-banner.is-visible {
+  max-height: 4rem;
+  opacity: 1;
+  background: var(--color-danger-strong, #991b1b);
+  color: var(--color-text-inverted, #ffffff);
+  padding:
+    calc(0.55rem + env(safe-area-inset-top, 0px)) 1rem 0.55rem;
+}
+
+.connection-banner__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.connection-banner__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}

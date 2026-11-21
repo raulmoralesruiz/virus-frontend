@@ -14,12 +14,12 @@
 }
 
 @if (mustPlayCardId()) {
-<game-apparition-banner (keep)="keepApparitionCard()"></game-apparition-banner>
+<game-apparition-banner [disabled]="offline()" (keep)="keepApparitionCard()"></game-apparition-banner>
 }
 
 <game-hand-list [hand]="hand()" [isMyTurn]="isMyTurn()" [playerId]="apiPlayer.player()?.id" [connectedTo]="boardIds()"
   [selectedIndices]="handDiscard.selectedIndices()" [selectedPlayingCardId]="handAction.selectedCard()?.id"
-  [mustPlayCardId]="mustPlayCardId()" (toggleSelect)="handDiscard.toggleSelection($event, isMyTurn())"
+  [mustPlayCardId]="mustPlayCardId()" [offline]="offline()" (toggleSelect)="handDiscard.toggleSelection($event, isMyTurn())"
   (play)="handAction.selectCard($event, publicState())">
 </game-hand-list>
 

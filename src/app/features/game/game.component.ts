@@ -10,6 +10,7 @@ import { GameHandComponent } from './components/game-hand/game-hand';
 import { GameWinnerComponent } from './components/game-winner/game-winner';
 import { GameEmptyComponent } from './components/game-empty/game-empty.component';
 import { GameHistoryComponent } from './components/game-history/game-history.component';
+import { ConnectionBannerComponent } from './components/connection-banner/connection-banner.component';
 import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/confirm-modal.component';
 @Component({
   selector: 'app-game',
@@ -20,6 +21,7 @@ import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/conf
     GameWinnerComponent,
     GameEmptyComponent,
     GameHistoryComponent,
+    ConnectionBannerComponent,
     ConfirmModalComponent,
   ],
   standalone: true,

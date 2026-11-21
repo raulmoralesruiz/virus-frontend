@@ -1,4 +1,7 @@
 <div class="game-layout" [class.game-layout--empty]="!publicState()" [style.--hand-height.px]="handHeight()">
+  <!-- Aviso de conexión -->
+  <game-connection-banner></game-connection-banner>
+
   <!-- Winner -->
   @if (winner(); as w) {
   <game-winner [winner]="w" [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"

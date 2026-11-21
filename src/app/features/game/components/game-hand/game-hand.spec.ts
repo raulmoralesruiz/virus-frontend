@@ -1,17 +1,31 @@
+import { Signal, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameHandComponent } from './game-hand';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { SocketService, ConnectionStatus } from '@core/services/socket/socket.service';
 
 describe('GameHand', () => {
   let component: GameHandComponent;
   let fixture: ComponentFixture<GameHandComponent>;
+  let socketStub: { connectionStatus: Signal<ConnectionStatus>; on: jest.Mock; off: jest.Mock; emit: jest.Mock };
 
   beforeEach(async () => {
+    socketStub = {
+      connectionStatus: signal<ConnectionStatus>('online'),
+      on: jest.fn(),
+      off: jest.fn(),
+      emit: jest.fn(),
+    };
+
     await TestBed.configureTestingModule({
       imports: [GameHandComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: SocketService, useValue: socketStub }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameHandComponent);
@@ -157,6 +171,81 @@ describe('GameHand', () => {
       expect(emitSpy).toHaveBeenCalledWith(100);
       
       component.ngOnDestroy();
+    });
+  });
+
+  describe('offline (sin conexión)', () => {
+    it('debe reportar offline según el estado del socket', () => {
+      socketStub.connectionStatus.set('online');
+      expect(component.offline()).toBe(false);
+
+      socketStub.connectionStatus.set('offline');
+      expect(component.offline()).toBe(true);
+
+      socketStub.connectionStatus.set('reconnecting');
+      expect(component.offline()).toBe(true);
+    });
+
+    it('debe deshabilitar el botón de las cartas de mano sin conexión', () => {
+      fixture.componentRef.setInput('hand', [{ id: 'c1', kind: 'organ', color: 'red' }] as any);
+      fixture.componentRef.setInput('isMyTurn', true);
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll('.play-btn');
+      expect(buttons.length).toBeGreaterThan(0);
+      for (const btn of Array.from(buttons)) {
+        expect((btn as HTMLButtonElement).disabled).toBe(true);
+      }
+    });
+
+    it('debe deshabilitar el drag de las cartas de mano sin conexión', () => {
+      fixture.componentRef.setInput('hand', [{ id: 'c1', kind: 'organ', color: 'red' }] as any);
+      fixture.componentRef.setInput('isMyTurn', true);
+
+      socketStub.connectionStatus.set('online');
+      fixture.detectChanges();
+      let cardEl = fixture.nativeElement.querySelector('.hand-card') as HTMLElement;
+      expect(cardEl.classList.contains('cdk-drag-disabled')).toBe(false);
+
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+      cardEl = fixture.nativeElement.querySelector('.hand-card') as HTMLElement;
+      expect(cardEl.classList.contains('cdk-drag-disabled')).toBe(true);
+    });
+
+    it('debe deshabilitar el botón del banner de aparición sin conexión', () => {
+      (component as any)._apiPlayer = { player: () => ({ id: 'p1', name: 'p1' }) };
+      fixture.componentRef.setInput('publicState', {
+        roomId: 'room1',
+        players: [{ player: { id: 'p1' }, board: [] }],
+        pendingAction: { type: 'ApparitionDecision', playerId: 'p1', cardId: 'c1' }
+      } as any);
+      fixture.componentRef.setInput('hand', [{ id: 'c1', kind: 'organ', color: 'red' }] as any);
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+
+      const keepBtn = fixture.nativeElement.querySelector('.keep-btn') as HTMLButtonElement;
+      expect(keepBtn).toBeTruthy();
+      expect(keepBtn.disabled).toBe(true);
+    });
+
+    it('debe habilitar de nuevo acciones al recuperar la conexión', () => {
+      (component as any)._apiPlayer = { player: () => ({ id: 'p1', name: 'p1' }) };
+      fixture.componentRef.setInput('publicState', {
+        roomId: 'room1',
+        players: [{ player: { id: 'p1' }, board: [] }],
+        pendingAction: { type: 'ApparitionDecision', playerId: 'p1', cardId: 'c1' }
+      } as any);
+      fixture.componentRef.setInput('hand', [{ id: 'c1', kind: 'organ', color: 'red' }] as any);
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+      expect((fixture.nativeElement.querySelector('.keep-btn') as HTMLButtonElement).disabled).toBe(true);
+
+      socketStub.connectionStatus.set('online');
+      fixture.detectChanges();
+      expect((fixture.nativeElement.querySelector('.keep-btn') as HTMLButtonElement).disabled).toBe(false);
+      expect((fixture.nativeElement.querySelector('.play-btn') as HTMLButtonElement).disabled).toBe(false);
     });
   });
 });

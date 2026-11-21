@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SocketService } from './socket.service';
+import { SocketService, PING_INTERVAL_MS, PING_TIMEOUT_MS } from './socket.service';
 import { io } from 'socket.io-client';
 import { PLAYER_CONSTANTS } from '../../constants/player.constants';
 import { environment } from '@env/environment';
@@ -10,7 +10,11 @@ jest.mock('socket.io-client', () => {
         on: jest.fn(),
         off: jest.fn(),
         emit: jest.fn(),
+        connect: jest.fn(),
         disconnect: jest.fn(),
+        // Por defecto devolvemos algo "emit-able" para que ningún test
+        // rompa si el liveness probe llega a ejecutar.
+        timeout: jest.fn().mockReturnValue({ emit: jest.fn() }),
     };
     return {
         io: jest.fn(() => mSocket)
@@ -45,12 +49,19 @@ describe('SocketService', () => {
 
   describe('connection handlers', () => {
       let Handlers: Record<string, Function> = {};
-      
+
+      // Fake timers: el handler 'connect' arranca el liveness probe; sin
+      // fake timers quedaría un intervalo real vivo entre tests.
       beforeEach(() => {
+          jest.useFakeTimers();
           mockSocket.on.mockImplementation((event: string, callback: Function) => {
               Handlers[event] = callback;
           });
           service = TestBed.inject(SocketService);
+      });
+
+      afterEach(() => {
+          jest.useRealTimers();
       });
 
       it('should set connected state and not emit reconnect if player missing', () => {
@@ -79,6 +90,163 @@ describe('SocketService', () => {
           expect(service.connected()).toBe(true);
           Handlers['disconnect']();
           expect(service.connected()).toBe(false);
+      });
+
+      describe('connectionStatus', () => {
+          it('should start offline before any connection', () => {
+              expect(service.connectionStatus()).toBe('offline');
+          });
+
+          it('should be online after connect', () => {
+              Handlers['connect']();
+              expect(service.connectionStatus()).toBe('online');
+          });
+
+          it('should go offline on disconnect', () => {
+              Handlers['connect']();
+              Handlers['disconnect']();
+              expect(service.connectionStatus()).toBe('offline');
+          });
+
+          it('should become reconnecting after a reconnect attempt (only from offline)', () => {
+              Handlers['connect']();
+              expect(service.connectionStatus()).toBe('online');
+              Handlers['reconnect_attempt']();
+              expect(service.connectionStatus()).toBe('online');
+
+              Handlers['disconnect']();
+              Handlers['reconnect_attempt']();
+              expect(service.connectionStatus()).toBe('reconnecting');
+          });
+
+          it('should return to online on next connect', () => {
+              Handlers['disconnect']();
+              Handlers['reconnect_attempt']();
+              expect(service.connectionStatus()).toBe('reconnecting');
+              Handlers['connect']();
+              expect(service.connectionStatus()).toBe('online');
+              expect(service.connected()).toBe(true);
+          });
+      });
+  });
+
+  describe('liveness probe (watchdog)', () => {
+      let Handlers: Record<string, Function> = {};
+      let probeEmit: jest.Mock;
+
+      beforeEach(() => {
+          Handlers = {};
+          probeEmit = jest.fn();
+          mockSocket.timeout = jest.fn().mockReturnValue({ emit: probeEmit });
+          jest.useFakeTimers();
+          mockSocket.on.mockImplementation((event: string, callback: Function) => {
+              Handlers[event] = callback;
+          });
+          service = TestBed.inject(SocketService);
+      });
+
+      afterEach(() => {
+          jest.useRealTimers();
+      });
+
+      it('should schedule the probe only after connect', () => {
+          expect((service as any).pingTimer).toBeNull();
+          Handlers['connect']();
+          expect((service as any).pingTimer).not.toBeNull();
+      });
+
+      it('should not run the probe before connecting', () => {
+          jest.advanceTimersByTime(PING_INTERVAL_MS);
+          expect(mockSocket.timeout).not.toHaveBeenCalled();
+      });
+
+      it('should emit client:ping with a timeout when the interval fires', () => {
+          Handlers['connect']();
+          jest.advanceTimersByTime(PING_INTERVAL_MS);
+          expect(mockSocket.timeout).toHaveBeenCalledWith(PING_TIMEOUT_MS);
+          expect(probeEmit).toHaveBeenCalledWith(PLAYER_CONSTANTS.CLIENT_PING, expect.any(Function));
+      });
+
+      it('should keep probeInFlight cleared after a successful ack', () => {
+          Handlers['connect']();
+          jest.advanceTimersByTime(PING_INTERVAL_MS);
+          const ack = probeEmit.mock.calls[0][1];
+          ack();
+          expect((service as any).probeInFlight).toBe(false);
+          expect(mockSocket.connect).not.toHaveBeenCalled();
+      });
+
+      it('should force a reconnect when the ack errors', () => {
+          Handlers['connect']();
+          jest.advanceTimersByTime(PING_INTERVAL_MS);
+          const ack = probeEmit.mock.calls[0][1];
+          const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+          ack(new Error('timeout'));
+          expect((service as any).probeInFlight).toBe(false);
+          expect(mockSocket.disconnect).toHaveBeenCalled();
+          expect(mockSocket.connect).toHaveBeenCalled();
+          warnSpy.mockRestore();
+      });
+
+      it('should stop the probe and not ping while offline', () => {
+          Handlers['connect']();
+          expect((service as any).pingTimer).not.toBeNull();
+          Handlers['disconnect']();
+          expect((service as any).pingTimer).toBeNull();
+          jest.advanceTimersByTime(PING_INTERVAL_MS * 3);
+          expect(mockSocket.timeout).not.toHaveBeenCalled();
+      });
+  });
+
+  describe('browser connectivity events', () => {
+      let Handlers: Record<string, Function> = {};
+      let addListener: jest.SpyInstance;
+
+      // Fake timers: el handler 'connect' arranca el liveness probe; sin
+      // fake timers quedaría un intervalo real vivo entre tests.
+      beforeEach(() => {
+          jest.useFakeTimers();
+          Handlers = {};
+          mockSocket.on.mockImplementation((event: string, callback: Function) => {
+              Handlers[event] = callback;
+          });
+          addListener = jest.spyOn(window, 'addEventListener').mockImplementation(() => {});
+          service = TestBed.inject(SocketService);
+      });
+
+      afterEach(() => {
+          addListener.mockRestore();
+          jest.useRealTimers();
+      });
+
+      it('should register offline and online listeners on the window', () => {
+          expect(addListener).toHaveBeenCalledWith('offline', expect.any(Function));
+          expect(addListener).toHaveBeenCalledWith('online', expect.any(Function));
+      });
+
+      it('should go offline immediately when the window fires offline', () => {
+          Handlers['connect']();
+          expect(service.connectionStatus()).toBe('online');
+          (service as any).offlineListener();
+          expect(service.connectionStatus()).toBe('offline');
+          expect(service.connected()).toBe(false);
+      });
+
+      it('should restore online + session when a zombie socket is still connected', () => {
+          localStorage.setItem('player', JSON.stringify({ id: 'p1' }));
+          mockSocket.connected = true;
+          Handlers['disconnect']();
+          expect(service.connectionStatus()).toBe('offline');
+          (service as any).onlineListener();
+          expect(service.connectionStatus()).toBe('online');
+          expect(mockSocket.emit).toHaveBeenCalledWith(PLAYER_CONSTANTS.PLAYER_RECONNECT, { playerId: 'p1' });
+      });
+
+      it('should stay offline on online if the socket is not connected', () => {
+          mockSocket.connected = false;
+          Handlers['disconnect']();
+          (service as any).onlineListener();
+          expect(service.connectionStatus()).toBe('offline');
       });
   });
 

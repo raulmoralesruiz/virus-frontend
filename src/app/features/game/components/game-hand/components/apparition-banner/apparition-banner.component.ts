@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'game-apparition-banner',
@@ -8,4 +8,6 @@ import { Component, output } from '@angular/core';
 })
 export class ApparitionBannerComponent {
   keep = output<void>();
+  /** true mientras la conexión no está establecida (deshabilita la acción). */
+  disabled = input(false);
 }

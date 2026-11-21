@@ -2,7 +2,7 @@
   <p>👻 ¡Has jugado Aparición!</p>
   <p>Debes <strong class="highlight-action">jugar la nueva carta</strong> o <strong
       class="highlight-action">conservarla</strong>.</p>
-  <button (click)="keep.emit()" class="keep-btn">
+  <button (click)="keep.emit()" [disabled]="disabled()" class="keep-btn">
     Conservar carta y Pasar Turno
   </button>
 </div>

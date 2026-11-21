@@ -1,7 +1,9 @@
+import { Signal, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameWinnerComponent } from './game-winner';
 import { TimerSoundService } from '@core/services/timer-sound.service';
+import { SocketService, ConnectionStatus } from '@core/services/socket/socket.service';
 import { CardColor, CardKind } from '@core/models/card.model';
 import { PublicPlayerInfo, OrganOnBoard } from '@core/models/game.model';
 
@@ -26,13 +28,23 @@ describe('GameWinner', () => {
   let component: GameWinnerComponent;
   let fixture: ComponentFixture<GameWinnerComponent>;
   let timerSound: TimerSoundServiceStub;
+  let socketStub: { connectionStatus: Signal<ConnectionStatus>; on: jest.Mock; off: jest.Mock; emit: jest.Mock };
 
   beforeEach(async () => {
     timerSound = new TimerSoundServiceStub();
+    socketStub = {
+      connectionStatus: signal<ConnectionStatus>('online'),
+      on: jest.fn(),
+      off: jest.fn(),
+      emit: jest.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [GameWinnerComponent],
-      providers: [{ provide: TimerSoundService, useValue: timerSound }],
+      providers: [
+        { provide: TimerSoundService, useValue: timerSound },
+        { provide: SocketService, useValue: socketStub },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameWinnerComponent);
@@ -170,6 +182,29 @@ describe('GameWinner', () => {
 
       expect(fixture.nativeElement.querySelector('.winner-reset')).toBeNull();
       expect(fixture.nativeElement.querySelector('.winner-leave')).toBeTruthy();
+    });
+
+    it('debe deshabilitar "Jugar de nuevo" sin conexión', () => {
+      fixture.componentRef.setInput('playerCount', 2);
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+
+      const resetBtn = fixture.nativeElement.querySelector('.winner-reset') as HTMLButtonElement;
+      expect(resetBtn).toBeTruthy();
+      expect(resetBtn.disabled).toBe(true);
+
+      socketStub.connectionStatus.set('reconnecting');
+      fixture.detectChanges();
+      expect(resetBtn.disabled).toBe(true);
+    });
+
+    it('debe habilitar "Jugar de nuevo" con conexión establecida', () => {
+      fixture.componentRef.setInput('playerCount', 2);
+      socketStub.connectionStatus.set('online');
+      fixture.detectChanges();
+
+      const resetBtn = fixture.nativeElement.querySelector('.winner-reset') as HTMLButtonElement;
+      expect(resetBtn.disabled).toBe(false);
     });
   });
 
