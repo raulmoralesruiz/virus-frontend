@@ -1,0 +1,9 @@
+# Copia este archivo a .deployrc y rellena (el .deployrc queda gitignored):
+#   cp .deployrc.example .deployrc
+DEPLOY_HOST=192.168.x.x
+DEPLOY_USER=raul
+# Webroot REAL: el contenedor Docker `virus-frontend` (nginx:1.27-alpine, puerto
+# 22010) monta /mnt/data-nas/www/virus/frontend/browser → /usr/share/nginx/html.
+# ⚠️ NO apuntar a /mnt/data-nas/www/virus/frontend (raíz): allí vive
+#    nginx/nginx.conf (montado como default.conf); --delete lo borraría.
+DEPLOY_PATH=/mnt/data-nas/www/virus/frontend/browser

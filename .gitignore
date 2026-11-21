@@ -54,6 +54,9 @@ src/environments/environment.ts
 # tmp folder
 tmp/
 
+# deploy config (host/user de TrueNAS; ver .deployrc.example)
+.deployrc
+
 # Playwright
 node_modules/
 /test-results/
