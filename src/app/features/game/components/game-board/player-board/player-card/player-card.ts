@@ -12,6 +12,7 @@ import {
 import { PlayerCardIconComponent } from './components/player-card-icon/player-card-icon.component';
 import { PlayerCardAttachmentsComponent } from './components/player-card-attachments/player-card-attachments.component';
 import { isValidDropTarget } from './player-card.validator';
+import { describeOrgan } from '@core/utils/card-label.utils';
 import { BoardDragPredicates } from '../logic/board-drag-predicates';
 
 @Component({
@@ -46,6 +47,9 @@ export class PlayerCardComponent {
     const tempCards = this.temporaryViruses() || [];
     return [...realCards, ...tempCards];
   });
+
+  /** Nombre accesible del órgano (p. ej. "Órgano Corazón"). */
+  organLabel = computed(() => describeOrgan(this.organ().color));
 
   private dragDropService = inject(DragDropService);
   private predicates = inject(BoardDragPredicates);

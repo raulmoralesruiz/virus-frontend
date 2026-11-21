@@ -1,6 +1,6 @@
 @let organValue = organ();
 
-<div class="card organ {{ organValue.color }}" cdkDropList [id]="dropListId()" [cdkDropListData]="dropListData()"
+<div class="card organ {{ organValue.color }}" [attr.aria-label]="organLabel()" cdkDropList [id]="dropListId()" [cdkDropListData]="dropListData()"
   [cdkDropListConnectedTo]="dropListConnectedTo()"
   [cdkDropListEnterPredicate]="dropListEnterPredicate() || defaultEnterPredicate"
   [cdkDropListDisabled]="dropListDisabled()" (cdkDropListDropped)="onDropped(); dropListDropped.emit($event)"

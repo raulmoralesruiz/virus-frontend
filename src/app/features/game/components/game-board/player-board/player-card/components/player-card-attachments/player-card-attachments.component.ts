@@ -3,6 +3,7 @@ import { Card, CardKind } from '@core/models/card.model';
 import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { OrganOnBoard } from '@core/models/game.model';
+import { describeCard } from '@core/utils/card-label.utils';
 
 @Component({
   selector: 'player-card-attachments',
@@ -22,6 +23,11 @@ export class PlayerCardAttachmentsComponent {
 
   isVirus(attached: Card) {
     return attached.kind === CardKind.Virus;
+  }
+
+  /** Nombre accesible del chip (p. ej. "Virus Corazón"). */
+  label(attached: Card) {
+    return describeCard(attached);
   }
 
   isTemporaryVirus(virusId: string): boolean {

@@ -111,6 +111,18 @@ describe('HandCard', () => {
       expect(classes).toContain('is-playing');
     });
 
+      it('should expose an accessible card name in aria-label', () => {
+      const el = fixture.nativeElement.querySelector('.hand-card');
+      expect(el.getAttribute('aria-label')).toBe('Órgano Corazón');
+    });
+
+    it('should describe viruses in aria-label', () => {
+      fixture.componentRef.setInput('card', { id: 'card-2', kind: 'virus', color: 'red' } as Card);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('.hand-card');
+      expect(el.getAttribute('aria-label')).toBe('Virus Corazón');
+    });
+
     it('should compute actionLabel based on state', () => {
       expect(component.actionLabel()).toBe('Info');
       

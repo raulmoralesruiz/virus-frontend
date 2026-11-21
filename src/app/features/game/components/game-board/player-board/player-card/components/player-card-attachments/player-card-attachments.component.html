@@ -2,14 +2,14 @@
   @for (a of attachedCards(); track a.id) {
   @if (contagionMode() && isVirus(a) && !isTemporaryVirus(a.id)) {
   <!-- Virus arrastrable en modo contagio (solo los reales, no temporales) -->
-  <div class="attached-card chip virus {{ a.color }}" cdkDrag
+  <div class="attached-card chip virus {{ a.color }}" cdkDrag [attr.aria-label]="label(a)"
     [cdkDragData]="{ fromOrganId: organ().id, virusId: a.id, virus: a }" (cdkDragStarted)="onDragStarted.emit(a)"
     (cdkDragEnded)="onDragEnded.emit()">
     <card-icon class="icon" [name]="getVirusIcon()" />
   </div>
   } @else {
   <!-- Cualquier otra carta (virus temporal, estático o medicina) -->
-  <div class="attached-card chip {{ a.kind }} {{ a.color }}"
+  <div class="attached-card chip {{ a.kind }} {{ a.color }}" [attr.aria-label]="label(a)"
     [class.temporary-virus]="isVirus(a) && isTemporaryVirus(a.id)">
     @if (isVirus(a)) {
     <card-icon class="icon" [name]="getVirusIcon()" />

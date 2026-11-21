@@ -4,6 +4,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Card, CardKind, CardColor } from '@core/models/card.model';
 import { DragDropService } from '@core/services/drag-drop.service';
+import { describeCard } from '@core/utils/card-label.utils';
 import { HandCardContentComponent } from './hand-card-content/hand-card-content.component';
 import { HandCardButtonComponent } from './button/hand-card-button.component';
 
@@ -56,6 +57,9 @@ export class HandCard {
     this.isMyTurn() ? 'Jugar' : 
     this.infoOpen() ? 'Cancelar' : 'Info'
   );
+
+  /** Nombre accesible de la carta (p. ej. "Órgano Corazón"). */
+  cardLabel = computed(() => describeCard(this.card()));
 
   onToggleSelect() {
     if (this.isMyTurn() && !this.isDisabled()) this.toggleSelect.emit(this.card());

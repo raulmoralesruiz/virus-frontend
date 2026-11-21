@@ -25,6 +25,13 @@ describe('PlayerCard', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should expose an accessible organ name in aria-label', () => {
+    fixture.componentRef.setInput('organ', { id: 'organ-1', kind: 'organ', color: 'red', attached: [] } as any);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.card.organ');
+    expect(el.getAttribute('aria-label')).toBe('Órgano Corazón');
+  });
+
   it('should set drag drop service dragged item on virus drag start', () => {
     const service = TestBed.inject(DragDropService);
     const setSpy = jest.spyOn(service.draggedItem, 'set');

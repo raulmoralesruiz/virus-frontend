@@ -56,4 +56,19 @@ describe('PlayerCardAttachmentsComponent', () => {
       expect(component.getVirusIcon()).toBe('modifier-virus');
     });
   });
+
+  describe('aria-label', () => {
+    it('should expose an accessible name for each chip', () => {
+      fixture.componentRef.setInput('attachedCards', [
+        { id: 'v1', kind: CardKind.Virus, color: CardColor.Red } as Card,
+        { id: 'm1', kind: CardKind.Medicine, color: CardColor.Green } as Card,
+      ]);
+      fixture.detectChanges();
+
+      const chips = fixture.nativeElement.querySelectorAll('.attached-card');
+      expect(chips).toHaveLength(2);
+      expect(chips[0].getAttribute('aria-label')).toBe('Virus Corazón');
+      expect(chips[1].getAttribute('aria-label')).toBe('Medicina Estómago');
+    });
+  });
 });

@@ -1,6 +1,6 @@
 @let cardValue = card();
 
-<div class="hand-card" [ngClass]="containerClasses()" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue"
+<div class="hand-card" [ngClass]="containerClasses()" [attr.aria-label]="cardLabel()" (click)="onToggleSelect()" cdkDrag [cdkDragData]="cardValue"
   [cdkDragDisabled]="!isMyTurn() || isDisabled() || isSelected()" (cdkDragStarted)="onDragStarted()"
   (cdkDragEnded)="onDragEnded()">
 

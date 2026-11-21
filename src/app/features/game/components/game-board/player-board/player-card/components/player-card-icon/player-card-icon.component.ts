@@ -27,4 +27,15 @@ export class PlayerCardIconComponent {
   organIcon(): string {
     return this.organIcons[this.organ().color] ?? '❔';
   }
+
+  /**
+   * Color único para todos los iconos de órgano: negro.
+   * Un solo color por todos mantiene la apariencia uniforme y pasa el
+   * contraste WCAG 1.4.11 (≥3:1) sobre los seis fondos 600 del tablero.
+   */
+  static readonly ORGAN_ICON_COLOR = '#000000';
+
+  organIconColor(): string {
+    return PlayerCardIconComponent.ORGAN_ICON_COLOR;
+  }
 }
