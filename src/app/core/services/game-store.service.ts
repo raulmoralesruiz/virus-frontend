@@ -37,6 +37,7 @@ export class GameStoreService {
   });
 
   remainingSeconds = computed(() => this.publicState()?.remainingSeconds ?? 0);
+  turnDurationSeconds = computed(() => this.publicState()?.turnDurationSeconds ?? 0);
   history = computed(() => this.publicState()?.history ?? []);
 
   // Actions delegated to SocketGameService (State related)

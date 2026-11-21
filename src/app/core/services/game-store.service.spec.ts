@@ -94,6 +94,13 @@ describe('GameStoreService', () => {
         expect(service.remainingSeconds()).toBe(50);
         expect(service.history()).toEqual([{ id: 'h1' }]);
     });
+
+    it('should compute turnDurationSeconds from the public state (0 if absent)', () => {
+        expect(service.turnDurationSeconds()).toBe(0);
+
+        mockSocketGame.publicState.set({ turnDurationSeconds: 90 });
+        expect(service.turnDurationSeconds()).toBe(90);
+    });
   });
 
   describe('delegation methods', () => {

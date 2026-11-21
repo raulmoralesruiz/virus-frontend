@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlayerBoardHeaderComponent } from './player-board-header.component';
 import { TimerSoundService } from '@core/services/timer-sound.service';
+import { GameStoreService } from '@core/services/game-store.service';
 import { signal } from '@angular/core';
 
 describe('PlayerBoardHeaderComponent', () => {
   let component: PlayerBoardHeaderComponent;
   let fixture: ComponentFixture<PlayerBoardHeaderComponent>;
   let timerSoundServiceMock: any;
+  let gameStoreMock: { turnDurationSeconds: ReturnType<typeof signal> };
 
   beforeEach(async () => {
     timerSoundServiceMock = {
@@ -15,10 +17,15 @@ describe('PlayerBoardHeaderComponent', () => {
       playTick: jest.fn()
     };
 
+    // Por defecto el store no conoce la duración: los tests de antes siguen
+    // ejerciendo la heurística de respaldo (learnedDuration).
+    gameStoreMock = { turnDurationSeconds: signal(0) };
+
     await TestBed.configureTestingModule({
       imports: [PlayerBoardHeaderComponent],
       providers: [
-        { provide: TimerSoundService, useValue: timerSoundServiceMock }
+        { provide: TimerSoundService, useValue: timerSoundServiceMock },
+        { provide: GameStoreService, useValue: gameStoreMock }
       ]
     }).compileComponents();
 
@@ -63,7 +70,31 @@ describe('PlayerBoardHeaderComponent', () => {
     });
   });
 
+  describe('turnDurationSeconds', () => {
+    it('should use the real duration from the store (F5 mid-turn case)', () => {
+      gameStoreMock.turnDurationSeconds.set(60);
+      fixture.componentRef.setInput('remainingSeconds', 30);
+      // Con la heurística sola esto devolvía 30 (barra al 100%).
+      expect(component.turnDurationSeconds()).toBe(60);
+    });
 
+    it('should fall back to the learned heuristic when the store has no duration', () => {
+      gameStoreMock.turnDurationSeconds.set(0);
+      fixture.componentRef.setInput('remainingSeconds', 45);
+      // El efecto (setTimeout) aún no ha corrido; la heurística aprende luego.
+      expect(component.turnDurationSeconds()).toBe(0);
+    });
+
+    it('should learn the duration via the heuristic after the effect fires (store sin duración)', () => {
+      jest.useFakeTimers();
+      gameStoreMock.turnDurationSeconds.set(0);
+      fixture.componentRef.setInput('remainingSeconds', 45);
+      TestBed.flushEffects();
+      jest.runAllTimers();
+      expect(component.turnDurationSeconds()).toBe(45);
+      jest.useRealTimers();
+    });
+  });
 
   describe('sounds effect', () => {
     it('should not play anything if not me and active', () => {

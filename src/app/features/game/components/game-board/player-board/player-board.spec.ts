@@ -8,6 +8,8 @@ import { BoardActionService } from './services/board-action.service';
 import { PlayerBoardDropService } from './services/player-board-drop.service';
 import { CardKind, TreatmentSubtype } from '@core/models/card.model';
 import { BoardDragPredicates } from './logic/board-drag-predicates';
+import { GameStoreService } from '@core/services/game-store.service';
+import { signal } from '@angular/core';
 
 describe('PlayerBoard', () => {
   let component: PlayerBoardComponent;
@@ -16,7 +18,12 @@ describe('PlayerBoard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlayerBoardComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        // El header (turn-progress) lee la duración real del turno del store.
+        { provide: GameStoreService, useValue: { turnDurationSeconds: signal(0) } }
+      ]
     })
     .compileComponents();
 

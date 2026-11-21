@@ -52,6 +52,7 @@ export interface PublicGameState {
   startedAt: string;
   turnIndex: number;
   turnDeadlineTs: number;
+  turnDurationSeconds?: number; // duración total del turno; opcional: tolera backends viejos
   remainingSeconds: number;
   winner?: PublicPlayerInfo;
   history: HistoryEntry[];

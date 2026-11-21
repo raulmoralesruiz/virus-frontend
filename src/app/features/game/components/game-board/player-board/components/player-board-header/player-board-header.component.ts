@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { TimerSoundService } from '@core/services/timer-sound.service';
+import { GameStoreService } from '@core/services/game-store.service';
 import { PublicPlayerInfo } from '@core/models/game.model';
 import { PlayerBoardNameComponent } from './components/player-board-name/player-board-name.component';
 import { PlayerBoardTrickOrTreatComponent } from './components/player-board-trick-or-treat/player-board-trick-or-treat.component';
@@ -36,16 +37,34 @@ export class PlayerBoardHeaderComponent {
     return 'running';
   });
 
-  turnDurationSeconds = signal(0);
+  private readonly gameStore = inject(GameStoreService);
+
+  /**
+   * Heurística de respaldo: aprende la duración cuando el restante supera la
+   * conocida (un turno nuevo). Solo se usa si el backend no envía la duración
+   * real (compatibilidad con estados antiguos).
+   */
+  private learnedDuration = signal(0);
+
+  /**
+   * Duración total del turno: la real según el estado público de la partida.
+   * Sin ella, la barra calcularía el % sobre el restante y mostraría 100%
+   * tras una recarga (F5) a mitad de turno.
+   */
+  turnDurationSeconds = computed(() => {
+    const fromStore = this.gameStore.turnDurationSeconds();
+    return fromStore > 0 ? fromStore : this.learnedDuration();
+  });
+
   isMuted = this.timerSoundService.isMuted;
 
   constructor() {
     effect(() => {
       const remaining = this.remainingSeconds();
-      const currentDuration = this.turnDurationSeconds();
+      const currentDuration = this.learnedDuration();
 
       if (remaining > currentDuration) {
-        setTimeout(() => this.turnDurationSeconds.set(remaining));
+        setTimeout(() => this.learnedDuration.set(remaining));
       }
     });
 
