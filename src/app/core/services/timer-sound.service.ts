@@ -16,6 +16,15 @@ export class TimerSoundService {
   /** True mientras la BGM deba ser audible (partida en curso). */
   private musicActive = false;
 
+  /**
+   * Solo lectura (tests/auditoría): true mientras la BGM deba sonar.
+   * Invariante: solo debe ser true durante la partida (arranca con
+   * startMusic(), se anula con stopMusic() — salida de partida, fin, reset).
+   */
+  isMusicActive(): boolean {
+    return this.musicActive;
+  }
+
   private readonly timerSounds: Record<TimerState, HTMLAudioElement> = {
     running: this.createAudio('assets/sounds/timer/running.mp3'),
     warning: this.createAudio('assets/sounds/timer/warning.mp3'),

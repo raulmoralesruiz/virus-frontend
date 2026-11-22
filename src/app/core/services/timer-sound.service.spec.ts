@@ -191,5 +191,39 @@ describe('TimerSoundService', () => {
       mockAudioInstance.play.mockReturnValue(Promise.reject(new Error('autoplay blocked')));
       expect(() => service.startMusic()).not.toThrow();
     });
+
+    it('stopMusic should be idempotent (safe to call from several exit paths)', () => {
+      service.startMusic();
+      service.stopMusic();
+      service.stopMusic();
+      service.stopMusic();
+      expect(mockAudioInstance.pause).toHaveBeenCalledTimes(1);
+      expect(service.isMusicActive()).toBe(false);
+    });
+
+    describe('invariante: la música solo suena durante la partida', () => {
+      it('should NOT be active before startMusic', () => {
+        expect(service.isMusicActive()).toBe(false);
+      });
+
+      it('should be active during the game (startMusic)', () => {
+        service.startMusic();
+        expect(service.isMusicActive()).toBe(true);
+      });
+
+      it('should NOT be active after leaving the game (stopMusic)', () => {
+        service.startMusic();
+        expect(service.isMusicActive()).toBe(true);
+        service.stopMusic();
+        expect(service.isMusicActive()).toBe(false);
+        // y no se reanuda sola: solo un startMusic() explícito (nueva partida)
+        expect(mockAudioInstance.play).toHaveBeenCalledTimes(1);
+      });
+
+      it('should NOT be active after stopMusic even if never started', () => {
+        service.stopMusic();
+        expect(service.isMusicActive()).toBe(false);
+      });
+    });
   });
 });

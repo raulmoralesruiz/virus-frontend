@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, inject, ViewChild, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, inject, ViewChild, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameStoreService } from '@core/services/game-store.service';
 import { RoomStoreService } from '@core/services/room-store.service';
@@ -28,7 +28,7 @@ import { ConfirmModalComponent } from '@app/shared/components/confirm-modal/conf
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   protected gameStore = inject(GameStoreService);
   private roomStore = inject(RoomStoreService);
@@ -53,6 +53,16 @@ export class GameComponent implements OnInit {
     if (!roomId) return;
     this.roomId = roomId;
     this.gameStore.getState(roomId);
+  }
+
+  /**
+   * La BGM solo suena durante la partida: cualquier navegación que destruya
+   * esta página (salir, botón atrás, logout, redirección) la detiene.
+   * Al reentrar en una partida en curso, los hooks del listener la reanudan
+   * (GAME_STARTED / GAME_STATE sin ganador) — startMusic() es idempotente.
+   */
+  ngOnDestroy() {
+    this.gameStore.stopMusic();
   }
 
   startGame() {

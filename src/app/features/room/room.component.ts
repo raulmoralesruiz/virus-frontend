@@ -81,6 +81,10 @@ export class RoomComponent implements OnInit {
       }
     }
 
+    // La BGM solo suena durante la partida: si sonaba (p. ej. la partida
+    // arrancó justo al salir), no puede seguir en el lobby. Idempotente.
+    this.gameStore.stopMusic();
+
     this.confirmingLeave = false;
     this.router.navigate(['/room-list']);
   }

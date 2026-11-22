@@ -6,6 +6,7 @@ import { AnyPlayTarget } from '../models/game-actions.model';
 import { GameNavigationService } from './game/game-navigation.service';
 import { GameUiService } from './game/game-ui.service';
 import { GamePlayService } from './game/game-play.service';
+import { TimerSoundService } from './timer-sound.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
@@ -17,6 +18,7 @@ export class GameStoreService {
   private nav = inject(GameNavigationService);
   private ui = inject(GameUiService);
   private play = inject(GamePlayService);
+  private sound = inject(TimerSoundService);
 
   // Estado público de la partida
   publicState = this.socketGame.publicState;
@@ -53,6 +55,12 @@ export class GameStoreService {
   // Reacciones sociales (emotes)
   sendEmote(roomId: string, emote: string) {
     this.socketGame.sendEmote(roomId, emote);
+  }
+
+  // Audio: la BGM solo suena durante la partida. Idempotente (seguro llamarlo
+  // varias veces desde distintos caminos de salida: leave, destroy, reset).
+  stopMusic() {
+    this.sound.stopMusic();
   }
 
   // Actions delegated to GamePlayService
@@ -95,6 +103,7 @@ export class GameStoreService {
 
     this.socketGame.leaveGame(roomId);
     this.roomStore.leaveRoom(roomId, player);
+    this.sound.stopMusic(); // la BGM no sigue sonando en el lobby (bug: solo paraba en GAME_END/ROOM_RESET)
     this.ui.reset();
     this.nav.goToRoomList();
   }

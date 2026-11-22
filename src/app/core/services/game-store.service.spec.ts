@@ -6,6 +6,7 @@ import { RoomStoreService } from './room-store.service';
 import { GameNavigationService } from './game/game-navigation.service';
 import { GameUiService } from './game/game-ui.service';
 import { GamePlayService } from './game/game-play.service';
+import { TimerSoundService } from './timer-sound.service';
 import { signal } from '@angular/core';
 
 describe('GameStoreService', () => {
@@ -49,6 +50,10 @@ describe('GameStoreService', () => {
       discardCards: jest.fn(),
       handleTurnTimeout: jest.fn()
   };
+  const mockSound = {
+      startMusic: jest.fn(),
+      stopMusic: jest.fn()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,6 +65,7 @@ describe('GameStoreService', () => {
             { provide: GameNavigationService, useValue: mockNav },
             { provide: GameUiService, useValue: mockUi },
             { provide: GamePlayService, useValue: mockPlay },
+            { provide: TimerSoundService, useValue: mockSound },
         ]
     });
     service = TestBed.inject(GameStoreService);
@@ -133,6 +139,11 @@ describe('GameStoreService', () => {
     });
   });
 
+  it('stopMusic should delegate to TimerSoundService', () => {
+      service.stopMusic();
+      expect(mockSound.stopMusic).toHaveBeenCalled();
+  });
+
   describe('leaveGame', () => {
     it('should do nothing if no player', () => {
         mockApiPlayer.player.set(null);
@@ -145,6 +156,7 @@ describe('GameStoreService', () => {
         service.leaveGame('r1');
         expect(mockSocketGame.leaveGame).toHaveBeenCalledWith('r1');
         expect(mockRoomStore.leaveRoom).toHaveBeenCalledWith('r1', { id: 'p1' });
+        expect(mockSound.stopMusic).toHaveBeenCalled();
         expect(mockUi.reset).toHaveBeenCalled();
         expect(mockNav.goToRoomList).toHaveBeenCalled();
     });
