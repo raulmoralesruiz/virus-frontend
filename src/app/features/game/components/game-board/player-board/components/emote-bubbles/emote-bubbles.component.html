@@ -1,0 +1,7 @@
+@if (visible().length) {
+<div class="emote-bubbles">
+  @for (e of visible(); track e.id) {
+  <span class="emote-bubbles__bubble" role="status" aria-label="{{ e.emote }} de {{ e.playerName }}">{{ e.emote }}</span>
+  }
+</div>
+}

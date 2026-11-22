@@ -7,6 +7,7 @@ import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { DragDropService } from '@core/services/drag-drop.service';
 import { PlayerBoardHeaderComponent } from './components/player-board-header/player-board-header.component';
 import { PlayerBoardSlotsComponent } from './components/player-board-slots/player-board-slots.component';
+import { EmoteBubblesComponent } from './components/emote-bubbles/emote-bubbles.component';
 import { PlayerBoardDropService } from './services/player-board-drop.service';
 import { BoardDragPredicates } from './logic/board-drag-predicates';
 import { BoardContagionService } from './services/board-contagion.service';
@@ -16,7 +17,7 @@ import { ContagionState, FailedExperimentEvent, TransplantSelectionEvent, Transp
 @Component({
   selector: 'player-board',
   standalone: true,
-  imports: [DragDropModule, PlayerBoardHeaderComponent, PlayerBoardSlotsComponent],
+  imports: [DragDropModule, PlayerBoardHeaderComponent, PlayerBoardSlotsComponent, EmoteBubblesComponent],
   providers: [PlayerBoardDropService, BoardContagionService, BoardActionService],
   templateUrl: './player-board.html',
   styleUrl: './player-board.css',
@@ -58,6 +59,11 @@ export class PlayerBoardComponent {
   startFailedExperiment = output<FailedExperimentEvent>();
   isDragOver = signal(false);
   boardDropListId = computed(() => `board-${this.player().player.id}`);
+
+  /** Emotes activos de ESTE jugador (los emotes ajenos viven en sus propios tableros). */
+  myEmotes = computed(() =>
+    this._gameStore.emotes().filter((e) => e.playerId === this.player().player.id)
+  );
 
   isValidBoardTarget = computed(() => {
     const dragged = this.dragDropService.draggedItem();

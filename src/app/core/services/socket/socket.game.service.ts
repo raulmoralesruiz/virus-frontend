@@ -19,6 +19,7 @@ export class SocketGameService {
   hand = this.state.hand;
   lastError = this.state.lastError;
   winner = this.state.winner;
+  emotes = this.state.emotes;
 
   // Actions (Events to Socket)
   startGame(roomId: string) {
@@ -56,6 +57,10 @@ export class SocketGameService {
   resetRoom(roomId: string) {
     this.actions.resetRoom(roomId);
     this.state.reset();
+  }
+
+  sendEmote(roomId: string, emote: string) {
+    this.actions.sendEmote(roomId, emote);
   }
 
   // Local State Management

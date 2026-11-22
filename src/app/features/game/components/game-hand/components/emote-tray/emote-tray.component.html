@@ -1,0 +1,6 @@
+<div class="emote-tray" role="toolbar" aria-label="Reacciones">
+  @for (e of emotes; track e) {
+  <button type="button" class="emote-tray__btn" [attr.aria-label]="'Reacción: ' + e" title="{{ e }}"
+    (click)="send(e)">{{ e }}</button>
+  }
+</div>

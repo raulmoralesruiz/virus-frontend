@@ -1,0 +1,36 @@
+.emote-tray {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.emote-tray__btn {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.emote-tray__btn:hover {
+  transform: translateY(-2px) scale(1.08);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.emote-tray__btn:active {
+  transform: scale(0.95);
+}
+
+.emote-tray__btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

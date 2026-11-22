@@ -57,4 +57,9 @@ describe('SocketGameActionService', () => {
       service.resetRoom('r1');
       expect(mockSocketService.emit).toHaveBeenCalledWith(GAME_CONSTANTS.ROOM_RESET, { roomId: 'r1' });
   });
+
+  it('sendEmote should emit EMOTE with roomId and emote', () => {
+      service.sendEmote('r1', '🔥');
+      expect(mockSocketService.emit).toHaveBeenCalledWith(GAME_CONSTANTS.EMOTE, { roomId: 'r1', emote: '🔥' });
+  });
 });

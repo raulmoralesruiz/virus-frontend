@@ -59,12 +59,63 @@ describe('SocketGameStateService', () => {
       expect(service.lastError()).toBeNull();
   });
 
+  describe('emotes', () => {
+    const ev = (emote: string) => ({
+      roomId: 'r1',
+      playerId: 'p1',
+      playerName: 'Alice',
+      emote,
+      at: Date.now(),
+    });
+
+    it('addEmote should append the event with a unique id', () => {
+      const a = service.addEmote(ev('👍'));
+      const b = service.addEmote(ev('🔥'));
+
+      expect(a.id).toBeTruthy();
+      expect(a.id).not.toBe(b.id);
+      expect(service.emotes()).toHaveLength(2);
+      expect(service.emotes().map((e) => e.emote)).toEqual(['👍', '🔥']);
+    });
+
+    it('addEmote should auto-expire the emote after EMOTE_TTL_MS', () => {
+      service.addEmote(ev('🍻'));
+      expect(service.emotes()).toHaveLength(1);
+
+      jest.advanceTimersByTime(service.EMOTE_TTL_MS);
+      expect(service.emotes()).toHaveLength(0);
+    });
+
+    it('removeEmote should delete only the given emote', () => {
+      const a = service.addEmote(ev('😱'));
+      const b = service.addEmote(ev('🤣'));
+
+      service.removeEmote(a.id);
+
+      expect(service.emotes()).toHaveLength(1);
+      expect(service.emotes()[0].id).toBe(b.id);
+    });
+
+    it('clearEmotes should remove all emotes and cancel their timers', () => {
+      service.addEmote(ev('👍'));
+      service.addEmote(ev('🎉'));
+
+      service.clearEmotes();
+
+      expect(service.emotes()).toHaveLength(0);
+      // el timer cancelado no debe re-lanzar la expiración (la lista sigue vacía)
+      jest.advanceTimersByTime(service.EMOTE_TTL_MS + 100);
+      expect(service.emotes()).toHaveLength(0);
+    });
+  });
+
   it('reset should clear everything', () => {
       service.setActiveRoomId('r1');
       service.setPublicState({} as any);
       service.setHand([{} as any]);
       service.setWinner({} as any);
       service.setLastError('err');
+      service.addEmote({ roomId: 'r1', playerId: 'p1', playerName: 'Alice', emote: '🔥', at: 0 });
 
       service.reset();
 
@@ -72,6 +123,7 @@ describe('SocketGameStateService', () => {
       expect(service.hand()).toEqual([]);
       expect(service.winner()).toBeNull();
       expect(service.lastError()).toBeNull();
+      expect(service.emotes()).toHaveLength(0);
       expect(service.activeRoomId).toBeNull();
   });
 });

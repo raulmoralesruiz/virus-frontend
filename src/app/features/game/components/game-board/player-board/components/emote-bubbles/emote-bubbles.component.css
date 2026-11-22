@@ -1,0 +1,79 @@
+/* Overlay sobre el tablero del jugador: las burbujas no interfieren con drag & drop.
+   z-index 1200: por encima del overlay de ganador (1100) para que 🎉 se vea
+   nítido en la pantalla de victoria (sin ancestros que creen contexto de
+   apilado, compite directamente en el contexto raíz). */
+:host {
+  position: absolute;
+  top: 0.1rem;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.emote-bubbles {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.emote-bubbles__bubble {
+  font-size: 2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.3));
+  animation: emote-pop 3s ease-out forwards;
+}
+
+/* Pop → flotar → fundido. El estado del emote expira a los 3,5 s en el store,
+   justo después de que termine la animación (3 s). */
+@keyframes emote-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.4);
+  }
+
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1.15);
+  }
+
+  22% {
+    transform: translateY(0) scale(1);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-14px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-32px) scale(0.9);
+  }
+}
+
+/* Accesibilidad: sin movimiento, solo fundido de opacidad */
+@media (prefers-reduced-motion: reduce) {
+  .emote-bubbles__bubble {
+    animation: emote-fade 3s ease forwards;
+  }
+
+  @keyframes emote-fade {
+    0% {
+      opacity: 0;
+    }
+
+    15% {
+      opacity: 1;
+    }
+
+    70% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+}

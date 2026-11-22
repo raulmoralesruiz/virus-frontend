@@ -1,3 +1,6 @@
+<!-- Reacciones sociales (siempre visibles, incluso con mano vacía) -->
+<game-emote-tray [roomId]="roomId()"></game-emote-tray>
+
 @if (hand().length) {
 @if (handAction.selectedCard(); as card) {
 <game-target-select [selectedCard]="card" [targetOptions]="handAction.targetOptions()"

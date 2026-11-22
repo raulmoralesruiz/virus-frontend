@@ -23,6 +23,7 @@ export class GameStoreService {
   hand = this.socketGame.hand;
   lastError = this.socketGame.lastError;
   winner = this.socketGame.winner;
+  emotes = this.socketGame.emotes; // reacciones sociales activas (viven ~3,5 s)
 
   // Estado UI
   historyOpen = this.ui.historyOpen;
@@ -48,6 +49,11 @@ export class GameStoreService {
   resetRoom(roomId: string) { this.socketGame.resetRoom(roomId); }
   setClientError(msg: string) { this.socketGame.setClientError(msg); }
   clearError() { this.socketGame.clearLastError(); }
+
+  // Reacciones sociales (emotes)
+  sendEmote(roomId: string, emote: string) {
+    this.socketGame.sendEmote(roomId, emote);
+  }
 
   // Actions delegated to GamePlayService
   playCard(roomId: string, cardId: string, target?: AnyPlayTarget) {

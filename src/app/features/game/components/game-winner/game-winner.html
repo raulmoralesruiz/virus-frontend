@@ -35,6 +35,10 @@
       </p>
       }
 
+      <!-- Reacciones finales: la partida está acabada pero el emote sigue siendo
+           válido (celebrar, despedirse) — el backend no exige partida en curso. -->
+      <game-emote-tray [roomId]="roomId()"></game-emote-tray>
+
       <div class="winner-actions" aria-label="Acciones posteriores a la victoria">
         @if (canReset()) {
         <button type="button" class="winner-reset" [disabled]="offline()" (click)="onReset()">

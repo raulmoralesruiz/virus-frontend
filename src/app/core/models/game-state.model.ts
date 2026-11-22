@@ -43,6 +43,16 @@ export interface TargetSelection {
 
 export type PendingAction = ApparitionDecision | TargetSelection;
 
+/** Reacción (emote) emitida por un jugador y enrutada por el backend a la sala. */
+export interface EmoteEvent {
+  id: string; // único por evento (el cliente lo genera al recibir)
+  roomId: string;
+  playerId: string;
+  playerName: string; // resuelto en el cliente para el anuncio accesible
+  emote: string;
+  at: number; // timestamp (Date.now())
+}
+
 export interface PublicGameState {
   roomId: string;
   discardCount: number;

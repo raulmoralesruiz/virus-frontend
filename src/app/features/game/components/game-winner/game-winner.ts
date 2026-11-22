@@ -6,6 +6,7 @@ import { isInfected } from '@core/utils/organ.utils';
 import { TimerSoundService } from '@core/services/timer-sound.service';
 import { SocketService } from '@core/services/socket/socket.service';
 import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
+import { EmoteTrayComponent } from '@features/game/components/game-hand/components/emote-tray/emote-tray.component';
 
 export interface FinalStanding {
   player: PublicPlayerInfo['player'];
@@ -17,7 +18,7 @@ export interface FinalStanding {
 @Component({
   selector: 'game-winner',
   standalone: true,
-  imports: [TitleCasePipe, FocusTrapDirective],
+  imports: [TitleCasePipe, FocusTrapDirective, EmoteTrayComponent],
   templateUrl: './game-winner.html',
   styleUrl: './game-winner.css',
 })
@@ -26,6 +27,8 @@ export class GameWinnerComponent {
   private readonly socketService = inject(SocketService);
 
   winner = input<{ player: PublicPlayerInfo['player'] } | null>(null);
+  /** Sala actual: necesaria para que el tray de reacciones pueda enviar el emote. */
+  readonly roomId = input<string | null>(null);
   readonly playerCount = input(0);
   readonly players = input<PublicPlayerInfo[]>([]);
   readonly startedAt = input<string | null>(null);

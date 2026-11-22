@@ -10,6 +10,7 @@ import { HandDiscardService } from './services/hand-discard.service';
 import { ApparitionBannerComponent } from './components/apparition-banner/apparition-banner.component';
 import { HandListComponent } from './components/hand-list/hand-list.component';
 import { DiscardActionButtonComponent } from './components/discard-action-button/discard-action-button.component';
+import { EmoteTrayComponent } from './components/emote-tray/emote-tray.component';
 import { HandStateService } from './services/hand-state.service';
 import { HandStrategyResolverService } from './services/hand-strategy-resolver.service';
 import { HandUIHelperService } from './services/hand-ui-helper.service';
@@ -17,7 +18,7 @@ import { HandUIHelperService } from './services/hand-ui-helper.service';
 @Component({
   selector: 'game-hand',
   standalone: true,
-  imports: [TargetSelectComponent, ApparitionBannerComponent, HandListComponent, DiscardActionButtonComponent],
+  imports: [TargetSelectComponent, ApparitionBannerComponent, HandListComponent, DiscardActionButtonComponent, EmoteTrayComponent],
   templateUrl: './game-hand.html',
   styleUrl: './game-hand.css',
   providers: [HandActionService, HandStateService, HandDiscardService, HandStrategyResolverService, HandUIHelperService],

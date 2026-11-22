@@ -4,7 +4,7 @@
 
   <!-- Winner -->
   @if (winner(); as w) {
-  <game-winner [winner]="w" [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
+  <game-winner [winner]="w" [roomId]="roomId" [playerCount]="currentRoom()?.players?.length ?? publicState()?.players?.length ?? 0"
     [players]="publicState()?.players ?? []" [startedAt]="publicState()?.startedAt ?? null"
     [historyCount]="publicState()?.history?.length ?? 0" (reset)="resetGame()" (leave)="leaveAfterWin()"></game-winner>
   }

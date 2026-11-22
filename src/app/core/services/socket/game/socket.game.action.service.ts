@@ -42,4 +42,8 @@ export class SocketGameActionService {
   resetRoom(roomId: string) {
     this.socketService.emit(GAME_CONSTANTS.ROOM_RESET, { roomId });
   }
+
+  sendEmote(roomId: string, emote: string) {
+    this.socketService.emit(GAME_CONSTANTS.EMOTE, { roomId, emote });
+  }
 }

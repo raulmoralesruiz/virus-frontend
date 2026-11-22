@@ -22,7 +22,11 @@ describe('PlayerBoard', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         // El header (turn-progress) lee la duración real del turno del store.
-        { provide: GameStoreService, useValue: { turnDurationSeconds: signal(0) } }
+        // Las burbujas de emote leen la lista de reacciones activas.
+        {
+          provide: GameStoreService,
+          useValue: { turnDurationSeconds: signal(0), emotes: signal([]) },
+        }
       ]
     })
     .compileComponents();

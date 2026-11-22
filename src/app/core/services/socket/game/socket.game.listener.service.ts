@@ -29,6 +29,7 @@ export class SocketGameListenerService {
     this.socket.on(GAME_CONSTANTS.GAME_ERROR, (e) => this.onGameError(e));
     this.socket.on(GAME_CONSTANTS.GAME_END, (d) => this.onGameEnd(d));
     this.socket.on(GAME_CONSTANTS.ROOM_RESET, (d) => this.onRoomReset(d));
+    this.socket.on(GAME_CONSTANTS.EMOTE, (d) => this.onEmote(d));
   }
 
   private isRoomValid(roomId: string): boolean {
@@ -67,6 +68,20 @@ export class SocketGameListenerService {
 
   private onGameError(err: { code: string; message: string }) {
     this.state.setLastError(err.message ?? 'Unknown error');
+  }
+
+  private onEmote(data: { roomId: string; playerId: string; emote: string; at?: number }) {
+    if (!this.isRoomValid(data.roomId)) return;
+    const state = this.state.publicState();
+    const playerName =
+      state?.players.find((p) => p.player.id === data.playerId)?.player.name ?? 'Jugador';
+    this.state.addEmote({
+      roomId: data.roomId,
+      playerId: data.playerId,
+      playerName,
+      emote: data.emote,
+      at: data.at ?? Date.now(),
+    });
   }
 
   private onGameEnd(data: GameEndPayload) {

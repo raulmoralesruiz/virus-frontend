@@ -22,7 +22,8 @@ describe('SocketGameListenerService', () => {
       setWinner: jest.fn(),
       setHand: jest.fn(),
       setLastError: jest.fn(),
-      reset: jest.fn()
+      reset: jest.fn(),
+      addEmote: jest.fn()
   };
 
   const mockApiPlayer = {
@@ -57,6 +58,7 @@ describe('SocketGameListenerService', () => {
       expect(mockSocketService.on).toHaveBeenCalledWith(GAME_CONSTANTS.GAME_ERROR, expect.any(Function));
       expect(mockSocketService.on).toHaveBeenCalledWith(GAME_CONSTANTS.GAME_END, expect.any(Function));
       expect(mockSocketService.on).toHaveBeenCalledWith(GAME_CONSTANTS.ROOM_RESET, expect.any(Function));
+      expect(mockSocketService.on).toHaveBeenCalledWith(GAME_CONSTANTS.EMOTE, expect.any(Function));
   });
 
   describe('event handlers', () => {
@@ -182,6 +184,42 @@ describe('SocketGameListenerService', () => {
               Handlers[GAME_CONSTANTS.ROOM_RESET]({ roomId: 'r1' });
               expect(mockState.reset).toHaveBeenCalled();
               expect(mockSound.stopMusic).toHaveBeenCalled();
+          });
+      });
+
+      describe('onEmote', () => {
+          it('should ignore if room is not valid', () => {
+              mockState.activeRoomId = 'r1';
+              Handlers[GAME_CONSTANTS.EMOTE]({ roomId: 'r2', playerId: 'p1', emote: '🔥' });
+              expect(mockState.addEmote).not.toHaveBeenCalled();
+          });
+
+          it('should add emote with playerName when public state has the player', () => {
+              mockState.publicState.set({
+                  roomId: 'r1',
+                  players: [{ player: { id: 'p1', name: 'Alice' } }],
+              });
+              Handlers[GAME_CONSTANTS.EMOTE]({
+                  roomId: 'r1',
+                  playerId: 'p1',
+                  emote: '🔥',
+                  at: 123,
+              });
+              expect(mockState.addEmote).toHaveBeenCalledWith({
+                  roomId: 'r1',
+                  playerId: 'p1',
+                  playerName: 'Alice',
+                  emote: '🔥',
+                  at: 123,
+              });
+          });
+
+          it('should fall back to a generic playerName when player is unknown', () => {
+              mockState.publicState.set({ roomId: 'r1', players: [] });
+              Handlers[GAME_CONSTANTS.EMOTE]({ roomId: 'r1', playerId: 'px', emote: '🎉' });
+              expect(mockState.addEmote).toHaveBeenCalledWith(
+                  expect.objectContaining({ playerName: 'Jugador' })
+              );
           });
       });
   });
