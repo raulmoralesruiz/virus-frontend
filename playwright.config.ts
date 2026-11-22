@@ -29,6 +29,17 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:4200',
 
+    /*
+     * Playwright emula `prefers-reduced-motion: no-preference` por defecto,
+     * por lo que las animaciones infinitas del panel de mano (handPanelPulse
+     * en game-hand.css) seguirían en movimiento perpetuo y `locator.click()`
+     * fallaría con "element is not stable" (el botón confirma está dentro de
+     * ese :host animado). El app ya respeta `prefers-reduced-motion: reduce`
+     * (las animaciones infinitas se desactivan), así que declaramos esa
+     * preferencia para que los clicks nativos sean estables y deterministas.
+     */
+    reducedMotion: 'reduce',
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
