@@ -11,10 +11,12 @@ import { test, expect, Page } from '@playwright/test';
  *      rival (la regla del backend es `canReceiveVirus`: mismo color o alguno
  *      multicolor — `fits()`). La UI ya filtra los objetivos por color, así que
  *      el primer órgano de la lista del panel es válido.
- *   2. **Bajar un órgano "seguro"**: uno que no complete 4 colores distintos en
- *      el tablero propio. La condición de victoria es `distinctColors >= 4`
- *      (ver `victory-utils.checkVictory`), así que solo jugamos un color nuevo
- *      si ya tenemos ≤ 2, o un color que ya esté repetido.
+ *   2. **Bajar un órgano "seguro"**: uno LEGAL (el backend rechaza repetir un
+ *      color ya en el tablero: `DUPLICATE_ORGAN`, organ-card.service.ts) y que
+ *      no complete 4 colores distintos sanos (condición de victoria, ver
+ *      `victory-utils.checkVictory`), así que solo jugamos un color nuevo si
+ *      ya tenemos ≤ 2. Con ≥ 3 colores en tablero, cualquier órgano nuevo gana,
+ *      y preferimos descartar para no cerrar la partida antes del ataque.
  *   3. **Descartar** una carta si no hay otra opción útil.
  *
  * Detección de progreso (robusta, sin señales falsas):
@@ -115,6 +117,34 @@ const winnerShown = (page: Page): Promise<number> =>
   page.locator('.winner-overlay').count().catch(() => 0);
 
 /**
+ * Cuantas páginas muestran el banner de desconexión ("Sin conexión" /
+ * "Reconectando… acciones desactivadas"). > 0 = la UI bloquea las acciones.
+ */
+const offlineBanner = (page: Page): Promise<number> =>
+  page.locator('.connection-banner.is-visible').count().catch(() => 0);
+
+/**
+ * Espera a que la página esté ONLINE (banner de desconexión oculto). Devuelve
+ * true si quedó online, false si se agotó el presupuesto.
+ *
+ * ¿Por qué es necesario? El cliente tiene un "liveness probe" (socket.service.ts)
+ * que, si el ack tarda > PING_TIMEOUT_MS (3 s), fuerza un ciclo
+ * disconnect→connect. En webkit el main thread es más lento y un ack puede
+ * tardar > 3 s bajo carga, disparando esa reconexión. Mientras la página está
+ * offline/reconnecting, el app DESHABILITA las acciones: un click en "confirmar"
+ * no llega al backend y el turno nunca pasa. Actuar solo con online evita
+ * reintentos ciegos que queman el presupuesto del test.
+ */
+async function waitOnline(page: Page, timeoutMs = 12_000): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    if ((await offlineBanner(page)) === 0) return true;
+    await page.waitForTimeout(200);
+  }
+  return (await offlineBanner(page)) === 0;
+}
+
+/**
  * SEÑAL DE ÉXITO POSITIVA (robusta): el turno pasó al RIVAL.
  *
  * Antes usaba "mi is-my-turn desaparece", que da FALSO POSITIVO: durante el
@@ -163,6 +193,13 @@ async function playCard(
   for (let attempt = 0; attempt < 3; attempt++) {
     if ((await isMyTurn(page).catch(() => 0)) === 0) return 'timeout';
     await closePanel(page);
+
+    // No actuar con el socket caído: el app bloquea acciones y el click se pierde.
+    if (!(await waitOnline(page, 12_000))) {
+      console.log(`  [diag] OFFLINE al intentar jugar (intento ${attempt})`);
+      await page.waitForTimeout(300);
+      continue;
+    }
 
     const playBtn = page
       .locator('app-hand-card .hand-card')
@@ -228,7 +265,12 @@ async function playCard(
     await confirm.click();
     const result = await waitForTurnToPass(page, opp, 15_000);
     if (result === 'timeout') {
-      console.log(`  [diag] confirmó pero el turno NO pasó al rival (intento ${attempt})`);
+      const offMe = (await offlineBanner(page)) > 0;
+      const offOpp = (await offlineBanner(opp)) > 0;
+      console.log(
+        `  [diag] confirmó pero el turno NO pasó al rival (intento ${attempt}; ` +
+          `offline: yo=${offMe} rival=${offOpp})`
+      );
       await page.waitForTimeout(300);
       continue;
     }
@@ -245,6 +287,13 @@ async function doDiscard(page: Page, opp: Page): Promise<'passed' | 'over' | 'ti
   for (let attempt = 0; attempt < 3; attempt++) {
     if ((await isMyTurn(page).catch(() => 0)) === 0) return 'timeout';
     await closePanel(page);
+
+    // No actuar con el socket caído (el app bloquea acciones).
+    if (!(await waitOnline(page, 12_000))) {
+      console.log(`  [diag] OFFLINE al intentar descartar (intento ${attempt})`);
+      await page.waitForTimeout(300);
+      continue;
+    }
 
     // Limpia selección previa (toggle off de las ya seleccionadas).
     await page.evaluate(() => {
@@ -306,6 +355,10 @@ async function resolveApparition(
   const keep = page.locator('.apparition-banner .keep-btn');
   if ((await keep.count().catch(() => 0)) === 0) return 'timeout';
   if (!(await keep.isEnabled().catch(() => false))) return 'timeout';
+  if (!(await waitOnline(page, 12_000))) {
+    console.log('  [diag] OFFLINE al resolver la Aparición');
+    return 'timeout';
+  }
   await keep.click();
   return await waitForTurnToPass(page, opp, 15_000);
 }
@@ -337,6 +390,24 @@ test.describe('Test 3: Attacking a Player', () => {
     };
     await stabilize(page1);
     await stabilize(page2);
+
+    // Diagnóstico de socket: captura en consola la reconexión forzada por el
+    // liveness probe y las emits perdidas. Sirve para corroborar que las caídas
+    // de "Sin conexión" vienen del cliente (probe), no del servidor.
+    const attachSocketLog = (page: Page, who: string) => {
+      page.on('console', (msg) => {
+        const t = msg.text();
+        if (
+          /Liveness probe expiró|forzando reconexión|Socket not connected|Failed to restore|reconnect_attempt|disconnect/i.test(
+            t
+          )
+        ) {
+          console.log(`  [socket/${who}] ${msg.type()}: ${t.slice(0, 140)}`);
+        }
+      });
+    };
+    attachSocketLog(page1, 'Alice');
+    attachSocketLog(page2, 'Bob');
 
     try {
       // --- SETUP: Alice y Bob entran a la sala e inician la partida ---
@@ -480,14 +551,24 @@ test.describe('Test 3: Attacking a Player', () => {
           continue;
         }
 
-        // 2) ¿Puedo bajar un órgano seguro (sin completar 4 colores distintos)?
+        // 2) ¿Puedo bajar un órgano LEGAL y SEGURO?
+        //   LEGAL:  el backend rechaza repetir un color ya en el tablero
+        //           (organ-card.service.ts: DUPLICATE_ORGAN), así que el color
+        //           NO debe estar en miTablero. (Antes la estrategia elegía
+        //           EXACTAMENTE ese caso y el servidor la rechazaba.)
+        //   SEGURO: al colocarlo no se alcanzan 4 colores distintos sanos
+        //           (victory-utils.checkVictory), para no cerrar la partida
+        //           antes del ataque objetivo. Con ≤ 2 colores en tablero,
+        //           añadir uno nuevo deja ≤ 3 → seguro. Con ≥ 3, cualquier
+        //           órgano nuevo gana → mejor descartar (que sigue la partida).
         const myColors = new Set(state.myBoard);
         const organIdx = state.cards.findIndex(
           (c) =>
             c.kind === 'organ' &&
             c.color !== null &&
             PLAYABLE_ORGAN_COLORS.includes(c.color) &&
-            (myColors.has(c.color) || myColors.size <= 2)
+            !myColors.has(c.color) &&
+            myColors.size <= 2
         );
 
         if (organIdx !== -1) {
