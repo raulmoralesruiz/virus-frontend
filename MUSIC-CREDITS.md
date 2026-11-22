@@ -1,9 +1,10 @@
 # Música — créditos y licencia
 
-- **BGM (loop de partida):** "Winter Dust" — **hernandack**
-  - Fuente: <https://opengameart.org/content/short-loops-background-music-pack>
+- **BGM (loop de partida):** "Chill lofi" (loop continuo) — **qubodup**
+  - Fuente: <https://opengameart.org/content/chill-lofi-inspired-loop-edit>
   - Licencia: **CC0** (dedicada al dominio público; atribución voluntaria, pero se agradece).
-  - Nota: la pista original es OGG; se transcodificó a MP3 con `ffmpeg` para mantener coherencia con el resto de `assets/sounds/`.
+  - Nota: la pista original es OGG; se transcodificó a MP3 (44,1 kHz estéreo) con `ffmpeg`.
+  - Anterior: "Winter Dust" de hernandack (CC0, OpenGameArt) — sustituida por decisión de diseño (2026-11-22).
 
 ## Sustitución por otra pista
 
