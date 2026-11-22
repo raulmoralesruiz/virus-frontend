@@ -3,6 +3,7 @@ import { SocketGameListenerService } from './socket.game.listener.service';
 import { SocketService } from '../socket.service';
 import { SocketGameStateService } from './socket.game.state.service';
 import { ApiPlayerService } from '../../api/api.player.service';
+import { TimerSoundService } from '../../timer-sound.service';
 import { GAME_CONSTANTS } from '../../../constants/game.constants';
 import { signal } from '@angular/core';
 
@@ -28,13 +29,19 @@ describe('SocketGameListenerService', () => {
       player: signal<any>(null)
   };
 
+  const mockSound = {
+      startMusic: jest.fn(),
+      stopMusic: jest.fn()
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
         providers: [
             SocketGameListenerService,
             { provide: SocketService, useValue: mockSocketService },
             { provide: SocketGameStateService, useValue: mockState },
-            { provide: ApiPlayerService, useValue: mockApiPlayer }
+            { provide: ApiPlayerService, useValue: mockApiPlayer },
+            { provide: TimerSoundService, useValue: mockSound }
         ]
     });
     mockState.activeRoomId = null;
@@ -67,6 +74,7 @@ describe('SocketGameListenerService', () => {
               mockState.activeRoomId = 'r1';
               Handlers[GAME_CONSTANTS.GAME_STARTED]({ roomId: 'r2' });
               expect(mockState.setActiveRoomId).not.toHaveBeenCalled();
+              expect(mockSound.startMusic).not.toHaveBeenCalled();
           });
 
           it('should handle if room is valid (null active)', () => {
@@ -74,6 +82,7 @@ describe('SocketGameListenerService', () => {
               expect(mockState.setActiveRoomId).toHaveBeenCalledWith('r1');
               expect(mockState.setPublicState).toHaveBeenCalledWith({ roomId: 'r1' });
               expect(mockState.setWinner).toHaveBeenCalledWith(null);
+              expect(mockSound.startMusic).toHaveBeenCalled();
           });
       });
 
@@ -116,6 +125,16 @@ describe('SocketGameListenerService', () => {
               expect(mockState.setActiveRoomId).toHaveBeenCalledWith('r1');
               expect(mockState.setPublicState).toHaveBeenCalledWith({ roomId: 'r1' });
           });
+
+          it('should ensure BGM is running for an ongoing game (no winner)', () => {
+              Handlers[GAME_CONSTANTS.GAME_STATE]({ roomId: 'r1', winner: null });
+              expect(mockSound.startMusic).toHaveBeenCalled();
+          });
+
+          it('should NOT start BGM if the game already has a winner', () => {
+              Handlers[GAME_CONSTANTS.GAME_STATE]({ roomId: 'r1', winner: { player: { id: 'p1' } } });
+              expect(mockSound.startMusic).not.toHaveBeenCalled();
+          });
       });
 
       describe('onGameError', () => {
@@ -135,16 +154,19 @@ describe('SocketGameListenerService', () => {
               mockState.activeRoomId = 'r1';
               Handlers[GAME_CONSTANTS.GAME_END]({ roomId: 'r2' });
               expect(mockState.setWinner).not.toHaveBeenCalled();
+              expect(mockSound.stopMusic).not.toHaveBeenCalled();
           });
 
           it('should reset if no winner and no public state', () => {
               Handlers[GAME_CONSTANTS.GAME_END]({ roomId: 'r1', winner: null });
               expect(mockState.reset).toHaveBeenCalled();
+              expect(mockSound.stopMusic).toHaveBeenCalled();
           });
 
           it('should set winner', () => {
               Handlers[GAME_CONSTANTS.GAME_END]({ roomId: 'r1', winner: { player: { id: 'p1' } } });
               expect(mockState.setWinner).toHaveBeenCalledWith({ player: { id: 'p1' } });
+              expect(mockSound.stopMusic).toHaveBeenCalled();
           });
       });
 
@@ -153,11 +175,13 @@ describe('SocketGameListenerService', () => {
               mockState.activeRoomId = 'r1';
               Handlers[GAME_CONSTANTS.ROOM_RESET]({ roomId: 'r2' });
               expect(mockState.reset).not.toHaveBeenCalled();
+              expect(mockSound.stopMusic).not.toHaveBeenCalled();
           });
 
           it('should reset if valid', () => {
               Handlers[GAME_CONSTANTS.ROOM_RESET]({ roomId: 'r1' });
               expect(mockState.reset).toHaveBeenCalled();
+              expect(mockSound.stopMusic).toHaveBeenCalled();
           });
       });
   });

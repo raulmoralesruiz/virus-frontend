@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { SocketGameStateService } from './socket.game.state.service';
 import { ApiPlayerService } from '../../api/api.player.service';
+import { TimerSoundService } from '../../timer-sound.service';
 import { GAME_CONSTANTS } from '../../../constants/game.constants';
 import {
   BaseGamePayload,
@@ -15,6 +16,7 @@ export class SocketGameListenerService {
   private socket = inject(SocketService);
   private state = inject(SocketGameStateService);
   private playerService = inject(ApiPlayerService);
+  private sound = inject(TimerSoundService);
 
   constructor() {
     this.registerListeners();
@@ -38,6 +40,7 @@ export class SocketGameListenerService {
     this.state.setActiveRoomId(state.roomId);
     this.state.setPublicState(state);
     this.state.setWinner(null);
+    this.sound.startMusic();
   }
 
   private onGameHand(data: GameHandPayload) {
@@ -56,6 +59,10 @@ export class SocketGameListenerService {
     if (!this.isRoomValid(state.roomId)) return;
     this.state.setActiveRoomId(state.roomId);
     this.state.setPublicState(state);
+    // Partida en curso (incluye reconexión a mitad de partida): la BGM debe estar sonando.
+    if (!state.winner) {
+      this.sound.startMusic();
+    }
   }
 
   private onGameError(err: { code: string; message: string }) {
@@ -67,9 +74,12 @@ export class SocketGameListenerService {
     const hasPublicState = !!this.state.publicState();
     if (!data.winner && !hasPublicState) this.state.reset();
     this.state.setWinner(data.winner);
+    this.sound.stopMusic();
   }
 
   private onRoomReset(data: BaseGamePayload) {
-    if (this.isRoomValid(data.roomId)) this.state.reset();
+    if (!this.isRoomValid(data.roomId)) return;
+    this.state.reset();
+    this.sound.stopMusic();
   }
 }
