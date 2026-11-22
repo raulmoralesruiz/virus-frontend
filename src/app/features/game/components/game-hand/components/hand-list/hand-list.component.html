@@ -1,10 +1,18 @@
 <div class="hand-container" [class.is-my-turn]="isMyTurn()" cdkDropList [id]="'handList-' + (playerId() || '')"
   [cdkDropListData]="hand()" [cdkDropListConnectedTo]="connectedTo()" (cdkDropListExited)="exitHand.emit($event)">
-  @for (card of hand(); track $index; let i = $index) {
+  @for (card of renderHand(); track card.id; let i = $index) {
+  @if (isGhost(card.id)) {
+  <!-- Ghost de salida: clon inerte que mantiene el layout mientras termina la animación -->
+  <div class="hand-card hand-card--ghost" [style.background]="ghostBackground(card)" aria-hidden="true">
+    <app-hand-card-content [card]="card"></app-hand-card-content>
+  </div>
+  } @else {
   <app-hand-card [card]="card" [isSelected]="selectedIndices().has(i)" [isMyTurn]="isMyTurn()"
     [infoOpen]="selectedPlayingCardId() === card.id"
     [isDisabled]="offline() || (mustPlayCardId() !== null && mustPlayCardId() !== card.id)"
-    [isPlaying]="selectedPlayingCardId() === card.id" (toggleSelect)="toggleSelect.emit(i)" (play)="play.emit(card)">
+    [isPlaying]="selectedPlayingCardId() === card.id" [style.animation-delay]="staggerDelay(card.id)"
+    (toggleSelect)="toggleSelect.emit(i)" (play)="play.emit(card)">
   </app-hand-card>
+  }
   }
 </div>

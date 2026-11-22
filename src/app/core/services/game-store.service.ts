@@ -7,6 +7,7 @@ import { GameNavigationService } from './game/game-navigation.service';
 import { GameUiService } from './game/game-ui.service';
 import { GamePlayService } from './game/game-play.service';
 import { TimerSoundService } from './timer-sound.service';
+import { HandMotionService } from './hand-motion.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameStoreService {
@@ -19,6 +20,7 @@ export class GameStoreService {
   private ui = inject(GameUiService);
   private play = inject(GamePlayService);
   private sound = inject(TimerSoundService);
+  private motion = inject(HandMotionService);
 
   // Estado público de la partida
   publicState = this.socketGame.publicState;
@@ -65,11 +67,25 @@ export class GameStoreService {
 
   // Actions delegated to GamePlayService
   playCard(roomId: string, cardId: string, target?: AnyPlayTarget) {
+    this.markLeaving([cardId]);
     this.play.playCard(roomId, cardId, target);
   }
 
   discardCards(roomId: string, cardIds: string[]) {
+    this.markLeaving(cardIds);
     this.play.discardCards(roomId, cardIds);
+  }
+
+  /**
+   * Animación de salida: marca las cartas ANTES de despachar la acción.
+   * Cubre el 100% de las vías (botón, drag, contagio, trasplante), porque
+   * todas pasan por playCard/discardCards.
+   */
+  private markLeaving(cardIds: string[]) {
+    if (!cardIds.length) return;
+    const hand = this.hand();
+    const cards = hand.filter((c) => cardIds.includes(c.id));
+    this.motion.markLeaving(hand, cards.map((c) => c.id));
   }
 
   // ⏸️ Pausa del timer de turno: se notifica el inicio y la cancelación de la

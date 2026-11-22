@@ -1,3 +1,30 @@
+/* Robo: la carta nueva entra subiendo desde abajo. Se anima en :host para
+   no topar con el preview del CDK drag (clon del .hand-card) ni con el
+   ghost de salida (que vive en la lista, no en este componente). */
+:host {
+  /* backwards: durante el delay del reparto la carta queda en el estado 0%
+     (oculta), en vez de parpadear visible antes de animar. */
+  animation: handCardEnter 0.38s ease-out backwards;
+}
+
+@keyframes handCardEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}
+
 .hand-card {
   width: 82px;
   height: 120px;

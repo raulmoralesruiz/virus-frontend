@@ -3,6 +3,20 @@
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-text-primary);
+  /* El nodo nace cuando el tablero recibe el turno (@if isActive): entrada desde la derecha */
+  animation: turnTimerEnter 0.35s ease-out;
+}
+
+@keyframes turnTimerEnter {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .turn-timer--warning {
@@ -37,6 +51,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .turn-timer,
   .turn-timer--critical {
     animation: none;
   }

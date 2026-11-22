@@ -28,6 +28,16 @@
   --color-player-active-background: rgb(49, 24, 1);
   /* Me + Active: Emerald/Teal Deep */
   --color-player-me-active-background: rgb(13, 50, 37);
+  /* Pulso de cambio de turno: ámbar más contenido en oscuro */
+  --turn-pulse-glow: rgb(251 191 36 / 0.35);
+  --turn-pulse-halo: rgb(251 191 36 / 0.25);
+}
+
+/* Pulso único al recibir el turno: la animación corre cuando .is-active se
+   añade (host binding) y se reinicia al añadirse de nuevo. */
+:host {
+  --turn-pulse-glow: rgb(251 191 36 / 0.45);
+  --turn-pulse-halo: rgb(251 191 36 / 0.3);
 }
 
 @keyframes shimmer {
@@ -66,6 +76,28 @@
   background: var(--color-player-active-background);
   position: relative;
   overflow: hidden;
+  animation: turnPulse 1.1s ease-out;
+}
+
+/* Pulso único de cambio de turno: anillo + halo ámbar que nace y se disipa. */
+@keyframes turnPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+
+  30% {
+    box-shadow: 0 0 0 6px var(--turn-pulse-glow), 0 0 24px 4px var(--turn-pulse-halo);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgb(251 191 36 / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host.is-active {
+    animation: none;
+  }
 }
 
 :host.is-me.is-active {

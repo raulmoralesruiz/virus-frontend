@@ -7,6 +7,7 @@ import { GameNavigationService } from './game/game-navigation.service';
 import { GameUiService } from './game/game-ui.service';
 import { GamePlayService } from './game/game-play.service';
 import { TimerSoundService } from './timer-sound.service';
+import { HandMotionService } from './hand-motion.service';
 import { signal } from '@angular/core';
 
 describe('GameStoreService', () => {
@@ -54,6 +55,10 @@ describe('GameStoreService', () => {
       startMusic: jest.fn(),
       stopMusic: jest.fn()
   };
+  const mockMotion = {
+      markLeaving: jest.fn(),
+      reset: jest.fn()
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,6 +71,7 @@ describe('GameStoreService', () => {
             { provide: GameUiService, useValue: mockUi },
             { provide: GamePlayService, useValue: mockPlay },
             { provide: TimerSoundService, useValue: mockSound },
+            { provide: HandMotionService, useValue: mockMotion },
         ]
     });
     service = TestBed.inject(GameStoreService);
@@ -124,6 +130,29 @@ describe('GameStoreService', () => {
         service.playCard('r1', 'c1'); expect(mockPlay.playCard).toHaveBeenCalledWith('r1', 'c1', undefined);
         service.discardCards('r1', ['c1']); expect(mockPlay.discardCards).toHaveBeenCalledWith('r1', ['c1']);
         service.handleTurnTimeout('r1'); expect(mockPlay.handleTurnTimeout).toHaveBeenCalledWith('r1');
+    });
+
+    describe('animación de salida (markLeaving)', () => {
+        it('should marcar la carta como saliente al jugarla', () => {
+            mockSocketGame.hand.set([{ id: 'c1' }, { id: 'c2' }]);
+            service.playCard('r1', 'c1');
+            expect(mockMotion.markLeaving).toHaveBeenCalledWith([{ id: 'c1' }, { id: 'c2' }], ['c1']);
+        });
+
+        it('should marcar todas las cartas al descartarlas', () => {
+            mockSocketGame.hand.set([{ id: 'c1' }, { id: 'c2' }, { id: 'c3' }]);
+            service.discardCards('r1', ['c2', 'c3']);
+            expect(mockMotion.markLeaving).toHaveBeenCalledWith(
+                [{ id: 'c1' }, { id: 'c2' }, { id: 'c3' }],
+                ['c2', 'c3']
+            );
+        });
+
+        it('should no marcar nada si la carta no está en la mano (id no conocido)', () => {
+            mockSocketGame.hand.set([{ id: 'c1' }]);
+            service.playCard('r1', 'c-inexistente');
+            expect(mockMotion.markLeaving).toHaveBeenCalledWith([{ id: 'c1' }], []);
+        });
     });
 
     it('should call nav methods', () => {

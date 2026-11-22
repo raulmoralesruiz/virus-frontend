@@ -50,3 +50,65 @@
 .hand-container .cdk-drag-animating {
   transition: transform 120ms cubic-bezier(0.33, 1, 0.68, 1) !important;
 }
+
+/* ── Ghost de salida ─────────────────────────────────────────────────────
+   Clon inerte de la carta que acaba de jugarse/descartarse. Mismo box
+   model que .hand-card (que vive en el componente encapsulado y no
+   aplica aquí) para que la fila no se reencentre a mitad de animación.
+   La mano viva la pierde al responder el servidor, pero este ghost
+   sostiene el layout hasta que termina la salida. */
+.hand-card--ghost {
+  width: 82px;
+  height: 120px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 2px;
+  padding: 10px 8px;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  animation: handGhostLeave 0.35s ease-in forwards;
+}
+
+@media (min-width: 480px) {
+  .hand-card--ghost {
+    width: 96px;
+    height: 140px;
+    margin: 6px 4px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hand-card--ghost {
+    width: 108px;
+    height: 156px;
+  }
+}
+
+@keyframes handGhostLeave {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Sin desplazamiento ni escala: solo un fundido corto. */
+  .hand-card--ghost {
+    animation: handGhostFade 0.25s linear forwards;
+  }
+}
+
+@keyframes handGhostFade {
+  to {
+    opacity: 0;
+  }
+}

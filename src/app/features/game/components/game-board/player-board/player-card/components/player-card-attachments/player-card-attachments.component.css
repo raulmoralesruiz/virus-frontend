@@ -87,6 +87,35 @@
   opacity: 0.5;
 }
 
+/* Ataque: el virus/medicina/tratamiento que acaba de llegar "pica" el órgano.
+   Solo las chips NUEVAS animan (el @for trackea por a.id); sin fill para no
+   pisar la opacidad del .temporary-virus ni el scale del drag al terminar. */
+.attached-card {
+  animation: attachmentPop 0.35s ease-out;
+}
+
+@keyframes attachmentPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attached-card {
+    animation: none;
+  }
+}
+
 .attached-card.cdk-drag {
   cursor: grab;
   transition: transform 0.18s ease, opacity 0.18s ease;
