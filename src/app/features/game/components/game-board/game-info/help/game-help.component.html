@@ -1,0 +1,31 @@
+<button type="button" class="help-toggle" [attr.aria-expanded]="open" aria-label="Ayuda: cómo se juega"
+  (click)="openHelp()">
+  <span class="help-toggle__mark" aria-hidden="true">?</span>
+</button>
+
+@if (open) {
+<div class="help-overlay" (click)="closeHelp()">
+  <div class="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" appFocusTrap
+    (escape)="closeHelp()" (click)="$event.stopPropagation()">
+    <button type="button" class="help-close" aria-label="Cerrar ayuda" (click)="closeHelp()">✕</button>
+
+    <h2 id="help-title" class="help-heading">¿Cómo se juega?</h2>
+
+    <div class="help-body">
+      <p><strong>Objetivo:</strong> tener 4 órganos sanos de colores distintos en tu cuerpo.
+        (Truco o Trato anula la victoria de quien lo lleva.)</p>
+      <p><strong>Tu turno (60 s):</strong> juegas 1 carta, o descartas 1–3 cartas, o pasas.
+        Si el reloj llega a 0, el servidor descarta 1 carta al azar.</p>
+      <ul>
+        <li><strong>Órgano:</strong> lo colocas en tu cuerpo (máximo 1 por color).</li>
+        <li><strong>Virus:</strong> infecta un órgano de color compatible; sobre un órgano ya infectado, lo extirpa.</li>
+        <li><strong>Medicina:</strong> protege tu órgano; con 2, queda inmune.</li>
+        <li><strong>Tratamiento:</strong> Trasplante, Ladrón de Órganos, Contagio, Guantes de Látex…</li>
+        <li><strong>Aparición:</strong> te llevas la última carta del descarte y debes jugarla (o conservarla) en ese mismo turno.</li>
+      </ul>
+    </div>
+
+    <a class="help-link" [href]="rulesUrl" target="_blank" rel="noopener noreferrer">Ver reglas completas →</a>
+  </div>
+</div>
+}

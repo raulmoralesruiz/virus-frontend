@@ -3,6 +3,7 @@ import { Card } from '@core/models/card.model';
 import { GameInfoDiscardComponent } from './discard-preview/game-info-discard';
 import { GameInfoTitleComponent } from './title/game-info-title';
 import { GameInfoHistoryComponent } from './history/game-info-history';
+import { GameHelpComponent } from '../help/game-help.component';
 
 @Component({
   selector: 'game-info-header',
@@ -11,6 +12,7 @@ import { GameInfoHistoryComponent } from './history/game-info-history';
     GameInfoDiscardComponent,
     GameInfoTitleComponent,
     GameInfoHistoryComponent,
+    GameHelpComponent,
   ],
   templateUrl: './game-info-header.html',
   styleUrl: './game-info-header.css',

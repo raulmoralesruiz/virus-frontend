@@ -1,0 +1,44 @@
+:host {
+  width: 100%;
+}
+
+/* Botón fantasma: acción secundaria, por debajo del «Descartar» y del ámbar de turno. */
+.pass-btn {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-text-on-secondary) 30%, transparent);
+  background: transparent;
+  color: var(--color-text-on-secondary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pass-btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--color-text-on-secondary) 8%, transparent);
+}
+
+.pass-btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.pass-btn:disabled {
+  border-color: color-mix(in srgb, var(--color-text-on-secondary) 15%, transparent);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  :host {
+    width: auto;
+    align-self: flex-end;
+  }
+
+  .pass-btn {
+    width: auto;
+    padding-inline: 1.2rem;
+  }
+}

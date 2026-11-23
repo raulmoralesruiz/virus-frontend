@@ -2,6 +2,9 @@
 <game-emote-tray [roomId]="roomId()"></game-emote-tray>
 
 @if (hand().length) {
+@if (showApparitionHint()) {
+<p class="apparition-hint" role="note">💡 <strong>Aparición:</strong> al jugarla, te llevas la última carta del descarte a tu mano y debes jugarla (o conservarla) en ese mismo turno.</p>
+}
 @if (handAction.selectedCard(); as card) {
 <game-target-select [selectedCard]="card" [targetOptions]="handAction.targetOptions()"
   [contagionAssignments]="handAction.contagionAssignments()" [publicState]="publicState()"
@@ -33,9 +36,11 @@
   (discard)="handDiscard.discard(roomId(), hand())">
 </game-discard-action-button>
 }
+<game-pass-turn-button [isDisabled]="passTurnDisabled()" [label]="passTurnLabel()" (pass)="passTurn()"></game-pass-turn-button>
 } @else {
 <div class="hand-empty">
   <p>Sin cartas</p>
   <p class="hand-empty__hint">Tus cartas llegan en tu próximo turno.</p>
 </div>
+<game-pass-turn-button [isDisabled]="passTurnDisabled()" [label]="passTurnLabel()" (pass)="passTurn()"></game-pass-turn-button>
 }

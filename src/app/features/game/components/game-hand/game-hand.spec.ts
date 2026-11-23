@@ -59,6 +59,86 @@ describe('GameHand', () => {
     });
   });
 
+  describe('passTurn', () => {
+    it('should call endTurn when it is my turn', () => {
+      const endTurnSpy = jest.spyOn((component as any)._gameStore, 'endTurn');
+      fixture.componentRef.setInput('isMyTurn', true);
+      fixture.componentRef.setInput('roomId', 'room-1');
+      component.passTurn();
+      expect(endTurnSpy).toHaveBeenCalledWith('room-1');
+    });
+
+    it('should not call endTurn when it is not my turn', () => {
+      const endTurnSpy = jest.spyOn((component as any)._gameStore, 'endTurn');
+      fixture.componentRef.setInput('isMyTurn', false);
+      component.passTurn();
+      expect(endTurnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not call endTurn when offline', () => {
+      const endTurnSpy = jest.spyOn((component as any)._gameStore, 'endTurn');
+      (socketStub as any).connectionStatus.set('offline');
+      fixture.componentRef.setInput('isMyTurn', true);
+      expect(component.passTurnDisabled()).toBe(true);
+      component.passTurn();
+      expect(endTurnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not call endTurn when a pending Apparition must be resolved', () => {
+      const endTurnSpy = jest.spyOn((component as any)._gameStore, 'endTurn');
+      (component as any)._apiPlayer = { player: () => ({ id: 'p1', name: 'p1' }) };
+      fixture.componentRef.setInput('isMyTurn', true);
+      fixture.componentRef.setInput('publicState', {
+        pendingAction: { type: 'ApparitionDecision', playerId: 'p1', cardId: 'c1' }
+      } as any);
+      expect(component.passTurnDisabled()).toBe(true);
+      component.passTurn();
+      expect(endTurnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should expose the blocking reason in the label', () => {
+      expect(component.passTurnLabel()).toBe('Pasar turno');
+
+      (socketStub as any).connectionStatus.set('offline');
+      expect(component.passTurnLabel()).toBe('Sin conexión');
+
+      (socketStub as any).connectionStatus.set('online');
+      (component as any)._apiPlayer = { player: () => ({ id: 'p1', name: 'p1' }) };
+      fixture.componentRef.setInput('publicState', {
+        pendingAction: { type: 'ApparitionDecision', playerId: 'p1', cardId: 'c1' }
+      } as any);
+      expect(component.passTurnLabel()).toBe('Resuelve la Aparición');
+
+      fixture.componentRef.setInput('publicState', null);
+      fixture.componentRef.setInput('gameEnded', true);
+      expect(component.passTurnLabel()).toBe('Partida terminada');
+    });
+  });
+
+  describe('pista de Aparición', () => {
+    const aparition = { id: 'c1', kind: 'treatment', subtype: 'apparition' };
+
+    it('should show the hint while the Aparition is in hand', () => {
+      fixture.componentRef.setInput('hand', [aparition]);
+      expect(component.hasApparitionCard()).toBe(true);
+      expect(component.showApparitionHint()).toBe(true);
+    });
+
+    it('should hide the hint when the pending decision takes over', () => {
+      (component as any)._apiPlayer = { player: () => ({ id: 'p1', name: 'p1' }) };
+      fixture.componentRef.setInput('hand', [aparition]);
+      fixture.componentRef.setInput('publicState', {
+        pendingAction: { type: 'ApparitionDecision', playerId: 'p1', cardId: 'c1' }
+      } as any);
+      expect(component.showApparitionHint()).toBe(false);
+    });
+
+    it('should hide the hint without an Aparition in hand', () => {
+      fixture.componentRef.setInput('hand', [{ id: 'c2', kind: 'organ', color: 'red' }]);
+      expect(component.showApparitionHint()).toBe(false);
+    });
+  });
+
   describe('boardIds', () => {
     it('should return empty array if publicState is null', () => {
       expect(component.boardIds()).toEqual([]);

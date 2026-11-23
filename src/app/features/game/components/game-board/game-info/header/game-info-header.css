@@ -22,3 +22,11 @@
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
+
+/* Acciones de la cabecera: ayuda («?») + historial, alineadas a la derecha */
+.game-info-header__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

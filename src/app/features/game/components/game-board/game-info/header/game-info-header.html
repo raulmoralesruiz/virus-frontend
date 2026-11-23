@@ -5,4 +5,7 @@
   <game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
 </div>
 
-<game-info-history [historyCount]="historyCount()" (historyRequested)="historyRequested.emit()"></game-info-history>
+<div class="game-info-header__actions">
+  <game-help></game-help>
+  <game-info-history [historyCount]="historyCount()" (historyRequested)="historyRequested.emit()"></game-info-history>
+</div>
