@@ -5,14 +5,30 @@
   gap: 1rem;
 }
 
-/* Zona de toggle (título + descarte): es el único elemento con role="button".
+/* Zona de toggle (título + descarte): un <button> nativo dentro del <h2> de
+   sala — foco, Enter/Espacio y aria-expanded nativos, sin div role="button".
    El botón de historial vive fuera de esta zona, como hermano. */
-.game-info-header__toggle {
+.game-info-header__heading {
   grid-column: span 2;
+  margin: 0;
+  min-width: 0;
+}
+
+.game-info-header__toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
   user-select: none;
   border-radius: 8px;

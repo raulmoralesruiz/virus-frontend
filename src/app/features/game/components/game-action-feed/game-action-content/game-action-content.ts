@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { GameAction } from '../types/game-action.types';
 import { GameActionIdentityComponent } from './identity/game-action-identity.component';
 import { GameActionMessageComponent } from './message/game-action-message.component';
@@ -12,9 +12,4 @@ import { GameActionMessageComponent } from './message/game-action-message.compon
 })
 export class GameActionContentComponent {
   action = input<GameAction | null>(null);
-  dismiss = output<void>();
-
-  onDismiss() {
-    this.dismiss.emit();
-  }
 }

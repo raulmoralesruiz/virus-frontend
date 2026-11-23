@@ -47,24 +47,26 @@ describe('GameActionFeedComponent', () => {
       expect(component.isLeaving()).toBe(false);
   });
 
-  it('should handle dismissal via space/enter keys', () => {
+  it('debe ser un <button> nativo (no un div con role="button")', () => {
       mockFeed.currentAction.set({ id: 'a1' });
       fixture.detectChanges();
 
-      const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-      const preventDefaultSpy = jest.spyOn(enterEvent, 'preventDefault');
+      const feed = fixture.nativeElement.querySelector('.action-feed');
+      expect(feed).toBeTruthy();
+      expect(feed.tagName).toBe('BUTTON');
+      expect(feed.getAttribute('role')).toBeNull();
+      expect(feed.getAttribute('tabindex')).toBeNull();
+      // Un botón no puede anidar otro botón (HTML inválido): la "×" es adorno.
+      expect(feed.querySelector('button')).toBeNull();
+  });
 
-      component.handleKeydown(enterEvent);
-      expect(preventDefaultSpy).toHaveBeenCalled();
-      expect(mockFeed.dismissCurrent).toHaveBeenCalled();
-      
-      const spaceEvent = new KeyboardEvent('keydown', { key: ' ' });
-      component.handleKeydown(spaceEvent);
-      expect(mockFeed.dismissCurrent).toHaveBeenCalledTimes(2);
+  it('should dismiss on click (Enter/Espacio activan el click del button nativo)', () => {
+      mockFeed.currentAction.set({ id: 'a1' });
+      fixture.detectChanges();
 
-      const aEvent = new KeyboardEvent('keydown', { key: 'a' });
-      component.handleKeydown(aEvent);
-      expect(mockFeed.dismissCurrent).toHaveBeenCalledTimes(2); // no change
+      const feed = fixture.nativeElement.querySelector('.action-feed') as HTMLButtonElement;
+      feed.click();
+      expect(mockFeed.dismissCurrent).toHaveBeenCalledTimes(1);
   });
 
   it('should do nothing on dismiss if no action displayed', () => {

@@ -143,6 +143,21 @@ export class SocketService implements OnDestroy {
     this.tryRestorePlayerSession();
   }
 
+  /**
+   * Reintento manual de la conexión (p. ej. botón «Reintentar conexión»):
+   * reanuda la conexión de socket.io sin crear un socket nuevo. Si la red
+   * está viva, el handler de 'connect' restaura la sesión del jugador.
+   * Seguro llamarlo varias veces (socket.io ignora connect() duplicados).
+   */
+  reconnect() {
+    this.probeInFlight = false;
+    if (this.socket) {
+      this.socket.connect();
+    } else {
+      this.connect();
+    }
+  }
+
   emit(event: string, data?: any) {
     if (!this.socket) {
       console.warn(`Socket not connected. Event "${event}" not sent.`);

@@ -4,8 +4,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameWinnerComponent } from './game-winner';
 import { TimerSoundService } from '@core/services/timer-sound.service';
 import { SocketService, ConnectionStatus } from '@core/services/socket/socket.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { CardColor, CardKind } from '@core/models/card.model';
 import { PublicPlayerInfo, OrganOnBoard } from '@core/models/game.model';
+import { Player } from '@core/models/player.model';
 
 class TimerSoundServiceStub {
   playWinner = jest.fn();
@@ -28,7 +30,8 @@ describe('GameWinner', () => {
   let component: GameWinnerComponent;
   let fixture: ComponentFixture<GameWinnerComponent>;
   let timerSound: TimerSoundServiceStub;
-  let socketStub: { connectionStatus: Signal<ConnectionStatus>; on: jest.Mock; off: jest.Mock; emit: jest.Mock };
+  let socketStub: { connectionStatus: Signal<ConnectionStatus>; on: jest.Mock; off: jest.Mock; emit: jest.Mock; reconnect: jest.Mock };
+  let playerStub: { player: Signal<Player | null> };
 
   beforeEach(async () => {
     timerSound = new TimerSoundServiceStub();
@@ -37,13 +40,17 @@ describe('GameWinner', () => {
       on: jest.fn(),
       off: jest.fn(),
       emit: jest.fn(),
+      reconnect: jest.fn(),
     };
+    // Sin sesión local por defecto: la línea de consuelo no se muestra.
+    playerStub = { player: signal<Player | null>(null) };
 
     await TestBed.configureTestingModule({
       imports: [GameWinnerComponent],
       providers: [
         { provide: TimerSoundService, useValue: timerSound },
         { provide: SocketService, useValue: socketStub },
+        { provide: ApiPlayerService, useValue: playerStub },
       ],
     }).compileComponents();
 
@@ -205,6 +212,79 @@ describe('GameWinner', () => {
 
       const resetBtn = fixture.nativeElement.querySelector('.winner-reset') as HTMLButtonElement;
       expect(resetBtn.disabled).toBe(false);
+    });
+  });
+
+  describe('reintentar conexión', () => {
+    it('debe mostrar el botón cuando la conexión no está online', () => {
+      fixture.componentRef.setInput('playerCount', 2);
+      socketStub.connectionStatus.set('offline');
+      fixture.detectChanges();
+
+      const btn = fixture.nativeElement.querySelector('button.winner-reconnect') as HTMLButtonElement;
+      expect(btn).toBeTruthy();
+      expect(btn.type).toBe('button');
+      expect(btn.querySelector('.winner-reconnect__icon')).not.toBeNull();
+      expect(btn.textContent).toContain('Reintentar conexión');
+    });
+
+    it('no debe mostrar el botón cuando la conexión está online', () => {
+      fixture.componentRef.setInput('playerCount', 2);
+      socketStub.connectionStatus.set('online');
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('.winner-reconnect')).toBeNull();
+    });
+
+    it('debe invocar socketService.reconnect() al pulsarse', () => {
+      fixture.componentRef.setInput('playerCount', 2);
+      socketStub.connectionStatus.set('reconnecting');
+      fixture.detectChanges();
+
+      (fixture.nativeElement.querySelector('.winner-reconnect') as HTMLButtonElement).click();
+      expect(socketStub.reconnect).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('línea para el perdedor', () => {
+    it('debe mostrarse si el espectador no es el ganador, con su puesto', () => {
+      fixture.componentRef.setInput('players', [
+        player('p1', 'Alice', [organ(CardColor.Red), organ(CardColor.Green)]),
+        player('p2', 'Bob', [organ(CardColor.Red)]),
+      ]);
+      playerStub.player.set({ id: 'p2', name: 'Bob' });
+      fixture.detectChanges();
+
+      const loser = fixture.nativeElement.querySelector('.winner-loser');
+      expect(loser).toBeTruthy();
+      expect(loser.textContent).toContain('2.º');
+      expect(loser.textContent).toContain('buen intento');
+    });
+    // Nota: la rama sin puesto usa «¡Buen intento!» (mayúscula).
+
+    it('debe mostrarse sin puesto si no aparece en la clasificación', () => {
+      // Sin jugadores: standings vacío → el espectador no tiene puesto.
+      playerStub.player.set({ id: 'espectador', name: 'Eva' });
+      fixture.detectChanges();
+
+      const loser = fixture.nativeElement.querySelector('.winner-loser');
+      expect(loser).toBeTruthy();
+      expect(loser.textContent).toContain('Buen intento');
+      expect(loser.textContent).not.toContain('.º');
+    });
+
+    it('no debe mostrarse si el espectador es el ganador', () => {
+      playerStub.player.set({ id: 'player-1', name: 'Jugador 1' });
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('.winner-loser')).toBeNull();
+    });
+
+    it('no debe mostrarse sin sesión local', () => {
+      playerStub.player.set(null);
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('.winner-loser')).toBeNull();
     });
   });
 

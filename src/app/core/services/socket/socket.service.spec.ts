@@ -276,6 +276,13 @@ describe('SocketService', () => {
           service.disconnect();
           expect(mockSocket.disconnect).toHaveBeenCalled();
       });
+
+      it('should resume the existing socket on manual reconnect (no new io())', () => {
+          const socketsCreated = io.mock.results.length;
+          service.reconnect();
+          expect(mockSocket.connect).toHaveBeenCalledTimes(1);
+          expect(io.mock.results.length).toBe(socketsCreated);
+      });
   });
 
   describe('unconnected edge cases', () => {

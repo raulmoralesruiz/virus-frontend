@@ -39,15 +39,12 @@ export class GameActionFeedComponent {
     });
   }
 
+  /**
+   * Cierra el toast. Es un <button> nativo: click, Enter y Espacio
+   * activan el (click) sin manejadores de teclado a mano.
+   */
   dismiss(): void {
     if (this.display()) this.feed.dismissCurrent();
-  }
-
-  handleKeydown(event: KeyboardEvent): void {
-    if ((event.key === 'Enter' || event.key === ' ') && this.display()) {
-      event.preventDefault();
-      this.dismiss();
-    }
   }
 
   handleTransitionEnd(event: TransitionEvent): void {

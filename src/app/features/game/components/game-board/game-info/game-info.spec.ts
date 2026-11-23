@@ -98,31 +98,22 @@ describe('GameInfoComponent', () => {
            expect(component.leaveRequested.emit).toHaveBeenCalled();
       });
 
-      it('should handle keyboard enter space', () => {
+      it('debe conmutar al pulsar el <button> nativo (Enter/Espacio lo activan solos)', () => {
           mockFeed.currentAction.set(null);
           fixture.detectChanges();
 
-          const header = fixture.debugElement
-            .query(By.directive(GameInfoHeaderComponent))
-            .componentInstance;
+          const toggle = fixture.nativeElement.querySelector('button.game-info-header__toggle') as HTMLButtonElement;
+          expect(toggle.tagName).toBe('BUTTON');
           jest.spyOn(component, 'toggleDetails');
 
-          const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-          header.onToggleKeydown(enterEvent);
-          expect(component.toggleDetails).toHaveBeenCalled();
+          toggle.click();
+          expect(component.toggleDetails).toHaveBeenCalledTimes(1);
 
-          component.showDetails = true;
-          const spaceEvent = new KeyboardEvent('keydown', { key: ' ' });
-          header.onToggleKeydown(spaceEvent);
-          expect(component.showDetails).toBe(false);
-
-          // ignore other keys
-          const aEvent = new KeyboardEvent('keydown', { key: 'a' });
-          header.onToggleKeydown(aEvent);
-          expect(component.showDetails).toBe(false); // not toggled
+          toggle.click();
+          expect(component.toggleDetails).toHaveBeenCalledTimes(2);
       });
 
-      it('should only emit toggleRequested for Enter/Space', () => {
+      it('debe emitir toggleRequested por click sin manejadores de teclado manuales', () => {
           mockFeed.currentAction.set(null);
           fixture.detectChanges();
 
@@ -131,11 +122,12 @@ describe('GameInfoComponent', () => {
             .componentInstance;
           jest.spyOn(header.toggleRequested, 'emit');
 
-          header.onToggleKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
-          header.onToggleKeydown(new KeyboardEvent('keydown', { key: ' ' }));
-          header.onToggleKeydown(new KeyboardEvent('keydown', { key: 'a' }));
+          const toggle = fixture.nativeElement.querySelector('button.game-info-header__toggle') as HTMLButtonElement;
+          toggle.click();
+          toggle.click();
 
           expect(header.toggleRequested.emit).toHaveBeenCalledTimes(2);
+          expect(header).not.toHaveProperty('onToggleKeydown');
       });
   });
 

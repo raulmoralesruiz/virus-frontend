@@ -1,9 +1,11 @@
-<div class="game-info-header__toggle" role="button" tabindex="0" [attr.aria-expanded]="showDetails()"
-  (click)="onToggleClick()" (keydown)="onToggleKeydown($event)">
-  <game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
+<h2 class="game-info-header__heading">
+  <button type="button" class="game-info-header__toggle" [attr.aria-expanded]="showDetails()"
+    aria-controls="game-info-details-panel" (click)="onToggleClick()">
+    <game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
 
-  <game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
-</div>
+    <game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
+  </button>
+</h2>
 
 <div class="game-info-header__actions">
   <game-help></game-help>

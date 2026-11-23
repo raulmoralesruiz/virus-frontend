@@ -35,8 +35,8 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
 
     // --- FLUJO: Abandonar Partida ---
     //
-    // La zona de cabecera (título + descarte) del game-info-header es role="button"
-    // y emite toggleRequested → toggleDetails() (con guard de notificación en el parent).
+    // La zona de cabecera (título + descarte) del game-info-header es un
+    // <button> nativo y emite toggleRequested → toggleDetails() (con guard de notificación en el parent).
     // El panel expandido (game-info--expanded) aparece cuando showDetails=true && !isShowingNotification().
     // El botón leave dentro de game-info-controls emite leaveRequested, que activa showLeave en el store.
     // app-confirm-modal se renderiza dentro de game.component.html con @if(showLeave()).

@@ -1,6 +1,9 @@
 @if (action(); as act) {
-<div class="action-feed" role="button" tabindex="0" (click)="dismiss()" (keydown)="handleKeydown($event)"
+<!-- El toast completo es el control: un <button> nativo (Enter/Espacio/click
+     lo cierran) en lugar de un div role="button". Un botón no puede anidar
+     otro botón (HTML inválido), así que la "×" es solo adorno visual. -->
+<button type="button" class="action-feed" (click)="dismiss()"
   [class.is-visible]="isVisible()" [class.is-leaving]="isLeaving()" (transitionend)="handleTransitionEnd($event)">
-  <game-action-content [action]="act" (dismiss)="dismiss()"></game-action-content>
-</div>
+  <game-action-content [action]="act"></game-action-content>
+</button>
 }

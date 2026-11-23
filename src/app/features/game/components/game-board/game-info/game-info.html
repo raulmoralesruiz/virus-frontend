@@ -9,7 +9,7 @@
   (toggleRequested)="toggleDetails()" (historyRequested)="requestHistory()"></game-info-header>
 
 @if (showDetails) {
-<game-info-details [state]="state()" [gameDuration]="gameDuration()" [isMuted]="isMuted()" [isDarkTheme]="isDarkTheme()"
+<game-info-details id="game-info-details-panel" [state]="state()" [gameDuration]="gameDuration()" [isMuted]="isMuted()" [isDarkTheme]="isDarkTheme()"
   [isFullscreenActive]="isFullscreenActive()" (leaveRequested)="requestLeave()" (muteToggled)="toggleMute()"
   (themeToggled)="toggleTheme()" (fullscreenToggled)="toggleFullscreen()"></game-info-details>
 }

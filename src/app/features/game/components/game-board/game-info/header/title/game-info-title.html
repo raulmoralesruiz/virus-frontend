@@ -1,6 +1,8 @@
-<h2 class="title">
+<!-- El <h2> real vive en game-info-header (que envuelve este título y el
+     toggle como <button> nativo); aquí solo markup de presentación. -->
+<span class="title">
   <span class="room-id">#{{ roomId().toUpperCase() }}</span>
   <span class="details-toggle-icon" aria-hidden="true">
     {{ showDetails() ? "▲" : "▼" }}
   </span>
-</h2>
+</span>

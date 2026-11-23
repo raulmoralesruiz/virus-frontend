@@ -5,6 +5,7 @@ import { CardKind } from '@core/models/card.model';
 import { isInfected } from '@core/utils/organ.utils';
 import { TimerSoundService } from '@core/services/timer-sound.service';
 import { SocketService } from '@core/services/socket/socket.service';
+import { ApiPlayerService } from '@core/services/api/api.player.service';
 import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
 import { EmoteTrayComponent } from '@features/game/components/game-hand/components/emote-tray/emote-tray.component';
 
@@ -25,6 +26,7 @@ export interface FinalStanding {
 export class GameWinnerComponent {
   private readonly timerSoundService = inject(TimerSoundService);
   private readonly socketService = inject(SocketService);
+  private readonly apiPlayer = inject(ApiPlayerService);
 
   winner = input<{ player: PublicPlayerInfo['player'] } | null>(null);
   /** Sala actual: necesaria para que el tray de reacciones pueda enviar el emote. */
@@ -42,6 +44,21 @@ export class GameWinnerComponent {
 
   /** true mientras la conexión no está establecida (deshabilita "Jugar de nuevo"). */
   readonly offline = computed(() => this.socketService.connectionStatus() !== 'online');
+
+  /** id del jugador que ve la modal (null si no hay sesión local). */
+  readonly myId = computed<string | null>(() => this.apiPlayer.player()?.id ?? null);
+
+  /** true si el espectador no es el ganador: le mostramos una línea de consuelo. */
+  readonly amLoser = computed(() => {
+    const me = this.myId();
+    const winnerId = this.winner()?.player?.id;
+    return !!me && !!winnerId && me !== winnerId;
+  });
+
+  /** Puesto final del espectador en la clasificación (null si no está en ella). */
+  readonly myRank = computed<number | null>(() =>
+    this.standings().find((s) => s.player.id === this.myId())?.rank ?? null,
+  );
 
   constructor() {
     effect(() => {
@@ -91,6 +108,11 @@ export class GameWinnerComponent {
 
   onReset() {
     this.reset.emit();
+  }
+
+  /** Reintento manual de la conexión desde la nota offline. */
+  onReconnect() {
+    this.socketService.reconnect();
   }
 
   onLeave() {

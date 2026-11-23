@@ -1,7 +1,9 @@
 <game-action-identity [actor]="action()?.actor"></game-action-identity>
 
-<button type="button" class="action-feed__close" aria-label="Cerrar notificación" (click)="onDismiss()">
+<!-- Adorno "×" (aria-hidden): el control real de cierre es el <button>
+     padre (el toast completo), que no puede anidar otro <button>. -->
+<span class="action-feed__close" aria-hidden="true">
   <span>x</span>
-</button>
+</span>
 
 <game-action-message [action]="action()"></game-action-message>

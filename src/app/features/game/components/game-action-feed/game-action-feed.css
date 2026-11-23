@@ -4,6 +4,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* El toast es un <button> nativo: reset de los estilos UA de button
+   (borde, padding, fuente, alineación, appearance). */
 .action-feed {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -11,11 +13,17 @@
   align-items: center;
   gap: 0.5rem 0.75rem;
   padding: 0.5rem 0.75rem;
+  margin: 0;
+  border: none;
   border-radius: 8px;
   background: var(--section-feed-background);
   background-image: var(--color-feed-overlay-bg);
   backdrop-filter: blur(10px);
   color: var(--color-text-primary);
+  font: inherit;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
   width: 100%;
   max-width: 100%;
   opacity: 0;
