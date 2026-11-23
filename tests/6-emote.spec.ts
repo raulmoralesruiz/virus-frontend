@@ -60,10 +60,19 @@ test.describe('Test 6: Reacciones (emotes)', () => {
       await expect(page1.locator('game-board')).toBeVisible({ timeout: 10_000 });
       await page1.waitForTimeout(2_000); // estabiliza el estado inicial
 
-      // --- FLUJO: Alice pulsa el emote 🔥 (2º botón del tray) ---
+      // --- FLUJO: Alice abre la bandeja y pulsa el emote 🔥 (2º botón) ---
+      // La bandeja nace colapsada: los 6 botones no están en el DOM hasta pulsar el trigger.
+      await expect(page1.locator('.emote-tray__btn')).toHaveCount(0);
+      const trayTrigger = page1.locator('.emote-tray__trigger');
+      await expect(trayTrigger).toBeVisible({ timeout: 5_000 });
+      await trayTrigger.click();
+      await expect(page1.locator('.emote-tray__btn')).toHaveCount(6);
+
       const fireBtn = page1.locator('.emote-tray__btn').nth(1);
-      await expect(fireBtn).toBeVisible({ timeout: 5_000 });
       await fireBtn.click();
+
+      // Autoclose: enviado el emote, el panel vuelve a pliegarse.
+      await expect(page1.locator('.emote-tray__btn')).toHaveCount(0);
 
       // 1) Bob ve la burbuja 🔥 SOBRE EL TABLERO DE ALICE (la remitente).
       const aliceBoardOnBobPage = page2.locator('player-board', { hasText: 'Alice' }).first();

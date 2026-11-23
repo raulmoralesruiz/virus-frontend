@@ -6,6 +6,7 @@ import { EMOTES } from '@core/constants/emote.constants';
 describe('EmoteTrayComponent', () => {
   let component: EmoteTrayComponent;
   let fixture: ComponentFixture<EmoteTrayComponent>;
+  let host: HTMLElement;
   let gameStoreMock: { sendEmote: jest.Mock };
 
   beforeEach(async () => {
@@ -19,27 +20,106 @@ describe('EmoteTrayComponent', () => {
     fixture = TestBed.createComponent(EmoteTrayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    host = fixture.nativeElement as HTMLElement;
   });
 
-  it('should render one button per whitelisted emote', () => {
-    const buttons = fixture.nativeElement.querySelectorAll('.emote-tray__btn');
+  const trigger = () => host.querySelector<HTMLButtonElement>('.emote-tray__trigger')!;
+  const emoteButtons = () =>
+    Array.from(host.querySelectorAll<HTMLButtonElement>('.emote-tray__btn'));
+  const openTray = () => {
+    trigger().click();
+    fixture.detectChanges();
+  };
+
+  it('starts collapsed: no emote buttons in the tree', () => {
+    expect(emoteButtons()).toHaveLength(0);
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('opens the panel with one button per whitelisted emote', () => {
+    openTray();
+
+    expect(trigger().getAttribute('aria-expanded')).toBe('true');
+    const buttons = emoteButtons();
     expect(buttons).toHaveLength(EMOTES.length);
     expect(buttons[0].textContent).toContain('👍');
   });
 
-  it('should emit sendEmote(roomId, emote) on click', () => {
-    fixture.componentRef.setInput('roomId', 'r1');
-    const buttons = fixture.nativeElement.querySelectorAll('.emote-tray__btn');
-    (buttons[1] as HTMLButtonElement).click(); // 🔥
+  it('closes the panel when the trigger is clicked again', () => {
+    openTray();
 
-    expect(gameStoreMock.sendEmote).toHaveBeenCalledWith('r1', '🔥');
+    trigger().click();
+    fixture.detectChanges();
+
+    expect(emoteButtons()).toHaveLength(0);
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('should not send anything when roomId is missing', () => {
+  it('sends the emote, autocloses the panel and returns focus to the trigger', () => {
+    fixture.componentRef.setInput('roomId', 'r1');
+    openTray();
+    const fire = emoteButtons()[1]; // 🔥
+    fire.focus();
+    fire.click();
+    fixture.detectChanges();
+
+    expect(gameStoreMock.sendEmote).toHaveBeenCalledTimes(1);
+    expect(gameStoreMock.sendEmote).toHaveBeenCalledWith('r1', '🔥');
+    expect(emoteButtons()).toHaveLength(0);
+    expect(document.activeElement).toBe(trigger());
+  });
+
+  it('does not send anything when roomId is missing, but still closes', () => {
     fixture.componentRef.setInput('roomId', null);
-    const buttons = fixture.nativeElement.querySelectorAll('.emote-tray__btn');
-    (buttons[0] as HTMLButtonElement).click();
+    openTray();
+
+    emoteButtons()[0].click();
+    fixture.detectChanges();
 
     expect(gameStoreMock.sendEmote).not.toHaveBeenCalled();
+    expect(emoteButtons()).toHaveLength(0);
+  });
+
+  it('closes the panel with Escape and returns focus to the trigger', () => {
+    fixture.componentRef.setInput('roomId', 'r1');
+    openTray();
+    const first = emoteButtons()[0];
+    first.focus();
+    first.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+
+    expect(emoteButtons()).toHaveLength(0);
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(trigger());
+  });
+
+  it('lets Escape bubble when collapsed (no interference with parent dialogs)', () => {
+    const handler = jest.fn((event: Event) => event.stopPropagation());
+    document.addEventListener('keydown', handler);
+    try {
+      trigger().focus();
+      trigger().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    } finally {
+      document.removeEventListener('keydown', handler);
+    }
+
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it('closes the panel on an outside click and does not steal focus', () => {
+    openTray();
+    const other = document.createElement('button');
+    document.body.appendChild(other);
+    try {
+      other.focus();
+      other.click();
+      fixture.detectChanges();
+
+      expect(emoteButtons()).toHaveLength(0);
+      expect(trigger().getAttribute('aria-expanded')).toBe('false');
+      expect(document.activeElement).toBe(other);
+    } finally {
+      other.remove();
+    }
   });
 });

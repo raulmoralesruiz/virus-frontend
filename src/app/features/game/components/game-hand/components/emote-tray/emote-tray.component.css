@@ -5,6 +5,54 @@
   justify-content: center;
 }
 
+/* Trigger colapsado: pastilla fantasma, del mismo lenguaje que la fila de acciones. */
+.emote-tray__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.emote-tray__trigger:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.emote-tray__trigger[aria-expanded='true'] {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  border-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.emote-tray__trigger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Panel expandido: entrada breve; sin animación si el usuario prefiere movimiento reducido. */
+.emote-tray__panel {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  animation: emote-tray-in 120ms ease-out;
+}
+
+@keyframes emote-tray-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
 .emote-tray__btn {
   width: 2rem;
   height: 2rem;
@@ -33,4 +81,19 @@
 .emote-tray__btn:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emote-tray__trigger,
+  .emote-tray__btn {
+    transition: none;
+  }
+
+  .emote-tray__btn:hover {
+    transform: none;
+  }
+
+  .emote-tray__panel {
+    animation: none;
+  }
 }

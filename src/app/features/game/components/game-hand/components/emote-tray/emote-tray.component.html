@@ -1,6 +1,21 @@
-<div class="emote-tray" role="toolbar" aria-label="Reacciones">
-  @for (e of emotes; track e) {
-  <button type="button" class="emote-tray__btn" [attr.aria-label]="'Reacción: ' + e" title="{{ e }}"
-    (click)="send(e)">{{ e }}</button>
+<div class="emote-tray">
+  <button
+    type="button"
+    class="emote-tray__trigger"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? panelId : null"
+    (click)="toggle()"
+  >
+    <span aria-hidden="true">💬</span>
+    Reaccionar
+  </button>
+
+  @if (open()) {
+  <div class="emote-tray__panel" [id]="panelId" role="toolbar" aria-label="Reacciones">
+    @for (e of emotes; track e) {
+    <button type="button" class="emote-tray__btn" [attr.aria-label]="'Reacción: ' + e" title="{{ e }}"
+      (click)="send(e)">{{ e }}</button>
+    }
+  </div>
   }
 </div>
