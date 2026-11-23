@@ -9,8 +9,8 @@
   } @else {
   <app-hand-card [card]="card" [isSelected]="selectedIndices().has(i)" [isMyTurn]="isMyTurn()"
     [infoOpen]="selectedPlayingCardId() === card.id"
-    [isDisabled]="offline() || (mustPlayCardId() !== null && mustPlayCardId() !== card.id)"
-    [disabledLabel]="offline() ? 'Sin conexión' : mustPlayCardId() !== null ? 'Carta obligatoria' : 'No disponible'"
+    [isDisabled]="isCardDisabled(card)"
+    [disabledLabel]="cardDisabledLabel(card)"
     [isPlaying]="selectedPlayingCardId() === card.id" [style.animation-delay]="staggerDelay(card.id)"
     (toggleSelect)="toggleSelect.emit(i)" (play)="play.emit(card)">
   </app-hand-card>

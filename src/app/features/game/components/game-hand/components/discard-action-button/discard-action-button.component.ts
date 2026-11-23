@@ -10,5 +10,7 @@ export class DiscardActionButtonComponent {
   selectedCount = input.required<number>();
   isMyTurn = input(false);
   gameEnded = input(false);
+  /** true mientras se elige objetivo: el descarte queda fuera del modo de juego. */
+  isTargeting = input(false);
   discard = output<void>();
 }

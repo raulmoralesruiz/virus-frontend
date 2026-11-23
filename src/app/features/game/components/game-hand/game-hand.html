@@ -22,13 +22,15 @@
 
 <game-hand-list [hand]="hand()" [isMyTurn]="isMyTurn()" [playerId]="apiPlayer.player()?.id" [connectedTo]="boardIds()"
   [selectedIndices]="handDiscard.selectedIndices()" [selectedPlayingCardId]="handAction.selectedCard()?.id"
-  [mustPlayCardId]="mustPlayCardId()" [offline]="offline()" (toggleSelect)="handDiscard.toggleSelection($event, isMyTurn())"
+  [mustPlayCardId]="mustPlayCardId()" [offline]="offline()" [isTargeting]="!!handAction.selectedCard()"
+  (toggleSelect)="handDiscard.toggleSelection($event, isMyTurn())"
   (play)="handAction.selectCard($event, publicState())">
 </game-hand-list>
 
 @if (handDiscard.selectedDiscardCount()) {
 <game-discard-action-button [selectedCount]="handDiscard.selectedDiscardCount()" [isMyTurn]="isMyTurn()"
-  [gameEnded]="gameEnded()" (discard)="handDiscard.discard(roomId(), hand())">
+  [gameEnded]="gameEnded()" [isTargeting]="!!handAction.selectedCard()"
+  (discard)="handDiscard.discard(roomId(), hand())">
 </game-discard-action-button>
 }
 } @else {

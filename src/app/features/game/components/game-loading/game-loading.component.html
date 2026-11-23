@@ -1,0 +1,22 @@
+<div class="game-loading">
+  <app-theme-toggle class="game-loading__theme-toggle" />
+
+  @if (timedOut()) {
+  <h2>No se ha cargado la partida</h2>
+  <p>
+    No hemos recibido la partida en el tiempo esperado.
+    Comprueba tu conexión e inténtalo de nuevo.
+  </p>
+  <div class="game-loading__actions">
+    <button class="cta-button" (click)="retry()">Reintentar</button>
+    <button class="ghost-button" (click)="goHome()">Volver a las salas</button>
+  </div>
+  } @else {
+  <h2>Cargando la partida…</h2>
+  <p>
+    Un momento: estamos repartiendo cartas y preparando los tableros.
+    Si tardamos demasiado, puedes volver a la lista de salas.
+  </p>
+  <button class="cta-button" (click)="goHome()">Volver a las salas</button>
+  }
+</div>

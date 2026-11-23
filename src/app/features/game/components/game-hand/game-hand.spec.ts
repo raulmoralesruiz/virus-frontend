@@ -248,4 +248,23 @@ describe('GameHand', () => {
       expect((fixture.nativeElement.querySelector('.play-btn') as HTMLButtonElement).disabled).toBe(false);
     });
   });
+
+  describe('mano vacía (estado defensivo)', () => {
+    it('debe mostrar "Sin cartas" con pista cuando la mano está vacía', () => {
+      fixture.componentRef.setInput('hand', [] as any);
+      fixture.detectChanges();
+      const empty = fixture.nativeElement.querySelector('.hand-empty') as HTMLElement;
+      expect(empty).toBeTruthy();
+      expect((fixture.nativeElement.querySelector('.hand-empty p') as HTMLElement).textContent.trim()).toBe('Sin cartas');
+      expect((fixture.nativeElement.querySelector('.hand-empty__hint') as HTMLElement).textContent).toContain('próximo turno');
+      expect(fixture.nativeElement.querySelector('app-hand-card')).toBeFalsy();
+    });
+
+    it('debe ocultar el estado cuando la mano tiene cartas', () => {
+      fixture.componentRef.setInput('hand', [{ id: 'c1', kind: 'organ', color: 'red' }] as any);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.hand-empty')).toBeFalsy();
+      expect(fixture.nativeElement.querySelector('app-hand-card')).toBeTruthy();
+    });
+  });
 });

@@ -134,6 +134,15 @@ export class SocketService implements OnDestroy {
     }
   }
 
+  /**
+   * Re-sincroniza la sesión del jugador con el servidor (re-emit
+   * PLAYER_RECONNECT). Si la conexión está caída, socket.io reintenta en
+   * segundo plano y el 'connect' restaurará la sesión automáticamente.
+   */
+  restorePlayerSession() {
+    this.tryRestorePlayerSession();
+  }
+
   emit(event: string, data?: any) {
     if (!this.socket) {
       console.warn(`Socket not connected. Event "${event}" not sent.`);

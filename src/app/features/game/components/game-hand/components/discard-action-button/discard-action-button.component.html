@@ -1,4 +1,4 @@
 <button class="discard-btn" [class.is-active-turn]="isMyTurn()" (click)="discard.emit()"
-  [disabled]="!isMyTurn() || !selectedCount() || gameEnded()">
+  [disabled]="!isMyTurn() || !selectedCount() || gameEnded() || isTargeting()">
   Descartar seleccionadas ({{ selectedCount() }})
 </button>

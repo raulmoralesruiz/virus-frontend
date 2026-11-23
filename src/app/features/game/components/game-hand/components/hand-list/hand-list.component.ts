@@ -25,6 +25,8 @@ export class HandListComponent {
   mustPlayCardId = input<string | null>(null);
   /** true mientras la conexión no está establecida: deshabilita botones y drag. */
   offline = input(false);
+  /** true mientras hay una carta en curso de objetivo: el resto de la mano queda inerte. */
+  isTargeting = input(false);
 
   exitHand = output<any>();
   toggleSelect = output<number>();
@@ -76,5 +78,24 @@ export class HandListComponent {
   staggerDelay(id: string): string | null {
     const ms = this._stagger.get(id);
     return ms ? `${ms}ms` : null;
+  }
+
+  /**
+   * ¿La carta está inerte? Descarte (carta obligatoria), sin conexión o,
+   * mientras se elige objetivo, cualquier carta que no sea la seleccionada.
+   */
+  isCardDisabled(card: Card): boolean {
+    if (this.offline()) return true;
+    if (this.mustPlayCardId() !== null && this.mustPlayCardId() !== card.id) return true;
+    if (this.isTargeting() && this.selectedPlayingCardId() !== card.id) return true;
+    return false;
+  }
+
+  /** Verbo visible en la carta inerte (evita el "No disponible" genérico). */
+  cardDisabledLabel(card: Card): string {
+    if (this.offline()) return 'Sin conexión';
+    if (this.isTargeting() && this.selectedPlayingCardId() !== card.id) return 'Elige objetivo';
+    if (this.mustPlayCardId() !== null) return 'Carta obligatoria';
+    return 'No disponible';
   }
 }

@@ -47,7 +47,7 @@ game-hand {
   justify-content: center;
 }
 
-.game-layout--empty game-empty {
+.game-layout--empty game-loading {
   flex: 1 1 auto;
   min-height: 100%;
 }
