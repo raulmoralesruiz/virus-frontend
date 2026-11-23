@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { GameInfoComponent } from './game-info';
+import { GameInfoHeaderComponent } from './header/game-info-header';
 import { TimerSoundService } from '@core/services/timer-sound.service';
 import { ThemeService } from '@core/services/theme.service';
 import { GameActionFeedService } from '../../game-action-feed/services/game-action-feed.service';
@@ -33,6 +35,9 @@ describe('GameInfoComponent', () => {
     fixture = TestBed.createComponent(GameInfoComponent);
     component = fixture.componentInstance;
     jest.clearAllMocks();
+    // Reset shared mocks so tests don't leak state into each other.
+    mockFeed.currentAction.set(null);
+    component.showDetails = false;
   });
 
   it('should create', () => {
@@ -96,30 +101,41 @@ describe('GameInfoComponent', () => {
       it('should handle keyboard enter space', () => {
           mockFeed.currentAction.set(null);
           fixture.detectChanges();
+
+          const header = fixture.debugElement
+            .query(By.directive(GameInfoHeaderComponent))
+            .componentInstance;
           jest.spyOn(component, 'toggleDetails');
-          
+
           const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-          component.onKeyDown(enterEvent);
+          header.onToggleKeydown(enterEvent);
           expect(component.toggleDetails).toHaveBeenCalled();
 
           component.showDetails = true;
           const spaceEvent = new KeyboardEvent('keydown', { key: ' ' });
-          component.onKeyDown(spaceEvent);
+          header.onToggleKeydown(spaceEvent);
           expect(component.showDetails).toBe(false);
 
           // ignore other keys
           const aEvent = new KeyboardEvent('keydown', { key: 'a' });
-          component.onKeyDown(aEvent);
+          header.onToggleKeydown(aEvent);
           expect(component.showDetails).toBe(false); // not toggled
       });
 
-      it('should handle keyboard early exit if notification', () => {
-          mockFeed.currentAction.set({ id: 'a1' });
+      it('should only emit toggleRequested for Enter/Space', () => {
+          mockFeed.currentAction.set(null);
           fixture.detectChanges();
-          jest.spyOn(component, 'toggleDetails');
-          const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-          component.onKeyDown(enterEvent);
-          expect(component.toggleDetails).not.toHaveBeenCalled();
+
+          const header = fixture.debugElement
+            .query(By.directive(GameInfoHeaderComponent))
+            .componentInstance;
+          jest.spyOn(header.toggleRequested, 'emit');
+
+          header.onToggleKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
+          header.onToggleKeydown(new KeyboardEvent('keydown', { key: ' ' }));
+          header.onToggleKeydown(new KeyboardEvent('keydown', { key: 'a' }));
+
+          expect(header.toggleRequested.emit).toHaveBeenCalledTimes(2);
       });
   });
 

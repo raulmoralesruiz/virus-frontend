@@ -22,6 +22,12 @@ export class PlayerTargetStrategy implements CardActionStrategy {
     return !!currentSelection.selectedTarget;
   }
 
+  whyBlocked(currentSelection: { selectedTarget: PlayCardTarget | null }): string | null {
+    return currentSelection.selectedTarget
+      ? null
+      : 'Falta el objetivo: elige a un jugador antes de jugar.';
+  }
+
   getPlayPayload(currentSelection: { selectedTarget: PlayCardTarget }): any {
     return { playerId: currentSelection.selectedTarget.playerId };
   }

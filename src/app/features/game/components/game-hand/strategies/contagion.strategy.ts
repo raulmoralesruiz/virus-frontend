@@ -23,6 +23,18 @@ export class ContagionStrategy implements CardActionStrategy {
       );
   }
 
+  whyBlocked(currentSelection: { contagionAssignments: any[] }): string | null {
+    const assignments = currentSelection.contagionAssignments ?? [];
+    if (assignments.length === 0) {
+      return 'Faltan objetivos: no hay virus de tu cuerpo que asignar ahora mismo.';
+    }
+    // Refleja canPlay: basta una asignación completa para poder jugar.
+    if (assignments.some((assignment) => assignment.toOrganId && assignment.toPlayerId)) {
+      return null;
+    }
+    return 'Faltan objetivos: asigna cada virus sin destino a un órgano libre de otro jugador.';
+  }
+
   getPlayPayload(currentSelection: { contagionAssignments: any[] }): any {
     return currentSelection.contagionAssignments.filter(
         (assignment) => assignment.toOrganId && assignment.toPlayerId

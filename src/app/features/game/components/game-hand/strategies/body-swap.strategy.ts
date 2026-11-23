@@ -12,6 +12,12 @@ export class BodySwapStrategy implements CardActionStrategy {
     return !!currentSelection.selectedDirection;
   }
 
+  whyBlocked(currentSelection: { selectedDirection: 'clockwise' | 'counter-clockwise' | null }): string | null {
+    return currentSelection.selectedDirection
+      ? null
+      : 'Falta la dirección: elige el sentido en que rotarán los cuerpos.';
+  }
+
   getPlayPayload(currentSelection: { selectedDirection: 'clockwise' | 'counter-clockwise' }): any {
     return { direction: currentSelection.selectedDirection };
   }

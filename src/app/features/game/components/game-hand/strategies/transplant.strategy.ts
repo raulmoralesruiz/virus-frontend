@@ -29,6 +29,19 @@ export class TransplantStrategy implements CardActionStrategy {
       );
   }
 
+  whyBlocked(currentSelection: { selectedTargetA: PlayCardTarget | null, selectedTargetB: PlayCardTarget | null }): string | null {
+    if (!currentSelection.selectedTargetA) {
+      return 'Falta el Órgano A: elige el primer órgano a intercambiar.';
+    }
+    if (!currentSelection.selectedTargetB) {
+      return 'Falta el Órgano B: elige un segundo órgano para el intercambio.';
+    }
+    if (currentSelection.selectedTargetA.organId === currentSelection.selectedTargetB.organId) {
+      return 'Faltan dos órganos distintos: elige un segundo órgano diferente del primero.';
+    }
+    return null;
+  }
+
   getPlayPayload(currentSelection: { selectedTargetA: PlayCardTarget, selectedTargetB: PlayCardTarget }): any {
     return { a: currentSelection.selectedTargetA, b: currentSelection.selectedTargetB };
   }

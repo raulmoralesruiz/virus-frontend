@@ -15,6 +15,7 @@ import { PlayerBoardGridComponent } from './components/player-board-grid/player-
 export class PlayerBoardSlotsComponent {
   player = input.required<PublicPlayerInfo>();
   isMe = input(false);
+  isActive = input(false);
   allSlotIds = input.required<string[]>();
   roomId = input.required<string>();
   gameState = input.required<PublicGameState>();

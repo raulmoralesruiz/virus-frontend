@@ -5,8 +5,8 @@
 }
 @else {
 <game-info-header [roomId]="shortRoomId" [showDetails]="showDetails" [historyCount]="historyCount()"
-  [topDiscard]="state().topDiscard" [discardCount]="state().discardCount"
-  (historyRequested)="requestHistory()"></game-info-header>
+  [topDiscard]="state()?.topDiscard" [discardCount]="state()?.discardCount ?? 0"
+  (toggleRequested)="toggleDetails()" (historyRequested)="requestHistory()"></game-info-header>
 
 @if (showDetails) {
 <game-info-details [state]="state()" [gameDuration]="gameDuration()" [isMuted]="isMuted()" [isDarkTheme]="isDarkTheme()"

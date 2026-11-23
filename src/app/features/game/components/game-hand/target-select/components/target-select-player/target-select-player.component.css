@@ -70,7 +70,7 @@
 .target-select__field select {
   width: 100%;
   padding: 0.55rem 0.75rem;
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--color-surface-soft);
   color: var(--color-text-primary);
   font-size: 0.95rem;

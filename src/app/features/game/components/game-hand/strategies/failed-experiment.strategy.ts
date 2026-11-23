@@ -26,6 +26,18 @@ export class FailedExperimentStrategy implements CardActionStrategy {
     return !!currentSelection.selectedTarget && !!currentSelection.selectedActionForFailedExperiment;
   }
 
+  whyBlocked(currentSelection: { selectedTarget: PlayCardTarget | null, selectedActionForFailedExperiment: 'medicine' | 'virus' | null }): string | null {
+    const faltas: string[] = [];
+    if (!currentSelection.selectedTarget) {
+      faltas.push('elige un órgano infectado o vacunado');
+    }
+    if (!currentSelection.selectedActionForFailedExperiment) {
+      faltas.push('decide si funciona como Medicina o como Virus');
+    }
+    if (faltas.length === 0) return null;
+    return `Falta: ${faltas.join(' y ')}.`;
+  }
+
   getPlayPayload(currentSelection: { selectedTarget: PlayCardTarget, selectedActionForFailedExperiment: 'medicine' | 'virus' }): any {
     return {
         ...currentSelection.selectedTarget,

@@ -1,14 +1,39 @@
 :host {
   display: block;
   width: 100%;
-  padding: 0.5rem;
+}
+
+/* Misma geometría que player-board-grid (4 columnas × 1 fila de
+   --board-slot-height): el tablero vacío mide exactamente lo que el
+   lleno, sin salto de layout cuando llega el primer órgano. */
+.board-empty__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(var(--board-slot-min-width, 40px), 1fr));
+  grid-auto-rows: var(--board-slot-height, 132px);
+  gap: var(--board-slot-gap, 0.35rem);
+}
+
+/* Hueco "por repartir": misma forma que el slot lleno, en fantasma.
+   Borde discontinuo = "todavía no hay nada aquí". */
+.board-empty__slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed color-mix(in srgb, var(--color-text-on-secondary) 45%, transparent);
   border-radius: 8px;
-  color: var(--color-text-secondary);
-  background-image: repeating-linear-gradient(-45deg,
-      var(--color-slot-stripe),
-      var(--color-slot-stripe) 10px,
-      transparent 10px,
-      transparent 16px);
-  text-align: center;
-  font-weight: 500;
+}
+
+.board-empty__icon {
+  --icon-size: 1.25rem;
+  opacity: 0.5;
+}
+
+/* Jugador activo: borde sólido y iconos más presentes, para que su
+   tablero vacío sea el punto de mira. */
+:host(.is-active) .board-empty__slot {
+  border-style: solid;
+}
+
+:host(.is-active) .board-empty__icon {
+  opacity: 0.75;
 }

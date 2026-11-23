@@ -94,6 +94,20 @@
   background: var(--color-primary-glass-hover);
 }
 
+.winner-reset:disabled {
+  background: var(--color-muted-button-bg);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.winner-reset__offline {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
 .winner-leave {
   padding: 0.65rem 1.5rem;
   border-radius: 9999px;
@@ -140,7 +154,7 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.5rem 0.75rem;
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--color-muted-button-bg);
 }
 
@@ -155,7 +169,7 @@
 
 .winner-standing__stats {
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-secondary);
 }
 
@@ -195,6 +209,6 @@
     width: 100%;
     min-height: 48px;
     justify-content: center;
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 }

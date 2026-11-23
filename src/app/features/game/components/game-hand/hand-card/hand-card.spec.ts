@@ -133,7 +133,10 @@ describe('HandCard', () => {
       expect(component.actionLabel()).toBe('Jugar');
       
       fixture.componentRef.setInput('isDisabled', true);
-      expect(component.actionLabel()).toBe('...');
+      expect(component.actionLabel()).toBe('No disponible');
+
+      fixture.componentRef.setInput('disabledLabel', 'Sin conexión');
+      expect(component.actionLabel()).toBe('Sin conexión');
     });
   });
 });

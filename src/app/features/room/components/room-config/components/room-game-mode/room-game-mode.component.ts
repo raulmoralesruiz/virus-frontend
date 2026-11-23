@@ -17,8 +17,8 @@ export class RoomGameModeComponent {
   canEditConfig = input.required<boolean>();
 
   readonly gameModeOptions: { value: RoomGameMode; label: string }[] = [
-    { value: 'base', label: 'Virus!' },
-    { value: 'halloween', label: 'Halloween' },
+    { value: 'base', label: 'Clásico' },
+    { value: 'halloween', label: 'Expansión Halloween' },
   ];
 
   getRoomConfig() {

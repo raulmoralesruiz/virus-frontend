@@ -48,6 +48,9 @@
           </svg>
           <span>Jugar de nuevo</span>
         </button>
+        @if (offline()) {
+        <p class="winner-reset__offline" role="status">Estás sin conexión: vuelve a conectarte para reiniciar la partida.</p>
+        }
         }
         <button type="button" class="winner-leave" (click)="onLeave()">
           <svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" class="winner-leave__icon">

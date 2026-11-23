@@ -23,7 +23,7 @@ li {
 
 .room-info span {
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .room-info__visibility {

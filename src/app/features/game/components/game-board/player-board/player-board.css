@@ -40,13 +40,18 @@
   --turn-pulse-halo: rgb(251 191 36 / 0.3);
 }
 
+/* Shimmer: la banda de luz barre el tablero animando background-position
+   (se pinta DENTRO del box del ::after, no desborda), así el host NO
+   necesita overflow: hidden — y el overlay de emotes (game-emote-bubbles)
+   puede flotar más allá del borde superior sin recortarse.
+   Ángulo 105° ≈ la antigua banda de 90° + skewX(-15°). */
 @keyframes shimmer {
   0% {
-    transform: translateX(-150%) skewX(-15deg);
+    background-position: 100% 0;
   }
 
   100% {
-    transform: translateX(150%) skewX(-15deg);
+    background-position: 0% 0;
   }
 }
 
@@ -75,7 +80,8 @@
 :host.is-active {
   background: var(--color-player-active-background);
   position: relative;
-  overflow: hidden;
+  /* SIN overflow: hidden: el shimmer ya no desborda (background-position) y
+     las burbujas de emote flotan sobre el borde superior del tablero. */
   animation: turnPulse 1.1s ease-out;
 }
 
@@ -98,6 +104,10 @@
   :host.is-active {
     animation: none;
   }
+
+  :host.is-active::after {
+    animation: none;
+  }
 }
 
 :host.is-me.is-active {
@@ -107,15 +117,16 @@
 :host.is-active::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(105deg,
       transparent,
       var(--color-shimmer-light),
       transparent);
-  transform: translateX(-150%) skewX(-15deg);
+  /* La banda (centro del gradiente) barre de -100% a +100% del ancho:
+     con background-size 300% queda siempre dentro del box del tablero. */
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
   pointer-events: none;
   animation: shimmer 2s infinite;
 }

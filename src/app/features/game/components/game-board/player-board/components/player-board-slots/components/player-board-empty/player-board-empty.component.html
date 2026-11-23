@@ -1,1 +1,8 @@
-Tablero de {{ player().player.name | titlecase }}
+<div class="board-empty__grid" aria-hidden="true">
+  @for (slot of slots; track slot) {
+  <div class="board-empty__slot">
+    <card-icon class="board-empty__icon" [name]="'organ-' + slot" [color]="organColor[slot]"></card-icon>
+  </div>
+  }
+</div>
+<span class="sr-only">4 órganos por repartir.</span>

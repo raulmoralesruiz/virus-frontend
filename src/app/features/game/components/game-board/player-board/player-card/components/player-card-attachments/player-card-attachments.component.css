@@ -65,7 +65,7 @@
 
 @media (min-width: 768px) {
   .chip {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 
   .chip .icon {
@@ -75,7 +75,7 @@
 
 @media (min-width: 900px) {
   .chip {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
   }
 
   .chip .icon {

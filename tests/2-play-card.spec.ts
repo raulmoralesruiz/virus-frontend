@@ -64,7 +64,7 @@ test.describe('Test 2: Jugando una carta (Sincronización de Tablero)', () => {
     // El botón button.play-btn muestra "Jugar" cuando isMyTurn=true.
     // Usamos page.evaluate() para hacer click via JS, ignora overlays de CDK drag y animaciones.
 
-    // Intentar jugar un órgano no-naranja primero (usan SimplePlayStrategy, solo requieren Confirmar)
+    // Intentar jugar un órgano no-naranja primero (usan SimplePlayStrategy, solo requieren pulsar "Jugar")
     const organCount = await activePage.evaluate(() => {
       return document.querySelectorAll('app-hand-card .hand-card--organ:not(.hand-card--orange)').length;
     });
@@ -84,9 +84,9 @@ test.describe('Test 2: Jugando una carta (Sincronización de Tablero)', () => {
       });
       console.log(`Click en play-btn: ${clicked}`);
 
-      // Esperar que aparezca el botón Confirmar del menú game-target-select
+      // Esperar que aparezca el botón "Confirmar" del menú game-target-select
       await expect(activePage.locator('button.target-select__confirm')).toBeVisible({ timeout: 8000 });
-      // Click en Confirmar via JS también 
+      // Click en "Confirmar" via JS también
       await activePage.evaluate(() => {
         const btn = document.querySelector('button.target-select__confirm') as HTMLButtonElement;
         if (btn) btn.click();

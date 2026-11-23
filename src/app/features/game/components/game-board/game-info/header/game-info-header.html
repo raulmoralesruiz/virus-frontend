@@ -1,5 +1,8 @@
-<game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
+<div class="game-info-header__toggle" role="button" tabindex="0" [attr.aria-expanded]="showDetails()"
+  (click)="onToggleClick()" (keydown)="onToggleKeydown($event)">
+  <game-info-title [roomId]="roomId()" [showDetails]="showDetails()"></game-info-title>
 
-<game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
+  <game-info-discard [topDiscard]="topDiscard()" [discardCount]="discardCount()"></game-info-discard>
+</div>
 
 <game-info-history [historyCount]="historyCount()" (historyRequested)="historyRequested.emit()"></game-info-history>

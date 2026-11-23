@@ -91,7 +91,6 @@ html.theme-dark {
   --gradient-green: #4ade80;
   --gradient-blue: #60a5fa;
   --gradient-yellow: #facc15;
-  /* --gradient-multi kept as gradient for exceptions, or replaced if not used in exceptions? */
   --gradient-multi: linear-gradient(135deg, #f87171 0%, #facc15 33%, #60a5fa 66%, #34d399 100%);
   --color-dot-neutral: rgba(148, 163, 184, 0.4);
   --color-card-border-playing: #ffffff;
@@ -113,15 +112,12 @@ html.theme-dark {
   --color-border-glass-light: rgba(255, 255, 255, 0.1);
   --gradient-greeting: #14b8a6;
 
-  /* Batch 4: Fields / Layout / Scrollbars */
   --color-hover-overlay-strong: rgba(255, 255, 255, 0.08);
-  /* Light hover overlay for dark mode */
   --color-field-base-bg: rgba(148, 163, 184, 0.1);
   --color-field-icon-neutral: rgba(148, 163, 184, 0.2);
   --color-field-border-subtle: rgba(148, 163, 184, 0.2);
   --color-player-hover-bg: rgba(37, 99, 235, 0.2);
   --color-player-active-border: rgba(37, 99, 235, 0.5);
-  /* Batch 5: Player Board / Drag & Drop */
   --color-drag-preview-bg: rgba(15, 23, 42, 0.95);
   --color-placeholder-bg: rgba(148, 163, 184, 0.1);
   --shadow-valid-target: 0 0 0 2px rgba(34, 197, 94, 0.6);
@@ -131,12 +127,10 @@ html.theme-dark {
   --color-overlay-white-weak: rgba(255, 255, 255, 0.1);
   --color-attachments-bg: rgba(255, 255, 255, 0.05);
   --color-board-wrapper-bg: rgba(248, 250, 252, 0.08);
-  /* Dark mode specific wrapper */
 
   --color-header-active-bg: rgba(251, 191, 36, 0.18);
   --color-header-me-bg: rgba(34, 197, 159, 0.16);
   --color-header-me-active-bg: rgba(45, 212, 191, 0.22);
-  /* Likely unused in dark/me combo if gradient takes over, but good to have */
 
   --color-slot-transplant-bg: rgba(249, 115, 22, 0.2);
   --color-slot-selected-bg: rgba(239, 68, 68, 0.2);
@@ -146,7 +140,6 @@ html.theme-dark {
   --gradient-board-me-dark: rgba(15, 30, 54, 0.9);
   --gradient-board-me-active-dark: rgba(34, 197, 159, 0.18);
 
-  /* Batch 6: Feed / Empty States */
   --color-slot-empty-bg-gradient: rgba(255, 255, 255, 0.02);
   --color-slot-stripe: rgba(148, 163, 184, 0.1);
   --color-turn-progress-track: rgba(148, 163, 184, 0.2);
@@ -155,9 +148,7 @@ html.theme-dark {
   --gradient-feed-highlight: rgba(255, 255, 255, 0.1);
   --color-border-warning-soft: rgba(249, 115, 22, 0.35);
 
-  /* Final Polish */
   --color-text-on-active: #0f172a;
-  /* Keep dark text on active checks/badges if needed */
   --color-shimmer-light: rgba(255, 255, 255, 0.2);
   --border-valid-target: rgba(34, 197, 94, 0.4);
   --border-drag-over: rgba(255, 255, 255, 0.8);

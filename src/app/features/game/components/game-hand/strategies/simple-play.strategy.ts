@@ -12,6 +12,10 @@ export class SimplePlayStrategy implements CardActionStrategy {
     return true; // Always playable without extra UI selection
   }
 
+  whyBlocked(currentSelection: any): string | null {
+    return null;
+  }
+
   getPlayPayload(currentSelection: any): any {
     return undefined;
   }

@@ -11,7 +11,7 @@
   align-items: center;
   gap: 0.5rem 0.75rem;
   padding: 0.5rem 0.75rem;
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--section-feed-background);
   background-image: var(--color-feed-overlay-bg);
   backdrop-filter: blur(10px);

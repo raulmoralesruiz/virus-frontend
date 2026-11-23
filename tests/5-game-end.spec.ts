@@ -35,8 +35,8 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
 
     // --- FLUJO: Abandonar Partida ---
     //
-    // game-info tiene un host binding (click) → toggleDetails()
-    // PERO solo actúa si !isShowingNotification().
+    // La zona de cabecera (título + descarte) del game-info-header es role="button"
+    // y emite toggleRequested → toggleDetails() (con guard de notificación en el parent).
     // El panel expandido (game-info--expanded) aparece cuando showDetails=true && !isShowingNotification().
     // El botón leave dentro de game-info-controls emite leaveRequested, que activa showLeave en el store.
     // app-confirm-modal se renderiza dentro de game.component.html con @if(showLeave()).
@@ -45,19 +45,18 @@ test.describe('Test 5: Fin de Partida (Abandonar)', () => {
     // La notificación se muestra durante un tiempo breve al inicio.
     // game-info--expanded solo está visible sin notificación activa.
     await page1.waitForFunction(() => {
-      // El componente game-info tiene la clase game-info--expanded solo cuando showDetails=true
-      // y no hay notificación. Esperamos a que game-info sea clickeable (tabindex 0, no aria-disabled)
+      // El toggle está dentro de game-info-header; la notificación se renderiza
+      // en su lugar (estructura @if/@else). Esperamos a que desaparezca.
       const el = document.querySelector('game-info');
       if (!el) return false;
-      const isDisabled = el.getAttribute('aria-disabled') === 'true';
-      return !isDisabled;
+      return el.querySelector('.game-info__notification') === null;
     }, null, { timeout: 15000 });
 
-    // Paso 2: Click en game-info para expandir el panel de detalles
+    // Paso 2: Click en la zona de cabecera para expandir el panel de detalles
     // Usamos evaluate para disparar el evento (la app es zoneless: sin zona de Angular)
     await page1.evaluate(() => {
-      const gameInfo = document.querySelector('game-info') as HTMLElement;
-      if (gameInfo) gameInfo.click();
+      const toggle = document.querySelector('.game-info-header__toggle') as HTMLElement;
+      if (toggle) toggle.click();
     });
     // Esperar que el panel expandido sea visible (showDetails=true && !isShowingNotification())
     await expect(page1.locator('game-info.game-info--expanded')).toBeVisible({ timeout: 5000 });

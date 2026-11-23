@@ -16,13 +16,7 @@ import { GameFullscreenService } from './services/game-fullscreen.service';
   templateUrl: './game-info.html',
   styleUrl: './game-info.css',
   host: {
-    role: 'button',
     '[class.game-info--expanded]': 'showDetails && !isShowingNotification()',
-    '[attr.tabindex]': 'isShowingNotification() ? -1 : 0',
-    '[attr.aria-expanded]': 'isShowingNotification() ? null : showDetails',
-    '[attr.aria-disabled]': 'isShowingNotification() ? true : null',
-    '(click)': 'toggleDetails()',
-    '(keydown)': 'onKeyDown($event)',
   },
 })
 export class GameInfoComponent implements OnChanges, OnDestroy {
@@ -70,16 +64,6 @@ export class GameInfoComponent implements OnChanges, OnDestroy {
 
   requestLeave(): void {
     this.leaveRequested.emit();
-  }
-
-  onKeyDown(event: KeyboardEvent): void {
-    if (this.isShowingNotification()) {
-      return;
-    }
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.toggleDetails();
-    }
   }
 
   toggleMute(): void {

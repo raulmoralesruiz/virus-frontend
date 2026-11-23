@@ -26,12 +26,12 @@
 
 @media (min-width: 768px) {
   .title {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
 
   .details-toggle-icon {
     width: 1.75rem;
     height: 1.75rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 }

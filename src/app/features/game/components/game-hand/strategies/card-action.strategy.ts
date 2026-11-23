@@ -12,6 +12,12 @@ export interface CardActionStrategy {
   canPlay(currentSelection: any): boolean;
 
   /**
+   * Describe QUÉ falta para poder jugar (mensaje de error diagnóstico).
+   * Devuelve null si la selección ya es válida.
+   */
+  whyBlocked?(currentSelection: any): string | null;
+
+  /**
    * Construye el payload que el store espera enviar al backend.
    */
   getPlayPayload(currentSelection: any): any;

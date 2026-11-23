@@ -21,6 +21,8 @@ export class HandCard {
   isMyTurn = input(false);
   infoOpen = input(false);
   isDisabled = input(false);
+  /** Verbo visible cuando la carta está deshabilitada (evita el "..."). */
+  disabledLabel = input('No disponible');
   isPlaying = input(false);
 
   toggleSelect = output<Card>();
@@ -52,9 +54,9 @@ export class HandCard {
     ];
   });
 
-  actionLabel = computed(() => 
-    this.isDisabled() ? '...' : 
-    this.isMyTurn() ? 'Jugar' : 
+  actionLabel = computed(() =>
+    this.isDisabled() ? this.disabledLabel() :
+    this.isMyTurn() ? 'Jugar' :
     this.infoOpen() ? 'Cancelar' : 'Info'
   );
 

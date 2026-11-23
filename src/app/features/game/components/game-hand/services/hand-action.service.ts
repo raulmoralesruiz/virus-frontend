@@ -69,7 +69,9 @@ export class HandActionService {
     if (!card || !strategy || !roomId) return;
 
     if (!this.canConfirmSelection()) {
-        this._gameStore.setClientError('Selección inválida o incompleta');
+        const selection = this.getCurrentSelectionState();
+        const why = strategy.whyBlocked ? strategy.whyBlocked(selection) : null;
+        this._gameStore.setClientError(why ?? 'Selección inválida o incompleta');
         return;
     }
 

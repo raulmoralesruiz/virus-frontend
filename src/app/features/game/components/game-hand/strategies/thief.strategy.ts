@@ -24,6 +24,12 @@ export class ThiefStrategy implements CardActionStrategy {
     return !!currentSelection.selectedTarget;
   }
 
+  whyBlocked(currentSelection: { selectedTarget: PlayCardTarget | null }): string | null {
+    return currentSelection.selectedTarget
+      ? null
+      : 'Falta el objetivo: elige el órgano que vas a robar.';
+  }
+
   getPlayPayload(currentSelection: { selectedTarget: PlayCardTarget }): any {
     return currentSelection.selectedTarget;
   }

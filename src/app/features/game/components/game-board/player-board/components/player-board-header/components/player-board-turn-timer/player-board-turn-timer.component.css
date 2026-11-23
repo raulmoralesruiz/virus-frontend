@@ -1,6 +1,6 @@
 .turn-timer {
   margin-left: auto;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-text-primary);
   /* El nodo nace cuando el tablero recibe el turno (@if isActive): entrada desde la derecha */

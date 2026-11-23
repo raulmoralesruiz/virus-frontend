@@ -4,3 +4,21 @@
   align-items: center;
   gap: 1rem;
 }
+
+/* Zona de toggle (título + descarte): es el único elemento con role="button".
+   El botón de historial vive fuera de esta zona, como hermano. */
+.game-info-header__toggle {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+}
+
+.game-info-header__toggle:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

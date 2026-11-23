@@ -22,4 +22,17 @@ export class GameInfoHeaderComponent {
   discardCount = input(0);
   topDiscard = input<Card | undefined>(undefined);
   historyRequested = output<void>();
+  /** Se emite cuando la zona de cabecera (título + descarte) se pulsa o recibe Enter/Espacio. */
+  toggleRequested = output<void>();
+
+  onToggleClick(): void {
+    this.toggleRequested.emit();
+  }
+
+  onToggleKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleRequested.emit();
+    }
+  }
 }

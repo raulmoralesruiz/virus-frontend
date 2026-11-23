@@ -11,7 +11,7 @@
 
 .room-config__label {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-text-secondary);
 }
@@ -20,7 +20,7 @@
   display: flex;
   gap: 0.5rem;
   padding: 0.35rem;
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--color-surface-glass);
 }
 
@@ -31,7 +31,7 @@
 .room-select-button__option {
   flex: 1;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: transparent;
   color: var(--color-text-secondary);
   padding: 0.5rem 0.85rem;

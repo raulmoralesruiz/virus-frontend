@@ -40,6 +40,12 @@ export class StandardStrategy implements CardActionStrategy {
     return !!currentSelection.selectedTarget;
   }
 
+  whyBlocked(currentSelection: { selectedTarget: PlayCardTarget | null }): string | null {
+    return currentSelection.selectedTarget
+      ? null
+      : 'Falta el objetivo: elige un órgano del tablero antes de jugar.';
+  }
+
   getPlayPayload(currentSelection: { selectedTarget: PlayCardTarget | null }): any {
     return currentSelection.selectedTarget;
   }
